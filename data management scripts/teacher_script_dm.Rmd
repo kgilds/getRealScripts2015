@@ -1,0 +1,140 @@
+---
+title: "teacher_data_managment"
+author: "Kevin Gilds"
+date: "Saturday, October 17, 2015"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+# Data Management Script for the Teacher Survey. 
+
+
+**Data must be download from Qulatrics into a CSV file. Save the csv file into the directory below.**
+
+
+## Set up R to receive the data and load the data into R. 
+
+```{r}
+###Read Working directory
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015")
+
+#### Required Libraries
+library(dplyr)
+
+############Read the data in R
+teacher <- read.csv("teacherSurvey101715.csv", skip=1)
+
+
+```
+
+
+
+## Make variable names easier to read
+
+```{r}
+colnames (teacher)[6] <- "council"
+colnames (teacher)[7] <- "girlCode"
+colnames (teacher)[8] <- "school"
+colnames (teacher)[9] <- "Time"
+colnames (teacher)[10] <- "MotivatedToGraduateHighSchool"
+colnames (teacher)[11] <- "hasSelfConfidence"
+colnames (teacher)[12] <- "goodAttitudeAboutSchool"
+colnames (teacher)[13] <- "isInterestedInReading"
+colnames (teacher)[14] <- "postivelyParticpatesInClass"
+colnames (teacher)[15] <- "completesHomeworkGivenToHer"
+colnames (teacher)[16] <- "hasDevelopedPostiveRelationshipsWithHerClassmates"
+colnames (teacher)[17] <- "helpedHerIncreasedHerSelfConfidence"
+colnames (teacher)[18] <- "helpedHerAchieveSucessInSchool"
+colnames (teacher)[19] <- "helpedHerDevelopPostiveRelationship"
+colnames (teacher)[20] <- "benefitsFromParticipating"
+colnames (teacher)[21] <- "whatCouldBeDoneToImroveTheProgram"
+
+```
+
+
+## Fix varaibles that will be trouble later
+
+```{r}
+
+#####Change girl code data type to character 
+teacher$girlCode <- as.character(teacher$girlCode)
+
+####Make all Girl Codes upper case
+teacher$girlCode <- toupper(teacher$girlCode)
+
+
+```
+
+
+## Subset for finished surveys
+
+```{r}
+
+#####Subset Finished data entry
+teacherfin <- subset (teacher, Finished == 1)
+
+
+```
+
+
+# Pre Survey
+
+```{r}
+
+###Subset Pre Survey Values#######################3
+preTeacher <-filter(teacherfin, Time == "Pre")
+
+
+```
+
+
+## Find and subset unduplicated Pre cases
+```{r}
+
+###Finds and subset uniquie Girl Code data entry
+pre_teacher_unique <- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated(preTeacher$girlCode, fromLast=TRUE)),]
+
+
+```
+
+
+## How many cases for analysis and save to RDS file for analysis.
+
+```{r}
+
+dim(pre_teacher_unique)
+
+saveRDS(pre_teacher_unique, file="pre_teacher_101715.rds")
+
+
+```
+
+
+# Post Survey
+
+```{r}
+
+#####Subset Post Survey Values#################
+postTeacherUnique <- filter(teacherfin, Time == "Post")
+
+
+```
+
+
+## Find and subset unduplicated Pre cases
+```{r}
+#########################Find Unique Values Post Survey################
+post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCode) | duplicated(postTeacherUnique$girlCode, fromLast=TRUE)),]
+
+```
+
+##  Find the number of cases and save Post data to RDS file for analysis. 
+```{r}
+
+saveRDS(postTeacherUnique, file="postTeacher.rds")
+
+
+```
+
