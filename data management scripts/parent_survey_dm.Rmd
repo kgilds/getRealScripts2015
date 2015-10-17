@@ -1,0 +1,117 @@
+---
+title: "parent data management"
+author: "Kevin Gilds"
+date: "Friday, October 16, 2015"
+output:
+  html_document:
+    keep_md: yes
+---
+
+### Set it up
+```{r}
+library(dplyr)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015")
+
+parent <- read.csv("parentSurvey101615.csv", skip=1)
+
+
+```
+
+
+
+### Change the Column names
+```{r}
+
+
+colnames (parent) [6] <- "council"
+colnames (parent) [7] <- "girlCode"
+colnames (parent) [8] <- "schoolName"
+colnames (parent) [9] <- "Time"
+colnames (parent) [10] <- "graduate"
+colnames (parent) [11] <- "sheHasSelfConfidence"
+colnames (parent) [12] <- "goodAttitudeAboutSchool"
+colnames (parent) [13] <- "readsBooksForFun"
+colnames (parent)[14] <-  "positiveRelationships"
+colnames (parent)[15] <-  "homeworkWithoutSupervision"
+colnames (parent) [16] <- "helpedMyDaughterGainConfidenceInHerAbilities"
+colnames (parent)[17] <-  "helpedMyDaughterAchieveSuccessInSchool"
+colnames (parent)[18] <-  "helpedHerEstablishPostiveRelationshipsWithHerClassmates"
+colnames (parent) [19] <-  "helpedYourDaughterAchieveSuccessInSchool"
+colnames (parent) [20] <-  "ImproveTheGetRealProgram"
+
+
+```
+
+
+```{r}
+##################Data management########################33
+
+
+parent$girlCode <- as.character(parent$girlCode)
+###Change girl code to character
+
+parent$girlCode <- toupper(parent$girlCode)
+###update girl Code to Upper Case
+
+parfin <- subset (parent, Finished == 1)
+### Find the finished data entry
+
+##### Elements of the data frame
+dim(parfin)
+
+############Subset Pre Surveys####################
+parentPre <-filter(parfin, Time =="Pre")
+
+
+```
+
+
+
+### Unduplicated Data Entry
+```{r}
+
+########################Find Unduplicated Entries#########################
+
+
+parentPreUnique <- parentPre [!(duplicated(parentPre$girlCode) | duplicated(parentPre$girlCode, fromLast=TRUE)), ]
+
+
+```
+
+
+
+#### Save RDS File
+```{r}
+
+#############################Save Pre and Post Data Frames####################33
+
+saveRDS(parentPreUnique, file="preParent.rds")
+
+```
+
+
+
+
+
+
+###Post Surveys
+```{r}
+
+#### Subset Post Surveys
+parentPost <-filter(parfin, Time == "Post")
+
+#######################Find Unique Post Surveys##############################
+parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(parentPost$girlCode, fromLast=TRUE)), ]
+
+
+
+```
+
+
+
+### Save RDS Files
+```{r}
+saveRDS(parentPostUnique, file="postParent.rds")
+
+```
