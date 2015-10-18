@@ -1,13 +1,6 @@
----
-title: "parent data management"
-author: "Kevin Gilds"
-date: "Friday, October 16, 2015"
-output:
-  html_document:
-    keep_md: yes
-    number_sections: yes
-    toc: yes
----
+# parent data management
+Kevin Gilds  
+Friday, October 16, 2015  
 
 # Data Management Script for the Teacher Survey. 
 
@@ -16,22 +9,35 @@ output:
 
 
 ## Set up R to receive the data and load the data into R. 
-```{r}
-library(dplyr)
 
+```r
+library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015")
 
 parent <- read.csv("parentSurvey101615.csv", skip=1)
-
-
 ```
 
 
 
 ## Make variable names easier to read
-```{r}
 
-
+```r
 colnames (parent) [6] <- "council"
 colnames (parent) [7] <- "girlCode"
 colnames (parent) [8] <- "schoolName"
@@ -47,13 +53,12 @@ colnames (parent)[17] <-  "helpedMyDaughterAchieveSuccessInSchool"
 colnames (parent)[18] <-  "helpedHerEstablishPostiveRelationshipsWithHerClassmates"
 colnames (parent) [19] <-  "helpedYourDaughterAchieveSuccessInSchool"
 colnames (parent) [20] <-  "ImproveTheGetRealProgram"
-
-
 ```
 
 
 ## Fix varaibles that will be trouble later
-```{r}
+
+```r
 ##################Data management########################33
 
 
@@ -62,83 +67,71 @@ parent$girlCode <- as.character(parent$girlCode)
 
 parent$girlCode <- toupper(parent$girlCode)
 ###update girl Code to Upper Case
-
-
-
-
 ```
 
 
 ## Subset for finished surveys
 
-```{r}
+
+```r
 parfin <- subset (parent, Finished == 1)
 ### Find the finished data entry
 
 ##### Elements of the data frame
 dim(parfin)
+```
 
-
+```
+## [1] 68 21
 ```
 
 
 
 
 # Pre Survey
-```{r}
 
+```r
 parentPre <-filter(parfin, Time =="Pre")
-
-
 ```
 
 
 
 ### Find and subset unduplicated Pre cases
-```{r}
 
-
+```r
 parentPreUnique <- parentPre [!(duplicated(parentPre$girlCode) | duplicated(parentPre$girlCode, fromLast=TRUE)), ]
-
-
 ```
 
 
 
 ## Save RDS File
-```{r}
 
+```r
 #############################Save Pre and Post Data Frames####################33
 
 saveRDS(parentPreUnique, file="preParent101515.rds")
-
 ```
 
 
 
 # Post Surveys
-```{r}
 
+```r
 #### Subset Post Surveys
 parentPost <-filter(parfin, Time == "Post")
-
-
 ```
 
 ## Find and subset unduplicated Post cases
 
-```{r}
 
+```r
 parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(parentPost$girlCode, fromLast=TRUE)), ]
-
-
 ```
 
 
 
 ## Save RDS Files
-```{r}
 
+```r
 saveRDS(parentPostUnique, file="postParent.rds")
-
 ```
