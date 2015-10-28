@@ -1,6 +1,6 @@
 # codeBook
 Kevin Gilds  
-Friday, February 20, 2015  
+Sys.Date()  
 
 # Introduction 
 
