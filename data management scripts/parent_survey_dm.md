@@ -2,13 +2,13 @@
 Kevin Gilds  
 Friday, October 16, 2015  
 
-# Data Management Script for the Teacher Survey. 
+# Data Management Script for the Data Survey. 
 
 
 **Data must be download from Qulatrics into a CSV file. Save the csv file into the directory below.**
 
 
-## Set up R to receive the data and load the data into R. 
+## Set up R to receive the data and load the data into R. (update directory and file name)
 
 ```r
 library(dplyr)
@@ -28,9 +28,9 @@ library(dplyr)
 ```
 
 ```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-parent <- read.csv("parentSurvey101615.csv", skip=1)
+parent <- read.csv("parentSurvey11072015.csv", skip=1)
 ```
 
 
@@ -82,7 +82,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 68 21
+## [1] 276  21
 ```
 
 
@@ -107,9 +107,11 @@ parentPreUnique <- parentPre [!(duplicated(parentPre$girlCode) | duplicated(pare
 ## Save RDS File
 
 ```r
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file="preParent101515.rds")
+saveRDS(parentPreUnique, file="preParent11072015rds")
 ```
 
 
@@ -133,5 +135,5 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 ## Save RDS Files
 
 ```r
-saveRDS(parentPostUnique, file="postParent.rds")
+saveRDS(parentPostUnique, file="postParent11072015.rds")
 ```
