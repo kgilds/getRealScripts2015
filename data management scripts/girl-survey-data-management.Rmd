@@ -142,14 +142,14 @@ preDupes <-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 preDupes <-pre[preDupes, ]
 
 ####Save object to RDS file
-saveRDS(preDupes, file="duplicate_girl_survey_11072015")
+saveRDS(preDupes, file="duplicate_girl_survey_11072015.rds")
 
 ```
 
 
 ### Save Pre Data to RDS File (needs updated data)
 ```{r}
-saveRDS(preUnique, file="girlSurvey101415.RDS")
+saveRDS(preUnique, file="girlSurvey110715.RDS")
 
 
 ```
