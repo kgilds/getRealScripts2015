@@ -18,13 +18,13 @@ output:
 
 ```{r}
 ###Read Working directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
 #### Required Libraries
 library(dplyr)
 
 ############Read the data in R
-teacher <- read.csv("teacherSurvey101715.csv", skip=1)
+teacher <- read.csv("teacherSurvey11072015.csv", skip=1)
 
 
 ```
@@ -103,10 +103,11 @@ pre_teacher_unique <- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated
 ## How many cases for analysis and save to RDS file for analysis.
 
 ```{r}
+####Save the data in the correct data directory
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-dim(pre_teacher_unique)
 
-saveRDS(pre_teacher_unique, file="pre_teacher_101715.rds")
+saveRDS(pre_teacher_unique, file="pre_teacher_110715.rds")
 
 
 ```
@@ -123,7 +124,7 @@ postTeacherUnique <- filter(teacherfin, Time == "Post")
 ```
 
 
-## Find and subset unduplicated Pre cases
+## Find and subset unduplicated Post cases
 ```{r}
 #########################Find Unique Values Post Survey################
 post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCode) | duplicated(postTeacherUnique$girlCode, fromLast=TRUE)),]
@@ -133,7 +134,9 @@ post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCo
 ##  Find the number of cases and save Post data to RDS file for analysis. 
 ```{r}
 
-saveRDS(postTeacherUnique, file="postTeacher.rds")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+
+saveRDS(postTeacherUnique, file="post_teacher_11072015.rds")
 
 
 ```
