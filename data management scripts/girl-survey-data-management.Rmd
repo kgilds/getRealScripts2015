@@ -1,11 +1,15 @@
 ---
 title: "girlSurvey Data Management"
 author: "Kevin Gilds"
-date: "Wednesday, October 14, 2015"
-output: html_document
+date: "Saturday, November 7, 2015"
+output:
+  html_document:
+    toc: yes
 ---
 
+# Data Management
 
+### Set working directory, library, and read raw data (needs updated data)
 
 
 ```{r}
@@ -21,6 +25,8 @@ rawdata <- read.csv("girlSurvey101415.csv", skip=1)
 
 ```
 
+
+### Change column names to make them human readable.
 ```{r}
 
 ########################### Change Column Name #################################
@@ -74,7 +80,7 @@ colnames (rawdata)[50] <- "whatDidYouLearnThisYear. "
 
 ```
 
-
+### Make Student Code as class character and make all codes upper case.
 
 ```{r}
 
@@ -90,7 +96,7 @@ str(rawdata$girlCode)
 ```
 
 
-
+### Subset all finished surveys
 
 ```{r}
 
@@ -102,6 +108,9 @@ fin <- subset (rawdata, Finished  == 1)
 
 ```
 
+#Pre Surveys
+
+### Subset Pre surveys
 
 ```{r}
 
@@ -113,6 +122,8 @@ pre <- subset (fin, Time == "Pre")
 ```
 
 
+### Subset Pre Surveys with unique student codes
+
 ```{r}
 
 ######################Find Unique Values################################################
@@ -122,7 +133,7 @@ preUnique<- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast 
 ```
 
 
-
+### Subset Pre Surveys with duplicate student codes (needs updated data)
 ```{r}
 ##############################Subset duplicated girl codes##################
 
@@ -130,11 +141,13 @@ preDupes <-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
 preDupes <-pre[preDupes, ]
 
+####Save object to RDS file
+saveRDS(preDupes, file="duplicate_girl_survey_11072015")
 
 ```
 
 
-### Save Pre Data to RDS File
+### Save Pre Data to RDS File (needs updated data)
 ```{r}
 saveRDS(preUnique, file="girlSurvey101415.RDS")
 
@@ -143,7 +156,9 @@ saveRDS(preUnique, file="girlSurvey101415.RDS")
 
 
 
-## Post Survey 
+# Post Survey 
+
+### Subset post girl surveys
 
 ```{r}
 ##############################Subset Post###############################
@@ -153,6 +168,7 @@ post <-subset (fin, Time == "Post")
 ```
 
 
+### Find unique student codes from post surveys
 ```{r}
 ##########################Subset Unique Post Values####################
 
@@ -162,6 +178,7 @@ postUnique<- post [!(duplicated(post$girlCode) | duplicated(post$girlCode, fromL
 ```
 
 
+### Find duplicate student codes from post surveys
 ```{r}
 
 #########################Subset Unique Post Values######################
@@ -174,9 +191,9 @@ postDupes <-post[postDupes, ]
 ```
 
 
-### Save Post Survey 
+### Save Post Survey (needs updated data)
 ```{r}
-saveRDS(postUnique, file="girlPost07042015.RDS")
+saveRDS(postUnique, file="girl_post_11072015.rds")
 
 
 
