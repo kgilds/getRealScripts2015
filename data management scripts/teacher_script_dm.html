@@ -79,7 +79,7 @@ img {
 <li><a href="#how-many-cases-for-analysis-and-save-to-rds-file-for-analysis."><span class="toc-section-number">2.2</span> How many cases for analysis and save to RDS file for analysis.</a></li>
 </ul></li>
 <li><a href="#post-survey"><span class="toc-section-number">3</span> Post Survey</a><ul>
-<li><a href="#find-and-subset-unduplicated-pre-cases-1"><span class="toc-section-number">3.1</span> Find and subset unduplicated Pre cases</a></li>
+<li><a href="#find-and-subset-unduplicated-post-cases"><span class="toc-section-number">3.1</span> Find and subset unduplicated Post cases</a></li>
 <li><a href="#find-the-number-of-cases-and-save-post-data-to-rds-file-for-analysis."><span class="toc-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</a></li>
 </ul></li>
 </ul>
@@ -91,7 +91,7 @@ img {
 <div id="set-up-r-to-receive-the-data-and-load-the-data-into-r." class="section level2">
 <h2><span class="header-section-number">1.1</span> Set up R to receive the data and load the data into R.</h2>
 <pre class="r"><code>###Read Working directory
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
 
 #### Required Libraries
 library(dplyr)</code></pre>
@@ -106,7 +106,7 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>############Read the data in R
-teacher &lt;- read.csv(&quot;teacherSurvey101715.csv&quot;, skip=1)</code></pre>
+teacher &lt;- read.csv(&quot;teacherSurvey11072015.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -152,23 +152,27 @@ pre_teacher_unique &lt;- preTeacher [!(duplicated(preTeacher$girlCode) | duplica
 </div>
 <div id="how-many-cases-for-analysis-and-save-to-rds-file-for-analysis." class="section level2">
 <h2><span class="header-section-number">2.2</span> How many cases for analysis and save to RDS file for analysis.</h2>
-<pre class="r"><code>dim(pre_teacher_unique)</code></pre>
-<pre><code>## [1]  0 22</code></pre>
-<pre class="r"><code>saveRDS(pre_teacher_unique, file=&quot;pre_teacher_101715.rds&quot;)</code></pre>
+<pre class="r"><code>####Save the data in the correct data directory
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+
+
+saveRDS(pre_teacher_unique, file=&quot;pre_teacher_110715.rds&quot;)</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
 <h1><span class="header-section-number">3</span> Post Survey</h1>
 <pre class="r"><code>#####Subset Post Survey Values#################
 postTeacherUnique &lt;- filter(teacherfin, Time == &quot;Post&quot;)</code></pre>
-<div id="find-and-subset-unduplicated-pre-cases-1" class="section level2">
-<h2><span class="header-section-number">3.1</span> Find and subset unduplicated Pre cases</h2>
+<div id="find-and-subset-unduplicated-post-cases" class="section level2">
+<h2><span class="header-section-number">3.1</span> Find and subset unduplicated Post cases</h2>
 <pre class="r"><code>#########################Find Unique Values Post Survey################
 post_teacher_unique &lt;-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCode) | duplicated(postTeacherUnique$girlCode, fromLast=TRUE)),]</code></pre>
 </div>
 <div id="find-the-number-of-cases-and-save-post-data-to-rds-file-for-analysis." class="section level2">
 <h2><span class="header-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</h2>
-<pre class="r"><code>saveRDS(postTeacherUnique, file=&quot;postTeacher.rds&quot;)</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+
+saveRDS(postTeacherUnique, file=&quot;post_teacher_11072015.rds&quot;)</code></pre>
 </div>
 </div>
 
