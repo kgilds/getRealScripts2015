@@ -94,7 +94,7 @@ img {
 <div id="set-working-directory-library-and-read-raw-data-needs-updated-data" class="section level3">
 <h3>Set working directory, library, and read raw data (needs updated data)</h3>
 <pre class="r"><code>########################Set Working Directories##################
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
 
 library(dplyr)</code></pre>
 <pre><code>## 
@@ -108,7 +108,9 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girlSurvey101415.csv&quot;, skip=1)</code></pre>
+rawdata &lt;- read.csv(&quot;girlSurvey11072015.csv&quot;, skip=1)
+dim(rawdata)</code></pre>
+<pre><code>## [1] 473  51</code></pre>
 </div>
 <div id="change-column-names-to-make-them-human-readable." class="section level3">
 <h3>Change column names to make them human readable.</h3>
@@ -169,14 +171,17 @@ rawdata$girlCode &lt;- as.character(rawdata$girlCode)
 rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
 str(rawdata$girlCode)</code></pre>
-<pre><code>##  chr [1:132] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:473] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 </div>
 <div id="subset-all-finished-surveys" class="section level3">
 <h3>Subset all finished surveys</h3>
 <pre class="r"><code>####################Subset Finished#####################################
 # Finished 
 
-fin &lt;- subset (rawdata, Finished  == 1)</code></pre>
+fin &lt;- subset (rawdata, Finished  == 1)
+
+dim(fin)</code></pre>
+<pre><code>## [1] 472  51</code></pre>
 </div>
 </div>
 <div id="pre-surveys" class="section level1">
@@ -185,16 +190,23 @@ fin &lt;- subset (rawdata, Finished  == 1)</code></pre>
 <h3>Subset Pre surveys</h3>
 <pre class="r"><code>############################## Subset Pre ############################3
 
-pre &lt;- subset (fin, Time == &quot;Pre&quot;)</code></pre>
+pre &lt;- subset (fin, Time == &quot;Pre&quot;)
+dim(pre)</code></pre>
+<pre><code>## [1] 471  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-unique-student-codes" class="section level3">
 <h3>Subset Pre Surveys with unique student codes</h3>
 <pre class="r"><code>######################Find Unique Values################################################
-preUnique&lt;- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]</code></pre>
+preUnique&lt;- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]
+
+dim(preUnique)</code></pre>
+<pre><code>## [1] 407  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-duplicate-student-codes-needs-updated-data" class="section level3">
 <h3>Subset Pre Surveys with duplicate student codes (needs updated data)</h3>
 <pre class="r"><code>##############################Subset duplicated girl codes##################
+
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
 
 preDupes &lt;-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
@@ -205,7 +217,9 @@ saveRDS(preDupes, file=&quot;duplicate_girl_survey_11072015.rds&quot;)</code></p
 </div>
 <div id="save-pre-data-to-rds-file-needs-updated-data" class="section level3">
 <h3>Save Pre Data to RDS File (needs updated data)</h3>
-<pre class="r"><code>saveRDS(preUnique, file=&quot;girlSurvey110715.RDS&quot;)</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+
+saveRDS(preUnique, file=&quot;girlSurvey110715.RDS&quot;)</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
@@ -231,7 +245,9 @@ postDupes &lt;-post[postDupes, ]</code></pre>
 </div>
 <div id="save-post-survey-needs-updated-data" class="section level3">
 <h3>Save Post Survey (needs updated data)</h3>
-<pre class="r"><code>saveRDS(postUnique, file=&quot;girl_post_11072015.rds&quot;)</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+
+saveRDS(postUnique, file=&quot;girl_post_11072015.rds&quot;)</code></pre>
 </div>
 </div>
 
