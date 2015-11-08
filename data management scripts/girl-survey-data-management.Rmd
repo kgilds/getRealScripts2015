@@ -14,14 +14,14 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/October 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girlSurvey101415.csv", skip=1)
-
+rawdata <- read.csv("girlSurvey11072015.csv", skip=1)
+dim(rawdata)
 
 ```
 
@@ -105,7 +105,7 @@ str(rawdata$girlCode)
 
 fin <- subset (rawdata, Finished  == 1)
 
-
+dim(fin)
 ```
 
 #Pre Surveys
@@ -117,7 +117,7 @@ fin <- subset (rawdata, Finished  == 1)
 ############################## Subset Pre ############################3
 
 pre <- subset (fin, Time == "Pre")
-
+dim(pre)
 
 ```
 
@@ -129,6 +129,7 @@ pre <- subset (fin, Time == "Pre")
 ######################Find Unique Values################################################
 preUnique<- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]
 
+dim(preUnique)
 
 ```
 
@@ -136,6 +137,8 @@ preUnique<- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast 
 ### Subset Pre Surveys with duplicate student codes (needs updated data)
 ```{r}
 ##############################Subset duplicated girl codes##################
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
 preDupes <-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
@@ -149,6 +152,8 @@ saveRDS(preDupes, file="duplicate_girl_survey_11072015.rds")
 
 ### Save Pre Data to RDS File (needs updated data)
 ```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+
 saveRDS(preUnique, file="girlSurvey110715.RDS")
 
 
@@ -193,6 +198,8 @@ postDupes <-post[postDupes, ]
 
 ### Save Post Survey (needs updated data)
 ```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+
 saveRDS(postUnique, file="girl_post_11072015.rds")
 
 
