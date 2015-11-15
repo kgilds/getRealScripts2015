@@ -1,7 +1,7 @@
 ---
 title: "girlSurvey Data Management"
 author: "Kevin Gilds"
-date: "Saturday, November 7, 2015"
+date: "Saturday November 14, 2015"
 output:
   html_document:
     toc: yes
@@ -20,7 +20,7 @@ library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girlSurvey11072015.csv", skip=1)
+rawdata <- read.csv("girl_survey_11142015.csv", skip=1)
 dim(rawdata)
 
 ```
@@ -144,8 +144,11 @@ preDupes <-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
 preDupes <-pre[preDupes, ]
 
+dim(preDupes)
+
 ####Save object to RDS file
-saveRDS(preDupes, file="duplicate_girl_survey_11072015.rds")
+saveRDS(preDupes, file="duplicate_girl_survey_11142015.rds")
+write.csv(preDupes, "pre_girl_dupes.csv", row.names=FALSE)
 
 ```
 
@@ -154,7 +157,7 @@ saveRDS(preDupes, file="duplicate_girl_survey_11072015.rds")
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-saveRDS(preUnique, file="girlSurvey110715.RDS")
+saveRDS(preUnique, file="girl_survey_111415.RDS")
 
 
 ```
@@ -200,7 +203,7 @@ postDupes <-post[postDupes, ]
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-saveRDS(postUnique, file="girl_post_11072015.rds")
+saveRDS(postUnique, file="girl_post_11142015.rds")
 
 
 

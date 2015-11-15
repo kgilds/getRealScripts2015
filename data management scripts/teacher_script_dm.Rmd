@@ -1,7 +1,7 @@
 ---
 title: "teacher_data_managment"
 author: "Kevin Gilds"
-date: "Saturday, October 17, 2015"
+date: "Saturday, November 14, 2015"
 output:
   html_document:
     number_sections: yes
@@ -24,7 +24,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 library(dplyr)
 
 ############Read the data in R
-teacher <- read.csv("teacherSurvey11072015.csv", skip=1)
+teacher <- read.csv("teacher_survey_11142015.csv", skip=1)
 
 
 ```
@@ -107,7 +107,7 @@ pre_teacher_unique <- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
 
-saveRDS(pre_teacher_unique, file="pre_teacher_110715.rds")
+saveRDS(pre_teacher_unique, file="pre_teacher_11142015.rds")
 
 
 ```
@@ -136,7 +136,7 @@ post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCo
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-saveRDS(postTeacherUnique, file="post_teacher_11072015.rds")
+saveRDS(postTeacherUnique, file="post_teacher_11142015.rds")
 
 
 ```

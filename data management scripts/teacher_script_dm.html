@@ -106,7 +106,7 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>############Read the data in R
-teacher &lt;- read.csv(&quot;teacherSurvey11072015.csv&quot;, skip=1)</code></pre>
+teacher &lt;- read.csv(&quot;teacher_survey_11142015.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -156,7 +156,7 @@ pre_teacher_unique &lt;- preTeacher [!(duplicated(preTeacher$girlCode) | duplica
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
 
 
-saveRDS(pre_teacher_unique, file=&quot;pre_teacher_110715.rds&quot;)</code></pre>
+saveRDS(pre_teacher_unique, file=&quot;pre_teacher_11142015.rds&quot;)</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
@@ -172,7 +172,7 @@ post_teacher_unique &lt;-  postTeacherUnique [!(duplicated(postTeacherUnique$gir
 <h2><span class="header-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</h2>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
 
-saveRDS(postTeacherUnique, file=&quot;post_teacher_11072015.rds&quot;)</code></pre>
+saveRDS(postTeacherUnique, file=&quot;post_teacher_11142015.rds&quot;)</code></pre>
 </div>
 </div>
 

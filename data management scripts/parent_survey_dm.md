@@ -1,6 +1,6 @@
 # parent data management
 Kevin Gilds  
-Friday, October 16, 2015  
+Saturday November 14, 2015  
 
 # Data Management Script for the Data Survey. 
 
@@ -30,7 +30,7 @@ library(dplyr)
 ```r
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-parent <- read.csv("parentSurvey11072015.csv", skip=1)
+parent <- read.csv("parent_survey_11142015.csv", skip=1)
 ```
 
 
@@ -82,7 +82,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 276  21
+## [1] 427  21
 ```
 
 
@@ -100,6 +100,41 @@ parentPre <-filter(parfin, Time =="Pre")
 
 ```r
 parentPreUnique <- parentPre [!(duplicated(parentPre$girlCode) | duplicated(parentPre$girlCode, fromLast=TRUE)), ]
+
+dim(parentPreUnique)
+```
+
+```
+## [1] 396  21
+```
+
+
+### Find the duplicated student codes
+
+
+```r
+### Set working directory to save data to correct file folder
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+
+
+### Find duplicates
+parent_pre_dupes<-duplicated(parentPre$girlCode) | duplicated(parentPre$girlCode, fromLast=TRUE)
+
+##### I think this is pulling the actuall duplicate values####################
+
+parent_pre_dupes<- parentPre[parent_pre_dupes,]
+
+## How many duplicates
+dim(parent_pre_dupes)
+```
+
+```
+## [1] 30 21
+```
+
+```r
+### Write to csv file
+write.csv(parent_pre_dupes, "parent_dupes.csv", row.names=FALSE)
 ```
 
 
@@ -111,7 +146,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file="preParent11072015.rds")
+saveRDS(parentPreUnique, file="pre_parent_11142015.rds")
 ```
 
 
@@ -135,5 +170,5 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 ## Save RDS Files
 
 ```r
-saveRDS(parentPostUnique, file="postParent11072015.rds")
+saveRDS(parentPostUnique, file="post_parent_11142015.rds")
 ```
