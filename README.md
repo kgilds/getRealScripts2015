@@ -7,18 +7,12 @@ Data sources include girl surveys, parent surveys, teacher surveys and quarterly
 
 Girl surveys measure the Girl Scout Outcomes of Healthy Relationships, Academic Mastery, Academic Engagement. 
 
-
-# Methodology
-
-
-## Survey Variables
+Analysis of survey and academic data is compared across the school year using the following criteria. 
 
 
-Life Skills Achievement      |Average Score to indicate high achievement.
--------------------------|-----------------------------------------------
-Healthy Relationships      |4.45=>
-Academic Mastery           |4.8=>
-Academic Engagement        |4.5=>
+### Survey Outcomes
+
+
 
 
 ### Grade Outcomes
@@ -43,7 +37,7 @@ Academic Engagement        |4.5=>
 
 1. Number and percent of students without a suspension.
 
-1a. Number and percent of students who decreased their suspensions.
+2. Number and percent of students who decreased their suspensions.
 
 
 # Reports

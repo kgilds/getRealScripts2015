@@ -1,10 +1,10 @@
 # codeBook
 Kevin Gilds  
-Sys.Date()  
+November 15, 2015  
 
 # Introduction 
 
-The GET REAL! Program is a statewide mentoring program facilitated by all seven Girl Scout Councils in Florida. 
+The GET REAL! Program is a statewide mentoring program facilitated by six Girl Scout Councils in Florida. 
 
 The goal of the GET REAL! Program is to help at-risk middle school girls achieve academic success by connecting them to caring mentors in the community that will help students with their reading and writing, help develop their character and relationships skills, and provide opportunities to participate in community service projects and educational trips out of the confines of school.
 
@@ -19,7 +19,7 @@ Outcome data sources for the Get REAL! program include the *Girl Survey*, *Paren
 
 
 
-Life Skills:
+### Life Skills:
 
 1. Healthy Relationship: Questions are designed to measure the students relationship skills.
 
@@ -38,6 +38,34 @@ Life Skills Achievement      |Average Score to indicate high achievement.
 Healthy Relationships      |4.45=>
 Academic Mastery           |4.8=>
 Academic Engagement        |4.5=>
+
+
+
+### Academic Data
+
+**Reading and Language Arts Courses Outcome Tables**
+
+1. Grade increase
+
+2. Dropped grade but maintained a "C" grade
+
+3. Fail to pass
+
+
+**Attedance Outomce**
+
+1. Number and percent of students without an absence
+
+2. Number and percent of students who decreased their absences
+
+
+**Suspension Outcome**
+
+1. Number and percent of students without a suspension.
+
+2. Number and percent of students who decreased their suspensions.
+
+
 
 
 # Girl Survey Variables
