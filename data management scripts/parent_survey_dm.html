@@ -104,7 +104,7 @@ img {
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
 
-parent &lt;- read.csv(&quot;parent_survey_11142015.csv&quot;, skip=1)</code></pre>
+parent &lt;- read.csv(&quot;parent_survey_11212015.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -142,7 +142,7 @@ parent$girlCode &lt;- toupper(parent$girlCode)
 
 ##### Elements of the data frame
 dim(parfin)</code></pre>
-<pre><code>## [1] 427  21</code></pre>
+<pre><code>## [1] 429  21</code></pre>
 </div>
 </div>
 <div id="pre-survey" class="section level1">
@@ -153,7 +153,7 @@ dim(parfin)</code></pre>
 <pre class="r"><code>parentPreUnique &lt;- parentPre [!(duplicated(parentPre$girlCode) | duplicated(parentPre$girlCode, fromLast=TRUE)), ]
 
 dim(parentPreUnique)</code></pre>
-<pre><code>## [1] 396  21</code></pre>
+<pre><code>## [1] 416  21</code></pre>
 </div>
 <div id="find-the-duplicated-student-codes" class="section level3">
 <h3><span class="header-section-number">2.0.2</span> Find the duplicated student codes</h3>
@@ -170,9 +170,9 @@ parent_pre_dupes&lt;- parentPre[parent_pre_dupes,]
 
 ## How many duplicates
 dim(parent_pre_dupes)</code></pre>
-<pre><code>## [1] 30 21</code></pre>
+<pre><code>## [1] 12 21</code></pre>
 <pre class="r"><code>### Write to csv file
-write.csv(parent_pre_dupes, &quot;parent_dupes.csv&quot;, row.names=FALSE)</code></pre>
+write.csv(parent_pre_dupes, &quot;parent_dupes_11212015.csv&quot;, row.names=FALSE)</code></pre>
 </div>
 <div id="save-rds-file" class="section level2">
 <h2><span class="header-section-number">2.1</span> Save RDS File</h2>
@@ -180,7 +180,7 @@ write.csv(parent_pre_dupes, &quot;parent_dupes.csv&quot;, row.names=FALSE)</code
 
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file=&quot;pre_parent_11142015.rds&quot;)</code></pre>
+saveRDS(parentPreUnique, file=&quot;pre_parent_11212015.rds&quot;)</code></pre>
 </div>
 </div>
 <div id="post-surveys" class="section level1">
@@ -193,7 +193,7 @@ parentPost &lt;-filter(parfin, Time == &quot;Post&quot;)</code></pre>
 </div>
 <div id="save-rds-files" class="section level2">
 <h2><span class="header-section-number">3.2</span> Save RDS Files</h2>
-<pre class="r"><code>saveRDS(parentPostUnique, file=&quot;post_parent_11142015.rds&quot;)</code></pre>
+<pre class="r"><code>saveRDS(parentPostUnique, file=&quot;post_parent_11212015.rds&quot;)</code></pre>
 </div>
 </div>
 
