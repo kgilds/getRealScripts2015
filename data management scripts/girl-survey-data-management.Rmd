@@ -20,7 +20,7 @@ library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girl_survey_11212015.csv", skip=1)
+rawdata <- read.csv("girl_survey_11282015.csv", skip=1)
 dim(rawdata)
 
 ```
@@ -147,8 +147,8 @@ preDupes <-pre[preDupes, ]
 dim(preDupes)
 
 ####Save object to RDS file
-saveRDS(preDupes, file="duplicate_girl_survey_11212015.rds")
-write.csv(preDupes, "pre_girl_dupes.csv", row.names=FALSE)
+saveRDS(preDupes, file="duplicate_girl_survey_11282015.rds")
+write.csv(preDupes, "pre_girl_dupes_11282015.csv", row.names=FALSE)
 
 ```
 
@@ -157,7 +157,7 @@ write.csv(preDupes, "pre_girl_dupes.csv", row.names=FALSE)
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-saveRDS(preUnique, file="girl_survey_11212015.RDS")
+saveRDS(preUnique, file="girl_survey_11282015.RDS")
 
 
 ```
@@ -203,7 +203,7 @@ postDupes <-post[postDupes, ]
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-saveRDS(postUnique, file="girl_post_11212015.rds")
+saveRDS(postUnique, file="girl_post_11282015.rds")
 
 
 

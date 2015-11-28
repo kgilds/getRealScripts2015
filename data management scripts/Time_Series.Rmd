@@ -1,0 +1,162 @@
+---
+title: "Girl Report Trends"
+author: "Kevin Gilds"
+date: "November 28, 2015"
+output: html_document
+---
+
+```{r}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+library(sqldf)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+library(pander)
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+
+```
+
+
+### 2014-2015 Survey Data
+```{r}
+
+all_Tables <- dbListTables(getRealdb)
+
+all_Tables
+
+pre_survey_2014 <- dbReadTable(getRealdb, "pre_girl_survey")
+
+dim(pre_survey_2014)
+
+post_survey_2014 <- dbReadTable(getRealdb, "post_girl_survey")
+
+dim(post_survey_2014)
+
+```
+
+### Survey Data from 2015 School year
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+
+pre_survey_2015 <- readRDS("girl_survey_11282015.rds")
+
+dim(pre_survey_2015)
+
+```
+
+
+### Match Pre Surveys
+```{r}
+
+pre_merge <- inner_join (pre_survey_2014, pre_survey_2015, by = "girlCode", Copy=FALSE)
+
+dim(pre_merge)
+
+#x=2014, y=2015
+
+
+```
+
+### Healthy Relationships
+
+```{r set up health relationship data, }
+####################Pair down date frame into the Outcomes that we are interested in#########
+hr <- select(pre_merge, Time.x, council.x, girlCode, hr.avg.x, hr.avg.y)
+
+
+#########################Match the completed cases################################
+hr1<-hr %>% filter(complete.cases(hr)) 
+
+
+############################Calculate diff between post score and pre score##########
+diffhr <- (hr1$hr.avg.x- hr1$hr.avg.y)
+
+###################Bind to dataframe##########################################
+hr1<-cbind(hr1, diffhr)
+
+
+```
+
+```{r hr test, echo=FALSE}
+######################Basic Analsis T-tests############################################
+
+hr2 <- select(hr1, Time.x, girlCode,hr.avg.x, hr.avg.y)
+
+t.test(hr2$hr.avg.x, hr2$hr.avg.y, paired=TRUE)
+
+```
+
+
+
+```{r hr graphs, echo=FALSE}
+
+####Need to fix the scales. 
+hrhist<-
+par(mfrow=c(1,2))
+
+hist(hr2$hr.avg.y, col="blue", main="Pre:Outcome Distribution", xlab="Healthy Relationship Outcome Scores")
+abline(v=4.45, col="red")
+hist(hr2$hr.avg.x, col="blue", main="Post:Outcome Distribution", xlab="Healthy Relationship Outcome Scores" )
+abline(v=4.45, col="red")
+
+
+
+```
+
+
+### Tests
+
+```{r wilcox, echo=FALSE}
+
+boxplot(hr2$hr.avg.y, hr2$hr.avg.x)
+wilcox.test(hr2$hr.avg.y, hr2$hr.avg.x, "less",paired=TRUE)
+
+
+
+```
+
+
+##Outcome Tables
+
+### Pre Survey Data and Graphs
+
+```{r fig.width=15}
+
+ggplot(hr1, aes(hr.avg.y >=4.45)) + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
+
+ggplot(hr, aes(hr.avg.y >=4.45, fill= council.x)) + geom_bar(stats = "identity") + facet_grid(~council.x) + labs(x = "Achieving at High Level", title = "Pre: Healthy Relationships by Council")
+
+
+###########Pre Survey Results
+
+hr_table_pre <- with(hr1,table(hr.avg.y >=4.45))
+
+pander(hr_table_pre, style = "multiline")
+
+
+#########Pre by council#################
+
+hr_table_pre_council <-with(hr1,table(council.x, hr.avg.y >=4.45))
+
+pander(hr_table_pre_council, style = "multiline")
+
+##########By Percents##################
+
+
+```
+
+
+
+### Match Post Survey
+
+```{r}
+
+post_merge <- inner_join(post_survey_2014, pre_survey_2015, by = "girlCode", Copy=FALSE)
+
+dim(post_merge)
+
+```
+

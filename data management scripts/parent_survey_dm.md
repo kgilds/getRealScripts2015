@@ -30,7 +30,7 @@ library(dplyr)
 ```r
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
-parent <- read.csv("parent_survey_11212015.csv", skip=1)
+parent <- read.csv("parent_survey_11282015.csv", skip=1)
 ```
 
 
@@ -82,7 +82,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 429  21
+## [1] 434  21
 ```
 
 
@@ -105,7 +105,7 @@ dim(parentPreUnique)
 ```
 
 ```
-## [1] 416  21
+## [1] 421  21
 ```
 
 
@@ -134,7 +134,7 @@ dim(parent_pre_dupes)
 
 ```r
 ### Write to csv file
-write.csv(parent_pre_dupes, "parent_dupes_11212015.csv", row.names=FALSE)
+write.csv(parent_pre_dupes, "parent_dupes_11282015.csv", row.names=FALSE)
 ```
 
 
@@ -146,7 +146,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
 
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file="pre_parent_11212015.rds")
+saveRDS(parentPreUnique, file="pre_parent_11282015.rds")
 ```
 
 
@@ -170,5 +170,5 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 ## Save RDS Files
 
 ```r
-saveRDS(parentPostUnique, file="post_parent_11212015.rds")
+saveRDS(parentPostUnique, file="post_parent_11282015.rds")
 ```
