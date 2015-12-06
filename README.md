@@ -17,7 +17,7 @@ Students in the Get REAL! program take surveys at the time of enrollment and at 
 Criteria for determining success is based on the following criteria
 
 
-The primary criteria is that student either increased their outcome score or maintained a high achievement level. The number and percent for this criteriea is based on the following two outcomes. 
+The primary criteria is that student either increased their outcome score or maintained a high achievement level. The number and percent for this criteria is based on the following two outcomes. 
 
 student increased their healthy relationship outcome score.
 
@@ -78,7 +78,7 @@ student improved score from a low achievement level to a high achievement level.
 
 
 
-# R Scripts
+
 
 
 
