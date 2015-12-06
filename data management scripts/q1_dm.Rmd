@@ -1,0 +1,139 @@
+---
+title: "Q1grades_dm"
+author: "Kevin Gilds"
+date: "December 5, 2015"
+output: html_document
+---
+
+
+
+```{r}
+
+#### Load the Libraries
+library(dplyr)
+library(reshape2)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+grades <- read.csv('gradesQ1B12052015.csv', skip = 1)
+
+names(grades)
+
+```
+
+```{r}
+
+### Demo Variables
+colnames (grades) [7] <- "council"
+colnames (grades) [8] <- "girlCode"
+colnames (grades) [9] <- "schoolName"
+colnames (grades) [10] <- "dateEnrolled"
+
+#### Behavioral Variables
+colnames (grades) [12] <- "unexusedAbs"
+colnames (grades) [13] <- "excusedAbs"
+colnames (grades) [14] <- "inSchoolSusp"
+colnames (grades) [15] <- "outofSchoolSusp"
+colnames (grades) [16] <- "expelled"
+
+
+### Reading Courses
+
+colnames (grades) [19] <- "mjIntensRead"
+colnames (grades) [20] <- "mjIntenseReadCareerPlaning"
+colnames (grades) [21] <- "mjRead1"
+colnames (grades) [22] <- "mjRead1Adv"
+colnames (grades) [23] <- "mjRead2"
+colnames (grades) [24] <- "mjRead2Adv"
+colnames (grades) [25] <- "mjRead3"
+colnames (grades) [26] <- "mjRead3Adv"
+colnames (grades) [27] <- "mjDelaESOLRead"
+colnames (grades) [28] <- "readFree1"
+colnames (grades) [29] <- "readFree2"
+
+
+### Lang Arts Courses
+
+colnames (grades) [31] <- "mjLangArts1ESOL"
+colnames (grades) [32] <- "mjLangArts2ESOL"
+colnames (grades) [33] <- "mjLangArts3ESOL"
+colnames (grades) [34] <- "mjDevelpmentalESOL"
+
+
+colnames (grades) [35] <- "mjLangArts1"
+colnames (grades) [36] <-"mjlangsArts1Adv"
+colnames (grades) [37] <-"mjLangArts2"
+colnames (grades) [38] <- "mjLangArts2Adv" 
+colnames (grades) [39] <- "mjLangArts3"
+colnames (grades) [40] <- "mjLangArts3Adv"
+
+
+colnames (grades) [41] <- "mjEng2Cambsec2"
+colnames (grades) [42] <- "mjIBLangArts1"
+colnames (grades) [43] <- "mjEng2CamSec1"
+colnames (grades) [44] <- "mjIBLangArts3"
+colnames (grades) [45] <- "mjIBLangArts2"
+colnames (grades) [46] <- "mjEng3Cambsec3"
+
+
+colnames (grades) [47] <- "mjIntensLangArts"
+colnames (grades) [48] <- "freeLang1"
+colnames (grades) [49] <- "freeLang2"
+colnames (grades) [50] <- "mjLangTran"
+
+
+```
+
+
+```{r}
+################Finished Data Entry####################################33
+
+gradesq1 <- filter(grades, Finished == 1)
+
+
+```
+
+```{r}
+
+#######################Fix Factors ###################################
+
+
+grades$girlCode <- toupper(grades$girlCode)
+
+grades$council <- as.character(grades$council)
+
+grades$girlCode <- as.character(grades$girlCode)
+
+
+
+```
+
+
+```{r}
+
+##############################Subset Duplicate Values##################
+
+q1Dupes <-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast=TRUE)
+
+q1Dupes <-gradesq1[q1Dupes, ]
+
+
+```
+
+```{r}
+##################Duplicates#########################################
+
+
+gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
+
+
+#######################3
+
+gradesUnique$girlCode
+
+
+
+```
+
+
+
