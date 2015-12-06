@@ -12,6 +12,23 @@ Analysis of survey and academic data is compared across the school year using th
 
 ### Survey Outcomes
 
+Students in the Get REAL! program take surveys at the time of enrollment and at the end of the program year. 
+
+Criteria for determining success is based on the following criteria
+
+
+The primary criteria is that student either increased their outcome score or maintained a high achievement level. The number and percent for this criteriea is based on the following two outcomes. 
+
+student increased their healthy relationship outcome score.
+
+student  maintained a high achievement level but did not increase their outcome score.
+
+
+Secondary but reported outcome is the following. 
+
+student improved score from a low achievement level to a high achievement level.
+
+
 
 
 
