@@ -15,9 +15,8 @@ library(reshape2)
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-grades <- read.csv('gradesQ1B12052015.csv', skip = 1)
+grades <- read.csv('gradesQ1B12052015.csv', skip = 1, na.strings="")
 
-names(grades)
 
 ```
 
@@ -127,13 +126,55 @@ q1Dupes <-gradesq1[q1Dupes, ]
 gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
 
 
-#######################3
 
-gradesUnique$girlCode
+```
 
+```{r}
+###############Reading Clean Up###############################################################
+
+q1Reading <- select(gradesUnique, 7,8, 19:29)
+
+summary(q1Reading)
+
+
+mq1Reading <- melt(q1Reading, id.vars=c("girlCode", "council"))
+
+dim(mq1Reading)
+
+names(mq1Reading)
+
+####################change column names
+colnames (mq1Reading) [4] <-"readingGrade"
+colnames (mq1Reading) [3] <- "readingCourses"
+
+mq1Reading <-na.omit(mq1Reading)
+
+
+summary(mq1Reading)
+
+
+
+###Change grades to all upper case to match
+mq1Reading$readingGrade <- toupper(mq1Reading$readingGrade)
+
+###change reading grade to factor 
+mq1Reading$readingGrade <-as.factor(mq1Reading$readingGrade)
+
+summary(mq1Reading)
+    
+table(mq1Reading$readingCourses,mq1Reading$readingGrade)
+
+levels(mq1Reading$readingGrade)
+
+##############Too many blanks##########33
+
+mq1Reading2 <- select(mq1Reading, girlCode, council, readingGrade)
+
+mq1Reading2$readingGrade <-na.omit(mq1Reading2$readingGrade)
 
 
 ```
+
 
 
 

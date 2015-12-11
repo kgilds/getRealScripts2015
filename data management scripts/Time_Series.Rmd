@@ -13,6 +13,7 @@ library(reshape2)
 library(dplyr)
 library(ggplot2)
 library(pander)
+library(psych)
 getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
 
@@ -30,9 +31,9 @@ pre_survey_2014 <- dbReadTable(getRealdb, "pre_girl_survey")
 
 dim(pre_survey_2014)
 
-post_survey_2014 <- dbReadTable(getRealdb, "post_girl_survey")
+post_survey_MY1415 <- dbReadTable(getRealdb, "post_girl_survey")
 
-dim(post_survey_2014)
+dim(post_survey_MY1415)
 
 ```
 
@@ -60,7 +61,166 @@ dim(pre_merge)
 
 ```
 
-### Healthy Relationships
+
+
+### Match Post Survey
+
+```{r}
+
+post_merge <- inner_join(post_survey_MY1415, pre_survey_2015, by = "girlCode", Copy=FALSE)
+
+dim(post_merge)
+
+
+```
+
+### Match Pre, Post, Pre
+
+```{r}
+
+all_merge <- inner_join(post_merge, pre_merge, by = "girlCode", Copy=FALSE)
+
+dim(all_merge)
+
+
+
+```
+
+
+### Outcomes, Pre, Post, Pre
+
+```{r}
+
+outcomes_all_merge <- select(all_merge, girlCode, StartDate.x.x, hr.avg.x.x, ae.avg.x.x, am.avg.x.x, StartDate.x.y, hr.avg.x.y, ae.avg.x.y, am.avg.x.y, StartDate.y.y, hr.avg.y.y, ae.avg.y.y, am.avg.y.y)
+
+outcomes_all_merge
+
+
+```
+
+
+
+```{r}
+
+hr_all <- select(outcomes_all_merge, girlCode, StartDate.x.x, hr.avg.x.x,StartDate.x.y, hr.avg.x.y, StartDate.y.y, hr.avg.y.y)
+
+
+###Change variable names for ease of use.
+colnames(hr_all) [3] <- "hr_point2"
+colnames(hr_all) [5] <- "hr_point1"
+colnames(hr_all) [7] <- "hr_point3"
+colnames(hr_all) [2] <- "Time_2"
+colnames(hr_all) [4] <- "Time_1"
+colnames(hr_all) [6] <- "Time_3"
+
+
+cor(hr_all$hr_point1, hr_all$hr_point2)
+
+
+####Summarize hr time averages
+describe(hr_all$hr_point1)
+describe(hr_all$hr_point2)
+describe(hr_all$hr_point3)
+
+#####Difference between point 3 and point 1.
+hr_diff <- (hr_all$hr_point3 - hr_all$hr_point1)
+
+hr_diff
+
+table(hr_diff <=0)
+
+
+###Summarize Difference 
+describe(hr_diff)
+
+### Plot difference
+plot(hr_diff)
+abline(h=0, col='red')
+
+
+###Bind hr_diff to hr_all
+
+hr_all1 <- cbind(hr_all, hr_diff)
+
+
+
+hr_achieved <- with(hr_all1, table(hr_point3 >=4.45))
+
+hr_achieved
+
+
+
+
+
+
+#### Outcome Post Merge
+
+
+
+outcomes <- select(post_merge, girlCode, StartDate.x, hr.avg.x, ae.avg.x, am.avg.x, StartDate.y, hr.avg.y, ae.avg.y, am.avg.y)
+
+dim(outcomes)
+
+head(outcomes)
+
+```
+
+### Healthy Relationship Outcome Tables
+
+
+```{r}
+
+#########Outcome Table#################3
+
+###Final Add raw increase with maintained high achievement.
+
+
+
+
+##################Raw Increase########################3
+hr_increase <-filter(hr_all1, hr_diff > 0)
+
+hr_increase_tbl <- with(hr_all1, table(hr_diff >0))
+
+pander(hr_increase_tbl)
+
+
+
+dim(hr_increase)
+
+
+
+
+###########################Maintain High Level but did not increase Outcome Score###########
+
+
+hr_maintain <-filter(hr_all1, hr_point3 >=4.45 & hr_diff <=0)
+
+hr_maintain
+
+hr_maintain_tbl <-with(hr_all1,table(hr_point3 >=4.45 & hr_diff <=0))
+
+pander(hr_maintain_tbl)
+
+
+
+
+######################Not achieving to achieving
+
+hr_success <- with(hr_all1, table(hr_point1 <4.45 & hr_point3 >=4.45))
+
+hr_success
+
+
+```
+
+
+
+
+
+
+
+### Pre 2014-Pre 2015Healthy Relationships
 
 ```{r set up health relationship data, }
 ####################Pair down date frame into the Outcomes that we are interested in#########
@@ -79,6 +239,8 @@ hr1<-cbind(hr1, diffhr)
 
 
 ```
+
+
 
 ```{r hr test, echo=FALSE}
 ######################Basic Analsis T-tests############################################
@@ -119,7 +281,7 @@ wilcox.test(hr2$hr.avg.y, hr2$hr.avg.x, "less",paired=TRUE)
 ```
 
 
-##Outcome Tables
+
 
 ### Pre Survey Data and Graphs
 
@@ -150,13 +312,5 @@ pander(hr_table_pre_council, style = "multiline")
 
 
 
-### Match Post Survey
 
-```{r}
-
-post_merge <- inner_join(post_survey_2014, pre_survey_2015, by = "girlCode", Copy=FALSE)
-
-dim(post_merge)
-
-```
 

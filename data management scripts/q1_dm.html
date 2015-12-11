@@ -83,60 +83,7 @@ library(dplyr)</code></pre>
 
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-grades &lt;- read.csv('gradesQ1B12052015.csv', skip = 1)
-
-names(grades)</code></pre>
-<pre><code>##  [1] &quot;ResponseID&quot;                                                                                                                                                                      
-##  [2] &quot;ResponseSet&quot;                                                                                                                                                                     
-##  [3] &quot;StartDate&quot;                                                                                                                                                                       
-##  [4] &quot;EndDate&quot;                                                                                                                                                                         
-##  [5] &quot;Finished&quot;                                                                                                                                                                        
-##  [6] &quot;You.are.entering.academic.data.for.Quarter.1&quot;                                                                                                                                    
-##  [7] &quot;Girl.Scout.Council.Entering.the.Data.&quot;                                                                                                                                           
-##  [8] &quot;Girl.Code.&quot;                                                                                                                                                                      
-##  [9] &quot;School.Name.&quot;                                                                                                                                                                    
-## [10] &quot;Date.Girl.Enrolled.in.the.Get.REAL..Program.&quot;                                                                                                                                    
-## [11] &quot;You.are.entering.data.for.Student.Â...q...QID1.ChoiceTextEntryValue..who.attends.Â....&quot;                                                                                          
-## [12] &quot;Absences..Quarter.1..span.style..font.size.13px....strong.Unexcused.absences..strong...span.&quot;                                                                                    
-## [13] &quot;Absences..Quarter.1..strong.Excused.absences..strong.&quot;                                                                                                                           
-## [14] &quot;Behavior..Quarter.1..span.style..font.size.13px....strong.In.School.Suspensions..strong...span.&quot;                                                                                 
-## [15] &quot;Behavior..Quarter.1..span.style..font.size.13px....strong.Out.of.School.Suspensions..strong...span.&quot;                                                                             
-## [16] &quot;Did.the.student.get.expelled.during.Quarter.1.&quot;                                                                                                                                  
-## [17] &quot;Reading.and.Language.Arts.Courses.from.the.Florida.Course.Code.Directory.haveÂ..been.listed.in.the...&quot;                                                                           
-## [18] &quot;You.are.entering.data.forÂ...q...QID1.ChoiceTextEntryValue..who.attends.Â....&quot;                                                                                                   
-## [19] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.INTENS.READ..MC...strong...span..Quarter.1&quot;         
-## [20] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..strong..span.style..font.size.13px...M.J.INT.READ..amp..CAR.P..span...strong..Quarter.1&quot;     
-## [21] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.1..strong...span..Quarter.1&quot;                   
-## [22] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.1..ADV..strong...span..Quarter.1&quot;              
-## [23] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.2..strong...span..Quarter.1&quot;                   
-## [24] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.2..ADV..strong...span..Quarter.1&quot;              
-## [25] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..strong..span.style..font.size.13px...M.J.READ.3..span...strong..Quarter.1&quot;                   
-## [26] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ3..ADV..strong...span..Quarter.1&quot;               
-## [27] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.DE.LA.ESOL.READ..strong...span..Quarter.1&quot;          
-## [28] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.Enter.1.course..if.required..strong...span..Quarter.1&quot;  
-## [29] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.Enter.1.course..if.required..strong...span..TEXT&quot;       
-## [30] &quot;You.are.entering.data.forÂ...q...QID1.ChoiceTextEntryValue..who.attends.Â.....1&quot;                                                                                                 
-## [31] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.1.ESOL..strong...span..Quarter.1&quot;             
-## [32] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.2.ESOL..span...strong..Quarter.1&quot;             
-## [33] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.3.ESOL..strong...span..Quarter.1&quot;             
-## [34] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.DEVELOPMENTAL..LANG.ARTS.ESOL..strong...span..Quarter.1&quot;
-## [35] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.1..span...strong..Quarter.1&quot;                  
-## [36] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.1..ADV..span...strong..Quarter.1&quot;             
-## [37] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.2..span...strong..Quarter.1&quot;                  
-## [38] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.2..ADV..strong...span..Quarter.1&quot;             
-## [39] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.3..strong...span..Quarter.1&quot;                  
-## [40] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.3..ADV..strong...span..Quarter.1&quot;             
-## [41] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.ENG.2.CAMB.SEC.2..strong...span..Quarter.1&quot;             
-## [42] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.IB.LANG...LIT.1..strong...span..Quarter.1&quot;              
-## [43] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.ENG.1.CAMB.SEC.1..strong...span..Quarter.1&quot;             
-## [44] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong.M.J.IB.LANG...LIT.3..strong..Quarter.1&quot;                                                   
-## [45] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong.M.J.IB.LANG...LIT.2..strong..Quarter.1&quot;                                                   
-## [46] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong.M.J.ENG.3.CAMB.SEC.3...strong..Quarter.1&quot;                                                 
-## [47] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.INTENS.LANG.ARTS..strong...span..Quarter.1&quot;             
-## [48] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...Enter.1.course..if.required..span...strong..Quarter.1&quot;      
-## [49] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...Enter.1.course..if.required..span...strong..TEXT&quot;           
-## [50] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Language.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.TRAN..span...strong..Quarter.1&quot;               
-## [51] &quot;X&quot;</code></pre>
+grades &lt;- read.csv('gradesQ1B12052015.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
 <pre class="r"><code>### Demo Variables
 colnames (grades) [7] &lt;- &quot;council&quot;
 colnames (grades) [8] &lt;- &quot;girlCode&quot;
@@ -213,69 +160,119 @@ q1Dupes &lt;-gradesq1[q1Dupes, ]</code></pre>
 <pre class="r"><code>##################Duplicates#########################################
 
 
-gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
+gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]</code></pre>
+<pre class="r"><code>###############Reading Clean Up###############################################################
+
+q1Reading &lt;- select(gradesUnique, 7,8, 19:29)
+
+summary(q1Reading)</code></pre>
+<pre><code>##                                council            girlCode   mjIntensRead
+##  Girl Scouts of Citrus Council     : 31   312AA111701 :  1   A   :  3    
+##  Girl Scouts of Southeast Florida  : 16   312AG0502703:  1   b   :  2    
+##  Girl Scouts of the Gateway Council:229   312AJ100102 :  1   B   :  5    
+##                                           312AL061102 :  1   C   :  9    
+##                                           312AM112801 :  1   D   :  3    
+##                                           312AR090501 :  1   NA's:254    
+##                                           (Other)     :270               
+##  mjIntenseReadCareerPlaning mjRead1    mjRead1Adv     mjRead2   
+##  Mode:logical               A   :  5   Mode:logical   A   :  2  
+##  NA's:276                   B   : 28   NA's:276       B   :  1  
+##                             C   : 31                  C   :  3  
+##                             D   :  9                  D   :  3  
+##                             F   :  2                  NA's:267  
+##                             NA's:201                            
+##                                                                 
+##  mjRead2Adv     mjRead3    mjRead3Adv     mjDelaESOLRead readFree1     
+##  Mode:logical   B   :  1   Mode:logical   A   :  1       Mode:logical  
+##  NA's:276       C   :  3   NA's:276       NA's:275       NA's:276      
+##                 D   :  2                                               
+##                 NA's:270                                               
+##                                                                        
+##                                                                        
+##                                                                        
+##  readFree2     
+##  Mode:logical  
+##  NA's:276      
+##                
+##                
+##                
+##                
+## </code></pre>
+<pre class="r"><code>mq1Reading &lt;- melt(q1Reading, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will
+## be dropped</code></pre>
+<pre class="r"><code>dim(mq1Reading)</code></pre>
+<pre><code>## [1] 3036    4</code></pre>
+<pre class="r"><code>names(mq1Reading)</code></pre>
+<pre><code>## [1] &quot;girlCode&quot; &quot;council&quot;  &quot;variable&quot; &quot;value&quot;</code></pre>
+<pre class="r"><code>####################change column names
+colnames (mq1Reading) [4] &lt;-&quot;readingGrade&quot;
+colnames (mq1Reading) [3] &lt;- &quot;readingCourses&quot;
+
+mq1Reading &lt;-na.omit(mq1Reading)
 
 
-#######################3
+summary(mq1Reading)</code></pre>
+<pre><code>##          girlCode                                 council  
+##  312AA111701 :  1   Girl Scouts of Citrus Council     :12  
+##  312AG0502703:  1   Girl Scouts of Southeast Florida  : 7  
+##  312AJ100102 :  1   Girl Scouts of the Gateway Council:94  
+##  312BJ021603 :  1                                          
+##  312BL053004 :  1                                          
+##  312CM100602 :  1                                          
+##  (Other)     :107                                          
+##                     readingCourses readingGrade      
+##  mjRead1                   :75     Length:113        
+##  mjIntensRead              :22     Class :character  
+##  mjRead2                   : 9     Mode  :character  
+##  mjRead3                   : 6                       
+##  mjDelaESOLRead            : 1                       
+##  mjIntenseReadCareerPlaning: 0                       
+##  (Other)                   : 0</code></pre>
+<pre class="r"><code>###Change grades to all upper case to match
+mq1Reading$readingGrade &lt;- toupper(mq1Reading$readingGrade)
 
-gradesUnique$girlCode</code></pre>
-<pre><code>##   [1] 313AW060203  313AP042602  313AE041502  313AJ111203  313AM022202 
-##   [6] 313AE050404  313AM030805  313BB032805  313CC032104  313CM120103 
-##  [11] 313ES060503  313FF120202  313IH091404  313IA091203  313JS091402 
-##  [16] 313JL032903  313KF050203  313LF071302  313MM071604  313MP031502 
-##  [21] 313MS031104  313NW122502  313NM110602  313ND012403  313OF022803 
-##  [26] 313PK110102  313SJ102903  313SW021304  313SW013103  313TG053004 
-##  [31] 313TB112002  313TG041203  313TA120503  313TD073104  312BL053004 
-##  [36] 312AJ100102  312JS013102  312DR012403  312GB022203  312FS020503 
-##  [41] 312KN121401  312JF031602  312AL061102  312SG050202  312AW111601 
-##  [46] 312KC120201  312DJ101301  312JC012102  312JW012903  312Km012003 
-##  [51] 312MJ092702  312BJ021603  312PM110402  312AA111701  312Jh080102 
-##  [56] 312AR090501  312AG0502703 312ZT060802  312AS030202  312DW011802 
-##  [61] 312RN011302  312AM112801  312JV032902  312CM100602  312LP021703 
-##  [66] 313DW060502  313MG102902  313GR040203  313HB060202  313JP090103 
-##  [71] 313JB090402  313JG070402  313JB091302  313YJ031404  313JR060502 
-##  [76] 313AK052902  313AD050602  313BB040203  313CW020602  313RL062003 
-##  [81] 313SJ060203  313MB090202  313SD010203  313SS101702  313CF080102 
-##  [86] 313TG072302  313PW072304  313MA082702  313MD100300  313MM110400 
-##  [91] 313YJ062501  313ST122101  313AA041803  313LJ090102  313RL060201 
-##  [96] 313AJ061101  313AN060301  313RB031401  313AB071302  313BB052401 
-## [101] 313BC082900  313AH030201  313SL102501  313AJ100301  313SS080601 
-## [106] 313TR060701  313SJ092102  313LM110402  313SP101602  313NM092901 
-## [111] 313AA091300  313AL042602  313AJ100704  313BS033102  313BS013101 
-## [116] 313CP050801  313DG072603  313DE100602  313EC081602  313EH121700 
-## [121] 313HR070802  313KS081404  313KH120302  313LE082703  313MH120302 
-## [126] 313MS033102  313NB120901  313TG012003  313SY042303  313AC080304 
-## [131] 313TW111601  313AJ111601  313HB081401  313JJ051600  313AJ041002 
-## [136] 313BN052400  313TA020602  313DM081501  313MH120402  313DL091702 
-## [141] 313CB101103  313AH082204  313AV040903  313AF070302  313AH090402 
-## [146] 313AP090203  313AG040602  313AR080201  313DC061403  313HW090202 
-## [151] 313KJ012003  313KC010603  313LS090504  313LL121002  313LP081302 
-## [156] 313MG090502  313MY060702  313RN100203  313RE011302  313SR051403 
-## [161] 313SW080304  313TR122902  313TW060904  313VJ061503  313KC111302 
-## [166] 313TH082203  313JW081804  313AH082502  313MD050604  321MA081902 
-## [171] 321PA012503  321CB090701  321CB042803  321TC011203  321TC051403 
-## [176] 321MC030803  321AD020803  321JD101502  321SE122802  321AG111402 
-## [181] 321fj118003  321kj012703  313AC103103  313AN121503  313AC082303 
-## [186] 313AJ092103  313AB062704  313AW110303  313AF040403  313BM050404 
-## [191] 313BC040204  313CH121604  313CD122702  313DP021104  313DJ031804 
-## [196] 313DY100502  313ER111602  313EG050502  313ER122203  313EO080204 
-## [201] 313JD042302  313JS103001  313JL110304  313JM040603  313JR021003 
-## [206] 313JC121003  313JB122201  313JM072404  313JR081602  313JT110402 
-## [211] 313JD090803  313JP011003  313KM011503  313KG061204  313KT082103 
-## [216] 313KA090203  313LF022804  313MA090303  313PM082503  313SS111303 
-## [221] 313SF120603  313SW091702  313SW083004  313SH092302  313TC071503 
-## [226] 313TG091001  313TS010303  313TP102402  313KE040805  313LH031502 
-## [231] 313LG040801  313LS021104  313MB050801  313MD120302  313NH071604 
-## [236] 313NS050901  313HW011803  313NF070900  313NB041502  313QB062902 
-## [241] 313RH032805  313SS081403  313SS080202  313SS102000  313TA042602 
-## [246] 313TA060203  313VJ112402  313AB050904  313AJ111803  313AN122002 
-## [251] 313AE070802  313AH072703  313BH042702  313CJ081604  313CD032504 
-## [256] 313DM020603  313DJ013001  313DB013101  313DF063004  313DM031404 
-## [261] 321bd122700  321mo062803  321Sm012903  313DL032102  313DL122400 
-## [266] 313DW020202  313FS043102  313GW050404  313GT051001  313HH091900 
-## [271] 313JS053004  313JW081700  313JH050703  313KH032104  313KD091402 
-## [276] 313KB121202 
-## 283 Levels: 312AA111701 312AG0502703 312AJ100102 ... 321TC051403</code></pre>
+###change reading grade to factor 
+mq1Reading$readingGrade &lt;-as.factor(mq1Reading$readingGrade)
+
+summary(mq1Reading)</code></pre>
+<pre><code>##          girlCode                                 council  
+##  312AA111701 :  1   Girl Scouts of Citrus Council     :12  
+##  312AG0502703:  1   Girl Scouts of Southeast Florida  : 7  
+##  312AJ100102 :  1   Girl Scouts of the Gateway Council:94  
+##  312BJ021603 :  1                                          
+##  312BL053004 :  1                                          
+##  312CM100602 :  1                                          
+##  (Other)     :107                                          
+##                     readingCourses readingGrade
+##  mjRead1                   :75     A:11        
+##  mjIntensRead              :22     B:37        
+##  mjRead2                   : 9     C:46        
+##  mjRead3                   : 6     D:17        
+##  mjDelaESOLRead            : 1     F: 2        
+##  mjIntenseReadCareerPlaning: 0                 
+##  (Other)                   : 0</code></pre>
+<pre class="r"><code>table(mq1Reading$readingCourses,mq1Reading$readingGrade)</code></pre>
+<pre><code>##                             
+##                               A  B  C  D  F
+##   mjIntensRead                3  7  9  3  0
+##   mjIntenseReadCareerPlaning  0  0  0  0  0
+##   mjRead1                     5 28 31  9  2
+##   mjRead1Adv                  0  0  0  0  0
+##   mjRead2                     2  1  3  3  0
+##   mjRead2Adv                  0  0  0  0  0
+##   mjRead3                     0  1  3  2  0
+##   mjRead3Adv                  0  0  0  0  0
+##   mjDelaESOLRead              1  0  0  0  0
+##   readFree1                   0  0  0  0  0
+##   readFree2                   0  0  0  0  0</code></pre>
+<pre class="r"><code>levels(mq1Reading$readingGrade)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
+<pre class="r"><code>##############Too many blanks##########33
+
+mq1Reading2 &lt;- select(mq1Reading, girlCode, council, readingGrade)
+
+mq1Reading2$readingGrade &lt;-na.omit(mq1Reading2$readingGrade)</code></pre>
 
 
 </div>

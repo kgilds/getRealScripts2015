@@ -88,7 +88,14 @@ library(dplyr)</code></pre>
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(ggplot2)
 library(pander)
-getRealdb&lt;- dbConnect(SQLite(), dbname=&quot;data_Final_GetReal_2014_2015.sqlite&quot;)</code></pre>
+library(psych)</code></pre>
+<pre><code>## 
+## Attaching package: 'psych'
+## 
+## The following object is masked from 'package:ggplot2':
+## 
+##     %+%</code></pre>
+<pre class="r"><code>getRealdb&lt;- dbConnect(SQLite(), dbname=&quot;data_Final_GetReal_2014_2015.sqlite&quot;)</code></pre>
 <div id="survey-data" class="section level3">
 <h3>2014-2015 Survey Data</h3>
 <pre class="r"><code>all_Tables &lt;- dbListTables(getRealdb)
@@ -119,9 +126,9 @@ all_Tables</code></pre>
 
 dim(pre_survey_2014)</code></pre>
 <pre><code>## [1] 1186   51</code></pre>
-<pre class="r"><code>post_survey_2014 &lt;- dbReadTable(getRealdb, &quot;post_girl_survey&quot;)
+<pre class="r"><code>post_survey_MY1415 &lt;- dbReadTable(getRealdb, &quot;post_girl_survey&quot;)
 
-dim(post_survey_2014)</code></pre>
+dim(post_survey_MY1415)</code></pre>
 <pre><code>## [1] 735  51</code></pre>
 </div>
 <div id="survey-data-from-2015-school-year" class="section level3">
@@ -141,8 +148,310 @@ dim(pre_merge)</code></pre>
 <pre><code>## [1]  81 101</code></pre>
 <pre class="r"><code>#x=2014, y=2015</code></pre>
 </div>
-<div id="healthy-relationships" class="section level3">
-<h3>Healthy Relationships</h3>
+<div id="match-post-survey" class="section level3">
+<h3>Match Post Survey</h3>
+<pre class="r"><code>post_merge &lt;- inner_join(post_survey_MY1415, pre_survey_2015, by = &quot;girlCode&quot;, Copy=FALSE)
+
+dim(post_merge)</code></pre>
+<pre><code>## [1]  59 101</code></pre>
+</div>
+<div id="match-pre-post-pre" class="section level3">
+<h3>Match Pre, Post, Pre</h3>
+<pre class="r"><code>all_merge &lt;- inner_join(post_merge, pre_merge, by = &quot;girlCode&quot;, Copy=FALSE)
+
+dim(all_merge)</code></pre>
+<pre><code>## [1]  39 201</code></pre>
+</div>
+<div id="outcomes-pre-post-pre" class="section level3">
+<h3>Outcomes, Pre, Post, Pre</h3>
+<pre class="r"><code>outcomes_all_merge &lt;- select(all_merge, girlCode, StartDate.x.x, hr.avg.x.x, ae.avg.x.x, am.avg.x.x, StartDate.x.y, hr.avg.x.y, ae.avg.x.y, am.avg.x.y, StartDate.y.y, hr.avg.y.y, ae.avg.y.y, am.avg.y.y)
+
+outcomes_all_merge</code></pre>
+<pre><code>##       girlCode       StartDate.x.x hr.avg.x.x ae.avg.x.x am.avg.x.x
+## 1  320SA080203 2015-05-26 08:09:11      4.500      3.375       4.80
+## 2  320SB122902 2015-05-26 08:15:36      3.625      3.750       6.00
+## 3  320GC121002 2015-05-26 08:24:37      4.375      4.125       5.28
+## 4  320SD031803 2015-05-26 08:32:10      4.875      3.375       6.00
+## 5  320AF062602 2015-05-26 08:33:39      6.000      3.750       5.52
+## 6  320AG022403 2015-05-26 08:36:17      1.875      4.875       6.00
+## 7  320AH070602 2015-05-26 08:45:16      6.000      5.625       6.00
+## 8  320AH013102 2015-05-26 08:47:57      4.500      1.125       1.44
+## 9  320KJ022602 2015-05-26 09:01:29      5.625      4.875       6.00
+## 10 320NL051303 2015-05-26 09:09:14      4.875      4.875       6.00
+## 11 320AM070802 2015-05-26 09:19:41      4.525      4.125       5.28
+## 12 320RM112402 2015-05-26 09:23:17      3.250      1.500       3.60
+## 13 320JN030502 2015-05-26 09:26:48      5.125      3.750       5.04
+## 14 320DP041202 2015-05-26 10:00:23      3.900      4.125       4.56
+## 15 320RR110901 2015-05-26 10:07:51      6.000      4.500       5.76
+## 16 320YS111401 2015-05-26 10:11:43      4.525      4.500       5.28
+## 17 320RG071003 2015-06-02 10:36:00      4.875      3.375       5.52
+## 18 320MG030803 2015-06-02 10:37:59      0.875      3.000       5.04
+## 19 320VT121102 2015-06-02 10:50:49      3.675      3.750       3.60
+## 20 321GC050202 2015-06-02 12:28:28      5.000      3.000       5.52
+## 21 321RJ011800 2015-06-02 14:21:08      5.375      3.750       5.28
+## 22 321LU072702 2015-06-02 16:13:18      3.950      2.625       3.60
+## 23 321PP043003 2015-06-03 09:47:32      6.000      6.000       6.00
+## 24 321AG111402 2015-06-03 12:48:58      5.500      4.875       6.00
+## 25 321AD020803 2015-06-03 14:55:37      5.125      4.500       6.00
+## 26 321FC060101 2015-06-03 15:00:47      4.075      4.875       5.04
+## 27 321TB042701 2015-06-04 14:34:49      5.250      4.125       6.00
+## 28 320ZP050602 2015-06-27 16:12:48      4.450      4.500       4.80
+## 29 320JR062102 2015-06-27 16:15:17      4.450      4.500       4.80
+## 30 320SS110101 2015-06-27 16:19:07      4.450      4.500       4.80
+## 31 320AB061103 2015-06-27 16:33:13      4.450      4.500       4.80
+## 32 320JM102701 2015-06-27 21:13:28      4.450      4.500       4.80
+## 33 320CM120402 2015-06-27 21:15:05      4.450      4.500       4.80
+## 34 320OO062303 2015-06-27 21:16:28      4.450      4.500       4.80
+## 35 320NR060503 2015-06-27 21:18:57      4.450      4.500       4.80
+## 36 320BR072103 2015-06-27 21:22:43      4.450      4.500       4.80
+## 37 320AT101602 2015-06-27 21:24:05      4.450      4.500       4.80
+## 38 320AM040103 2015-06-27 21:40:23      4.450      4.500       4.80
+## 39 320AS121201 2015-06-27 21:45:20      4.450      4.500       4.80
+##          StartDate.x.y hr.avg.x.y ae.avg.x.y am.avg.x.y
+## 1  2014-10-13 12:52:19      4.875      5.250       5.76
+## 2  2014-10-13 11:58:40      2.500      0.000       4.32
+## 3  2014-10-13 12:49:46      4.875      4.875       6.00
+## 4  2014-10-13 14:00:59      5.025      4.125       6.00
+## 5  2014-10-13 14:06:48      4.375      3.750       4.80
+## 6  2014-10-13 12:28:52      3.200      4.500       6.00
+## 7  2014-10-13 12:20:02      3.875      5.250       5.28
+## 8  2014-10-13 12:48:27      5.000      3.750       4.80
+## 9  2014-10-13 12:24:35      4.475      4.500       5.04
+## 10 2014-10-13 13:58:49      5.500      6.000       6.00
+## 11 2014-10-13 12:55:54      5.125      4.125       4.80
+## 12 2014-10-13 12:54:38      5.000      4.125       4.56
+## 13 2014-10-13 14:08:00      4.200      4.875       4.80
+## 14 2014-10-13 12:23:28      2.150      3.750       4.08
+## 15 2014-10-13 11:50:33      6.000      5.250       5.76
+## 16 2014-10-17 13:12:33      3.450      5.625       5.76
+## 17 2014-10-13 12:47:17      4.875      3.375       4.80
+## 18 2014-10-13 14:01:59      2.375      4.500       5.76
+## 19 2014-10-13 12:09:27      2.375      4.125       5.04
+## 20 2014-11-18 13:35:38      3.700      3.375       5.76
+## 21 2014-12-01 11:16:16      4.500      3.000       5.76
+## 22 2014-11-12 10:48:04      2.000      3.000       6.00
+## 23 2014-11-17 12:31:17      4.275      3.750       5.76
+## 24 2014-11-12 10:44:29      5.500      4.125       6.00
+## 25 2014-11-13 13:23:07      5.500      4.875       6.00
+## 26 2014-10-22 13:10:22      4.375      3.375       5.76
+## 27 2014-10-22 13:09:09      4.500      3.375       5.76
+## 28 2014-10-06 18:19:28      2.500      0.000       4.56
+## 29 2014-10-06 18:24:04      1.500      0.000       5.28
+## 30 2014-10-06 18:00:24      5.000      4.125       5.28
+## 31 2014-10-14 12:55:39      5.000      5.625       5.76
+## 32 2014-10-06 17:43:22      4.500      4.125       6.00
+## 33 2014-10-06 17:52:46      3.250      2.625       4.32
+## 34 2014-10-06 17:41:30      3.525      3.000       5.04
+## 35 2014-10-06 17:33:27      5.075      3.000       5.52
+## 36 2014-10-06 17:27:32      4.150      4.500       5.28
+## 37 2014-10-06 17:31:38      3.975      3.000       5.04
+## 38 2014-10-14 13:09:50      3.000      3.750       6.00
+## 39 2014-10-14 13:16:53      5.000      3.000       6.00
+##          StartDate.y.y hr.avg.y.y ae.avg.y.y am.avg.y.y
+## 1  2015-11-04 10:00:14      4.500      3.000       6.00
+## 2  2015-11-04 09:49:16      5.250      5.625       5.28
+## 3  2015-11-04 09:47:57      3.525      2.625       5.28
+## 4  2015-11-04 09:51:38      6.000      4.125       5.52
+## 5  2015-11-04 10:38:46      6.000      3.750       4.32
+## 6  2015-11-04 10:07:37      3.700      4.125       5.52
+## 7  2015-11-04 10:44:37      3.575      6.000       6.00
+## 8  2015-11-04 10:40:15      4.500      1.875       3.60
+## 9  2015-11-04 10:56:05      5.075      5.625       5.28
+## 10 2015-11-04 09:44:22      6.000      4.875       5.76
+## 11 2015-11-04 10:43:21      5.700      3.375       5.28
+## 12 2015-11-04 10:09:05      2.375      4.500       4.80
+## 13 2015-11-04 10:23:33      5.125      3.375       5.28
+## 14 2015-11-04 09:50:29      4.825      4.500       5.52
+## 15 2015-11-04 10:32:34      6.000      5.625       6.00
+## 16 2015-11-04 10:57:36      5.325      4.875       5.76
+## 17 2015-11-04 09:57:09      4.075      4.500       4.80
+## 18 2015-11-04 09:55:49      1.875      3.375       4.80
+## 19 2015-11-04 10:54:42      3.400      3.000       5.28
+## 20 2015-10-29 12:41:52      3.200      4.500       5.76
+## 21 2015-11-23 13:49:43      6.000      3.750       6.00
+## 22 2015-11-01 08:36:13      4.250      3.375       6.00
+## 23 2015-10-28 13:47:47      3.375      2.250       5.04
+## 24 2015-11-11 10:55:15      5.500      6.000       6.00
+## 25 2015-11-11 10:52:16      3.450      4.875       5.76
+## 26 2015-10-28 12:55:47      2.775      3.375       6.00
+## 27 2015-10-28 13:06:14      4.950      4.125       5.52
+## 28 2015-11-05 15:26:12      3.150      3.375       5.28
+## 29 2015-10-28 21:22:40      4.375      4.875       5.76
+## 30 2015-11-05 15:09:18      3.950      4.500       4.32
+## 31 2015-10-21 13:30:23      4.750      4.500       6.00
+## 32 2015-10-21 13:26:24      6.000      4.125       5.28
+## 33 2015-10-21 13:33:58      3.200      2.625       3.36
+## 34 2015-10-21 13:35:51      6.000      2.250       6.00
+## 35 2015-11-04 12:31:47      1.375      3.375       5.04
+## 36 2015-10-21 13:36:36      5.250      5.250       5.52
+## 37 2015-10-21 13:28:36      4.325      3.750       4.32
+## 38 2015-11-05 13:50:40      1.200      4.500       6.00
+## 39 2015-11-05 15:20:44      4.325      4.500       6.00</code></pre>
+<pre class="r"><code>hr_all &lt;- select(outcomes_all_merge, girlCode, StartDate.x.x, hr.avg.x.x,StartDate.x.y, hr.avg.x.y, StartDate.y.y, hr.avg.y.y)
+
+
+###Change variable names for ease of use.
+colnames(hr_all) [3] &lt;- &quot;hr_point2&quot;
+colnames(hr_all) [5] &lt;- &quot;hr_point1&quot;
+colnames(hr_all) [7] &lt;- &quot;hr_point3&quot;
+colnames(hr_all) [2] &lt;- &quot;Time_2&quot;
+colnames(hr_all) [4] &lt;- &quot;Time_1&quot;
+colnames(hr_all) [6] &lt;- &quot;Time_3&quot;
+
+
+cor(hr_all$hr_point1, hr_all$hr_point2)</code></pre>
+<pre><code>## [1] 0.4677979</code></pre>
+<pre class="r"><code>####Summarize hr time averages
+describe(hr_all$hr_point1)</code></pre>
+<pre><code>##   vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## 1    1 39  4.1 1.13   4.38    4.16 0.96 1.5   6   4.5 -0.59    -0.73 0.18</code></pre>
+<pre class="r"><code>describe(hr_all$hr_point2)</code></pre>
+<pre><code>##   vars  n mean sd median trimmed  mad  min max range  skew kurtosis   se
+## 1    1 39 4.53  1   4.45    4.63 0.63 0.88   6  5.12 -1.41     3.55 0.16</code></pre>
+<pre class="r"><code>describe(hr_all$hr_point3)</code></pre>
+<pre><code>##   vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## 1    1 39 4.31 1.32   4.38    4.42 1.41 1.2   6   4.8 -0.52    -0.52 0.21</code></pre>
+<pre class="r"><code>#####Difference between point 3 and point 1.
+hr_diff &lt;- (hr_all$hr_point3 - hr_all$hr_point1)
+
+hr_diff</code></pre>
+<pre><code>##  [1] -0.375  2.750 -1.350  0.975  1.625  0.500 -0.300 -0.500  0.600  0.500
+## [11]  0.575 -2.625  0.925  2.675  0.000  1.875 -0.800 -0.500  1.025 -0.500
+## [21]  1.500  2.250 -0.900  0.000 -2.050 -1.600  0.450  0.650  2.875 -1.050
+## [31] -0.250  1.500 -0.050  2.475 -3.700  1.100  0.350 -1.800 -0.675</code></pre>
+<pre class="r"><code>table(hr_diff &lt;=0)</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##    20    19</code></pre>
+<pre class="r"><code>###Summarize Difference 
+describe(hr_diff)</code></pre>
+<pre><code>##   vars  n mean  sd median trimmed  mad  min  max range  skew kurtosis   se
+## 1    1 39 0.21 1.5   0.35    0.25 1.26 -3.7 2.88  6.58 -0.26    -0.19 0.24</code></pre>
+<pre class="r"><code>### Plot difference
+plot(hr_diff)
+abline(h=0, col='red')</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAAAXVBMVEUAAAAAADoAAGYAOmYAOpAAZmYAZpAAZrY6AAA6kJA6kNtmAABmOgBmtv+QOgCQkDqQ29uQ2/+2ZgC2kDq225C2///bkDrb/7bb////AAD/tmb/25D//7b//9v///84wLfMAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAfnUlEQVR4nO3d6WLbSIBeUbrjjB07dqY5aaUjL+//mEOKW8la+bEAVKHO+dFtySIsFsErLAVo8xuAyGbpbwCgVwIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgFDbAd0AVFM/UdWXWNHSow2sS/VG1V5gTRP8wACGJaAAIQEFCPUa0F/f94cfvlz7MAEF6uksoPe7an789/D/vb/+ue7xAgrU01VAD5udmw9///i8yQoqoEA9XQV0e6zmx/86lnN72B59PwEF6ukpoLvtzn027zabczd3u/LfrlmEgAL19BTQu+MO+3a/F3/41G6n/tM1ixBQoJ6O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" title alt width="672" /></p>
+<pre class="r"><code>###Bind hr_diff to hr_all
+
+hr_all1 &lt;- cbind(hr_all, hr_diff)
+
+
+
+hr_achieved &lt;- with(hr_all1, table(hr_point3 &gt;=4.45))
+
+hr_achieved</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##    20    19</code></pre>
+<pre class="r"><code>#### Outcome Post Merge
+
+
+
+outcomes &lt;- select(post_merge, girlCode, StartDate.x, hr.avg.x, ae.avg.x, am.avg.x, StartDate.y, hr.avg.y, ae.avg.y, am.avg.y)
+
+dim(outcomes)</code></pre>
+<pre><code>## [1] 59  9</code></pre>
+<pre class="r"><code>head(outcomes)</code></pre>
+<pre><code>##      girlCode         StartDate.x hr.avg.x ae.avg.x am.avg.x
+## 1 320SA080203 2015-05-26 08:09:11    4.500    3.375     4.80
+## 2 320SB122902 2015-05-26 08:15:36    3.625    3.750     6.00
+## 3 320GC121002 2015-05-26 08:24:37    4.375    4.125     5.28
+## 4 320JD061002 2015-05-26 08:26:14    5.375    3.000     5.52
+## 5 320SD031803 2015-05-26 08:32:10    4.875    3.375     6.00
+## 6 320AF062602 2015-05-26 08:33:39    6.000    3.750     5.52
+##           StartDate.y hr.avg.y ae.avg.y am.avg.y
+## 1 2015-11-04 10:00:14    4.500    3.000     6.00
+## 2 2015-11-04 09:49:16    5.250    5.625     5.28
+## 3 2015-11-04 09:47:57    3.525    2.625     5.28
+## 4 2015-11-04 10:04:58    3.775    4.125     4.80
+## 5 2015-11-04 09:51:38    6.000    4.125     5.52
+## 6 2015-11-04 10:38:46    6.000    3.750     4.32</code></pre>
+</div>
+<div id="healthy-relationship-outcome-tables" class="section level3">
+<h3>Healthy Relationship Outcome Tables</h3>
+<pre class="r"><code>#########Outcome Table#################3
+
+###Final Add raw increase with maintained high achievement.
+
+
+
+
+##################Raw Increase########################3
+hr_increase &lt;-filter(hr_all1, hr_diff &gt; 0)
+
+hr_increase_tbl &lt;- with(hr_all1, table(hr_diff &gt;0))
+
+pander(hr_increase_tbl)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">19</td>
+<td align="center">20</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>dim(hr_increase)</code></pre>
+<pre><code>## [1] 20  8</code></pre>
+<pre class="r"><code>###########################Maintain High Level but did not increase Outcome Score###########
+
+
+hr_maintain &lt;-filter(hr_all1, hr_point3 &gt;=4.45 &amp; hr_diff &lt;=0)
+
+hr_maintain</code></pre>
+<pre><code>##      girlCode              Time_2 hr_point2              Time_1 hr_point1
+## 1 320SA080203 2015-05-26 08:09:11      4.50 2014-10-13 12:52:19     4.875
+## 2 320AH013102 2015-05-26 08:47:57      4.50 2014-10-13 12:48:27     5.000
+## 3 320RR110901 2015-05-26 10:07:51      6.00 2014-10-13 11:50:33     6.000
+## 4 321AG111402 2015-06-03 12:48:58      5.50 2014-11-12 10:44:29     5.500
+## 5 320AB061103 2015-06-27 16:33:13      4.45 2014-10-14 12:55:39     5.000
+##                Time_3 hr_point3 hr_diff
+## 1 2015-11-04 10:00:14      4.50  -0.375
+## 2 2015-11-04 10:40:15      4.50  -0.500
+## 3 2015-11-04 10:32:34      6.00   0.000
+## 4 2015-11-11 10:55:15      5.50   0.000
+## 5 2015-10-21 13:30:23      4.75  -0.250</code></pre>
+<pre class="r"><code>hr_maintain_tbl &lt;-with(hr_all1,table(hr_point3 &gt;=4.45 &amp; hr_diff &lt;=0))
+
+pander(hr_maintain_tbl)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">34</td>
+<td align="center">5</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>######################Not achieving to achieving
+
+hr_success &lt;- with(hr_all1, table(hr_point1 &lt;4.45 &amp; hr_point3 &gt;=4.45))
+
+hr_success</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##    32     7</code></pre>
+</div>
+<div id="pre-2014-pre-2015healthy-relationships" class="section level3">
+<h3>Pre 2014-Pre 2015Healthy Relationships</h3>
 <pre class="r"><code>####################Pair down date frame into the Outcomes that we are interested in#########
 hr &lt;- select(pre_merge, Time.x, council.x, girlCode, hr.avg.x, hr.avg.y)
 
@@ -179,8 +488,6 @@ hr1&lt;-cbind(hr1, diffhr)</code></pre>
 ## V = 2019, p-value = 0.9992
 ## alternative hypothesis: true location shift is less than 0</code></pre>
 </div>
-<div id="outcome-tables" class="section level2">
-<h2>Outcome Tables</h2>
 <div id="pre-survey-data-and-graphs" class="section level3">
 <h3>Pre Survey Data and Graphs</h3>
 <pre class="r"><code>ggplot(hr1, aes(hr.avg.y &gt;=4.45)) + geom_bar(stats=&quot;identitiy&quot;, fill=&quot;blue&quot;, width = .5) + labs(x=&quot;Achieving at High Level&quot;, title = &quot;Pre: Healthy Relationships&quot;)</code></pre>
@@ -252,14 +559,6 @@ pander(hr_table_pre_council, style = &quot;multiline&quot;)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>##########By Percents##################</code></pre>
-</div>
-<div id="match-post-survey" class="section level3">
-<h3>Match Post Survey</h3>
-<pre class="r"><code>post_merge &lt;- inner_join(post_survey_2014, pre_survey_2015, by = &quot;girlCode&quot;, Copy=FALSE)
-
-dim(post_merge)</code></pre>
-<pre><code>## [1]  59 101</code></pre>
-</div>
 </div>
 
 
