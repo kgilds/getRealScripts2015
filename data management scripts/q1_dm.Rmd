@@ -12,9 +12,13 @@ output: html_document
 #### Load the Libraries
 library(dplyr)
 library(reshape2)
+library(pander)
 
+
+### Locate file to read from
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
+### read the data into R
 grades <- read.csv('gradesQ1B12052015.csv', skip = 1, na.strings="")
 
 
@@ -29,7 +33,7 @@ colnames (grades) [9] <- "schoolName"
 colnames (grades) [10] <- "dateEnrolled"
 
 #### Behavioral Variables
-colnames (grades) [12] <- "unexusedAbs"
+colnames (grades) [12] <- "unexcusedAbs"
 colnames (grades) [13] <- "excusedAbs"
 colnames (grades) [14] <- "inSchoolSusp"
 colnames (grades) [15] <- "outofSchoolSusp"
@@ -87,6 +91,7 @@ colnames (grades) [50] <- "mjLangTran"
 ```{r}
 ################Finished Data Entry####################################33
 
+### Eliminate uncompleted data entry
 gradesq1 <- filter(grades, Finished == 1)
 
 
@@ -96,11 +101,13 @@ gradesq1 <- filter(grades, Finished == 1)
 
 #######################Fix Factors ###################################
 
-
+### Make all girCode to upper case for matching
 grades$girlCode <- toupper(grades$girlCode)
 
+### Make sure R does not make this a factor variable
 grades$council <- as.character(grades$council)
 
+### Make sure R does not make this a factor variable 
 grades$girlCode <- as.character(grades$girlCode)
 
 
@@ -111,9 +118,10 @@ grades$girlCode <- as.character(grades$girlCode)
 ```{r}
 
 ##############################Subset Duplicate Values##################
-
+### find the duplicates
 q1Dupes <-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast=TRUE)
 
+### Subset the duplicates
 q1Dupes <-gradesq1[q1Dupes, ]
 
 
@@ -122,7 +130,7 @@ q1Dupes <-gradesq1[q1Dupes, ]
 ```{r}
 ##################Duplicates#########################################
 
-
+### Find the unique girlCodes and subset them
 gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
 
 
@@ -132,25 +140,23 @@ gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$
 ```{r}
 ###############Reading Clean Up###############################################################
 
-q1Reading <- select(gradesUnique, 7,8, 19:29)
+### Select data of interest
+q1Reading <- select(gradesUnique, 7,8, 19:27)
 
-summary(q1Reading)
 
 
+### Put the data in the shape you want it. 
 mq1Reading <- melt(q1Reading, id.vars=c("girlCode", "council"))
 
-dim(mq1Reading)
-
-names(mq1Reading)
 
 ####################change column names
 colnames (mq1Reading) [4] <-"readingGrade"
 colnames (mq1Reading) [3] <- "readingCourses"
 
+
+### Omit the blanks 
 mq1Reading <-na.omit(mq1Reading)
 
-
-summary(mq1Reading)
 
 
 
@@ -160,21 +166,246 @@ mq1Reading$readingGrade <- toupper(mq1Reading$readingGrade)
 ###change reading grade to factor 
 mq1Reading$readingGrade <-as.factor(mq1Reading$readingGrade)
 
-summary(mq1Reading)
-    
+
+### Create table to sneak peak at the data.    
 table(mq1Reading$readingCourses,mq1Reading$readingGrade)
 
+### Check the levels
 levels(mq1Reading$readingGrade)
 
-##############Too many blanks##########33
 
-mq1Reading2 <- select(mq1Reading, girlCode, council, readingGrade)
 
-mq1Reading2$readingGrade <-na.omit(mq1Reading2$readingGrade)
+```
 
+### Save Reading to RDS File
+```{r}
+
+### I want the data to go here. 
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### Save the object for analysis in another script
+saveRDS(mq1Reading, file = "quarter1_12122015.rds")
+
+```
+
+
+#### Language Arts Courses
+
+```{r}
+
+### Select the data of interest
+q1LangArts <- select(gradesUnique, 7,8, 31:47, 50)
+
+
+### Put the data in the shape I want it in
+mq1_lang <- melt(q1LangArts, id.vars=c("girlCode", "council"))
+
+
+
+####################change column names
+colnames (mq1_lang) [4] <-"langGrade"
+colnames (mq1_lang) [3] <- "langCourses"
+
+
+### Get rid of blanks
+q1_lang <- na.omit(mq1_lang)
+
+
+###Change grades to all upper case to match
+mq1_lang$langGrade <- toupper(mq1_lang$langGrade)
+
+###change reading grade to factor 
+mq1_lang$langGrade <-as.factor(mq1_lang$langGrade)
+
+### Create tables to sneak at the data
+table(mq1_lang$langCourses,mq1_lang$langGrade)
+lang_courses <- table(mq1_lang$langCourses) #for output
+
+
+
+
+
+
+
+```
+
+### Free Language Arts
+```{r}
+
+### Review Free Text Entry
+free_lang <- select(gradesUnique, 7,8, 48,49)
+
+
+### Test to determine if there is any data in those columns
+table(free_lang$free_lang1)
+table(free_lang$free_lang2)
+
+```
+
+### Lang Arts Save to RDS
+
+```{r}
+### Ensure the dat goes to the correct directory
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### Save the object for analysis script or file
+saveRDS(mq1_lang, "langQ1_12122015.rds")
 
 ```
 
 
 
+### Unexcused Absences
+
+```{r}
+
+### Select the data of interest
+unexcused <- select(gradesUnique,7,8, 12)
+
+
+### Create table to view the summary
+unexcused_tbl <- table(unexcused$unexcusedAbs)
+
+### Print the table
+unexcused_tbl
+
+```
+
+### Excused Absences
+
+```{r}
+### Select the data of interest
+excused <- select(gradesUnique, 7, 8, 13)
+
+
+### Create table to view the data
+excused_tbl <- with(excused,table(excusedAbs))
+
+### View the output
+excused_tbl
+
+```
+
+
+### Total Absences
+
+```{r}
+
+
+#### Merge unexcused and excused objects
+total_abs <- inner_join(unexcused, excused, by = "girlCode", Copy=FALSE)
+
+
+### Sum up the two columns to get a total 
+total_abs$sum_abs <-total_abs$unexcusedAbs + total_abs$excusedAbs
+
+### Create table to view the data
+total_abs_tbl <- with(total_abs, table(sum_abs))
+
+### See the table output
+total_abs_tbl
+
+```
+
+
+### Total Suspensions to RDS
+
+```{r}
+
+### Set to save data to correct file folder
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### Save to read data for analysis script or file
+saveRDS(total_abs, "total_Absences_1212105.rds")
+
+```
+
+
+### In School Suspensions
+
+```{r}
+
+### Look at data of interest
+in_school <- select(gradesUnique, 7, 8, 14)
+
+
+### Create table to look at data
+in_school_tbl <- with(in_school, table(inSchoolSusp))
+
+### View table
+in_school_tbl
+
+
+```
+
+### Out of School Suspenions
+
+```{r}
+
+out_school <- select(gradesUnique, 7, 8, 15)
+
+out_school_tbl <- with(out_school, table(outofSchoolSusp))
+
+out_school_tbl
+
+```
+
+
+### Total suspensions
+
+```{r}
+
+susp_total <- inner_join(in_school, out_school, by = "girlCode", copy=FALSE)
+
+head(susp_total)
+
+susp_total$susp_sum <- in_school$inSchoolSusp + out_school$outofSchoolSusp
+
+head(susp_total)
+
+susp_total_tbl <- with(susp_total,table(susp_sum))
+
+susp_total_tbl
+
+
+
+```
+
+### Total Suspensions to RDS
+
+```{r}
+
+### Save file to correct file folder
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### Save to RDS for analysis script to read
+saveRDS(susp_total, "total_susp_12122015.rds")
+
+```
+
+### Expelled
+
+```{r}
+
+### Select the variable of interest
+expelled <- select(gradesUnique, 7,8,16)
+
+### Create table to view the summary
+expelled_tbl <-with(expelled,table(expelled))
+
+### Print the table
+expelled_tbl
+
+```
+
+### Expelled Object to RDS
+
+```{r}
+### Save object to correct desintation file folder
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### Save to RDS for analytics script. 
+saveRDS(expelled, "expelled_12122015.rds")
+
+```
 

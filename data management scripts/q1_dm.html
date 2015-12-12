@@ -80,9 +80,13 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(reshape2)
+library(pander)
 
+
+### Locate file to read from
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
+### read the data into R
 grades &lt;- read.csv('gradesQ1B12052015.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
 <pre class="r"><code>### Demo Variables
 colnames (grades) [7] &lt;- &quot;council&quot;
@@ -91,7 +95,7 @@ colnames (grades) [9] &lt;- &quot;schoolName&quot;
 colnames (grades) [10] &lt;- &quot;dateEnrolled&quot;
 
 #### Behavioral Variables
-colnames (grades) [12] &lt;- &quot;unexusedAbs&quot;
+colnames (grades) [12] &lt;- &quot;unexcusedAbs&quot;
 colnames (grades) [13] &lt;- &quot;excusedAbs&quot;
 colnames (grades) [14] &lt;- &quot;inSchoolSusp&quot;
 colnames (grades) [15] &lt;- &quot;outofSchoolSusp&quot;
@@ -143,116 +147,59 @@ colnames (grades) [49] &lt;- &quot;freeLang2&quot;
 colnames (grades) [50] &lt;- &quot;mjLangTran&quot;</code></pre>
 <pre class="r"><code>################Finished Data Entry####################################33
 
+### Eliminate uncompleted data entry
 gradesq1 &lt;- filter(grades, Finished == 1)</code></pre>
 <pre class="r"><code>#######################Fix Factors ###################################
 
-
+### Make all girCode to upper case for matching
 grades$girlCode &lt;- toupper(grades$girlCode)
 
+### Make sure R does not make this a factor variable
 grades$council &lt;- as.character(grades$council)
 
+### Make sure R does not make this a factor variable 
 grades$girlCode &lt;- as.character(grades$girlCode)</code></pre>
 <pre class="r"><code>##############################Subset Duplicate Values##################
-
+### find the duplicates
 q1Dupes &lt;-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast=TRUE)
 
+### Subset the duplicates
 q1Dupes &lt;-gradesq1[q1Dupes, ]</code></pre>
 <pre class="r"><code>##################Duplicates#########################################
 
-
+### Find the unique girlCodes and subset them
 gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]</code></pre>
 <pre class="r"><code>###############Reading Clean Up###############################################################
 
-q1Reading &lt;- select(gradesUnique, 7,8, 19:29)
+### Select data of interest
+q1Reading &lt;- select(gradesUnique, 7,8, 19:27)
 
-summary(q1Reading)</code></pre>
-<pre><code>##                                council            girlCode   mjIntensRead
-##  Girl Scouts of Citrus Council     : 31   312AA111701 :  1   A   :  3    
-##  Girl Scouts of Southeast Florida  : 16   312AG0502703:  1   b   :  2    
-##  Girl Scouts of the Gateway Council:229   312AJ100102 :  1   B   :  5    
-##                                           312AL061102 :  1   C   :  9    
-##                                           312AM112801 :  1   D   :  3    
-##                                           312AR090501 :  1   NA's:254    
-##                                           (Other)     :270               
-##  mjIntenseReadCareerPlaning mjRead1    mjRead1Adv     mjRead2   
-##  Mode:logical               A   :  5   Mode:logical   A   :  2  
-##  NA's:276                   B   : 28   NA's:276       B   :  1  
-##                             C   : 31                  C   :  3  
-##                             D   :  9                  D   :  3  
-##                             F   :  2                  NA's:267  
-##                             NA's:201                            
-##                                                                 
-##  mjRead2Adv     mjRead3    mjRead3Adv     mjDelaESOLRead readFree1     
-##  Mode:logical   B   :  1   Mode:logical   A   :  1       Mode:logical  
-##  NA's:276       C   :  3   NA's:276       NA's:275       NA's:276      
-##                 D   :  2                                               
-##                 NA's:270                                               
-##                                                                        
-##                                                                        
-##                                                                        
-##  readFree2     
-##  Mode:logical  
-##  NA's:276      
-##                
-##                
-##                
-##                
-## </code></pre>
-<pre class="r"><code>mq1Reading &lt;- melt(q1Reading, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
+
+
+### Put the data in the shape you want it. 
+mq1Reading &lt;- melt(q1Reading, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
 <pre><code>## Warning: attributes are not identical across measure variables; they will
 ## be dropped</code></pre>
-<pre class="r"><code>dim(mq1Reading)</code></pre>
-<pre><code>## [1] 3036    4</code></pre>
-<pre class="r"><code>names(mq1Reading)</code></pre>
-<pre><code>## [1] &quot;girlCode&quot; &quot;council&quot;  &quot;variable&quot; &quot;value&quot;</code></pre>
 <pre class="r"><code>####################change column names
 colnames (mq1Reading) [4] &lt;-&quot;readingGrade&quot;
 colnames (mq1Reading) [3] &lt;- &quot;readingCourses&quot;
 
+
+### Omit the blanks 
 mq1Reading &lt;-na.omit(mq1Reading)
 
 
-summary(mq1Reading)</code></pre>
-<pre><code>##          girlCode                                 council  
-##  312AA111701 :  1   Girl Scouts of Citrus Council     :12  
-##  312AG0502703:  1   Girl Scouts of Southeast Florida  : 7  
-##  312AJ100102 :  1   Girl Scouts of the Gateway Council:94  
-##  312BJ021603 :  1                                          
-##  312BL053004 :  1                                          
-##  312CM100602 :  1                                          
-##  (Other)     :107                                          
-##                     readingCourses readingGrade      
-##  mjRead1                   :75     Length:113        
-##  mjIntensRead              :22     Class :character  
-##  mjRead2                   : 9     Mode  :character  
-##  mjRead3                   : 6                       
-##  mjDelaESOLRead            : 1                       
-##  mjIntenseReadCareerPlaning: 0                       
-##  (Other)                   : 0</code></pre>
-<pre class="r"><code>###Change grades to all upper case to match
+
+
+###Change grades to all upper case to match
 mq1Reading$readingGrade &lt;- toupper(mq1Reading$readingGrade)
 
 ###change reading grade to factor 
 mq1Reading$readingGrade &lt;-as.factor(mq1Reading$readingGrade)
 
-summary(mq1Reading)</code></pre>
-<pre><code>##          girlCode                                 council  
-##  312AA111701 :  1   Girl Scouts of Citrus Council     :12  
-##  312AG0502703:  1   Girl Scouts of Southeast Florida  : 7  
-##  312AJ100102 :  1   Girl Scouts of the Gateway Council:94  
-##  312BJ021603 :  1                                          
-##  312BL053004 :  1                                          
-##  312CM100602 :  1                                          
-##  (Other)     :107                                          
-##                     readingCourses readingGrade
-##  mjRead1                   :75     A:11        
-##  mjIntensRead              :22     B:37        
-##  mjRead2                   : 9     C:46        
-##  mjRead3                   : 6     D:17        
-##  mjDelaESOLRead            : 1     F: 2        
-##  mjIntenseReadCareerPlaning: 0                 
-##  (Other)                   : 0</code></pre>
-<pre class="r"><code>table(mq1Reading$readingCourses,mq1Reading$readingGrade)</code></pre>
+
+### Create table to sneak peak at the data.    
+table(mq1Reading$readingCourses,mq1Reading$readingGrade)</code></pre>
 <pre><code>##                             
 ##                               A  B  C  D  F
 ##   mjIntensRead                3  7  9  3  0
@@ -263,16 +210,242 @@ summary(mq1Reading)</code></pre>
 ##   mjRead2Adv                  0  0  0  0  0
 ##   mjRead3                     0  1  3  2  0
 ##   mjRead3Adv                  0  0  0  0  0
-##   mjDelaESOLRead              1  0  0  0  0
-##   readFree1                   0  0  0  0  0
-##   readFree2                   0  0  0  0  0</code></pre>
-<pre class="r"><code>levels(mq1Reading$readingGrade)</code></pre>
+##   mjDelaESOLRead              1  0  0  0  0</code></pre>
+<pre class="r"><code>### Check the levels
+levels(mq1Reading$readingGrade)</code></pre>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
-<pre class="r"><code>##############Too many blanks##########33
+<div id="save-reading-to-rds-file" class="section level3">
+<h3>Save Reading to RDS File</h3>
+<pre class="r"><code>### I want the data to go here. 
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-mq1Reading2 &lt;- select(mq1Reading, girlCode, council, readingGrade)
+### Save the object for analysis in another script
+saveRDS(mq1Reading, file = &quot;quarter1_12122015.rds&quot;)</code></pre>
+<div id="language-arts-courses" class="section level4">
+<h4>Language Arts Courses</h4>
+<pre class="r"><code>### Select the data of interest
+q1LangArts &lt;- select(gradesUnique, 7,8, 31:47, 50)
 
-mq1Reading2$readingGrade &lt;-na.omit(mq1Reading2$readingGrade)</code></pre>
+
+### Put the data in the shape I want it in
+mq1_lang &lt;- melt(q1LangArts, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will
+## be dropped</code></pre>
+<pre class="r"><code>####################change column names
+colnames (mq1_lang) [4] &lt;-&quot;langGrade&quot;
+colnames (mq1_lang) [3] &lt;- &quot;langCourses&quot;
+
+
+### Get rid of blanks
+q1_lang &lt;- na.omit(mq1_lang)
+
+
+###Change grades to all upper case to match
+mq1_lang$langGrade &lt;- toupper(mq1_lang$langGrade)
+
+###change reading grade to factor 
+mq1_lang$langGrade &lt;-as.factor(mq1_lang$langGrade)
+
+### Create tables to sneak at the data
+table(mq1_lang$langCourses,mq1_lang$langGrade)</code></pre>
+<pre><code>##                     
+##                       A  B  C  D  F
+##   mjLangArts1ESOL     0  0  0  0  0
+##   mjLangArts2ESOL     1  2  0  0  0
+##   mjLangArts3ESOL     0  0  0  0  0
+##   mjDevelpmentalESOL  0  0  0  0  0
+##   mjLangArts1         4 23 28 20  4
+##   mjlangsArts1Adv     0  0  0  0  0
+##   mjLangArts2         8 34 34 12  4
+##   mjLangArts2Adv      6  6  1  0  0
+##   mjLangArts3         7 20 31 14  1
+##   mjLangArts3Adv      3  6  3  0  0
+##   mjEng2Cambsec2      0  0  1  0  0
+##   mjIBLangArts1       0  0  0  0  0
+##   mjEng2CamSec1       0  0  0  0  0
+##   mjIBLangArts3       0  0  0  0  0
+##   mjIBLangArts2       0  0  0  0  0
+##   mjEng3Cambsec3      0  0  0  0  0
+##   mjIntensLangArts    2  1  0  0  0
+##   mjLangTran          0  0  0  0  0</code></pre>
+<pre class="r"><code>lang_courses &lt;- table(mq1_lang$langCourses) #for output</code></pre>
+</div>
+</div>
+<div id="free-language-arts" class="section level3">
+<h3>Free Language Arts</h3>
+<pre class="r"><code>### Review Free Text Entry
+free_lang &lt;- select(gradesUnique, 7,8, 48,49)
+
+
+### Test to determine if there is any data in those columns
+table(free_lang$free_lang1)</code></pre>
+<pre><code>## &lt; table of extent 0 &gt;</code></pre>
+<pre class="r"><code>table(free_lang$free_lang2)</code></pre>
+<pre><code>## &lt; table of extent 0 &gt;</code></pre>
+</div>
+<div id="lang-arts-save-to-rds" class="section level3">
+<h3>Lang Arts Save to RDS</h3>
+<pre class="r"><code>### Ensure the dat goes to the correct directory
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+
+### Save the object for analysis script or file
+saveRDS(mq1_lang, &quot;langQ1_12122015.rds&quot;)</code></pre>
+</div>
+<div id="unexcused-absences" class="section level3">
+<h3>Unexcused Absences</h3>
+<pre class="r"><code>### Select the data of interest
+unexcused &lt;- select(gradesUnique,7,8, 12)
+
+
+### Create table to view the summary
+unexcused_tbl &lt;- table(unexcused$unexcusedAbs)
+
+### Print the table
+unexcused_tbl</code></pre>
+<pre><code>## 
+##  0  1  2  3  4  5  6  7  8 
+## 96 57 70 25 12 13  1  1  1</code></pre>
+</div>
+<div id="excused-absences" class="section level3">
+<h3>Excused Absences</h3>
+<pre class="r"><code>### Select the data of interest
+excused &lt;- select(gradesUnique, 7, 8, 13)
+
+
+### Create table to view the data
+excused_tbl &lt;- with(excused,table(excusedAbs))
+
+### View the output
+excused_tbl</code></pre>
+<pre><code>## excusedAbs
+##   0   1   2   3   4 
+## 145  84  41   4   1</code></pre>
+</div>
+<div id="total-absences" class="section level3">
+<h3>Total Absences</h3>
+<pre class="r"><code>#### Merge unexcused and excused objects
+total_abs &lt;- inner_join(unexcused, excused, by = &quot;girlCode&quot;, Copy=FALSE)
+
+
+### Sum up the two columns to get a total 
+total_abs$sum_abs &lt;-total_abs$unexcusedAbs + total_abs$excusedAbs
+
+### Create table to view the data
+total_abs_tbl &lt;- with(total_abs, table(sum_abs))
+
+### See the table output
+total_abs_tbl</code></pre>
+<pre><code>## sum_abs
+##  0  1  2  3  4  5  6  7  8 
+## 82 25 60 43 33 21  7  2  2</code></pre>
+</div>
+<div id="total-suspensions-to-rds" class="section level3">
+<h3>Total Suspensions to RDS</h3>
+<pre class="r"><code>### Set to save data to correct file folder
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+
+### Save to read data for analysis script or file
+saveRDS(total_abs, &quot;total_Absences_1212105.rds&quot;)</code></pre>
+</div>
+<div id="in-school-suspensions" class="section level3">
+<h3>In School Suspensions</h3>
+<pre class="r"><code>### Look at data of interest
+in_school &lt;- select(gradesUnique, 7, 8, 14)
+
+
+### Create table to look at data
+in_school_tbl &lt;- with(in_school, table(inSchoolSusp))
+
+### View table
+in_school_tbl</code></pre>
+<pre><code>## inSchoolSusp
+##   0   1   2   3   4 
+## 241  22   7   5   1</code></pre>
+</div>
+<div id="out-of-school-suspenions" class="section level3">
+<h3>Out of School Suspenions</h3>
+<pre class="r"><code>out_school &lt;- select(gradesUnique, 7, 8, 15)
+
+out_school_tbl &lt;- with(out_school, table(outofSchoolSusp))
+
+out_school_tbl</code></pre>
+<pre><code>## outofSchoolSusp
+##   0   1   2 
+## 271   2   1</code></pre>
+</div>
+<div id="total-suspensions" class="section level3">
+<h3>Total suspensions</h3>
+<pre class="r"><code>susp_total &lt;- inner_join(in_school, out_school, by = &quot;girlCode&quot;, copy=FALSE)
+
+head(susp_total)</code></pre>
+<pre><code>##                            council.x    girlCode inSchoolSusp
+## 1 Girl Scouts of the Gateway Council 313AW060203            0
+## 2 Girl Scouts of the Gateway Council 313AP042602            0
+## 3 Girl Scouts of the Gateway Council 313AE041502            0
+## 4 Girl Scouts of the Gateway Council 313AJ111203            0
+## 5 Girl Scouts of the Gateway Council 313AM022202            0
+## 6 Girl Scouts of the Gateway Council 313AE050404            0
+##                            council.y outofSchoolSusp
+## 1 Girl Scouts of the Gateway Council               0
+## 2 Girl Scouts of the Gateway Council               0
+## 3 Girl Scouts of the Gateway Council               0
+## 4 Girl Scouts of the Gateway Council               0
+## 5 Girl Scouts of the Gateway Council               0
+## 6 Girl Scouts of the Gateway Council               0</code></pre>
+<pre class="r"><code>susp_total$susp_sum &lt;- in_school$inSchoolSusp + out_school$outofSchoolSusp
+
+head(susp_total)</code></pre>
+<pre><code>##                            council.x    girlCode inSchoolSusp
+## 1 Girl Scouts of the Gateway Council 313AW060203            0
+## 2 Girl Scouts of the Gateway Council 313AP042602            0
+## 3 Girl Scouts of the Gateway Council 313AE041502            0
+## 4 Girl Scouts of the Gateway Council 313AJ111203            0
+## 5 Girl Scouts of the Gateway Council 313AM022202            0
+## 6 Girl Scouts of the Gateway Council 313AE050404            0
+##                            council.y outofSchoolSusp susp_sum
+## 1 Girl Scouts of the Gateway Council               0        0
+## 2 Girl Scouts of the Gateway Council               0        0
+## 3 Girl Scouts of the Gateway Council               0        0
+## 4 Girl Scouts of the Gateway Council               0        0
+## 5 Girl Scouts of the Gateway Council               0        0
+## 6 Girl Scouts of the Gateway Council               0        0</code></pre>
+<pre class="r"><code>susp_total_tbl &lt;- with(susp_total,table(susp_sum))
+
+susp_total_tbl</code></pre>
+<pre><code>## susp_sum
+##   0   1   2   3   4   5 
+## 241  20   8   3   1   1</code></pre>
+</div>
+<div id="total-suspensions-to-rds-1" class="section level3">
+<h3>Total Suspensions to RDS</h3>
+<pre class="r"><code>### Save file to correct file folder
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+
+### Save to RDS for analysis script to read
+saveRDS(susp_total, &quot;total_susp_12122015.rds&quot;)</code></pre>
+</div>
+<div id="expelled" class="section level3">
+<h3>Expelled</h3>
+<pre class="r"><code>### Select the variable of interest
+expelled &lt;- select(gradesUnique, 7,8,16)
+
+### Create table to view the summary
+expelled_tbl &lt;-with(expelled,table(expelled))
+
+### Print the table
+expelled_tbl</code></pre>
+<pre><code>## expelled
+##  No 
+## 276</code></pre>
+</div>
+<div id="expelled-object-to-rds" class="section level3">
+<h3>Expelled Object to RDS</h3>
+<pre class="r"><code>### Save object to correct desintation file folder
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+
+### Save to RDS for analytics script. 
+saveRDS(expelled, &quot;expelled_12122015.rds&quot;)</code></pre>
+</div>
 
 
 </div>
