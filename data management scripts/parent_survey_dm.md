@@ -28,9 +28,9 @@ library(dplyr)
 ```
 
 ```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-parent <- read.csv("parent_survey_11282015.csv", skip=1)
+parent <- read.csv("parent_survey_12132015.csv", skip=1)
 ```
 
 
@@ -82,7 +82,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 434  21
+## [1] 479  21
 ```
 
 
@@ -105,7 +105,7 @@ dim(parentPreUnique)
 ```
 
 ```
-## [1] 421  21
+## [1] 458  21
 ```
 
 
@@ -114,7 +114,7 @@ dim(parentPreUnique)
 
 ```r
 ### Set working directory to save data to correct file folder
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 
 ### Find duplicates
@@ -129,12 +129,12 @@ dim(parent_pre_dupes)
 ```
 
 ```
-## [1] 12 21
+## [1] 20 21
 ```
 
 ```r
 ### Write to csv file
-write.csv(parent_pre_dupes, "parent_dupes_11282015.csv", row.names=FALSE)
+write.csv(parent_pre_dupes, "parent_dupes_12132015.csv", row.names=FALSE)
 ```
 
 
@@ -142,11 +142,11 @@ write.csv(parent_pre_dupes, "parent_dupes_11282015.csv", row.names=FALSE)
 ## Save RDS File
 
 ```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file="pre_parent_11282015.rds")
+saveRDS(parentPreUnique, file="pre_parent_12132015.rds")
 ```
 
 
@@ -170,5 +170,7 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 ## Save RDS Files
 
 ```r
-saveRDS(parentPostUnique, file="post_parent_11282015.rds")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+saveRDS(parentPostUnique, file="post_parent_12132015.rds")
 ```

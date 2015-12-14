@@ -5,7 +5,7 @@ date: "December 5, 2015"
 output: html_document
 ---
 
-
+### Intro this section needs to be updated. 
 
 ```{r}
 
@@ -19,7 +19,7 @@ library(pander)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### read the data into R
-grades <- read.csv('gradesQ1B12052015.csv', skip = 1, na.strings="")
+grades <- read.csv('grades_q1_12132015.csv', skip = 1, na.strings="")
 
 
 ```
@@ -102,13 +102,13 @@ gradesq1 <- filter(grades, Finished == 1)
 #######################Fix Factors ###################################
 
 ### Make all girCode to upper case for matching
-grades$girlCode <- toupper(grades$girlCode)
+gradesq1$girlCode <- toupper(gradesq1$girlCode)
 
 ### Make sure R does not make this a factor variable
-grades$council <- as.character(grades$council)
+gradesq1$council <- as.character(gradesq1$council)
 
 ### Make sure R does not make this a factor variable 
-grades$girlCode <- as.character(grades$girlCode)
+gradesq1$girlCode <- as.character(gradesq1$girlCode)
 
 
 
@@ -136,6 +136,19 @@ gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$
 
 
 ```
+
+### Save data object Grades to RDS for status report
+
+```{r}
+
+### Save in relevant data file
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### RDS file for status report. 
+saveRDS(gradesUnique, "grades_q1_12132015.rds")
+
+```
+
 
 ```{r}
 ###############Reading Clean Up###############################################################
@@ -184,7 +197,7 @@ levels(mq1Reading$readingGrade)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### Save the object for analysis in another script
-saveRDS(mq1Reading, file = "quarter1_12122015.rds")
+saveRDS(mq1Reading, file = "reading_q1_12132015.rds")
 
 ```
 
@@ -249,7 +262,7 @@ table(free_lang$free_lang2)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### Save the object for analysis script or file
-saveRDS(mq1_lang, "langQ1_12122015.rds")
+saveRDS(mq1_lang, "langQ1_12132015.rds")
 
 ```
 
@@ -316,7 +329,7 @@ total_abs_tbl
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### Save to read data for analysis script or file
-saveRDS(total_abs, "total_Absences_1212105.rds")
+saveRDS(total_abs, "total_Absences_12132015.rds")
 
 ```
 
@@ -379,7 +392,7 @@ susp_total_tbl
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### Save to RDS for analysis script to read
-saveRDS(susp_total, "total_susp_12122015.rds")
+saveRDS(susp_total, "total_susp_12132015.rds")
 
 ```
 
@@ -405,7 +418,7 @@ expelled_tbl
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### Save to RDS for analytics script. 
-saveRDS(expelled, "expelled_12122015.rds")
+saveRDS(expelled, "expelled_12132015.rds")
 
 ```
 

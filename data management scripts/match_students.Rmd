@@ -1,0 +1,105 @@
+---
+title: "Student_Data_Record"
+author: "Kevin Gilds"
+date: "December 13, 2015"
+output: html_document
+---
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(dplyr)
+library(pander)
+
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+girl <- readRDS("girl_survey_12132015.rds")
+girl <- select(girl, girlCode)
+girl$dataSource <-"girl"
+
+
+grades_q1 <- readRDS("grades_q1_12132015.rds")
+q1_stats <- select(grades_q1, girlCode, council)
+q1_stats$dataSource <- "Q1"
+
+
+girl_dupes <- readRDS("duplicate_girl_survey_12132015.rds")
+
+dim(girl_dupes)
+
+preDupes <-duplicated(girl_dupes$girlCode) | duplicated(girl_dupes$girlCode, fromLast=TRUE)
+
+preDupes1 <-girl_dupes[preDupes, ]
+
+dim(girl_dupes)
+
+head(girl_dupes)
+
+dim(preDupes1)
+
+table(grades_q1$council)
+
+
+```
+
+### Find the Matches
+
+```{r}
+
+survey_grades <- inner_join(girl, q1_stats, by = "girlCode", copy=FALSE)
+
+dim(survey_grades)
+head(survey_grades)
+
+```
+
+### Find those who have survey but no grades
+```{r}
+
+survey_nograde <- anti_join(girl, q1_stats, by = "girlCode", copy = FALSE)
+
+dim(survey_nograde)
+
+head(survey_nograde)
+
+
+```
+
+### Find those who have grades but no survey
+
+```{r}
+grade_nosurvey <- anti_join(q1_stats, girl, by = "girlCode", copy =FALSE)
+
+dim(grade_nosurvey)
+
+table(grade_nosurvey$council)
+
+head(grade_nosurvey)
+
+```
+
+Match the No survey with duplicates
+
+```{r}
+
+dup_problems <- inner_join(grade_nosurvey, preDupes1, by = "girlCode", copy = FALSE)
+
+dim(dup_problems)
+
+
+
+
+
+```
+
+Match the survey with no duplicates
+```{r}
+
+no_dupes <- anti_join(grade_nosurvey, girl_dupes, by = "girlCode", copy =FALSE)
+
+
+
+
+dim(no_dupes)
+```

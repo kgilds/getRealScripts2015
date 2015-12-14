@@ -91,7 +91,7 @@ img {
 <div id="set-up-r-to-receive-the-data-and-load-the-data-into-r." class="section level2">
 <h2><span class="header-section-number">1.1</span> Set up R to receive the data and load the data into R.</h2>
 <pre class="r"><code>###Read Working directory
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 #### Required Libraries
 library(dplyr)</code></pre>
@@ -106,7 +106,7 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>############Read the data in R
-teacher &lt;- read.csv(&quot;teacher_survey_11282015.csv&quot;, skip=1)</code></pre>
+teacher &lt;- read.csv(&quot;teacher_survey_12132015.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -153,10 +153,10 @@ pre_teacher_unique &lt;- preTeacher [!(duplicated(preTeacher$girlCode) | duplica
 <div id="how-many-cases-for-analysis-and-save-to-rds-file-for-analysis." class="section level2">
 <h2><span class="header-section-number">2.2</span> How many cases for analysis and save to RDS file for analysis.</h2>
 <pre class="r"><code>####Save the data in the correct data directory
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 
-saveRDS(pre_teacher_unique, file=&quot;pre_teacher_11282015.rds&quot;)</code></pre>
+saveRDS(pre_teacher_unique, file=&quot;pre_teacher_12132015.rds&quot;)</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
@@ -170,9 +170,9 @@ post_teacher_unique &lt;-  postTeacherUnique [!(duplicated(postTeacherUnique$gir
 </div>
 <div id="find-the-number-of-cases-and-save-post-data-to-rds-file-for-analysis." class="section level2">
 <h2><span class="header-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</h2>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015&quot;)
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-saveRDS(postTeacherUnique, file=&quot;post_teacher_11282015.rds&quot;)</code></pre>
+saveRDS(postTeacherUnique, file=&quot;post_teacher_12132015.rds&quot;)</code></pre>
 </div>
 </div>
 

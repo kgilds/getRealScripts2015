@@ -14,13 +14,13 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girl_survey_11282015.csv", skip=1)
+rawdata <- read.csv("girl_survey_12132015.csv", skip=1)
 dim(rawdata)
 
 ```
@@ -138,7 +138,7 @@ dim(preUnique)
 ```{r}
 ##############################Subset duplicated girl codes##################
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 preDupes <-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
@@ -147,17 +147,17 @@ preDupes <-pre[preDupes, ]
 dim(preDupes)
 
 ####Save object to RDS file
-saveRDS(preDupes, file="duplicate_girl_survey_11282015.rds")
-write.csv(preDupes, "pre_girl_dupes_11282015.csv", row.names=FALSE)
+saveRDS(preDupes, file="duplicate_girl_survey_12132015.rds")
+write.csv(preDupes, "pre_girl_dupes_12132015.csv", row.names=FALSE)
 
 ```
 
 
 ### Save Pre Data to RDS File (needs updated data)
 ```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-saveRDS(preUnique, file="girl_survey_11282015.RDS")
+saveRDS(preUnique, file="girl_survey_12132015.RDS")
 
 
 ```
@@ -201,9 +201,9 @@ postDupes <-post[postDupes, ]
 
 ### Save Post Survey (needs updated data)
 ```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-saveRDS(postUnique, file="girl_post_11282015.rds")
+saveRDS(postUnique, file="girl_post_12132015.rds")
 
 
 

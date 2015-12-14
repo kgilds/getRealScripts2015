@@ -18,13 +18,13 @@ output:
 
 ```{r}
 ###Read Working directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 #### Required Libraries
 library(dplyr)
 
 ############Read the data in R
-teacher <- read.csv("teacher_survey_11282015.csv", skip=1)
+teacher <- read.csv("teacher_survey_12132015.csv", skip=1)
 
 
 ```
@@ -104,10 +104,10 @@ pre_teacher_unique <- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated
 
 ```{r}
 ####Save the data in the correct data directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 
-saveRDS(pre_teacher_unique, file="pre_teacher_11282015.rds")
+saveRDS(pre_teacher_unique, file="pre_teacher_12132015.rds")
 
 
 ```
@@ -134,9 +134,9 @@ post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCo
 ##  Find the number of cases and save Post data to RDS file for analysis. 
 ```{r}
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-saveRDS(postTeacherUnique, file="post_teacher_11282015.rds")
+saveRDS(postTeacherUnique, file="post_teacher_12132015.rds")
 
 
 ```

@@ -40,9 +40,9 @@ dim(post_survey_MY1415)
 ### Survey Data from 2015 School year
 
 ```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/November 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-pre_survey_2015 <- readRDS("girl_survey_11282015.rds")
+pre_survey_2015 <- readRDS("girl_survey_12132015.rds")
 
 dim(pre_survey_2015)
 
@@ -112,6 +112,38 @@ colnames(hr_all) [7] <- "hr_point3"
 colnames(hr_all) [2] <- "Time_2"
 colnames(hr_all) [4] <- "Time_1"
 colnames(hr_all) [6] <- "Time_3"
+
+
+hr_point_1 <- select(hr_all, hr_point1)
+
+time_1 <- "Time_1"
+
+hr_point_1 <- cbind(hr_point_1, time_1)
+
+head(hr_point_1)
+
+hr_point_2 <-select(hr_all, hr_point2)
+
+time_2 <- ("Time_2")
+
+hr_point_2 <- cbind(hr_point_2, time_2)
+
+head(hr_point_2)
+
+hr_1_hr_2 <- cbind(hr_point_1, hr_point_2)
+
+head(hr_1_hr_2)
+
+melt_hr <- melt(hr_1_hr_2)
+
+head(melt_hr)
+
+tail(melt_hr, n=20)
+
+summary(melt_hr)
+
+class(melt_hr$variable)
+
 
 
 cor(hr_all$hr_point1, hr_all$hr_point2)
