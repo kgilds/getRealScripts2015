@@ -108,7 +108,7 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girl_survey_12132015.csv&quot;, skip=1)
+rawdata &lt;- read.csv(&quot;girl_survey_12202015.csv&quot;, skip=1)
 dim(rawdata)</code></pre>
 <pre><code>## [1] 674  51</code></pre>
 </div>
@@ -215,14 +215,14 @@ preDupes &lt;-pre[preDupes, ]
 dim(preDupes)</code></pre>
 <pre><code>## [1] 28 51</code></pre>
 <pre class="r"><code>####Save object to RDS file
-saveRDS(preDupes, file=&quot;duplicate_girl_survey_12132015.rds&quot;)
-write.csv(preDupes, &quot;pre_girl_dupes_12132015.csv&quot;, row.names=FALSE)</code></pre>
+saveRDS(preDupes, file=&quot;duplicate_girl_survey_12202015.rds&quot;)
+write.csv(preDupes, &quot;pre_girl_dupes_12202015.csv&quot;, row.names=FALSE)</code></pre>
 </div>
 <div id="save-pre-data-to-rds-file-needs-updated-data" class="section level3">
 <h3>Save Pre Data to RDS File (needs updated data)</h3>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-saveRDS(preUnique, file=&quot;girl_survey_12132015.RDS&quot;)</code></pre>
+saveRDS(preUnique, file=&quot;girl_survey_12202015.RDS&quot;)</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
@@ -250,7 +250,7 @@ postDupes &lt;-post[postDupes, ]</code></pre>
 <h3>Save Post Survey (needs updated data)</h3>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-saveRDS(postUnique, file=&quot;girl_post_12132015.rds&quot;)</code></pre>
+saveRDS(postUnique, file=&quot;girl_post_12202015.rds&quot;)</code></pre>
 </div>
 </div>
 

@@ -42,7 +42,7 @@ dim(post_survey_MY1415)
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-pre_survey_2015 <- readRDS("girl_survey_12132015.rds")
+pre_survey_2015 <- readRDS("girl_survey_12202015.rds")
 
 dim(pre_survey_2015)
 
