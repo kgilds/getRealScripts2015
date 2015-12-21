@@ -89,7 +89,7 @@ library(pander)
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 ### read the data into R
-grades &lt;- read.csv('grades_q1_12132015.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
+grades &lt;- read.csv('grades_q1_12182015.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
 <pre class="r"><code>### Demo Variables
 colnames (grades) [7] &lt;- &quot;council&quot;
 colnames (grades) [8] &lt;- &quot;girlCode&quot;
@@ -186,6 +186,7 @@ q1Reading &lt;- select(gradesUnique, 7,8, 19:27)
 
 
 
+
 ### Put the data in the shape you want it. 
 mq1Reading &lt;- melt(q1Reading, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
 <pre><code>## Warning: attributes are not identical across measure variables; they will
@@ -199,6 +200,31 @@ colnames (mq1Reading) [3] &lt;- &quot;readingCourses&quot;
 mq1Reading &lt;-na.omit(mq1Reading)
 
 
+###Need to rid grades of plus signs
+class(mq1Reading$readingGrade)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>southeast &lt;- filter(mq1Reading, council == &quot;Girl Scouts of Southeast Council&quot;)
+
+southeast_course &lt;- filter(mq1Reading, readingCourses == &quot;mjIntensRead&quot;)
+
+
+
+
+
+mq1Reading$readingGrade &lt;-sub(&quot;B+&quot;, &quot;B&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+mq1Reading$readingGrade &lt;-sub(&quot;C+&quot;, &quot;C&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+mq1Reading$readingGrade &lt;-sub(&quot;D+&quot;, &quot;C&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+mq1Reading$readingGrade &lt;-sub(&quot;C &quot;, &quot;C&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+mq1Reading$readingGrade &lt;-sub(&quot;c &quot;, &quot;C&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+
+
+
+
 
 
 ###Change grades to all upper case to match
@@ -207,23 +233,43 @@ mq1Reading$readingGrade &lt;- toupper(mq1Reading$readingGrade)
 ###change reading grade to factor 
 mq1Reading$readingGrade &lt;-as.factor(mq1Reading$readingGrade)
 
-
-### Create table to sneak peak at the data.    
+summary(mq1Reading$readingGrade)</code></pre>
+<pre><code>##  0  A  B  C  D  F 
+##  1 36 90 92 36  9</code></pre>
+<pre class="r"><code>### Create table to sneak peak at the data.    
 table(mq1Reading$readingCourses,mq1Reading$readingGrade)</code></pre>
 <pre><code>##                             
-##                               0  A  B B+  C C  C+  D D+  F
-##   mjIntensRead                1 11 25  0 12  8  1 12  1  2
-##   mjIntenseReadCareerPlaning  0  0  0  0  0  0  0  0  0  0
-##   mjRead1                     0  5 29  0 33  0  1  9  0  2
-##   mjRead1Adv                  0  0  1  0  0  0  0  0  0  0
-##   mjRead2                     0  2  1  0  3  0  0  3  0  0
-##   mjRead2Adv                  0  0  0  0  0  0  0  0  0  0
-##   mjRead3                     0  0  5  0  4  0  0  3  0  0
-##   mjRead3Adv                  0  0  0  1  1  0  0  0  0  0
-##   mjDelaESOLRead              0  1  0  0  0  0  0  0  0  0</code></pre>
+##                               0  A  B  C  D  F
+##   mjIntensRead                1 11 31 34 13  2
+##   mjIntenseReadCareerPlaning  0  0  0  0  0  0
+##   mjRead1                     0 10 39 40 14  4
+##   mjRead1Adv                  0  8  7  1  0  0
+##   mjRead2                     0  3  1  3  3  0
+##   mjRead2Adv                  0  1  1  3  0  3
+##   mjRead3                     0  1  7  7  6  0
+##   mjRead3Adv                  0  1  4  4  0  0
+##   mjDelaESOLRead              0  1  0  0  0  0</code></pre>
+<pre class="r"><code>with(mq1Reading, table(council,readingGrade))</code></pre>
+<pre><code>##                                         readingGrade
+## council                                   0  A  B  C  D  F
+##   Girl Scout Council of the Panhandle     0  4  6  2  2  0
+##   Girl Scout Council of Tropical Florida  0  0  3  4  2  0
+##   Girl Scouts of Citrus Council           0  1  3  7  3  0
+##   Girl Scouts of Southeast Florida        1 11 27 18 10  2
+##   Girl Scouts of the Gateway Council      0  7 35 43 17  4
+##   Girl Scouts of West Central Florida     0 13 16 18  2  3</code></pre>
 <pre class="r"><code>### Check the levels
 levels(mq1Reading$readingGrade)</code></pre>
-<pre><code>##  [1] &quot;0&quot;  &quot;A&quot;  &quot;B&quot;  &quot;B+&quot; &quot;C&quot;  &quot;C &quot; &quot;C+&quot; &quot;D&quot;  &quot;D+&quot; &quot;F&quot;</code></pre>
+<pre><code>## [1] &quot;0&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
+<pre class="r"><code>names(mq1Reading)</code></pre>
+<pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
+<div id="check-for-read-free-data-entry" class="section level4">
+<h4>Check for Read Free Data Entry</h4>
+<pre class="r"><code>q1free_read &lt;- select(gradesUnique, 7,8, 28:29)
+
+names(q1free_read)</code></pre>
+<pre><code>## [1] &quot;council&quot;   &quot;girlCode&quot;  &quot;readFree1&quot; &quot;readFree2&quot;</code></pre>
+</div>
 </div>
 <div id="save-reading-to-rds-file" class="section level3">
 <h3>Save Reading to RDS File</h3>
@@ -260,25 +306,25 @@ mq1_lang$langGrade &lt;-as.factor(mq1_lang$langGrade)
 ### Create tables to sneak at the data
 table(mq1_lang$langCourses,mq1_lang$langGrade)</code></pre>
 <pre><code>##                     
-##                       A  B B+  C C+  D  F
-##   mjLangArts1ESOL     0  0  0  1  0  1  0
-##   mjLangArts2ESOL     1  2  0  0  0  0  0
-##   mjLangArts3ESOL     0  0  0  0  0  0  0
-##   mjDevelpmentalESOL  0  0  0  0  0  0  0
-##   mjLangArts1         8 25  0 33  0 21  5
-##   mjlangsArts1Adv     0  1  1  0  0  0  0
-##   mjLangArts2        10 42  0 37  1 12  4
-##   mjLangArts2Adv      8 10  0  1  0  0  0
-##   mjLangArts3        16 36  0 41  2 18  2
-##   mjLangArts3Adv      5 15  1  7  1  0  0
-##   mjEng2Cambsec2      0  0  0  1  0  0  0
-##   mjIBLangArts1       0  1  0  0  0  0  0
-##   mjEng2CamSec1       0  0  0  0  0  0  0
-##   mjIBLangArts3       0  0  0  0  0  0  0
-##   mjIBLangArts2       1  1  0  0  0  0  0
-##   mjEng3Cambsec3      0  0  0  0  0  0  0
-##   mjIntensLangArts    3  5  0  3  0  0  0
-##   mjLangTran          0  0  0  0  0  0  0</code></pre>
+##                       A A   B B+  C C+  D  F
+##   mjLangArts1ESOL     1  0  0  0  2  0  1  0
+##   mjLangArts2ESOL     1  0  2  0  0  0  0  0
+##   mjLangArts3ESOL     0  0  0  0  0  0  0  0
+##   mjDevelpmentalESOL  0  0  0  0  2  0  0  0
+##   mjLangArts1        18  0 33  0 43  0 29 10
+##   mjlangsArts1Adv     7  0  4  1  2  0  1  0
+##   mjLangArts2        13  0 49  0 44  1 21 11
+##   mjLangArts2Adv     23  1 12  0  1  0  0  0
+##   mjLangArts3        23  0 48  0 51  2 22  4
+##   mjLangArts3Adv     25  1 24  1  8  1  1  0
+##   mjEng2Cambsec2      0  0  0  0  1  0  0  0
+##   mjIBLangArts1       0  0  1  0  0  0  0  0
+##   mjEng2CamSec1       1  0  0  0  0  0  0  0
+##   mjIBLangArts3       0  0  0  0  0  0  0  0
+##   mjIBLangArts2       1  0  1  0  0  0  0  0
+##   mjEng3Cambsec3      0  0  0  0  0  0  0  0
+##   mjIntensLangArts    3  0  6  0  4  0  0  0
+##   mjLangTran          0  0  0  0  0  0  0  0</code></pre>
 <pre class="r"><code>lang_courses &lt;- table(mq1_lang$langCourses) #for output</code></pre>
 </div>
 </div>
@@ -314,8 +360,8 @@ unexcused_tbl &lt;- table(unexcused$unexcusedAbs)
 ### Print the table
 unexcused_tbl</code></pre>
 <pre><code>## 
-##   0   1   2   3   4   5   6   7   8 
-## 161  81  79  31  12  15   1   1   1</code></pre>
+##   0   1   2   3   4   5   6   7   8   9  11 
+## 267 108  92  51  15  17   5   5   2   2   1</code></pre>
 </div>
 <div id="excused-absences" class="section level3">
 <h3>Excused Absences</h3>
@@ -329,8 +375,8 @@ excused_tbl &lt;- with(excused,table(excusedAbs))
 ### View the output
 excused_tbl</code></pre>
 <pre><code>## excusedAbs
-##   0   1   2   3   4   6   7 
-## 220 104  48   6   2   1   1</code></pre>
+##   0   1   2   3   4   5   6   7 
+## 346 129  58  18   5   3   4   1</code></pre>
 </div>
 <div id="total-absences" class="section level3">
 <h3>Total Absences</h3>
@@ -347,8 +393,8 @@ total_abs_tbl &lt;- with(total_abs, table(sum_abs))
 ### See the table output
 total_abs_tbl</code></pre>
 <pre><code>## sum_abs
-##   0   1   2   3   4   5   6   7   8  10 
-## 128  52  78  52  34  23   8   3   2   1</code></pre>
+##   0   1   2   3   4   5   6   7   8   9  10  11 
+## 213  81  93  66  39  34  20   8   4   1   3   1</code></pre>
 </div>
 <div id="total-suspensions-to-rds" class="section level3">
 <h3>Total Suspensions to RDS</h3>
@@ -370,8 +416,8 @@ in_school_tbl &lt;- with(in_school, table(inSchoolSusp))
 ### View table
 in_school_tbl</code></pre>
 <pre><code>## inSchoolSusp
-##   0   1   2   3   4 
-## 341  27   8   5   1</code></pre>
+##   0   1   2   3   4   5   6 
+## 509  28  13   8   2   4   1</code></pre>
 </div>
 <div id="out-of-school-suspenions" class="section level3">
 <h3>Out of School Suspenions</h3>
@@ -382,7 +428,7 @@ out_school_tbl &lt;- with(out_school, table(outofSchoolSusp))
 out_school_tbl</code></pre>
 <pre><code>## outofSchoolSusp
 ##   0   1   2   3 
-## 374   3   2   2</code></pre>
+## 553   6   3   2</code></pre>
 </div>
 <div id="total-suspensions" class="section level3">
 <h3>Total suspensions</h3>
@@ -424,8 +470,8 @@ head(susp_total)</code></pre>
 
 susp_total_tbl</code></pre>
 <pre><code>## susp_sum
-##   0   1   2   3   4   5 
-## 338  26  10   4   1   1</code></pre>
+##   0   1   2   3   4   5   8 
+## 505  28  14   7   3   5   1</code></pre>
 </div>
 <div id="total-suspensions-to-rds-1" class="section level3">
 <h3>Total Suspensions to RDS</h3>
@@ -447,7 +493,7 @@ expelled_tbl &lt;-with(expelled,table(expelled))
 expelled_tbl</code></pre>
 <pre><code>## expelled
 ##  No Yes 
-## 382   1</code></pre>
+## 565   1</code></pre>
 </div>
 <div id="expelled-object-to-rds" class="section level3">
 <h3>Expelled Object to RDS</h3>
