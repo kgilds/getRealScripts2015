@@ -19,14 +19,14 @@ Criteria for determining success is based on the following criteria
 
 The primary criteria is that student either increased their outcome score or maintained a high achievement level. The number and percent for this criteria is based on the following two outcomes. 
 
-student increased their healthy relationship outcome score.
+* student increased their healthy relationship outcome score.
 
-student  maintained a high achievement level but did not increase their outcome score.
+* student  maintained a high achievement level but did not increase their outcome score.
 
 
 Secondary but reported outcome is the following. 
 
-student improved score from a low achievement level to a high achievement level.
+* student improved score from a low achievement level to a high achievement level.
 
 
 
@@ -94,6 +94,7 @@ student improved score from a low achievement level to a high achievement level.
 
 5. *comments*--This script combines the comments from the survey into one data frame. 
 
+6. *student_survey_analysis* script runs an analysis of the student surveys including counts of those achieving at a high level, summary statistics, comparison of pre and post surveys. 
 
 
 
@@ -105,4 +106,4 @@ student improved score from a low achievement level to a high achievement level.
 
 3. *Q3datamanagement*--The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames.
 
-4.*Q4datamanagement*--The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames.
+4. *Q4datamanagement*--The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames.
