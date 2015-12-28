@@ -63,7 +63,7 @@ img {
 <div id="header">
 <h1 class="title">parent data management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>Saturday November 14, 2015</em></h4>
+<h4 class="date"><em>Sunday December 27, 2015</em></h4>
 </div>
 
 <div id="TOC">
@@ -104,7 +104,7 @@ img {
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-parent &lt;- read.csv(&quot;parent_survey_12132015.csv&quot;, skip=1)</code></pre>
+parent &lt;- read.csv(&quot;parent_survey_12272015.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -172,7 +172,7 @@ parent_pre_dupes&lt;- parentPre[parent_pre_dupes,]
 dim(parent_pre_dupes)</code></pre>
 <pre><code>## [1] 20 21</code></pre>
 <pre class="r"><code>### Write to csv file
-write.csv(parent_pre_dupes, &quot;parent_dupes_12132015.csv&quot;, row.names=FALSE)</code></pre>
+write.csv(parent_pre_dupes, &quot;parent_dupes_12272015.csv&quot;, row.names=FALSE)</code></pre>
 </div>
 <div id="save-rds-file" class="section level2">
 <h2><span class="header-section-number">2.1</span> Save RDS File</h2>
@@ -180,7 +180,7 @@ write.csv(parent_pre_dupes, &quot;parent_dupes_12132015.csv&quot;, row.names=FAL
 
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file=&quot;pre_parent_12132015.rds&quot;)</code></pre>
+saveRDS(parentPreUnique, file=&quot;pre_parent_12272015.rds&quot;)</code></pre>
 </div>
 </div>
 <div id="post-surveys" class="section level1">
@@ -195,7 +195,7 @@ parentPost &lt;-filter(parfin, Time == &quot;Post&quot;)</code></pre>
 <h2><span class="header-section-number">3.2</span> Save RDS Files</h2>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-saveRDS(parentPostUnique, file=&quot;post_parent_12132015.rds&quot;)</code></pre>
+saveRDS(parentPostUnique, file=&quot;post_parent_12272015.rds&quot;)</code></pre>
 </div>
 </div>
 

@@ -1,6 +1,6 @@
 # parent data management
 Kevin Gilds  
-Saturday November 14, 2015  
+Sunday December  27, 2015  
 
 # Data Management Script for the Data Survey. 
 
@@ -30,7 +30,7 @@ library(dplyr)
 ```r
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-parent <- read.csv("parent_survey_12132015.csv", skip=1)
+parent <- read.csv("parent_survey_12272015.csv", skip=1)
 ```
 
 
@@ -134,7 +134,7 @@ dim(parent_pre_dupes)
 
 ```r
 ### Write to csv file
-write.csv(parent_pre_dupes, "parent_dupes_12132015.csv", row.names=FALSE)
+write.csv(parent_pre_dupes, "parent_dupes_12272015.csv", row.names=FALSE)
 ```
 
 
@@ -146,7 +146,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 #############################Save Pre and Post Data Frames####################33
 
-saveRDS(parentPreUnique, file="pre_parent_12132015.rds")
+saveRDS(parentPreUnique, file="pre_parent_12272015.rds")
 ```
 
 
@@ -172,5 +172,5 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 ```r
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-saveRDS(parentPostUnique, file="post_parent_12132015.rds")
+saveRDS(parentPostUnique, file="post_parent_12272015.rds")
 ```
