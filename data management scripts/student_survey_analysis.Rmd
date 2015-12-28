@@ -1,0 +1,283 @@
+---
+title: "student_survey_analysis"
+author: "Kevin Gilds"
+date: "December 20, 2015"
+output: 
+  html_document: 
+    toc: yes
+---
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(pander)
+library(psych)
+library(ggplot2)
+library(knitr)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+
+girlSurvey <- readRDS("girl_survey_12202015.rds")
+
+outcomes <- select(girlSurvey, Time, council, girlCode, hr.avg, ae.avg, am.avg)
+
+
+```
+
+
+# Survey Analysis Basic 
+
+## Healthy Releationships
+
+### Healthy Relationships Outcome Tables
+```{r}
+### create basic outcome table for healty releationship outcome
+
+hr_tbl <- with(outcomes,table(hr.avg >=4.45))
+
+### print in pretty table
+pander(hr_tbl)
+
+### Put percents with outcome table
+hr_tbl_p <- prop.table(hr_tbl)
+
+
+###Print percent table
+pander(hr_tbl_p)
+
+### Basic outcome table for healthy relationships by council
+hr_tbl_c <- with(outcomes, table(council, hr.avg >=4.45))
+
+### print results of outcome table
+pander(hr_tbl_c)
+
+
+####Percent by council
+
+hr_tbl_cp <- prop.table(hr_tbl_c, 1)
+
+### Print by percent
+pander(hr_tbl_cp)
+
+
+```
+
+### Healthy Relationship Outcome Plots
+```{r fig.width=15}
+### Plot outcome results
+hr <- select(outcomes, council, hr.avg)
+ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
+
+### Plot outcome results by council    
+ggplot(hr, aes(hr.avg >=4.45, fill= council)) + geom_bar(stats = "identity") + facet_grid(~council) + labs(x = "Achieving at High Level", title = "Pre: Healthy Relationships by Council")
+
+```
+
+
+### Healthy Relationships Outcome Distribution Plots
+```{r}
+### Histogram to show all the outcome scores
+### Abline for ggplot
+ hr_hist <- ggplot(hr, aes(x=hr.avg)) 
+        hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+### Box plot for outcome scores
+        
+hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
+        hr_box + geom_boxplot(fill="blue") + labs(y=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+```
+
+### Healthy Relationships Descriptive Stats
+```{r}
+## Try x-table, or kable
+
+### Prepare data frame for just looking at hr.avg        
+hr_1 <- select(hr, hr.avg)
+
+### Stat summary of df.
+hr_des <- describe(hr_1)
+
+kable(hr_des)
+        
+```
+
+
+
+## Academic Engagement
+
+### Academic Engagement Outcome Tables
+
+```{r}
+### Prepare data frame for tables
+ae <- select(outcomes, council, ae.avg)
+
+### Create outcome tables
+ae_tbl <-with(ae,table(ae.avg >=4.5))
+
+### Print outcome table
+pander(ae_tbl)
+
+### Create percent outcome table
+ae_tbl_p <- prop.table(ae_tbl)
+
+### Print Outcome table
+pander(ae_tbl_p)
+
+### Make outcome table by council
+ae_tbl_c <-with(ae,table(council, ae.avg >=4.5))
+
+### Print Outcome table by council
+pander(ae_tbl_c)
+
+### Make outcome table by percent
+ae_tbl_cp <- prop.table(ae_tbl_c,1)
+
+### Print percent table. 
+pander(ae_tbl_cp)
+
+
+
+```
+
+### Academic Engagment Outcome Plots
+
+```{r fig.width=15}
+###Create outcome plot 
+ae_plot <-ggplot(ae, aes(ae.avg >= 4.5)) 
+         ae_plot + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Engagement"
+                                                                               ) 
+### Create outcome plot by council    
+ggplot(ae, aes(ae.avg >=4.45, fill= council)) + geom_bar(stats = "identity") + facet_grid(~council) + labs(x = "Achieving at High Level", title = "Pre: Academic Engagement by Council")
+
+         
+```
+
+### Acedimc Engagement Distribution Plots
+
+```{r}
+
+### Create Histogram of all outcome scores
+ae_hist <- ggplot(ae, aes(ae.avg)) 
+        ae_hist + geom_histogram(fill="blue") + labs(x="All Outcome Scores", title="Post: Academic Engagement")
+
+
+```
+
+
+### Academic Engagement Boxplot
+```{r fig.width=20}
+
+###Create box plot by council
+ae_box <-ggplot(ae, aes(x=factor(council), ae.avg))
+ae_box + geom_boxplot(fill="blue") + labs(y="All Outcome Scores", title = "Pre: Academic Engagement")
+```
+
+###  Academic Engagement Descriptive Stats
+
+```{r}
+###Summary stats for academic engagement variable
+ae_desc <- describe(ae$ae.avg)
+
+###Make Summary table look nice
+kable(ae_desc)
+        
+        
+```
+
+
+
+## Academic Mastery
+
+
+### Academic Mastery Outcome tables
+
+```{r}
+
+###Create data fram to set up outcome table
+am <- select(outcomes, council, am.avg)
+
+###Create academic mastery outcome table
+am_tbl <- with(am,table(am.avg >=4.8))
+
+
+### Print outcome table
+pander(am_tbl)
+
+### Put percentage to counts
+am_tbl_p <- prop.table(am_tbl)
+
+
+### Print pretty percent table.
+pander(am_tbl_p)
+
+### Outcome count by table
+am_c <- with(am,table(council, am.avg >=4.8))
+
+### Print outcome table
+pander(am_c)
+
+#### Academic Mastery by outcome count by percent
+am_cp <-prop.table(am_c,1)
+
+#### Print outcome percent outcome table. 
+pander(am_cp)
+
+```
+
+
+### Academic Mastery Outcome Plots
+
+```{r fig.width=15}
+
+### Plot outcome results for academic masters
+am_plot <-ggplot(am, aes(am.avg >= 4.8)) 
+         am_plot + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Mastery") 
+     
+         
+## Plot outcome results by council
+ggplot(am, aes(am.avg >=4.8, fill= council)) + geom_bar(stats = "identity") + facet_grid(~council) + labs(x = "Achieving at High Level", title = "Pre: Academic Mastery by Council")
+
+
+```
+
+
+
+### Academic Mastery Distribution Plots
+
+```{r}
+
+### Create histogram from academic mastery scores
+am_hist <- ggplot(am, aes(am.avg)) 
+        am_hist + geom_histogram(fill="blue") + labs(x="All Outcome Scores", title="Pre: Academic Mastery")
+        
+
+
+```
+
+
+
+### Acadmeic Mastery Boxplot
+
+```{r fig.width=15}
+        
+### Create box plot of academic master outcome scores. 
+am_box <-ggplot(am, aes(x=factor(council), am.avg))
+am_box + geom_boxplot(fill="blue") + labs(y="All Outcome Scores", title = "Pre: Academic Mastery")
+
+```
+
+
+
+### Academic Mastery Descriptive Stats
+```{r}
+
+### Create stats summary
+am_s <- describe(am$am.avg)
+
+### Print summary with kable        
+kable(am_s)
+        
+```
+

@@ -24,7 +24,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 library(dplyr)
 
 ############Read the data in R
-teacher <- read.csv("teacher_survey_12132015.csv", skip=1)
+teacher <- read.csv("teacher_survey_12272015.csv", skip=1)
 
 
 ```
@@ -38,13 +38,13 @@ colnames (teacher)[6] <- "council"
 colnames (teacher)[7] <- "girlCode"
 colnames (teacher)[8] <- "school"
 colnames (teacher)[9] <- "Time"
-colnames (teacher)[10] <- "MotivatedToGraduateHighSchool"
-colnames (teacher)[11] <- "hasSelfConfidence"
-colnames (teacher)[12] <- "goodAttitudeAboutSchool"
-colnames (teacher)[13] <- "isInterestedInReading"
-colnames (teacher)[14] <- "postivelyParticpatesInClass"
-colnames (teacher)[15] <- "completesHomeworkGivenToHer"
-colnames (teacher)[16] <- "hasDevelopedPostiveRelationshipsWithHerClassmates"
+colnames (teacher)[10] <- "graduate_ts"
+colnames (teacher)[11] <- "hasConfidence"
+colnames (teacher)[12] <- "goodAttitude"
+colnames (teacher)[13] <- "isInterestedReading"
+colnames (teacher)[14] <- "postivelyParticpates"
+colnames (teacher)[15] <- "completesHomework"
+colnames (teacher)[16] <- "positive_relationships"
 colnames (teacher)[17] <- "helpedHerIncreasedHerSelfConfidence"
 colnames (teacher)[18] <- "helpedHerAchieveSucessInSchool"
 colnames (teacher)[19] <- "helpedHerDevelopPostiveRelationship"
@@ -107,7 +107,7 @@ pre_teacher_unique <- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 
-saveRDS(pre_teacher_unique, file="pre_teacher_12132015.rds")
+saveRDS(pre_teacher_unique, file="pre_teacher_12272015.rds")
 
 
 ```
@@ -136,7 +136,7 @@ post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCo
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-saveRDS(postTeacherUnique, file="post_teacher_12132015.rds")
+saveRDS(postTeacherUnique, file="post_teacher_12272015.rds")
 
 
 ```
