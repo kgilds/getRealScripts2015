@@ -1,0 +1,86 @@
+---
+title: "teacher_survey_report"
+author: "Kevin Gilds"
+date: "December 27, 2015"
+output: html_document
+---
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(plyr)
+library(dplyr, quietly = TRUE)
+library(pander, quietly = TRUE)
+library(likert, quietly = TRUE)
+library(xtable)
+
+```
+
+```{r echo=FALSE}
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+pre_teacher <- readRDS("pre_teacher_12272015.rds")
+
+
+```
+
+
+```{r echo=FALSE}
+### I am doing this but my example code does not specifiy why
+pre_teacher$council <- as.character(pre_teacher$council) 
+
+```
+
+
+```{r echo=FALSE}
+pre_teacher_tbl <- select(pre_teacher, 10:16)
+
+str(pre_teacher_tbl)
+
+###Establish the levels 
+
+pre_teacher_tbl$graduate_ts <- factor(pre_teacher_tbl$graduate_ts, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+pre_teacher_tbl$hasConfidence <- factor(pre_teacher_tbl$hasConfidence, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+pre_teacher_tbl$goodAttitude <- factor(pre_teacher_tbl$goodAttitude, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+pre_teacher_tbl$isInterestedReading <- factor(pre_teacher_tbl$isInterestedReading, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+pre_teacher_tbl$postivelyParticpates <- factor(pre_teacher_tbl$postivelyParticpates, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+pre_teacher_tbl$completesHomework <- factor(pre_teacher_tbl$completesHomework, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+pre_teacher_tbl$positive_relationships <- factor(pre_teacher_tbl$positive_relationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+str(pre_teacher_tbl)
+
+```
+
+```{r fig.width=12, echo=FALSE, warning=FALSE}
+
+pre_teacher_tbl_likert <- likert(pre_teacher_tbl)
+
+pre_teacher_tbl_likert2 <-summary(pre_teacher_tbl_likert)
+
+likert.heat.plot(pre_teacher_tbl_likert)
+
+
+plot(pre_teacher_tbl_likert)
+
+
+
+
+```
+
+```{r echo=FALSE}
+
+pander(pre_teacher_tbl_likert2)
+
+
+```
+
+
+
