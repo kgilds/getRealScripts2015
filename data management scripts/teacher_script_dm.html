@@ -106,7 +106,7 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>############Read the data in R
-teacher &lt;- read.csv(&quot;teacher_survey_12132015.csv&quot;, skip=1)</code></pre>
+teacher &lt;- read.csv(&quot;teacher_survey_12272015.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -114,13 +114,13 @@ teacher &lt;- read.csv(&quot;teacher_survey_12132015.csv&quot;, skip=1)</code></
 colnames (teacher)[7] &lt;- &quot;girlCode&quot;
 colnames (teacher)[8] &lt;- &quot;school&quot;
 colnames (teacher)[9] &lt;- &quot;Time&quot;
-colnames (teacher)[10] &lt;- &quot;MotivatedToGraduateHighSchool&quot;
-colnames (teacher)[11] &lt;- &quot;hasSelfConfidence&quot;
-colnames (teacher)[12] &lt;- &quot;goodAttitudeAboutSchool&quot;
-colnames (teacher)[13] &lt;- &quot;isInterestedInReading&quot;
-colnames (teacher)[14] &lt;- &quot;postivelyParticpatesInClass&quot;
-colnames (teacher)[15] &lt;- &quot;completesHomeworkGivenToHer&quot;
-colnames (teacher)[16] &lt;- &quot;hasDevelopedPostiveRelationshipsWithHerClassmates&quot;
+colnames (teacher)[10] &lt;- &quot;graduate_ts&quot;
+colnames (teacher)[11] &lt;- &quot;hasConfidence&quot;
+colnames (teacher)[12] &lt;- &quot;goodAttitude&quot;
+colnames (teacher)[13] &lt;- &quot;isInterestedReading&quot;
+colnames (teacher)[14] &lt;- &quot;postivelyParticpates&quot;
+colnames (teacher)[15] &lt;- &quot;completesHomework&quot;
+colnames (teacher)[16] &lt;- &quot;positive_relationships&quot;
 colnames (teacher)[17] &lt;- &quot;helpedHerIncreasedHerSelfConfidence&quot;
 colnames (teacher)[18] &lt;- &quot;helpedHerAchieveSucessInSchool&quot;
 colnames (teacher)[19] &lt;- &quot;helpedHerDevelopPostiveRelationship&quot;
@@ -156,7 +156,7 @@ pre_teacher_unique &lt;- preTeacher [!(duplicated(preTeacher$girlCode) | duplica
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 
-saveRDS(pre_teacher_unique, file=&quot;pre_teacher_12132015.rds&quot;)</code></pre>
+saveRDS(pre_teacher_unique, file=&quot;pre_teacher_12272015.rds&quot;)</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
@@ -172,7 +172,7 @@ post_teacher_unique &lt;-  postTeacherUnique [!(duplicated(postTeacherUnique$gir
 <h2><span class="header-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</h2>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
-saveRDS(postTeacherUnique, file=&quot;post_teacher_12132015.rds&quot;)</code></pre>
+saveRDS(postTeacherUnique, file=&quot;post_teacher_12272015.rds&quot;)</code></pre>
 </div>
 </div>
 
