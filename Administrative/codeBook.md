@@ -607,7 +607,7 @@ Academic Engagement        |4.5=>
 
 9.--**Time**  Identifies the time of the survey: Pre/Post
 
-10.--**MotivatedToGraduateHighSchool** This Question inquires from the teacher if they believe the student is motivated to graduate high school.
+10.--**graduate_ts** This Question inquires from the teacher if they believe the student is motivated to graduate high school._ts is convey that it from the teacher survey. 
 
 ----
 
@@ -622,7 +622,7 @@ Academic Engagement        |4.5=>
     Strongly Disagree              
     
 
-11.--**hasSelfConfidence** This question inquires from the student's teacher if they believe the student has self confidence
+11.--**hasConfidence** This question inquires from the student's teacher if they believe the student has self confidence
 
 ----
 
@@ -637,7 +637,7 @@ Academic Engagement        |4.5=>
     Strongly Disagree         
 
 
-12.--**goodAttitudeAboutSchool**  This question inquires from the student's teacher if they think the student has a good attitude about school. 
+12.--**goodAttitude**  This question inquires from the student's teacher if they think the student has a good attitude about school. 
 
 -------
 
@@ -651,7 +651,7 @@ Academic Engagement        |4.5=>
     Disagree
     Strongly Disagree     
 
-13.--**isInterestedInReading** This Question inquires from the student's teacher, if the they think the student is interested in reading. 
+13.--**isInterestedReading** This Question inquires from the student's teacher, if the they think the student is interested in reading. 
 
 ----
 
@@ -665,7 +665,7 @@ Academic Engagement        |4.5=>
     Disagree
     Strongly Disagree     
 
-14.--**postivelyParticipatedInClass**  Variable measures how the student participates in class. 
+14.--**postivelyParticpates**  Variable measures how the student participates in class. 
 
 ----
 
@@ -683,7 +683,7 @@ Academic Engagement        |4.5=>
 ------------------
 
 
-15.--**completesHomeworkGivenToHer** variable measures if the student completes the homework given to her from the perspective of the student's teacher.
+15.--**completesHomework** variable measures if the student completes the homework given to her from the perspective of the student's teacher.
 
 ------------------
 
@@ -697,7 +697,7 @@ Academic Engagement        |4.5=>
     Disagree
     Strongly Disagree
 
-16.--**hasDevelopedPostiveRelationshipsWithHerClassmates** variable measures if the student has developed positive relationships from the perspective of the teacher. 
+16.--**positive_relationships** variable measures if the student has developed positive relationships from the perspective of the teacher. 
 
 ---------------------
 
