@@ -37,31 +37,123 @@ str(pre_teacher_tbl)
 
 ###Establish the levels 
 
-pre_teacher_tbl$graduate_ts <- factor(pre_teacher_tbl$graduate_ts, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$graduate_ts <- factor(pre_teacher_tbl$graduate_ts, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-pre_teacher_tbl$hasConfidence <- factor(pre_teacher_tbl$hasConfidence, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$hasConfidence <- factor(pre_teacher_tbl$hasConfidence, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-pre_teacher_tbl$goodAttitude <- factor(pre_teacher_tbl$goodAttitude, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$goodAttitude <- factor(pre_teacher_tbl$goodAttitude, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 pre_teacher_tbl$isInterestedReading <- factor(pre_teacher_tbl$isInterestedReading, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-pre_teacher_tbl$postivelyParticpates <- factor(pre_teacher_tbl$postivelyParticpates, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$postivelyParticpates <- factor(pre_teacher_tbl$postivelyParticpates, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
-pre_teacher_tbl$completesHomework <- factor(pre_teacher_tbl$completesHomework, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$completesHomework <- factor(pre_teacher_tbl$completesHomework, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
-pre_teacher_tbl$positive_relationships <- factor(pre_teacher_tbl$positive_relationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$positive_relationships <- factor(pre_teacher_tbl$positive_relationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 str(pre_teacher_tbl)
 
 ```
 
-```{r fig.width=12, echo=FALSE, warning=FALSE}
+
+###Table Check
+
+```{r}
+
+### Place evaluate to false in code chunk when done testing. 
+
+dim(pre_teacher)
+
+###create table to set up for prop.table
+graduate <- with(pre_teacher, table(graduate_ts))
+
+
+
+###Create table to Test with likert result
+graduate.prop <- prop.table(graduate)
+
+### print result
+graduate.prop
+
+### Create table to set up for prop.table
+confidence <- with(pre_teacher, table(hasConfidence))
+
+
+
+### Create proportion table to test with likert result
+confidece.prop <- prop.table(confidence)
+
+### Print to check results
+confidece.prop
+
+#####create table to set up for prop.table
+attitude <- with(pre_teacher,table(goodAttitude))
+
+
+### Create proportion table to test with likert result
+attitude.prop <- prop.table(attitude)
+
+### Print to check the results
+attitude.prop
+
+####create table to set up for prop.table
+reading <- with(pre_teacher, table(isInterestedReading))
+
+
+###Create table to Test with likert result
+reading.prop <- prop.table(reading)
+
+### Print prop table to check the results
+reading.prop
+
+####create table to set up for prop.table
+particpates <- with(pre_teacher,table(postivelyParticpates))
+
+
+###Create table to Test with likert result
+particpates.prop <- prop.table(particpates)
+
+### Print prop table to check the results
+particpates.prop
+
+####create table to set up for prop.table
+homework <- with(pre_teacher,table(completesHomework))
+
+
+###Create table to Test with likert result
+homework.prop <- prop.table(homework)
+
+### Print prop table to check the results
+homework.prop
+
+
+####create table to set up for prop.table
+relationships <- with(pre_teacher,table(positive_relationships))
+
+
+###Create table to Test with likert result
+releationships.prop <- prop.table(relationships)
+
+### Print prop table to check the results
+releationships.prop
+
+
+```
+
+
+### Teacher Survey Summary
+
+Percents based upon 42 responses. 
+
+```{r fig.width=14, echo=FALSE, warning=FALSE}
 
 pre_teacher_tbl_likert <- likert(pre_teacher_tbl)
+
+str(pre_teacher_tbl_likert)
 
 pre_teacher_tbl_likert2 <-summary(pre_teacher_tbl_likert)
 
