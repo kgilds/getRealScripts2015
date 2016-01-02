@@ -138,7 +138,7 @@ dim(preUnique)
 ```{r}
 ##############################Subset duplicated girl codes##################
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 preDupes <-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
@@ -155,7 +155,7 @@ write.csv(preDupes, "pre_girl_dupes_12202015.csv", row.names=FALSE)
 
 ### Save Pre Data to RDS File (needs updated data)
 ```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 saveRDS(preUnique, file="girl_survey_12202015.RDS")
 
@@ -201,9 +201,28 @@ postDupes <-post[postDupes, ]
 
 ### Save Post Survey (needs updated data)
 ```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 saveRDS(postUnique, file="girl_post_12202015.rds")
+
+
+
+```
+
+
+```{r}
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "girl_pre", value = preUnique, row.names=FALSE, overwrite=TRUE)
+
+dbWriteTable(conn = getReal_2016db, name = "girl_pre_duplicates", value = preDupes, row.names=FALSE, overwrite=TRUE)
+
+dbWriteTable(conn = getReal_2016db, name = "girl_post", value = postUnique, row.names=FALSE, overwrite=TRUE)
+
 
 
 

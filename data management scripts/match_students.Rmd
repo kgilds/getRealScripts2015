@@ -14,17 +14,17 @@ library(pander)
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-girl <- readRDS("girl_survey_12132015.rds")
+girl <- readRDS("girl_survey_12202015.rds")
 girl <- select(girl, girlCode)
 girl$dataSource <-"girl"
 
 
-grades_q1 <- readRDS("grades_q1_12132015.rds")
+grades_q1 <- readRDS("grades_q1_12202015.rds")
 q1_stats <- select(grades_q1, girlCode, council)
 q1_stats$dataSource <- "Q1"
 
 
-girl_dupes <- readRDS("duplicate_girl_survey_12132015.rds")
+girl_dupes <- readRDS("duplicate_girl_survey_12202015.rds")
 
 dim(girl_dupes)
 

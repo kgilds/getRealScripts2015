@@ -206,7 +206,7 @@ dim(preUnique)</code></pre>
 <h3>Subset Pre Surveys with duplicate student codes (needs updated data)</h3>
 <pre class="r"><code>##############################Subset duplicated girl codes##################
 
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 preDupes &lt;-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 
@@ -220,7 +220,7 @@ write.csv(preDupes, &quot;pre_girl_dupes_12202015.csv&quot;, row.names=FALSE)</c
 </div>
 <div id="save-pre-data-to-rds-file-needs-updated-data" class="section level3">
 <h3>Save Pre Data to RDS File (needs updated data)</h3>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 saveRDS(preUnique, file=&quot;girl_survey_12202015.RDS&quot;)</code></pre>
 </div>
@@ -248,9 +248,25 @@ postDupes &lt;-post[postDupes, ]</code></pre>
 </div>
 <div id="save-post-survey-needs-updated-data" class="section level3">
 <h3>Save Post Survey (needs updated data)</h3>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 saveRDS(postUnique, file=&quot;girl_post_12202015.rds&quot;)</code></pre>
+<pre class="r"><code>library(sqldf)</code></pre>
+<pre><code>## Loading required package: gsubfn
+## Loading required package: proto
+## Loading required package: RSQLite
+## Loading required package: DBI</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+
+getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = &quot;girl_pre&quot;, value = preUnique, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;girl_pre_duplicates&quot;, value = preDupes, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;girl_post&quot;, value = postUnique, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 </div>
 

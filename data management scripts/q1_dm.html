@@ -83,9 +83,12 @@ library(dplyr)</code></pre>
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(reshape2)
 library(pander)
-
-
-### Locate file to read from
+library(sqldf)</code></pre>
+<pre><code>## Loading required package: gsubfn
+## Loading required package: proto
+## Loading required package: RSQLite
+## Loading required package: DBI</code></pre>
+<pre class="r"><code>### Locate file to read from
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 ### read the data into R
@@ -171,6 +174,17 @@ q1Dupes &lt;-gradesq1[q1Dupes, ]</code></pre>
 
 ### Find the unique girlCodes and subset them
 gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]</code></pre>
+<pre class="r"><code>gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesUnique$council)
+
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, gradesUnique$council)
+
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of Southeast Council&quot;, &quot;Southeast Council&quot;, fixed=TRUE, gradesUnique$council)
+
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, gradesUnique$council)
+
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Centeral Council&quot;, fixed = TRUE, gradesUnique$council)
+
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, gradesUnique$council)</code></pre>
 </div>
 <div id="save-data-object-grades-to-rds-for-status-report" class="section level3">
 <h3>Save data object Grades to RDS for status report</h3>
@@ -178,7 +192,7 @@ gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(grades
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 ### RDS file for status report. 
-saveRDS(gradesUnique, &quot;grades_q1_12132015.rds&quot;)</code></pre>
+saveRDS(gradesUnique, &quot;grades_q1_12182015.rds&quot;)</code></pre>
 <pre class="r"><code>###############Reading Clean Up###############################################################
 
 ### Select data of interest
@@ -209,7 +223,7 @@ southeast_course &lt;- filter(mq1Reading, readingCourses == &quot;mjIntensRead&q
 
 
 
-
+####Adjust Grades with a plus sign and fix spacing issues
 
 mq1Reading$readingGrade &lt;-sub(&quot;B+&quot;, &quot;B&quot;, fixed=TRUE, mq1Reading$readingGrade)
 
@@ -220,6 +234,10 @@ mq1Reading$readingGrade &lt;-sub(&quot;D+&quot;, &quot;C&quot;, fixed=TRUE, mq1R
 mq1Reading$readingGrade &lt;-sub(&quot;C &quot;, &quot;C&quot;, fixed=TRUE, mq1Reading$readingGrade)
 
 mq1Reading$readingGrade &lt;-sub(&quot;c &quot;, &quot;C&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+mq1Reading$readingGrade &lt;-sub(&quot;0&quot;, &quot;F&quot;, fixed=TRUE, mq1Reading$readingGrade)
+
+
 
 
 
@@ -234,33 +252,33 @@ mq1Reading$readingGrade &lt;- toupper(mq1Reading$readingGrade)
 mq1Reading$readingGrade &lt;-as.factor(mq1Reading$readingGrade)
 
 summary(mq1Reading$readingGrade)</code></pre>
-<pre><code>##  0  A  B  C  D  F 
-##  1 36 90 92 36  9</code></pre>
+<pre><code>##  A  B  C  D  F 
+## 36 90 92 36 10</code></pre>
 <pre class="r"><code>### Create table to sneak peak at the data.    
 table(mq1Reading$readingCourses,mq1Reading$readingGrade)</code></pre>
 <pre><code>##                             
-##                               0  A  B  C  D  F
-##   mjIntensRead                1 11 31 34 13  2
-##   mjIntenseReadCareerPlaning  0  0  0  0  0  0
-##   mjRead1                     0 10 39 40 14  4
-##   mjRead1Adv                  0  8  7  1  0  0
-##   mjRead2                     0  3  1  3  3  0
-##   mjRead2Adv                  0  1  1  3  0  3
-##   mjRead3                     0  1  7  7  6  0
-##   mjRead3Adv                  0  1  4  4  0  0
-##   mjDelaESOLRead              0  1  0  0  0  0</code></pre>
+##                               A  B  C  D  F
+##   mjIntensRead               11 31 34 13  3
+##   mjIntenseReadCareerPlaning  0  0  0  0  0
+##   mjRead1                    10 39 40 14  4
+##   mjRead1Adv                  8  7  1  0  0
+##   mjRead2                     3  1  3  3  0
+##   mjRead2Adv                  1  1  3  0  3
+##   mjRead3                     1  7  7  6  0
+##   mjRead3Adv                  1  4  4  0  0
+##   mjDelaESOLRead              1  0  0  0  0</code></pre>
 <pre class="r"><code>with(mq1Reading, table(council,readingGrade))</code></pre>
 <pre><code>##                                         readingGrade
-## council                                   0  A  B  C  D  F
-##   Girl Scout Council of the Panhandle     0  4  6  2  2  0
-##   Girl Scout Council of Tropical Florida  0  0  3  4  2  0
-##   Girl Scouts of Citrus Council           0  1  3  7  3  0
-##   Girl Scouts of Southeast Florida        1 11 27 18 10  2
-##   Girl Scouts of the Gateway Council      0  7 35 43 17  4
-##   Girl Scouts of West Central Florida     0 13 16 18  2  3</code></pre>
+## council                                   A  B  C  D  F
+##   Citrus Council                          1  3  7  3  0
+##   Gateway Council                         7 35 43 17  4
+##   Girl Scout Council of the Panhandle     4  6  2  2  0
+##   Girl Scout Council of Tropical Florida  0  3  4  2  0
+##   Girl Scouts of Southeast Florida       11 27 18 10  3
+##   West Centeral Council                  13 16 18  2  3</code></pre>
 <pre class="r"><code>### Check the levels
 levels(mq1Reading$readingGrade)</code></pre>
-<pre><code>## [1] &quot;0&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
 <pre class="r"><code>names(mq1Reading)</code></pre>
 <pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
 <div id="check-for-read-free-data-entry" class="section level4">
@@ -274,10 +292,10 @@ names(q1free_read)</code></pre>
 <div id="save-reading-to-rds-file" class="section level3">
 <h3>Save Reading to RDS File</h3>
 <pre class="r"><code>### I want the data to go here. 
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 ### Save the object for analysis in another script
-saveRDS(mq1Reading, file = &quot;reading_q1_12132015.rds&quot;)</code></pre>
+saveRDS(mq1Reading, file = &quot;reading_q1_12182015.rds&quot;)</code></pre>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest
@@ -303,28 +321,40 @@ mq1_lang$langGrade &lt;- toupper(mq1_lang$langGrade)
 ###change reading grade to factor 
 mq1_lang$langGrade &lt;-as.factor(mq1_lang$langGrade)
 
+####Adjust Grades with a plus sign and fix spacing issues
+
+mq1_lang$langGrade &lt;-sub(&quot;B+&quot;, &quot;B&quot;, fixed=TRUE, mq1_lang$langGrade)
+
+mq1_lang$langGrade &lt;-sub(&quot;C+&quot;, &quot;C&quot;, fixed=TRUE, mq1_lang$langGrade)
+
+mq1_lang$langGrade &lt;-sub(&quot;A &quot;, &quot;A&quot;, fixed=TRUE, mq1_lang$langGrade)
+
+
+
+
+
 ### Create tables to sneak at the data
 table(mq1_lang$langCourses,mq1_lang$langGrade)</code></pre>
 <pre><code>##                     
-##                       A A   B B+  C C+  D  F
-##   mjLangArts1ESOL     1  0  0  0  2  0  1  0
-##   mjLangArts2ESOL     1  0  2  0  0  0  0  0
-##   mjLangArts3ESOL     0  0  0  0  0  0  0  0
-##   mjDevelpmentalESOL  0  0  0  0  2  0  0  0
-##   mjLangArts1        18  0 33  0 43  0 29 10
-##   mjlangsArts1Adv     7  0  4  1  2  0  1  0
-##   mjLangArts2        13  0 49  0 44  1 21 11
-##   mjLangArts2Adv     23  1 12  0  1  0  0  0
-##   mjLangArts3        23  0 48  0 51  2 22  4
-##   mjLangArts3Adv     25  1 24  1  8  1  1  0
-##   mjEng2Cambsec2      0  0  0  0  1  0  0  0
-##   mjIBLangArts1       0  0  1  0  0  0  0  0
-##   mjEng2CamSec1       1  0  0  0  0  0  0  0
-##   mjIBLangArts3       0  0  0  0  0  0  0  0
-##   mjIBLangArts2       1  0  1  0  0  0  0  0
-##   mjEng3Cambsec3      0  0  0  0  0  0  0  0
-##   mjIntensLangArts    3  0  6  0  4  0  0  0
-##   mjLangTran          0  0  0  0  0  0  0  0</code></pre>
+##                       A  B  C  D  F
+##   mjLangArts1ESOL     1  0  2  1  0
+##   mjLangArts2ESOL     1  2  0  0  0
+##   mjLangArts3ESOL     0  0  0  0  0
+##   mjDevelpmentalESOL  0  0  2  0  0
+##   mjLangArts1        18 33 43 29 10
+##   mjlangsArts1Adv     7  5  2  1  0
+##   mjLangArts2        13 49 45 21 11
+##   mjLangArts2Adv     24 12  1  0  0
+##   mjLangArts3        23 48 53 22  4
+##   mjLangArts3Adv     26 25  9  1  0
+##   mjEng2Cambsec2      0  0  1  0  0
+##   mjIBLangArts1       0  1  0  0  0
+##   mjEng2CamSec1       1  0  0  0  0
+##   mjIBLangArts3       0  0  0  0  0
+##   mjIBLangArts2       1  1  0  0  0
+##   mjEng3Cambsec3      0  0  0  0  0
+##   mjIntensLangArts    3  6  4  0  0
+##   mjLangTran          0  0  0  0  0</code></pre>
 <pre class="r"><code>lang_courses &lt;- table(mq1_lang$langCourses) #for output</code></pre>
 </div>
 </div>
@@ -343,10 +373,10 @@ table(free_lang$free_lang1)</code></pre>
 <div id="lang-arts-save-to-rds" class="section level3">
 <h3>Lang Arts Save to RDS</h3>
 <pre class="r"><code>### Ensure the dat goes to the correct directory
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 ### Save the object for analysis script or file
-saveRDS(mq1_lang, &quot;langQ1_12132015.rds&quot;)</code></pre>
+saveRDS(mq1_lang, &quot;langQ1_12182015.rds&quot;)</code></pre>
 </div>
 <div id="unexcused-absences" class="section level3">
 <h3>Unexcused Absences</h3>
@@ -399,10 +429,10 @@ total_abs_tbl</code></pre>
 <div id="total-suspensions-to-rds" class="section level3">
 <h3>Total Suspensions to RDS</h3>
 <pre class="r"><code>### Set to save data to correct file folder
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 ### Save to read data for analysis script or file
-saveRDS(total_abs, &quot;total_Absences_12132015.rds&quot;)</code></pre>
+saveRDS(total_abs, &quot;total_Absences_12182015.rds&quot;)</code></pre>
 </div>
 <div id="in-school-suspensions" class="section level3">
 <h3>In School Suspensions</h3>
@@ -435,37 +465,30 @@ out_school_tbl</code></pre>
 <pre class="r"><code>susp_total &lt;- inner_join(in_school, out_school, by = &quot;girlCode&quot;, copy=FALSE)
 
 head(susp_total)</code></pre>
-<pre><code>##                            council.x    girlCode inSchoolSusp
-## 1 Girl Scouts of the Gateway Council 313AW060203            0
-## 2 Girl Scouts of the Gateway Council 313AP042602            0
-## 3 Girl Scouts of the Gateway Council 313AE041502            0
-## 4 Girl Scouts of the Gateway Council 313AJ111203            0
-## 5 Girl Scouts of the Gateway Council 313AM022202            0
-## 6 Girl Scouts of the Gateway Council 313AE050404            0
-##                            council.y outofSchoolSusp
-## 1 Girl Scouts of the Gateway Council               0
-## 2 Girl Scouts of the Gateway Council               0
-## 3 Girl Scouts of the Gateway Council               0
-## 4 Girl Scouts of the Gateway Council               0
-## 5 Girl Scouts of the Gateway Council               0
-## 6 Girl Scouts of the Gateway Council               0</code></pre>
+<pre><code>##         council.x    girlCode inSchoolSusp       council.y outofSchoolSusp
+## 1 Gateway Council 313AW060203            0 Gateway Council               0
+## 2 Gateway Council 313AP042602            0 Gateway Council               0
+## 3 Gateway Council 313AE041502            0 Gateway Council               0
+## 4 Gateway Council 313AJ111203            0 Gateway Council               0
+## 5 Gateway Council 313AM022202            0 Gateway Council               0
+## 6 Gateway Council 313AE050404            0 Gateway Council               0</code></pre>
 <pre class="r"><code>susp_total$susp_sum &lt;- in_school$inSchoolSusp + out_school$outofSchoolSusp
 
 head(susp_total)</code></pre>
-<pre><code>##                            council.x    girlCode inSchoolSusp
-## 1 Girl Scouts of the Gateway Council 313AW060203            0
-## 2 Girl Scouts of the Gateway Council 313AP042602            0
-## 3 Girl Scouts of the Gateway Council 313AE041502            0
-## 4 Girl Scouts of the Gateway Council 313AJ111203            0
-## 5 Girl Scouts of the Gateway Council 313AM022202            0
-## 6 Girl Scouts of the Gateway Council 313AE050404            0
-##                            council.y outofSchoolSusp susp_sum
-## 1 Girl Scouts of the Gateway Council               0        0
-## 2 Girl Scouts of the Gateway Council               0        0
-## 3 Girl Scouts of the Gateway Council               0        0
-## 4 Girl Scouts of the Gateway Council               0        0
-## 5 Girl Scouts of the Gateway Council               0        0
-## 6 Girl Scouts of the Gateway Council               0        0</code></pre>
+<pre><code>##         council.x    girlCode inSchoolSusp       council.y outofSchoolSusp
+## 1 Gateway Council 313AW060203            0 Gateway Council               0
+## 2 Gateway Council 313AP042602            0 Gateway Council               0
+## 3 Gateway Council 313AE041502            0 Gateway Council               0
+## 4 Gateway Council 313AJ111203            0 Gateway Council               0
+## 5 Gateway Council 313AM022202            0 Gateway Council               0
+## 6 Gateway Council 313AE050404            0 Gateway Council               0
+##   susp_sum
+## 1        0
+## 2        0
+## 3        0
+## 4        0
+## 5        0
+## 6        0</code></pre>
 <pre class="r"><code>susp_total_tbl &lt;- with(susp_total,table(susp_sum))
 
 susp_total_tbl</code></pre>
@@ -476,17 +499,27 @@ susp_total_tbl</code></pre>
 <div id="total-suspensions-to-rds-1" class="section level3">
 <h3>Total Suspensions to RDS</h3>
 <pre class="r"><code>### Save file to correct file folder
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 ### Save to RDS for analysis script to read
-saveRDS(susp_total, &quot;total_susp_12132015.rds&quot;)</code></pre>
+saveRDS(susp_total, &quot;total_susp_12182015.rds&quot;)</code></pre>
 </div>
 <div id="expelled" class="section level3">
 <h3>Expelled</h3>
 <pre class="r"><code>### Select the variable of interest
 expelled &lt;- select(gradesUnique, 7,8,16)
 
-### Create table to view the summary
+dim(expelled)</code></pre>
+<pre><code>## [1] 566   3</code></pre>
+<pre class="r"><code>head(expelled)</code></pre>
+<pre><code>##           council    girlCode expelled
+## 1 Gateway Council 313AW060203       No
+## 2 Gateway Council 313AP042602       No
+## 3 Gateway Council 313AE041502       No
+## 4 Gateway Council 313AJ111203       No
+## 5 Gateway Council 313AM022202       No
+## 6 Gateway Council 313AE050404       No</code></pre>
+<pre class="r"><code>### Create table to view the summary
 expelled_tbl &lt;-with(expelled,table(expelled))
 
 ### Print the table
@@ -498,10 +531,35 @@ expelled_tbl</code></pre>
 <div id="expelled-object-to-rds" class="section level3">
 <h3>Expelled Object to RDS</h3>
 <pre class="r"><code>### Save object to correct desintation file folder
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 ### Save to RDS for analytics script. 
-saveRDS(expelled, &quot;expelled_12132015.rds&quot;)</code></pre>
+saveRDS(expelled, &quot;expelled_12182015.rds&quot;)
+
+write.csv(&quot;expelled&quot;, file=&quot;expelled.csv&quot;, row.names = FALSE)</code></pre>
+</div>
+<div id="save-data-objects-to-sqlite" class="section level3">
+<h3>Save data objects to Sqlite</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+
+getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)
+
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = &quot;Q1_expelled&quot;, value = expelled, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>### Write Q1 Suspsenion data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = &quot;Q1_Suspensions&quot;, value = susp_total, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>### Write Q1 Absences to sqlite datase
+dbWriteTable(conn = getReal_2016db, name = &quot;Q1_Absences&quot;, value = total_abs, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>### Write Q1 Lang Arts grade to sqlite database
+dbWriteTable(conn = getReal_2016db, name = &quot;Q1_lang&quot;, value = mq1_lang, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>### Write Q1 Reading grades to sqlite database
+dbWriteTable(conn = getReal_2016db, name = &quot;Q1_reading&quot;, value = mq1Reading, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 
 

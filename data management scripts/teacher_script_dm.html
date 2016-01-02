@@ -80,7 +80,9 @@ img {
 </ul></li>
 <li><a href="#post-survey"><span class="toc-section-number">3</span> Post Survey</a><ul>
 <li><a href="#find-and-subset-unduplicated-post-cases"><span class="toc-section-number">3.1</span> Find and subset unduplicated Post cases</a></li>
-<li><a href="#find-the-number-of-cases-and-save-post-data-to-rds-file-for-analysis."><span class="toc-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</a></li>
+<li><a href="#find-the-number-of-cases-and-save-post-data-to-rds-file-for-analysis."><span class="toc-section-number">3.2</span> Find the number of cases and save Post data to RDS file for analysis.</a><ul>
+<li><a href="#send-data-to-sqlite-database"><span class="toc-section-number">3.2.1</span> Send data to Sqlite database</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -149,6 +151,23 @@ preTeacher &lt;-filter(teacherfin, Time == &quot;Pre&quot;)</code></pre>
 <h2><span class="header-section-number">2.1</span> Find and subset unduplicated Pre cases</h2>
 <pre class="r"><code>###Finds and subset uniquie Girl Code data entry
 pre_teacher_unique &lt;- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated(preTeacher$girlCode, fromLast=TRUE)),]</code></pre>
+<pre class="r"><code>### Set working directory to save data to correct file folder
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+
+
+### Find duplicates
+teacher_pre_dupes&lt;-duplicated(preTeacher$girlCode) | duplicated(preTeacher$girlCode, fromLast=TRUE)
+
+##### I think this is pulling the actuall duplicate values####################
+
+teacher_pre_dupes&lt;- preTeacher[teacher_pre_dupes,]
+
+## How many duplicates
+dim(teacher_pre_dupes)</code></pre>
+<pre><code>## [1]  0 22</code></pre>
+<pre class="r"><code>### Write to csv file
+write.csv(teacher_pre_dupes, &quot;teacher_dupes_12272015.csv&quot;, row.names=FALSE)</code></pre>
+<p>```</p>
 </div>
 <div id="how-many-cases-for-analysis-and-save-to-rds-file-for-analysis." class="section level2">
 <h2><span class="header-section-number">2.2</span> How many cases for analysis and save to RDS file for analysis.</h2>
@@ -173,6 +192,25 @@ post_teacher_unique &lt;-  postTeacherUnique [!(duplicated(postTeacherUnique$gir
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 saveRDS(postTeacherUnique, file=&quot;post_teacher_12272015.rds&quot;)</code></pre>
+<div id="send-data-to-sqlite-database" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Send data to Sqlite database</h3>
+<pre class="r"><code>library(sqldf)</code></pre>
+<pre><code>## Loading required package: gsubfn
+## Loading required package: proto
+## Loading required package: RSQLite
+## Loading required package: DBI</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+
+getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = &quot;pre_teacher&quot;, value = pre_teacher_unique, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;pre_teacher_dups&quot;, value = teacher_pre_dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;post_teacher&quot;, value = postTeacherUnique, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
 </div>
 </div>
 

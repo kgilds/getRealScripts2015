@@ -100,6 +100,35 @@ pre_teacher_unique <- preTeacher [!(duplicated(preTeacher$girlCode) | duplicated
 ```
 
 
+
+```{r}
+
+
+### Set working directory to save data to correct file folder
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Find duplicates
+teacher_pre_dupes<-duplicated(preTeacher$girlCode) | duplicated(preTeacher$girlCode, fromLast=TRUE)
+
+##### I think this is pulling the actuall duplicate values####################
+
+teacher_pre_dupes<- preTeacher[teacher_pre_dupes,]
+
+## How many duplicates
+dim(teacher_pre_dupes)
+
+### Write to csv file
+write.csv(teacher_pre_dupes, "teacher_dupes_12272015.csv", row.names=FALSE)
+
+```
+
+```
+
+
+
+
+
 ## How many cases for analysis and save to RDS file for analysis.
 
 ```{r}
@@ -140,4 +169,27 @@ saveRDS(postTeacherUnique, file="post_teacher_12272015.rds")
 
 
 ```
+
+
+### Send data to Sqlite database
+```{r}
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "pre_teacher", value = pre_teacher_unique, row.names=FALSE, overwrite=TRUE)
+
+dbWriteTable(conn = getReal_2016db, name = "pre_teacher_dups", value = teacher_pre_dupes, row.names=FALSE, overwrite=TRUE)
+
+
+
+dbWriteTable(conn = getReal_2016db, name = "post_teacher", value = postTeacherUnique, row.names=FALSE, overwrite=TRUE)
+
+
+
+
+```
+
 

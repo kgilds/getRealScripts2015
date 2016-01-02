@@ -71,7 +71,7 @@ Secondary but reported outcome is the following.
 
 3. Run the relevant data management script for each data source. (See data management scripts below)
 
-4. Save relevant data objects (tables) as an RDS.file in the updated data directory. 
+4. Save relevant data objects to designated sqlite database names outcomes_history. Be sure that the overwrite argument is active.  
 
 5. Run the Status Report Template Scrip to obtain the layout of the report. 
 

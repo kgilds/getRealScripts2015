@@ -174,3 +174,46 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 saveRDS(parentPostUnique, file="post_parent_12272015.rds")
 ```
+
+
+### Send data to Sqlite database
+
+```r
+library(sqldf)
+```
+
+```
+## Loading required package: gsubfn
+## Loading required package: proto
+## Loading required package: RSQLite
+## Loading required package: DBI
+```
+
+```r
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "pre_parent", value = parentPreUnique, row.names=FALSE, overwrite=TRUE)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+dbWriteTable(conn = getReal_2016db, name = "pre_parent_duplicate", value = parent_pre_dupes, row.names=FALSE, overwrite=TRUE)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+dbWriteTable(conn = getReal_2016db, name = "post_teacher", value = parentPostUnique, row.names=FALSE, overwrite=TRUE)
+```
+
+```
+## [1] TRUE
+```

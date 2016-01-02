@@ -13,6 +13,7 @@ output: html_document
 library(dplyr)
 library(reshape2)
 library(pander)
+library(sqldf)
 
 
 ### Locate file to read from
@@ -137,6 +138,27 @@ gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$
 
 ```
 
+
+```{r}
+
+gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, gradesUnique$council)
+
+gradesUnique$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, gradesUnique$council)
+
+gradesUnique$council <-sub("Girl Scouts of Southeast Council", "Southeast Council", fixed=TRUE, gradesUnique$council)
+
+gradesUnique$council <-sub("Girl Scouts of Tropical Florida", "Tropical Council", fixed = TRUE, gradesUnique$council)
+
+gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Centeral Council", fixed = TRUE, gradesUnique$council)
+
+gradesUnique$council <-sub("Girl Scouts of the Panhandle", "Panhandle Council", fixed = TRUE, gradesUnique$council)
+
+
+
+```
+
+
+
 ### Save data object Grades to RDS for status report
 
 ```{r}
@@ -145,7 +167,7 @@ gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 ### RDS file for status report. 
-saveRDS(gradesUnique, "grades_q1_12132015.rds")
+saveRDS(gradesUnique, "grades_q1_12182015.rds")
 
 ```
 
@@ -181,7 +203,7 @@ southeast_course <- filter(mq1Reading, readingCourses == "mjIntensRead")
 
 
 
-
+####Adjust Grades with a plus sign and fix spacing issues
 
 mq1Reading$readingGrade <-sub("B+", "B", fixed=TRUE, mq1Reading$readingGrade)
 
@@ -192,6 +214,10 @@ mq1Reading$readingGrade <-sub("D+", "C", fixed=TRUE, mq1Reading$readingGrade)
 mq1Reading$readingGrade <-sub("C ", "C", fixed=TRUE, mq1Reading$readingGrade)
 
 mq1Reading$readingGrade <-sub("c ", "C", fixed=TRUE, mq1Reading$readingGrade)
+
+mq1Reading$readingGrade <-sub("0", "F", fixed=TRUE, mq1Reading$readingGrade)
+
+
 
 
 
@@ -245,10 +271,10 @@ names(q1free_read)
 ```{r}
 
 ### I want the data to go here. 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 ### Save the object for analysis in another script
-saveRDS(mq1Reading, file = "reading_q1_12132015.rds")
+saveRDS(mq1Reading, file = "reading_q1_12182015.rds")
 
 ```
 
@@ -281,6 +307,18 @@ mq1_lang$langGrade <- toupper(mq1_lang$langGrade)
 ###change reading grade to factor 
 mq1_lang$langGrade <-as.factor(mq1_lang$langGrade)
 
+####Adjust Grades with a plus sign and fix spacing issues
+
+mq1_lang$langGrade <-sub("B+", "B", fixed=TRUE, mq1_lang$langGrade)
+
+mq1_lang$langGrade <-sub("C+", "C", fixed=TRUE, mq1_lang$langGrade)
+
+mq1_lang$langGrade <-sub("A ", "A", fixed=TRUE, mq1_lang$langGrade)
+
+
+
+
+
 ### Create tables to sneak at the data
 table(mq1_lang$langCourses,mq1_lang$langGrade)
 lang_courses <- table(mq1_lang$langCourses) #for output
@@ -310,10 +348,10 @@ table(free_lang$free_lang2)
 
 ```{r}
 ### Ensure the dat goes to the correct directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 ### Save the object for analysis script or file
-saveRDS(mq1_lang, "langQ1_12132015.rds")
+saveRDS(mq1_lang, "langQ1_12182015.rds")
 
 ```
 
@@ -377,10 +415,10 @@ total_abs_tbl
 ```{r}
 
 ### Set to save data to correct file folder
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 ### Save to read data for analysis script or file
-saveRDS(total_abs, "total_Absences_12132015.rds")
+saveRDS(total_abs, "total_Absences_12182015.rds")
 
 ```
 
@@ -440,10 +478,10 @@ susp_total_tbl
 ```{r}
 
 ### Save file to correct file folder
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 ### Save to RDS for analysis script to read
-saveRDS(susp_total, "total_susp_12132015.rds")
+saveRDS(susp_total, "total_susp_12182015.rds")
 
 ```
 
@@ -453,6 +491,10 @@ saveRDS(susp_total, "total_susp_12132015.rds")
 
 ### Select the variable of interest
 expelled <- select(gradesUnique, 7,8,16)
+
+dim(expelled)
+
+head(expelled)
 
 ### Create table to view the summary
 expelled_tbl <-with(expelled,table(expelled))
@@ -466,10 +508,39 @@ expelled_tbl
 
 ```{r}
 ### Save object to correct desintation file folder
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 ### Save to RDS for analytics script. 
-saveRDS(expelled, "expelled_12132015.rds")
+saveRDS(expelled, "expelled_12182015.rds")
+
+write.csv("expelled", file="expelled.csv", row.names = FALSE)
+
+
+
+```
+
+
+### Save data objects to Sqlite
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q1_expelled", value = expelled, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Suspsenion data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q1_Suspensions", value = susp_total, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Absences to sqlite datase
+dbWriteTable(conn = getReal_2016db, name = "Q1_Absences", value = total_abs, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Lang Arts grade to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q1_lang", value = mq1_lang, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Reading grades to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q1_reading", value = mq1Reading, row.names=FALSE, overwrite=TRUE)
 
 ```
 
