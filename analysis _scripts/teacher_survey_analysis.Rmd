@@ -44,7 +44,7 @@ pre_teacher_tbl$hasConfidence <- factor(pre_teacher_tbl$hasConfidence, levels=c(
 pre_teacher_tbl$goodAttitude <- factor(pre_teacher_tbl$goodAttitude, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
-pre_teacher_tbl$isInterestedReading <- factor(pre_teacher_tbl$isInterestedReading, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_teacher_tbl$isInterestedReading <- factor(pre_teacher_tbl$isInterestedReading, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 pre_teacher_tbl$postivelyParticpates <- factor(pre_teacher_tbl$postivelyParticpates, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
@@ -103,6 +103,8 @@ attitude.prop
 ####create table to set up for prop.table
 reading <- with(pre_teacher, table(isInterestedReading))
 
+reading
+
 
 ###Create table to Test with likert result
 reading.prop <- prop.table(reading)
@@ -149,7 +151,7 @@ releationships.prop
 
 Percents based upon 42 responses. 
 
-```{r fig.width=14, echo=FALSE, warning=FALSE}
+```{r fig.height=7,fig.width=15, echo=FALSE, warning=FALSE}
 
 pre_teacher_tbl_likert <- likert(pre_teacher_tbl)
 
@@ -158,6 +160,10 @@ str(pre_teacher_tbl_likert)
 pre_teacher_tbl_likert2 <-summary(pre_teacher_tbl_likert)
 
 likert.heat.plot(pre_teacher_tbl_likert)
+
+
+
+
 
 
 plot(pre_teacher_tbl_likert)

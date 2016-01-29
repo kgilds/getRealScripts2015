@@ -209,7 +209,7 @@ saveRDS(postUnique, file="girl_post_12202015.rds")
 
 ```
 
-
+### Send data to Sqlite database
 ```{r}
 library(sqldf)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
