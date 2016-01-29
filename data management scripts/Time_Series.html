@@ -95,7 +95,8 @@ library(psych)</code></pre>
 ## The following object is masked from 'package:ggplot2':
 ## 
 ##     %+%</code></pre>
-<pre class="r"><code>getRealdb&lt;- dbConnect(SQLite(), dbname=&quot;data_Final_GetReal_2014_2015.sqlite&quot;)</code></pre>
+<pre class="r"><code>library(knitr)
+getRealdb&lt;- dbConnect(SQLite(), dbname=&quot;data_Final_GetReal_2014_2015.sqlite&quot;)</code></pre>
 <div id="survey-data" class="section level3">
 <h3>2014-2015 Survey Data</h3>
 <pre class="r"><code>all_Tables &lt;- dbListTables(getRealdb)
@@ -140,6 +141,266 @@ pre_survey_2015 &lt;- readRDS(&quot;girl_survey_12202015.rds&quot;)
 dim(pre_survey_2015)</code></pre>
 <pre><code>## [1] 642  51</code></pre>
 </div>
+<div id="life-skills-trends" class="section level2">
+<h2>Life Skills Trends</h2>
+<div id="healthy-relationships" class="section level3">
+<h3>Healthy Relationships</h3>
+<pre class="r"><code>pre_2014_hr &lt;- describe(pre_survey_2014$hr.avg)
+pre_2015_hr &lt;- describe(pre_survey_2015$hr.avg)
+
+kable(pre_2014_hr)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1186</td>
+<td align="right">4.441379</td>
+<td align="right">1.256537</td>
+<td align="right">4.7</td>
+<td align="right">4.573947</td>
+<td align="right">1.18608</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.950396</td>
+<td align="right">0.6036503</td>
+<td align="right">0.0364866</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>hr_2014 &lt;- with(pre_survey_2014, table(hr.avg &gt;=4.45))
+
+hr_2014 </code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##   468   718</code></pre>
+<pre class="r"><code>kable(pre_2015_hr)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">642</td>
+<td align="right">4.551207</td>
+<td align="right">1.211237</td>
+<td align="right">4.75</td>
+<td align="right">4.675778</td>
+<td align="right">1.297275</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.9701866</td>
+<td align="right">1.218273</td>
+<td align="right">0.0478037</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="academic-engagement" class="section level3">
+<h3>Academic Engagement</h3>
+<pre class="r"><code>pre_2014_ae &lt;-describe(pre_survey_2014$ae.avg)
+pre_2015_ae &lt;-describe(pre_survey_2015$ae.avg)
+
+ae_pre &lt;- with(pre_survey_2014, table(ae.avg &gt;=4.5))
+
+ae_pre</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##   711   475</code></pre>
+<pre class="r"><code>kable(pre_2014_ae)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1186</td>
+<td align="right">3.820194</td>
+<td align="right">1.349334</td>
+<td align="right">4.125</td>
+<td align="right">3.947763</td>
+<td align="right">1.11195</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.9567296</td>
+<td align="right">1.029185</td>
+<td align="right">0.0391811</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(pre_2015_ae)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">642</td>
+<td align="right">4.249416</td>
+<td align="right">1.179392</td>
+<td align="right">4.5</td>
+<td align="right">4.311041</td>
+<td align="right">1.11195</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.6312494</td>
+<td align="right">0.7960669</td>
+<td align="right">0.0465469</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="academic-mastery" class="section level3">
+<h3>Academic Mastery</h3>
+<pre class="r"><code>pre_2014_am &lt;- describe(pre_survey_2014$am.avg)
+pre_2015_am &lt;- describe(pre_survey_2015$am.avg) 
+
+am_pre &lt;-with(pre_survey_2014, table(am.avg &gt;=4.8))
+
+am_pre</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##   273   913</code></pre>
+<pre class="r"><code>kable(pre_2014_am)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1186</td>
+<td align="right">5.129039</td>
+<td align="right">0.9593102</td>
+<td align="right">5.28</td>
+<td align="right">5.29061</td>
+<td align="right">0.711648</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-2.069863</td>
+<td align="right">6.286562</td>
+<td align="right">0.0278559</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(pre_2015_am)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">642</td>
+<td align="right">5.149159</td>
+<td align="right">0.9645379</td>
+<td align="right">5.52</td>
+<td align="right">5.302412</td>
+<td align="right">0.711648</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-1.936034</td>
+<td align="right">6.253098</td>
+<td align="right">0.0380673</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="match-pre-surveys" class="section level3">
 <h3>Match Pre Surveys</h3>
 <pre class="r"><code>pre_merge &lt;- inner_join (pre_survey_2014, pre_survey_2015, by = &quot;girlCode&quot;, Copy=FALSE)
@@ -148,12 +409,509 @@ dim(pre_merge)</code></pre>
 <pre><code>## [1]  82 101</code></pre>
 <pre class="r"><code>#x=2014, y=2015</code></pre>
 </div>
-<div id="match-post-survey" class="section level3">
-<h3>Match Post Survey</h3>
+<div id="match-post-survey-matched-post-surveys-spring-2015-and-fall-2015" class="section level3">
+<h3>Match Post Survey (Matched Post Surveys Spring 2015 and Fall 2015)</h3>
 <pre class="r"><code>post_merge &lt;- inner_join(post_survey_MY1415, pre_survey_2015, by = &quot;girlCode&quot;, Copy=FALSE)
+
+non_match &lt;- anti_join(pre_survey_2015, post_survey_MY1415, by = &quot;girlCode&quot;, Copy = FALSE)
 
 dim(post_merge)</code></pre>
 <pre><code>## [1]  61 101</code></pre>
+<pre class="r"><code>dim(non_match)</code></pre>
+<pre><code>## [1] 581  51</code></pre>
+</div>
+<div id="healthy-relationships-1" class="section level3">
+<h3>Healthy Relationships</h3>
+</div>
+<div id="healthy-relationship-stats" class="section level3">
+<h3>Healthy Relationship Stats</h3>
+<pre class="r"><code>post_merge_hr_pre &lt;- describe(post_merge$hr.avg.y)
+
+post_merge_hr_post &lt;-describe(post_merge$hr.avg.x)
+
+non_match_hr_pre &lt;- describe(non_match$hr.avg)
+
+
+
+kable(post_merge_hr_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">4.480328</td>
+<td align="right">1.259631</td>
+<td align="right">4.5</td>
+<td align="right">4.586735</td>
+<td align="right">1.55673</td>
+<td align="right">1.2</td>
+<td align="right">6</td>
+<td align="right">4.8</td>
+<td align="right">-0.5019848</td>
+<td align="right">-0.4417602</td>
+<td align="right">0.1612792</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(post_merge_hr_post)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">4.593852</td>
+<td align="right">1.05676</td>
+<td align="right">4.5</td>
+<td align="right">4.708673</td>
+<td align="right">0.81543</td>
+<td align="right">0.875</td>
+<td align="right">6</td>
+<td align="right">5.125</td>
+<td align="right">-1.342212</td>
+<td align="right">2.855999</td>
+<td align="right">0.1353043</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(non_match_hr_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">581</td>
+<td align="right">4.558649</td>
+<td align="right">1.206927</td>
+<td align="right">4.75</td>
+<td align="right">4.685161</td>
+<td align="right">1.26021</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-1.022288</td>
+<td align="right">1.418015</td>
+<td align="right">0.0500718</td>
+</tr>
+</tbody>
+</table>
+<div id="healthy-relationship-outcome-achievement" class="section level4">
+<h4>Healthy Relationship Outcome Achievement</h4>
+<pre class="r"><code>hr_outcome_pre &lt;- with(post_merge,table(hr.avg.y &gt;=4.45))
+
+pander(hr_outcome_pre)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">29</td>
+<td align="center">32</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>hr_outcome_post &lt;- with(post_merge,table(hr.avg.x &gt;=4.45))
+
+pander(hr_outcome_post)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">15</td>
+<td align="center">46</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="academic-engagment" class="section level3">
+<h3>Academic Engagment</h3>
+<pre class="r"><code>post_merge_ae_pre &lt;- describe(post_merge$ae.avg.y)
+post_merge_ae_post &lt;- describe(post_merge$ae.avg.x)
+
+non_match_ae_pre &lt;-describe(non_match$ae.avg)
+
+
+kable(post_merge_ae_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">4.10041</td>
+<td align="right">1.195438</td>
+<td align="right">4.125</td>
+<td align="right">4.132653</td>
+<td align="right">1.11195</td>
+<td align="right">1.125</td>
+<td align="right">6</td>
+<td align="right">4.875</td>
+<td align="right">-0.2419032</td>
+<td align="right">-0.5463735</td>
+<td align="right">0.1530602</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(post_merge_ae_post)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">4.155738</td>
+<td align="right">0.9218572</td>
+<td align="right">4.5</td>
+<td align="right">4.201531</td>
+<td align="right">0.555975</td>
+<td align="right">1.125</td>
+<td align="right">6</td>
+<td align="right">4.875</td>
+<td align="right">-0.7483895</td>
+<td align="right">1.48475</td>
+<td align="right">0.1180317</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(non_match_ae_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">581</td>
+<td align="right">4.26506</td>
+<td align="right">1.177642</td>
+<td align="right">4.5</td>
+<td align="right">4.327419</td>
+<td align="right">1.11195</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.673253</td>
+<td align="right">0.957092</td>
+<td align="right">0.0488568</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ae_outcome_pre &lt;- with(post_merge, table(ae.avg.y &gt;=4.5))
+
+pander(ae_outcome_pre)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">32</td>
+<td align="center">29</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ae_outcome_post &lt;- with(post_merge, table(ae.avg.x &lt;=4.5))
+
+pander(ae_outcome_post)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">13</td>
+<td align="center">48</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="academic-mastery-1" class="section level3">
+<h3>Academic Mastery</h3>
+<pre class="r"><code>post_merge_am_pre &lt;- describe(post_merge$am.avg.y)
+post_merge_am_post &lt;- describe(post_merge$am.avg.x)
+
+non_match_am_pre &lt;- describe(non_match$am.avg)
+
+kable(post_merge_am_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">5.472787</td>
+<td align="right">0.62249</td>
+<td align="right">5.76</td>
+<td align="right">5.583673</td>
+<td align="right">0.355824</td>
+<td align="right">3.36</td>
+<td align="right">6</td>
+<td align="right">2.64</td>
+<td align="right">-1.371065</td>
+<td align="right">1.595939</td>
+<td align="right">0.0797017</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(post_merge_am_post)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">61</td>
+<td align="right">5.193443</td>
+<td align="right">0.8267908</td>
+<td align="right">5.28</td>
+<td align="right">5.314286</td>
+<td align="right">0.711648</td>
+<td align="right">1.44</td>
+<td align="right">6</td>
+<td align="right">4.56</td>
+<td align="right">-1.729287</td>
+<td align="right">5.077508</td>
+<td align="right">0.1058597</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(non_match_am_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">581</td>
+<td align="right">5.115181</td>
+<td align="right">0.9878874</td>
+<td align="right">5.28</td>
+<td align="right">5.268645</td>
+<td align="right">1.067472</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-1.896093</td>
+<td align="right">5.967223</td>
+<td align="right">0.0409845</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>am_outcome_pre &lt;-with(post_merge,table(am.avg.y &gt;=4.8))
+
+pander(am_outcome_pre)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">55</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>am_outcome_post &lt;- with(post_merge,table(am.avg.x &gt;=4.8))
+
+pander(am_outcome_post)</code></pre>
+<table>
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">53</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="match-pre-post-pre" class="section level3">
 <h3>Match Pre, Post, Pre</h3>
@@ -164,132 +922,7 @@ dim(all_merge)</code></pre>
 </div>
 <div id="outcomes-pre-post-pre" class="section level3">
 <h3>Outcomes, Pre, Post, Pre</h3>
-<pre class="r"><code>outcomes_all_merge &lt;- select(all_merge, girlCode, StartDate.x.x, hr.avg.x.x, ae.avg.x.x, am.avg.x.x, StartDate.x.y, hr.avg.x.y, ae.avg.x.y, am.avg.x.y, StartDate.y.y, hr.avg.y.y, ae.avg.y.y, am.avg.y.y)
-
-outcomes_all_merge</code></pre>
-<pre><code>##       girlCode       StartDate.x.x hr.avg.x.x ae.avg.x.x am.avg.x.x
-## 1  320SA080203 2015-05-26 08:09:11      4.500      3.375       4.80
-## 2  320SB122902 2015-05-26 08:15:36      3.625      3.750       6.00
-## 3  320GC121002 2015-05-26 08:24:37      4.375      4.125       5.28
-## 4  320SD031803 2015-05-26 08:32:10      4.875      3.375       6.00
-## 5  320AF062602 2015-05-26 08:33:39      6.000      3.750       5.52
-## 6  320AG022403 2015-05-26 08:36:17      1.875      4.875       6.00
-## 7  320AH070602 2015-05-26 08:45:16      6.000      5.625       6.00
-## 8  320AH013102 2015-05-26 08:47:57      4.500      1.125       1.44
-## 9  320KJ022602 2015-05-26 09:01:29      5.625      4.875       6.00
-## 10 320NL051303 2015-05-26 09:09:14      4.875      4.875       6.00
-## 11 320AM070802 2015-05-26 09:19:41      4.525      4.125       5.28
-## 12 320RM112402 2015-05-26 09:23:17      3.250      1.500       3.60
-## 13 320JN030502 2015-05-26 09:26:48      5.125      3.750       5.04
-## 14 320DP041202 2015-05-26 10:00:23      3.900      4.125       4.56
-## 15 320RR110901 2015-05-26 10:07:51      6.000      4.500       5.76
-## 16 320YS111401 2015-05-26 10:11:43      4.525      4.500       5.28
-## 17 320RG071003 2015-06-02 10:36:00      4.875      3.375       5.52
-## 18 320MG030803 2015-06-02 10:37:59      0.875      3.000       5.04
-## 19 320VT121102 2015-06-02 10:50:49      3.675      3.750       3.60
-## 20 321GC050202 2015-06-02 12:28:28      5.000      3.000       5.52
-## 21 321RJ011800 2015-06-02 14:21:08      5.375      3.750       5.28
-## 22 321LU072702 2015-06-02 16:13:18      3.950      2.625       3.60
-## 23 321PP043003 2015-06-03 09:47:32      6.000      6.000       6.00
-## 24 321AG111402 2015-06-03 12:48:58      5.500      4.875       6.00
-## 25 321MD062803 2015-06-03 14:37:51      3.375      2.625       6.00
-## 26 321AD020803 2015-06-03 14:55:37      5.125      4.500       6.00
-## 27 321FC060101 2015-06-03 15:00:47      4.075      4.875       5.04
-## 28 321TB042701 2015-06-04 14:34:49      5.250      4.125       6.00
-## 29 320ZP050602 2015-06-27 16:12:48      4.450      4.500       4.80
-## 30 320JR062102 2015-06-27 16:15:17      4.450      4.500       4.80
-## 31 320SS110101 2015-06-27 16:19:07      4.450      4.500       4.80
-## 32 320AB061103 2015-06-27 16:33:13      4.450      4.500       4.80
-## 33 320JM102701 2015-06-27 21:13:28      4.450      4.500       4.80
-## 34 320CM120402 2015-06-27 21:15:05      4.450      4.500       4.80
-## 35 320OO062303 2015-06-27 21:16:28      4.450      4.500       4.80
-## 36 320NR060503 2015-06-27 21:18:57      4.450      4.500       4.80
-## 37 320BR072103 2015-06-27 21:22:43      4.450      4.500       4.80
-## 38 320AT101602 2015-06-27 21:24:05      4.450      4.500       4.80
-## 39 320AM040103 2015-06-27 21:40:23      4.450      4.500       4.80
-## 40 320AS121201 2015-06-27 21:45:20      4.450      4.500       4.80
-##          StartDate.x.y hr.avg.x.y ae.avg.x.y am.avg.x.y
-## 1  2014-10-13 12:52:19      4.875      5.250       5.76
-## 2  2014-10-13 11:58:40      2.500      0.000       4.32
-## 3  2014-10-13 12:49:46      4.875      4.875       6.00
-## 4  2014-10-13 14:00:59      5.025      4.125       6.00
-## 5  2014-10-13 14:06:48      4.375      3.750       4.80
-## 6  2014-10-13 12:28:52      3.200      4.500       6.00
-## 7  2014-10-13 12:20:02      3.875      5.250       5.28
-## 8  2014-10-13 12:48:27      5.000      3.750       4.80
-## 9  2014-10-13 12:24:35      4.475      4.500       5.04
-## 10 2014-10-13 13:58:49      5.500      6.000       6.00
-## 11 2014-10-13 12:55:54      5.125      4.125       4.80
-## 12 2014-10-13 12:54:38      5.000      4.125       4.56
-## 13 2014-10-13 14:08:00      4.200      4.875       4.80
-## 14 2014-10-13 12:23:28      2.150      3.750       4.08
-## 15 2014-10-13 11:50:33      6.000      5.250       5.76
-## 16 2014-10-17 13:12:33      3.450      5.625       5.76
-## 17 2014-10-13 12:47:17      4.875      3.375       4.80
-## 18 2014-10-13 14:01:59      2.375      4.500       5.76
-## 19 2014-10-13 12:09:27      2.375      4.125       5.04
-## 20 2014-11-18 13:35:38      3.700      3.375       5.76
-## 21 2014-12-01 11:16:16      4.500      3.000       5.76
-## 22 2014-11-12 10:48:04      2.000      3.000       6.00
-## 23 2014-11-17 12:31:17      4.275      3.750       5.76
-## 24 2014-11-12 10:44:29      5.500      4.125       6.00
-## 25 2014-11-12 10:38:55      4.200      5.625       6.00
-## 26 2014-11-13 13:23:07      5.500      4.875       6.00
-## 27 2014-10-22 13:10:22      4.375      3.375       5.76
-## 28 2014-10-22 13:09:09      4.500      3.375       5.76
-## 29 2014-10-06 18:19:28      2.500      0.000       4.56
-## 30 2014-10-06 18:24:04      1.500      0.000       5.28
-## 31 2014-10-06 18:00:24      5.000      4.125       5.28
-## 32 2014-10-14 12:55:39      5.000      5.625       5.76
-## 33 2014-10-06 17:43:22      4.500      4.125       6.00
-## 34 2014-10-06 17:52:46      3.250      2.625       4.32
-## 35 2014-10-06 17:41:30      3.525      3.000       5.04
-## 36 2014-10-06 17:33:27      5.075      3.000       5.52
-## 37 2014-10-06 17:27:32      4.150      4.500       5.28
-## 38 2014-10-06 17:31:38      3.975      3.000       5.04
-## 39 2014-10-14 13:09:50      3.000      3.750       6.00
-## 40 2014-10-14 13:16:53      5.000      3.000       6.00
-##          StartDate.y.y hr.avg.y.y ae.avg.y.y am.avg.y.y
-## 1  2015-11-04 10:00:14      4.500      3.000       6.00
-## 2  2015-11-04 09:49:16      5.250      5.625       5.28
-## 3  2015-11-04 09:47:57      3.525      2.625       5.28
-## 4  2015-11-04 09:51:38      6.000      4.125       5.52
-## 5  2015-11-04 10:38:46      6.000      3.750       4.32
-## 6  2015-11-04 10:07:37      3.700      4.125       5.52
-## 7  2015-11-04 10:44:37      3.575      6.000       6.00
-## 8  2015-11-04 10:40:15      4.500      1.875       3.60
-## 9  2015-11-04 10:56:05      5.075      5.625       5.28
-## 10 2015-11-04 09:44:22      6.000      4.875       5.76
-## 11 2015-11-04 10:43:21      5.700      3.375       5.28
-## 12 2015-11-04 10:09:05      2.375      4.500       4.80
-## 13 2015-11-04 10:23:33      5.125      3.375       5.28
-## 14 2015-11-04 09:50:29      4.825      4.500       5.52
-## 15 2015-11-04 10:32:34      6.000      5.625       6.00
-## 16 2015-11-04 10:57:36      5.325      4.875       5.76
-## 17 2015-11-04 09:57:09      4.075      4.500       4.80
-## 18 2015-11-04 09:55:49      1.875      3.375       4.80
-## 19 2015-11-04 10:54:42      3.400      3.000       5.28
-## 20 2015-10-29 12:41:52      3.200      4.500       5.76
-## 21 2015-11-23 13:49:43      6.000      3.750       6.00
-## 22 2015-11-01 08:36:13      4.250      3.375       6.00
-## 23 2015-10-28 13:47:47      3.375      2.250       5.04
-## 24 2015-11-11 10:55:15      5.500      6.000       6.00
-## 25 2015-12-07 10:32:10      6.000      5.250       6.00
-## 26 2015-11-11 10:52:16      3.450      4.875       5.76
-## 27 2015-10-28 12:55:47      2.775      3.375       6.00
-## 28 2015-10-28 13:06:14      4.950      4.125       5.52
-## 29 2015-11-05 15:26:12      3.150      3.375       5.28
-## 30 2015-10-28 21:22:40      4.375      4.875       5.76
-## 31 2015-11-05 15:09:18      3.950      4.500       4.32
-## 32 2015-10-21 13:30:23      4.750      4.500       6.00
-## 33 2015-10-21 13:26:24      6.000      4.125       5.28
-## 34 2015-10-21 13:33:58      3.200      2.625       3.36
-## 35 2015-10-21 13:35:51      6.000      2.250       6.00
-## 36 2015-11-04 12:31:47      1.375      3.375       5.04
-## 37 2015-10-21 13:36:36      5.250      5.250       5.52
-## 38 2015-10-21 13:28:36      4.325      3.750       4.32
-## 39 2015-11-05 13:50:40      1.200      4.500       6.00
-## 40 2015-11-05 15:20:44      4.325      4.500       6.00</code></pre>
+<pre class="r"><code>outcomes_all_merge &lt;- select(all_merge, girlCode, StartDate.x.x, hr.avg.x.x, ae.avg.x.x, am.avg.x.x, StartDate.x.y, hr.avg.x.y, ae.avg.x.y, am.avg.x.y, StartDate.y.y, hr.avg.y.y, ae.avg.y.y, am.avg.y.y)</code></pre>
 <pre class="r"><code>hr_all &lt;- select(outcomes_all_merge, girlCode, StartDate.x.x, hr.avg.x.x,StartDate.x.y, hr.avg.x.y, StartDate.y.y, hr.avg.y.y)
 
 
@@ -642,6 +1275,7 @@ pander(hr_table_pre_council, style = &quot;multiline&quot;)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>##########By Percents##################</code></pre>
+</div>
 </div>
 
 

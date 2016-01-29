@@ -125,6 +125,9 @@ q1Dupes <-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast
 ### Subset the duplicates
 q1Dupes <-gradesq1[q1Dupes, ]
 
+dim(q1Dupes)
+
+
 
 ```
 
@@ -134,24 +137,25 @@ q1Dupes <-gradesq1[q1Dupes, ]
 ### Find the unique girlCodes and subset them
 gradesUnique <- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
 
-
+dim(gradesUnique)
 
 ```
 
 
 ```{r}
 
+### Change council names to be consistent wiht how they displayed with the surveys
 gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, gradesUnique$council)
 
 gradesUnique$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, gradesUnique$council)
 
-gradesUnique$council <-sub("Girl Scouts of Southeast Council", "Southeast Council", fixed=TRUE, gradesUnique$council)
+gradesUnique$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, gradesUnique$council)
 
-gradesUnique$council <-sub("Girl Scouts of Tropical Florida", "Tropical Council", fixed = TRUE, gradesUnique$council)
+gradesUnique$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, gradesUnique$council)
 
-gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Centeral Council", fixed = TRUE, gradesUnique$council)
+gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, gradesUnique$council)
 
-gradesUnique$council <-sub("Girl Scouts of the Panhandle", "Panhandle Council", fixed = TRUE, gradesUnique$council)
+gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, gradesUnique$council)
 
 
 
@@ -298,7 +302,7 @@ colnames (mq1_lang) [3] <- "langCourses"
 
 
 ### Get rid of blanks
-q1_lang <- na.omit(mq1_lang)
+mq1_lang <- na.omit(mq1_lang)
 
 
 ###Change grades to all upper case to match
@@ -529,6 +533,8 @@ getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
 ### Write Q1 Expelled data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = "Q1_expelled", value = expelled, row.names=FALSE, overwrite=TRUE)
+
+dbWriteTable(conn = getReal_2016db, name = "Q1_duplicates", value = q1Dupes, row.names=FALSE, overwrite=TRUE)
 
 ### Write Q1 Suspsenion data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = "Q1_Suspensions", value = susp_total, row.names=FALSE, overwrite=TRUE)

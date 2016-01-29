@@ -169,22 +169,29 @@ gradesq1$girlCode &lt;- as.character(gradesq1$girlCode)</code></pre>
 q1Dupes &lt;-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast=TRUE)
 
 ### Subset the duplicates
-q1Dupes &lt;-gradesq1[q1Dupes, ]</code></pre>
+q1Dupes &lt;-gradesq1[q1Dupes, ]
+
+dim(q1Dupes)</code></pre>
+<pre><code>## [1] 20 51</code></pre>
 <pre class="r"><code>##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
-gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]</code></pre>
-<pre class="r"><code>gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesUnique$council)
+gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
+
+dim(gradesUnique)</code></pre>
+<pre><code>## [1] 566  51</code></pre>
+<pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesUnique$council)
 
 gradesUnique$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, gradesUnique$council)
 
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of Southeast Council&quot;, &quot;Southeast Council&quot;, fixed=TRUE, gradesUnique$council)
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of Southeast Florida&quot;, &quot;Southeast Council&quot;, fixed=TRUE, gradesUnique$council)
 
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, gradesUnique$council)
+gradesUnique$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, gradesUnique$council)
 
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Centeral Council&quot;, fixed = TRUE, gradesUnique$council)
+gradesUnique$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, gradesUnique$council)
 
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, gradesUnique$council)</code></pre>
+gradesUnique$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, gradesUnique$council)</code></pre>
 </div>
 <div id="save-data-object-grades-to-rds-for-status-report" class="section level3">
 <h3>Save data object Grades to RDS for status report</h3>
@@ -268,14 +275,14 @@ table(mq1Reading$readingCourses,mq1Reading$readingGrade)</code></pre>
 ##   mjRead3Adv                  1  4  4  0  0
 ##   mjDelaESOLRead              1  0  0  0  0</code></pre>
 <pre class="r"><code>with(mq1Reading, table(council,readingGrade))</code></pre>
-<pre><code>##                                         readingGrade
-## council                                   A  B  C  D  F
-##   Citrus Council                          1  3  7  3  0
-##   Gateway Council                         7 35 43 17  4
-##   Girl Scout Council of the Panhandle     4  6  2  2  0
-##   Girl Scout Council of Tropical Florida  0  3  4  2  0
-##   Girl Scouts of Southeast Florida       11 27 18 10  3
-##   West Centeral Council                  13 16 18  2  3</code></pre>
+<pre><code>##                       readingGrade
+## council                 A  B  C  D  F
+##   Citrus Council        1  3  7  3  0
+##   Gateway Council       7 35 43 17  4
+##   Panhandle Council     4  6  2  2  0
+##   Southeast Council    11 27 18 10  3
+##   Tropical Council      0  3  4  2  0
+##   West Central Council 13 16 18  2  3</code></pre>
 <pre class="r"><code>### Check the levels
 levels(mq1Reading$readingGrade)</code></pre>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
@@ -312,7 +319,7 @@ colnames (mq1_lang) [3] &lt;- &quot;langCourses&quot;
 
 
 ### Get rid of blanks
-q1_lang &lt;- na.omit(mq1_lang)
+mq1_lang &lt;- na.omit(mq1_lang)
 
 
 ###Change grades to all upper case to match
@@ -547,6 +554,8 @@ getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot
 
 ### Write Q1 Expelled data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = &quot;Q1_expelled&quot;, value = expelled, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;Q1_duplicates&quot;, value = q1Dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>### Write Q1 Suspsenion data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = &quot;Q1_Suspensions&quot;, value = susp_total, row.names=FALSE, overwrite=TRUE)</code></pre>
