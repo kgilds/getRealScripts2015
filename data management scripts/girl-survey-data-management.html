@@ -72,6 +72,7 @@ img {
 <li><a href="#set-working-directory-library-and-read-raw-data-needs-updated-data">Set working directory, library, and read raw data (needs updated data)</a></li>
 <li><a href="#change-column-names-to-make-them-human-readable.">Change column names to make them human readable.</a></li>
 <li><a href="#make-student-code-as-class-character-and-make-all-codes-upper-case.">Make Student Code as class character and make all codes upper case.</a></li>
+<li><a href="#test-chunk">Test Chunk</a></li>
 <li><a href="#subset-all-finished-surveys">Subset all finished surveys</a></li>
 </ul></li>
 <li><a href="#pre-surveys">Pre Surveys</a><ul>
@@ -85,6 +86,7 @@ img {
 <li><a href="#find-unique-student-codes-from-post-surveys">Find unique student codes from post surveys</a></li>
 <li><a href="#find-duplicate-student-codes-from-post-surveys">Find duplicate student codes from post surveys</a></li>
 <li><a href="#save-post-survey-needs-updated-data">Save Post Survey (needs updated data)</a></li>
+<li><a href="#send-data-to-sqlite-database">Send data to Sqlite database</a></li>
 </ul></li>
 </ul>
 </div>
@@ -98,13 +100,11 @@ setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
 library(dplyr)</code></pre>
 <pre><code>## 
-## Attaching package: 'dplyr'
+## Attaching package: 'dplyr'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
 ## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
@@ -170,8 +170,1855 @@ rawdata$girlCode &lt;- as.character(rawdata$girlCode)
 
 rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
+
+
+
+
+
+
+
 str(rawdata$girlCode)</code></pre>
 <pre><code>##  chr [1:674] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre class="r"><code>dim(rawdata)</code></pre>
+<pre><code>## [1] 674  51</code></pre>
+</div>
+<div id="test-chunk" class="section level3">
+<h3>Test Chunk</h3>
+<pre class="r"><code>###Test to see if any test girlCode in system
+rawdata$girlCode</code></pre>
+<pre><code>##   [1] &quot;TEST&quot;          &quot;312AR090501&quot;   &quot;312GB022203&quot;   &quot;312PM110402&quot;  
+##   [5] &quot;312AA111701&quot;   &quot;312CM100602&quot;   &quot;312DW011802&quot;   &quot;312SM081703&quot;  
+##   [9] &quot;312DR012403&quot;   &quot;312JS013102&quot;   &quot;312SG050202&quot;   &quot;312JF031602&quot;  
+##  [13] &quot;312AJ100102&quot;   &quot;312EV111702&quot;   &quot;312HJ011602&quot;   &quot;312FC101001&quot;  
+##  [17] &quot;312AW111601&quot;   &quot;312AL061102&quot;   &quot;312JV032902&quot;   &quot;312AW061702&quot;  
+##  [21] &quot;312LP021703&quot;   &quot;312FS020503&quot;   &quot;312AS030202&quot;   &quot;312AG052703&quot;  
+##  [25] &quot;312ZT060802&quot;   &quot;312KC120201&quot;   &quot;312AM112801&quot;   &quot;312NM101701&quot;  
+##  [29] &quot;312ZS011902&quot;   &quot;312RN011302&quot;   &quot;313AE050404&quot;   &quot;312MM111903&quot;  
+##  [33] &quot;312BJ021603&quot;   &quot;312AW060903&quot;   &quot;312SA100201&quot;   &quot;312BL053004&quot;  
+##  [37] &quot;312JC012102&quot;   &quot;312IG020403&quot;   &quot;312KN121401&quot;   &quot;312AM062102&quot;  
+##  [41] &quot;312JW012903&quot;   &quot;312KM012003&quot;   &quot;312JR021602&quot;   &quot;312DJ101301&quot;  
+##  [45] &quot;312AL082602&quot;   &quot;312AB101502&quot;   &quot;312AA071702&quot;   &quot;312PV061702&quot;  
+##  [49] &quot;312CG092602&quot;   &quot;312ML051303&quot;   &quot;312ND011904&quot;   &quot;312WS060303&quot;  
+##  [53] &quot;312FB102003&quot;   &quot;312TA111803&quot;   &quot;312SC121202&quot;   &quot;312AM112403&quot;  
+##  [57] &quot;312TA100802&quot;   &quot;312JG022402&quot;   &quot;312FN091704&quot;   &quot;312JH082302&quot;  
+##  [61] &quot;312QW012803&quot;   &quot;312AM022702&quot;   &quot;312JC081903&quot;   &quot;312CE103003&quot;  
+##  [65] &quot;312AM110503&quot;   &quot;312SC050104&quot;   &quot;312ZD072502&quot;   &quot;312KJ050403&quot;  
+##  [69] &quot;312CD081803&quot;   &quot;312MJ092702&quot;   &quot;312AB110701&quot;   &quot;312ST051504&quot;  
+##  [73] &quot;312SA050503&quot;   &quot;312DJ050202&quot;   &quot;312AW071102&quot;   &quot;312LL110803&quot;  
+##  [77] &quot;312YR080504&quot;   &quot;312JR032502&quot;   &quot;312KW101703&quot;   &quot;312AO010604&quot;  
+##  [81] &quot;312ZP100504&quot;   &quot;312SU032203&quot;   &quot;312KD081803&quot;   &quot;312HH082204&quot;  
+##  [85] &quot;312AP102904&quot;   &quot;312KW062204&quot;   &quot;312RS090703&quot;   &quot;312ME122299&quot;  
+##  [89] &quot;313DW060502&quot;   &quot;312KG012303&quot;   &quot;312JT011904&quot;   &quot;312SC061204&quot;  
+##  [93] &quot;312ZW012502&quot;   &quot;312KC022304&quot;   &quot;312JJ012203&quot;   &quot;312JH080102&quot;  
+##  [97] &quot;312KP040204&quot;   &quot;313MG102902&quot;   &quot;313GR040203&quot;   &quot;313HB060202&quot;  
+## [101] &quot;313HB060202&quot;   &quot;313JP090103&quot;   &quot;313JB090402&quot;   &quot;313JG070402&quot;  
+## [105] &quot;313JB091302&quot;   &quot;313YJ031404&quot;   &quot;313JR060502&quot;   &quot;313AK052902&quot;  
+## [109] &quot;313AD050602&quot;   &quot;313BB040203&quot;   &quot;313CW020602&quot;   &quot;313RL062003&quot;  
+## [113] &quot;313SJ060203&quot;   &quot;313MB090202&quot;   &quot;313SD010203&quot;   &quot;313SS101702&quot;  
+## [117] &quot;313CF080102&quot;   &quot;313TG072302&quot;   &quot;313AC103103&quot;   &quot;313AN121503&quot;  
+## [121] &quot;313AC082303&quot;   &quot;313AJ092103&quot;   &quot;313AB062704&quot;   &quot;313AW110303&quot;  
+## [125] &quot;313AF040403&quot;   &quot;313BM050404&quot;   &quot;313BC040204&quot;   &quot;313CH121604&quot;  
+## [129] &quot;313CD122702&quot;   &quot;313DP021104&quot;   &quot;313DJ031804&quot;   &quot;313DY100502&quot;  
+## [133] &quot;313AL042602&quot;   &quot;313AJ100704  &quot; &quot;313BS033102&quot;   &quot;313BS013101  &quot;
+## [137] &quot;313CP050801  &quot; &quot;313DG072603  &quot; &quot;313DE100602  &quot; &quot;313EC081602  &quot;
+## [141] &quot;313EH121700  &quot; &quot;313HR070802  &quot; &quot;313KS081404  &quot; &quot;313KH120302  &quot;
+## [145] &quot;313KH120302  &quot; &quot;313LE082703  &quot; &quot;313MH120302  &quot; &quot;313MS033102  &quot;
+## [149] &quot;313NB120901  &quot; &quot;313TG012003  &quot; &quot;313SY042303  &quot; &quot;313AC080304  &quot;
+## [153] &quot;313AH082204&quot;   &quot;313AV040903&quot;   &quot;313AB060404&quot;   &quot;313AF070302&quot;  
+## [157] &quot;313AH090402&quot;   &quot;313AP090203&quot;   &quot;313AG040602&quot;   &quot;313AR080201&quot;  
+## [161] &quot;313DC0614003&quot;  &quot;313HW090202&quot;   &quot;313KJ012003&quot;   &quot;313KC010603&quot;  
+## [165] &quot;313LS090504&quot;   &quot;313LL121002&quot;   &quot;313LP081302&quot;   &quot;313MG090502&quot;  
+## [169] &quot;313MY060702&quot;   &quot;313RN100203&quot;   &quot;313KE011302&quot;   &quot;313SR051403&quot;  
+## [173] &quot;313SW080304&quot;   &quot;313TR122902&quot;   &quot;313TW060904&quot;   &quot;313TW010504&quot;  
+## [177] &quot;313VJ061503&quot;   &quot;313KC111302&quot;   &quot;313TW010504&quot;   &quot;313TH082203&quot;  
+## [181] &quot;313ER111602&quot;   &quot;313EG050502&quot;   &quot;313ER122203&quot;   &quot;313EO080204&quot;  
+## [185] &quot;313TP102402&quot;   &quot;313TS010303&quot;   &quot;313TG091001&quot;   &quot;313TC071503&quot;  
+## [189] &quot;313TB110302&quot;   &quot;313SH092302&quot;   &quot;313SW083004&quot;   &quot;320DV032303&quot;  
+## [193] &quot;320JM102701&quot;   &quot;320TF073003&quot;   &quot;320AT101602&quot;   &quot;320AM072903&quot;  
+## [197] &quot;320AB061103&quot;   &quot;322DM041603&quot;   &quot;320IW012403&quot;   &quot;320IR061103&quot;  
+## [201] &quot;320CM120402&quot;   &quot;320RM080702&quot;   &quot;320OO062303&quot;   &quot;320BR072103&quot;  
+## [205] &quot;313SW091702&quot;   &quot;313SF120603&quot;   &quot;313SS111303&quot;   &quot;313PM082503&quot;  
+## [209] &quot;313NJ122099&quot;   &quot;313MA090303&quot;   &quot;313KG061204&quot;   &quot;313KM011503&quot;  
+## [213] &quot;313JP011003&quot;   &quot;313JD090803&quot;   &quot;313JT110402&quot;   &quot;313JR081602&quot;  
+## [217] &quot;313LF022804&quot;   &quot;313KA090203&quot;   &quot;313KT082103&quot;   &quot;313JM072404&quot;  
+## [221] &quot;313JB122201&quot;   &quot;313JC121003&quot;   &quot;313JR021003&quot;   &quot;313JM040603&quot;  
+## [225] &quot;313JL110304&quot;   &quot;313JS103001&quot;   &quot;313TB110302&quot;   &quot;313JD042302&quot;  
+## [229] &quot;313JP070503&quot;   &quot;313HW011803&quot;   &quot;313SS081403&quot;   &quot;313SS080202&quot;  
+## [233] &quot;313DM020603&quot;   &quot;313AJ111803&quot;   &quot;313VJ112402&quot;   &quot;313DF063004&quot;  
+## [237] &quot;313AB050904&quot;   &quot;313QB062902&quot;   &quot;319SW111400&quot;   &quot;319YL092403&quot;  
+## [241] &quot;319AS112003&quot;   &quot;319AS092801&quot;   &quot;319RO072004&quot;   &quot;321SP071002&quot;  
+## [245] &quot;321SP071002&quot;   &quot;321SH100301&quot;   &quot;321LL050202&quot;   &quot;312YM03042004&quot;
+## [249] &quot;321DR082201&quot;   &quot;312AM10142003&quot; &quot;312JS042003&quot;   &quot;312AS08222003&quot;
+## [253] &quot;312HL07132004&quot; &quot;321JR051302&quot;   &quot;312BS062004&quot;   &quot;312ER05152003&quot;
+## [257] &quot;312AE012004&quot;   &quot;312EE102002&quot;   &quot;312JC08272003&quot; &quot;312FM08032004&quot;
+## [261] &quot;312KB12242003&quot; &quot;312AG05182004&quot; &quot;312NR10132003&quot; &quot;312SM082003&quot;  
+## [265] &quot;312SB08292003&quot; &quot;312DD01132003&quot; &quot;312JR012903&quot;   &quot;312CT011403&quot;  
+## [269] &quot;312AE101603&quot;   &quot;312CW020701&quot;   &quot;312CE082102&quot;   &quot;312JM092003&quot;  
+## [273] &quot;321SJ032501&quot;   &quot;321FC060101&quot;   &quot;321MG081303&quot;   &quot;321CA061801&quot;  
+## [277] &quot;321TB042701&quot;   &quot;321PA012503&quot;   &quot;321AI022702&quot;   &quot;321AI022702&quot;  
+## [281] &quot;321MM092802&quot;   &quot;321JD101502&quot;   &quot;321PP043003&quot;   &quot;321MA081902&quot;  
+## [285] &quot;320CM110501&quot;   &quot;320AF050902&quot;   &quot;320SL061102&quot;   &quot;320DW031301&quot;  
+## [289] &quot;320SB093001&quot;   &quot;320MH081602&quot;   &quot;320MB011702&quot;   &quot;320JR062102&quot;  
+## [293] &quot;320TM040302&quot;   &quot;319SW111400&quot;   &quot;319DD071802&quot;   &quot;319PG030400&quot;  
+## [297] &quot;319JC122501&quot;   &quot;319TC080201&quot;   &quot;319AT122100&quot;   &quot;319GR020401&quot;  
+## [301] &quot;319CC091001&quot;   &quot;319TG101801&quot;   &quot;319YL092403&quot;   &quot;319AS112003&quot;  
+## [305] &quot;319AR110403&quot;   &quot;319AS092801&quot;   &quot;319LP092203&quot;   &quot;319RO073004&quot;  
+## [309] &quot;319DA011704&quot;   &quot;321IM121403&quot;   &quot;321BS111403&quot;   &quot;321RL121002&quot;  
+## [313] &quot;321DD121800&quot;   &quot;321CG111501&quot;   &quot;321NL052800&quot;   &quot;321GC050202&quot;  
+## [317] &quot;321AW080402&quot;   &quot;321AW022601&quot;   &quot;321KG030902&quot;   &quot;321IJ071800&quot;  
+## [321] &quot;321TB090501&quot;   &quot;313TA060203&quot;   &quot;313TA042602&quot;   &quot;313SS102000&quot;  
+## [325] &quot;313RH032805&quot;   &quot;313NB041502&quot;   &quot;313NF070900&quot;   &quot;313DB013101&quot;  
+## [329] &quot;313DJ013001&quot;   &quot;321KN101601&quot;   &quot;321JJ051601&quot;   &quot;321BB100901&quot;  
+## [333] &quot;321SE122802&quot;   &quot;321LU072702&quot;   &quot;321ZW050102&quot;   &quot;321JV021803&quot;  
+## [337] &quot;321PO071002&quot;   &quot;321RF031302&quot;   &quot;321AT022802&quot;   &quot;321TC051403&quot;  
+## [341] &quot;321FB061002&quot;   &quot;321JP061803&quot;   &quot;321BM081003&quot;   &quot;320AD120303&quot;  
+## [345] &quot;320EG111204&quot;   &quot;320DT031504&quot;   &quot;320LM121403&quot;   &quot;320KS040804&quot;  
+## [349] &quot;320SW090104&quot;   &quot;320JB112003&quot;   &quot;320ER101503&quot;   &quot;320JS031504&quot;  
+## [353] &quot;320DR110103&quot;   &quot;320AC012304&quot;   &quot;320LR071604&quot;   &quot;320SS091403&quot;  
+## [357] &quot;320MD082804&quot;   &quot;320CW111203&quot;   &quot;320AS062504&quot;   &quot;320TD091903&quot;  
+## [361] &quot;320TD102003&quot;   &quot;320CO111303&quot;   &quot;320SC072304&quot;   &quot;320CD010605&quot;  
+## [365] &quot;320AR060504&quot;   &quot;320TY071903&quot;   &quot;320NL051303&quot;   &quot;320TH032403&quot;  
+## [369] &quot;320AG061103&quot;   &quot;320GC121002&quot;   &quot;320SB122902&quot;   &quot;320DP041202&quot;  
+## [373] &quot;320SD031803&quot;   &quot;320HG052803&quot;   &quot;320MG041503&quot;   &quot;320MG030803&quot;  
+## [377] &quot;320RG071003&quot;   &quot;320TJ071403&quot;   &quot;320SA080203&quot;   &quot;320AM091902&quot;  
+## [381] &quot;320BA100102&quot;   &quot;320SB020803&quot;   &quot;320JD061002&quot;   &quot;320YT091702&quot;  
+## [385] &quot;320AG022403&quot;   &quot;320RM112402&quot;   &quot;320DY030802&quot;   &quot;320JN030502&quot;  
+## [389] &quot;320FB012202&quot;   &quot;320PG021002&quot;   &quot;320MM031402&quot;   &quot;320CB100901&quot;  
+## [393] &quot;320SM030502&quot;   &quot;320RR110901&quot;   &quot;320JW033002&quot;   &quot;320NC011102&quot;  
+## [397] &quot;320AR101101&quot;   &quot;320AF062602&quot;   &quot;320AH013102&quot;   &quot;320AM021301&quot;  
+## [401] &quot;320AM070802&quot;   &quot;320AH070602&quot;   &quot;320MG041902&quot;   &quot;320GB111401&quot;  
+## [405] &quot;320JL052202&quot;   &quot;320JJ070902&quot;   &quot;320SJ072302&quot;   &quot;320KO071502&quot;  
+## [409] &quot;320VT121102&quot;   &quot;320KJ022602&quot;   &quot;320YS111401&quot;   &quot;320CK031402&quot;  
+## [413] &quot;320MG121902&quot;   &quot;320YA020502&quot;   &quot;320CM070102&quot;   &quot;320LS082302&quot;  
+## [417] &quot;321DK121300&quot;   &quot;312DM092301&quot;   &quot;313NS050901&quot;   &quot;313NH071604&quot;  
+## [421] &quot;313MD120302&quot;   &quot;313MB050801&quot;   &quot;313LS021104&quot;   &quot;313CD032504&quot;  
+## [425] &quot;313CJ081604&quot;   &quot;320MB030803&quot;   &quot;320DL112002&quot;   &quot;320KW122401&quot;  
+## [429] &quot;320NR060503&quot;   &quot;320KD071103&quot;   &quot;320LB082503&quot;   &quot;320TL081304&quot;  
+## [433] &quot;320PT010305&quot;   &quot;320JR042303&quot;   &quot;320AM040103&quot;   &quot;320TM043002&quot;  
+## [437] &quot;320SN020402&quot;   &quot;320AF050702&quot;   &quot;320AW063002&quot;   &quot;320NT043002&quot;  
+## [441] &quot;320SS110101&quot;   &quot;320HP121201&quot;   &quot;320SB093001&quot;   &quot;320GE021302&quot;  
+## [445] &quot;320KA081802&quot;   &quot;320SC121301&quot;   &quot;320SL061102&quot;   &quot;320IM121905&quot;  
+## [449] &quot;320KD052502&quot;   &quot;320AS121201&quot;   &quot;320MH081602&quot;   &quot;320ZP050602&quot;  
+## [453] &quot;320JB062102&quot;   &quot;312SMD051304&quot;  &quot;320GD120203&quot;   &quot;320JB110501&quot;  
+## [457] &quot;320SJ052502&quot;   &quot;320AG091203&quot;   &quot;320HS082803&quot;   &quot;320CD032401&quot;  
+## [461] &quot;320SA122401&quot;   &quot;320SE081902&quot;   &quot;320BR031803&quot;   &quot;320TM060203&quot;  
+## [465] &quot;320KF052703&quot;   &quot;320RR110100&quot;   &quot;320KP110300&quot;   &quot;320JF042902&quot;  
+## [469] &quot;320AW050904&quot;   &quot;320LS111202&quot;   &quot;320JR071102&quot;   &quot;320ER121001&quot;  
+## [473] &quot;320RD020603&quot;   &quot;320JS020803&quot;   &quot;320TD060303&quot;   &quot;320AR100902&quot;  
+## [477] &quot;320CT030303&quot;   &quot;320AW022103&quot;   &quot;320NO030504&quot;   &quot;320CF032904&quot;  
+## [481] &quot;320KM050604&quot;   &quot;320AW122102&quot;   &quot;320AB022203&quot;   &quot;320HL040802&quot;  
+## [485] &quot;320SB070701&quot;   &quot;322NB061103&quot;   &quot;322MJ091704&quot;   &quot;322CA061704&quot;  
+## [489] &quot;322DS092602&quot;   &quot;322CR071803&quot;   &quot;313BH042702&quot;   &quot;313AH072703&quot;  
+## [493] &quot;313AB112002&quot;   &quot;313AE070802&quot;   &quot;313AN122002&quot;   &quot;313LG040801&quot;  
+## [497] &quot;321JA091201&quot;   &quot;321TC011203&quot;   &quot;321AD020803&quot;   &quot;321AG111402&quot;  
+## [501] &quot;321NJ032201&quot;   &quot;321KJ012703&quot;   &quot;321BL051301&quot;   &quot;321NO010803&quot;  
+## [505] &quot;321JP061803&quot;   &quot;321DS012802&quot;   &quot;321MW112701&quot;   &quot;313LH031502&quot;  
+## [509] &quot;313KE040805&quot;   &quot;313KB121202&quot;   &quot;313KD091402&quot;   &quot;313KH032104&quot;  
+## [513] &quot;313JH050703&quot;   &quot;313JW081700&quot;   &quot;313JG111203&quot;   &quot;313JS053004&quot;  
+## [517] &quot;313HH091900&quot;   &quot;313GT051001&quot;   &quot;313GW050404&quot;   &quot;313FS043102&quot;  
+## [521] &quot;313DW020202&quot;   &quot;313DL122400&quot;   &quot;313DL032102&quot;   &quot;313DM031404&quot;  
+## [525] &quot;313DL091702  &quot; &quot;313MH120402  &quot; &quot;313DM081501  &quot; &quot;313CB101103  &quot;
+## [529] &quot;313TA020602  &quot; &quot;313BN052400  &quot; &quot;313AJ041002  &quot; &quot;313DM081401  &quot;
+## [533] &quot;313JJ051600  &quot; &quot;313HB081401  &quot; &quot;313AJ111601  &quot; &quot;313TW111601  &quot;
+## [537] &quot;313AA091300&quot;   &quot;313NM092901&quot;   &quot;313SP101602&quot;   &quot;313LM110402&quot;  
+## [541] &quot;313SJ092102&quot;   &quot;313TR060701&quot;   &quot;313SS080601&quot;   &quot;313AJ100301&quot;  
+## [545] &quot;313SL102501&quot;   &quot;313AH030201&quot;   &quot;313BC082900&quot;   &quot;313BB052401&quot;  
+## [549] &quot;313AB071302&quot;   &quot;313RB031401&quot;   &quot;313AN060301&quot;   &quot;313AJ061101&quot;  
+## [553] &quot;313RL060201&quot;   &quot;313LJ090102&quot;   &quot;313AA041803&quot;   &quot;313ST122101&quot;  
+## [557] &quot;313YJ062501&quot;   &quot;313MM110400&quot;   &quot;313MD100300&quot;   &quot;313MA082702&quot;  
+## [561] &quot;313JW081804&quot;   &quot;313AH082502&quot;   &quot;313MD050604&quot;   &quot;313TD073104&quot;  
+## [565] &quot;313TA120503&quot;   &quot;313TG041203&quot;   &quot;313TB112002&quot;   &quot;313TG053004&quot;  
+## [569] &quot;313SW013103&quot;   &quot;313SW021304&quot;   &quot;313SJ102903&quot;   &quot;313PK110102&quot;  
+## [573] &quot;313OF022803&quot;   &quot;313ND012403&quot;   &quot;313NM110602&quot;   &quot;320KH061601&quot;  
+## [577] &quot;313NW122502&quot;   &quot;313MS031104&quot;   &quot;320LS042403&quot;   &quot;320JO122602&quot;  
+## [581] &quot;320AB101201&quot;   &quot;320MS022703&quot;   &quot;320II081302&quot;   &quot;313MP031502&quot;  
+## [585] &quot;321CH092703&quot;   &quot;321DG010202&quot;   &quot;321TA121501&quot;   &quot;313MM071604&quot;  
+## [589] &quot;313LF071302&quot;   &quot;313KF050203&quot;   &quot;313JL032903&quot;   &quot;313JS091402&quot;  
+## [593] &quot;313IA091203&quot;   &quot;313IH091404&quot;   &quot;313FF120202&quot;   &quot;313ES060503&quot;  
+## [597] &quot;313CM120103&quot;   &quot;313CC032104&quot;   &quot;313BB032805&quot;   &quot;313AM030805&quot;  
+## [601] &quot;313AE050404&quot;   &quot;313AM022202&quot;   &quot;313AJ111203&quot;   &quot;313AE041502&quot;  
+## [605] &quot;313AP042602&quot;   &quot;313AW060203&quot;   &quot;313AH052504&quot;   &quot;313KD041503&quot;  
+## [609] &quot;313JK122602&quot;   &quot;313LC041404&quot;   &quot;313AC020102&quot;   &quot;06152060200&quot;  
+## [613] &quot;321EN012402&quot;   &quot;321SW013102&quot;   &quot;321SC092001&quot;   &quot;321AW110701&quot;  
+## [617] &quot;321SD111202&quot;   &quot;321AG092602&quot;   &quot;321NT052302&quot;   &quot;321IP041602&quot;  
+## [621] &quot;321NJ061904&quot;   &quot;321RJ081099&quot;   &quot;321CR101403&quot;   &quot;321CG082901&quot;  
+## [625] &quot;321KG120501&quot;   &quot;321RL060204&quot;   &quot;321KT083104&quot;   &quot;321RJ011800&quot;  
+## [629] &quot;06084010200&quot;   &quot;321SA080701&quot;   &quot;321BR081401&quot;   &quot;321LD090102&quot;  
+## [633] &quot;321KM121501&quot;   &quot;321MD062803&quot;   &quot;321SM012903&quot;   &quot;321JR051302&quot;  
+## [637] &quot;321CF051501&quot;   &quot;313AJ120702&quot;   &quot;313SA080202  &quot; &quot;313NW110203  &quot;
+## [641] &quot;313LD102701  &quot; &quot;313JR112301  &quot; &quot;313JW111002  &quot; &quot;313JY070403  &quot;
+## [645] &quot;313BS041502  &quot; &quot;313JH110902  &quot; &quot;313JD052803  &quot; &quot;313JC012502  &quot;
+## [649] &quot;313JH041802  &quot; &quot;313IJ090703  &quot; &quot;313HB022103  &quot; &quot;313ET110102  &quot;
+## [653] &quot;313DP102903  &quot; &quot;313CH080602  &quot; &quot;313BB032502  &quot; &quot;313BM102701  &quot;
+## [657] &quot;313BB082902  &quot; &quot;313JB090301&quot;   &quot;313JB060403&quot;   &quot;313AJ032101&quot;  
+## [661] &quot;313EM050301&quot;   &quot;313LS120602&quot;   &quot;313KM080502&quot;   &quot;313PS090801&quot;  
+## [665] &quot;313KD042102&quot;   &quot;313MN060203&quot;   &quot;313JD120102&quot;   &quot;313JT110202&quot;  
+## [669] &quot;313JS100203&quot;   &quot;313OM070501&quot;   &quot;313MK050201&quot;   &quot;313ZJ050403&quot;  
+## [673] &quot;313LM010502&quot;   &quot;313ST020303&quot;</code></pre>
+<pre class="r"><code>####Test to see if any test schools in syste
+rawdata$school</code></pre>
+<pre><code>##   [1] Emerson                     Robinswood Middle School   
+##   [3] Robinswood Middle School    Robinswood Middle School   
+##   [5] Robinswood Middle School    Robinswood Middle School   
+##   [7] Robinswood Middle School    Robinswood Middle School   
+##   [9] Robbinswood Middle School   Robbinswood Middle School  
+##  [11] Robinswood Middle School    Robinswood Middle School   
+##  [13] Robinswood Middle School    Robinswood Middle School   
+##  [15] Robinswood Middle School    Robinswood Middle School   
+##  [17] Robinswood Middle School    Robinswood Middle School   
+##  [19] Robinswood Middle School    Robinswood Middle School   
+##  [21] Robinswood Middle School    Robinswood Middle School   
+##  [23] Robinswood Middle School    Robinswood Middle School   
+##  [25] Robinswood Middle School    Robinswood Middle School   
+##  [27] Robinswood Middle School    Robinswood Middle School   
+##  [29] Robinswood Middle School    Robinswood Middle School   
+##  [31] Southside Middle            Robinswood Middle          
+##  [33] Robinswood Middle School    Robinswood Middle School   
+##  [35] Stacey Allen                Robinswood Middle School   
+##  [37] Robinswood Middle School    Robinswood Middle School   
+##  [39] Robinswood Middle School    Robinswood Middle School   
+##  [41] Robinswood Middle School    Robinswood Middle School   
+##  [43] Robinswood Middle School    Robinswood Middle School   
+##  [45] Robinswood Middle School    Robinswood Middle School   
+##  [47] Robinswood Middle School    Robinswood MIddle School   
+##  [49] Memorial Middle School      Memorial Middle School     
+##  [51] Memorial Middle School      Memorial Middle School     
+##  [53] Memorial Middle School      Memorial Middle School     
+##  [55] Memorial Middle School      Memorial Middle School     
+##  [57] Memorial Middle School      Memorial Middle School     
+##  [59] Memorial Middle School      Memorial Middle School     
+##  [61] Memorial Middle School      Memorial Middle School     
+##  [63] Memorial Middle School      Memorial Middle School     
+##  [65] Memorial Middle School      Memorial Middle School     
+##  [67] Memorial Middle School      Memorial Middle School     
+##  [69] Memorial Middle School      Robinswood Middle School   
+##  [71] Memorial Middle School      Memorial Middle School     
+##  [73] Memorial Middle School      Memorial Middle            
+##  [75] Memorial Middle School      Memorial                   
+##  [77] Walker Middle School        Walker Middle School       
+##  [79] Walker Middle School        Walker Middle School       
+##  [81] Walker Middle School        Walker Middle School       
+##  [83] Walker Middle school        Walker Middle School       
+##  [85] Walker middle School        Walker Middle Schooll      
+##  [87] Walker Middle School        Walker middle school       
+##  [89] Ribualt                     Walker Middle School       
+##  [91] Walker Middle School        Memorial Middle School     
+##  [93] Memorial Middle School      Memorial Middle School     
+##  [95] Walker Middle School        Robinswood Middle School   
+##  [97] Memorial Middle School      Ribualt                    
+##  [99] Ribault                     Ribault                    
+## [101] Ribault                     Ribault                    
+## [103] Ribault                     Ribault                    
+## [105] Ribault                     Ribault                    
+## [107] Ribault                     Ribault                    
+## [109] Ribault                     Ribault                    
+## [111] Ribault                     Ribault                    
+## [113] Ribault                     Ribault                    
+## [115] Ribault                     Ribault                    
+## [117] Ribault                     Ribault                    
+## [119] The Bridge                  The Bridge                 
+## [121] The Bridge                  The Bridge                 
+## [123] The Bridge                  The Bridge                 
+## [125] The Bridge                  The Bridge                 
+## [127] The Bridge                  The Bridge                 
+## [129] The Bridge                  The Bridge                 
+## [131] The Bridge                  The Bridge                 
+## [133] Lakeshore                   Lakeshore                  
+## [135] Lakeshore                   Waverly                    
+## [137] Waverly                     Waverly                    
+## [139] Waverly                     Waverly                    
+## [141] Waverly                     Waverly                    
+## [143] Waverly                     Waverly                    
+## [145] Waverly                     Waverly                    
+## [147] Waverly                     Waverly                    
+## [149] Waverly                     Waverly                    
+## [151] Waverly                     Waverly                    
+## [153] Lakeshore                   Lakeshore                  
+## [155] Lakeshore                   Lakeshore                  
+## [157] Lakeshore                   Lakeshore                  
+## [159] Lakeshore                   Lakeshore                  
+## [161] Lakeshore                   Lakeshore                  
+## [163] Lakeshore                   Lakeshore                  
+## [165] Lakeshore                   Lakeshore                  
+## [167] Lakeshore                   Lakeshore                  
+## [169] Lakeshore                   Lakeshore                  
+## [171] Lakeshore                   Lakeshore                  
+## [173] Lakeshore                   Lakeshore                  
+## [175] Lakeshore                   Lakeshore                  
+## [177] Lakeshore                   Lakeshore                  
+## [179] Lakeshore                   Lakeshore                  
+## [181] The Brigde                  The Brigde                 
+## [183] The Brigde                  The Bridge                 
+## [185] The Bridge                  The bridge                 
+## [187] The Bridge                  The Bridge                 
+## [189] The Bridge                  The Bridge                 
+## [191] Bridge                      BLAKE                      
+## [193] BLAKE                       BLAKE                      
+## [195] BLAKE                       BLAKE                      
+## [197] BLAKE                       BLAKE                      
+## [199] BLAKE                       BLAKE                      
+## [201] BLAKE                       BLAKE                      
+## [203] BLAKE                       BLAKE                      
+## [205] The Bridge                  The Bridge                 
+## [207] The Bridge                  The Bridge                 
+## [209] The Bridge                  The Bridge                 
+## [211] The Bridge                  The Bridge                 
+## [213] The Bridge                  The Bridge                 
+## [215] The Bridge                  The Bridge                 
+## [217] The Bridge                  The Bridge                 
+## [219] The Bridge                  The Bridge                 
+## [221] The Bridge                  The Bridge                 
+## [223] The Bridge                  The Bridge                 
+## [225] The Bridge                  The Bridge                 
+## [227] The Bridge                  The Bridge                 
+## [229] The Bridge                  John E Ford                
+## [231] John E Ford                 John E Ford                
+## [233] John E Ford                 John E Ford                
+## [235] John E Ford                 John E Ford                
+## [237] John E Ford                 John E Ford                
+## [239] Cutler Bay Academy          ASPIRA South Charter School
+## [241] ASPIRA South Charter School ASPIRA South Chater School 
+## [243] ASPIRA South Charter School Lauderdale Lakes Middle    
+## [245] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [247] Lauderdale Lakes Middle     Jackson Middle             
+## [249] Lauderdale Lakes Middle     Jackson Middle             
+## [251] Jackson Middle              Jackson Middle             
+## [253] Jackson Middle              Lauderdale Lakes Middle    
+## [255] Jackson Middle              Jackson Middle             
+## [257] Jackson Middle              Jackson Middle             
+## [259] Jackson Middle              Jackson Middle             
+## [261] Jackson Middle              Jackson Middle             
+## [263] Jackson Middle              Jackson Middle             
+## [265] Jackson Middle              Jackson Middle             
+## [267] Walker Middle               Walker Middle              
+## [269] Memorial Middle             Memorial Middle            
+## [271] Memorial Middle             Jackson Middle             
+## [273] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [275] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [277] Lauderdale Lakes Middle     Lauderdale Lake Middle     
+## [279] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [281] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [283] Lauderdale Lakes Middle     Lauderdale Lakes middle    
+## [285] Blake Academy               Blake Academy              
+## [287] Blake Academy               Blake Academy              
+## [289] Blake Academy               Blake Academy              
+## [291] Blake Academy               Blake Academy              
+## [293] Blake Academy               Cutler Bay Academy         
+## [295] Cutler Bay Academy          Cutler Bay Academy         
+## [297] Cutler Bay Academy          Cutler Bay Academy         
+## [299] Cutler Bay Academy          Cutler Bay Academy         
+## [301] Cutler Bay Academy          Cutler Bay Academy         
+## [303] Aspira South                Aspira South               
+## [305] Aspira South                Aspira South               
+## [307] Aspira South                Aspira South               
+## [309] Aspira South                MM                         
+## [311] MM                          MM                         
+## [313] MM                          MM                         
+## [315] MM                          MM                         
+## [317] MM                          MM                         
+## [319] MM                          MM                         
+## [321] LLM                         John E Ford                
+## [323] John E Ford                 John E Ford                
+## [325] John E Ford                 John E Ford                
+## [327] John E Ford                 John E Ford                
+## [329] John E Ford                 Lauderdale Lakes Middle    
+## [331] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [333] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [335] Lauderdale Lakes Middle     Lauderdale Lakes Middle    
+## [337] Lauderdale Lakes Middle     LLM                        
+## [339] LLM                         LLM                        
+## [341] LLM                         LLM                        
+## [343] LLM                         Young Middle School        
+## [345] Young Middle School         Young Middle School        
+## [347] Young Middle School         Young Middle School        
+## [349] Young Middle School         Young Middle School        
+## [351] Young Middle School         Young Middle School        
+## [353] Young Middle School         Young Middle School        
+## [355] Young Middle School         Young Middle School        
+## [357] Young Middle School         Young Middle School        
+## [359] Young Middle School         Young Middle School        
+## [361] Young Middle School         Young Middle School        
+## [363] Young Middle School         Young Middle School        
+## [365] Young Middle School         Young Middle School        
+## [367] Young Middle School         Young Middle School        
+## [369] Young Middle School         Young Middle School        
+## [371] Young Middle School         Young Middle School        
+## [373] Young Middle School         Young Middle School        
+## [375] Young Middle School         Young Middle School        
+## [377] Young Middle School         Young Middle School        
+## [379] Young Middle School         Young Middle School        
+## [381] Young Middle School         Young Middle School        
+## [383] Young Middle School         Young Middle School        
+## [385] Young Middle School         Young Middle School        
+## [387] Young Middle School         Young Middle School        
+## [389] Young Middle School         Young Middle School        
+## [391] Young Middle School         Young Middle School        
+## [393] Young Middle School         Young Middle School        
+## [395] Young Middle School         Young Middle School        
+## [397] Young Middle School         Young Middle School        
+## [399] Young Middle School         Young Middle School        
+## [401] Young Middle School         Young Middle School        
+## [403] Young Middle School         Young Middle School        
+## [405] Young Middle School         Young Middle School        
+## [407] Young Middle School         Young Middle School        
+## [409] Young Middle School         Young Middle School        
+## [411] Young Middle School         Young Middle School        
+## [413] Young Middle School         Young Middle School        
+## [415] Young Middle School         Young Middle School        
+## [417] MM                          MM                         
+## [419] John E Ford                 John E Ford                
+## [421] John E Ford                 John E Ford                
+## [423] John E Ford                 John E Ford                
+## [425] John E Ford                 Blake Academy              
+## [427] Blake Academy               Blake Academy              
+## [429] Blake Academy               Rochelle School of the Arts
+## [431] Southwest Middle            Southwest Middle           
+## [433] Rochelle School of the Arts Rochelle School of the Arts
+## [435] Southwest Middle            Blake Academy              
+## [437] Blake Academy               Blake Academy              
+## [439] Blake Academy               Blake Academy              
+## [441] Blake Academy               Blake Academy              
+## [443] Blake Academy               Blake Academy              
+## [445] Blake Academy               Blake Academy              
+## [447] Blake Academy               Blake Academy              
+## [449] Rochelle School of the Arts Rochelle School of the Arts
+## [451] Blake Academy               Blake Academy              
+## [453] Blake Academy               Jackson Middle             
+## [455] Sleepy Hill Middle          Sleepy Hill Middle         
+## [457] Sleepy Hill Middle          Sleepy Hill Middle         
+## [459] Sleepy Hill Middle          Sleepy Hill Middle         
+## [461] Sleepy Hill Middle          Sleepy Hill Middle         
+## [463] Sleepy Hill Middle          Sleepy Hill Middle         
+## [465] Sleepy Hill Middle          Sleepy Hill Middle         
+## [467] Sleepy Hill Middle          Sleepy Hill Middle         
+## [469] Sleepy Hill Middle          Sleepy Hill Middle         
+## [471] Sleepy Hill Middle          Sleepy Hill Middle         
+## [473] Sleepy Hill Middle          Sleepy Hill Middle         
+## [475] Sleepy Hill Middle          Sleepy Hill Middle         
+## [477] Sleepy Hill Middle          Sleepy Hill Middle         
+## [479] Sleepy Hill Middle          Sleepy Hill Middle         
+## [481] Sleepy Hill Middle          Sleepy Hill Middle         
+## [483] Sleepy Hill Middle          Sleepy Hill Middle         
+## [485] Sleepy Hill Middle          JINKS MIDDLE SCHOOL        
+## [487] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [489] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [491] John E Ford                 John E Ford                
+## [493] John E Ford                 John E Ford                
+## [495] John E Ford                 John E Ford                
+## [497] LL                          LL                         
+## [499] LL                          LL                         
+## [501] LL                          LL                         
+## [503] LL                          LL                         
+## [505] LL                          LL                         
+## [507] LL                          John E Ford                
+## [509] John E Ford                 John E Ford                
+## [511] John E Ford                 John E Ford                
+## [513] John E Ford                 John E Ford                
+## [515] John E Ford                 John E Ford                
+## [517] John E Ford                 John E Ford                
+## [519] John E Ford                 John E Ford                
+## [521] John E Ford                 John E Ford                
+## [523] John E Ford                 John E Ford                
+## [525] Waverly                     Waverly                    
+## [527] Waverly                     Waverly                    
+## [529] Waverly                     Waverly                    
+## [531] Waverly                     Waverly                    
+## [533] Waverly                     Waverly                    
+## [535] Waverly                     Waverly                    
+## [537] Ribualt                     Ribualt                    
+## [539] Ribualt                     Ribault                    
+## [541] Ribault                     Ribault                    
+## [543] Ribualt                     Ribault                    
+## [545] ribualt                     Ribualt                    
+## [547] Ribualt                     Ribualt                    
+## [549] Ribualt                     Ribualt                    
+## [551] Ribualt                     Ribualt                    
+## [553] Ribualt                     Ribualt                    
+## [555] Ribualt                     Ribualt                    
+## [557] Ribualt                     Ribualt                    
+## [559] Ribualt                     Ribualt                    
+## [561] LakeShore                   Lakeshore                  
+## [563] Lakeshore                   Southside                  
+## [565] Southside                   Southside                  
+## [567] Southside                   Southside                  
+## [569] Southside                   Southside                  
+## [571] Southside                   Southside                  
+## [573] Southside                   Southside                  
+## [575] Southside                   Sleepy Hill Middle         
+## [577] Southside                   Southside                  
+## [579] Sleepy Hill Middle          Sleepy Hill Middle         
+## [581] Sleepy Hill Middle          Sleepy Hill Middle         
+## [583] Sleepy Hill Middle          Southside                  
+## [585] LLM                         LLM                        
+## [587] LLM                         Southside                  
+## [589] Southside                   Southside                  
+## [591] Southside                   Southside                  
+## [593] Southside                   Southside                  
+## [595] Southside                   Southside                  
+## [597] Southside                   Southside                  
+## [599] Southside                   Southside                  
+## [601] Southside                   Southside                  
+## [603] Southside                   Southside                  
+## [605] Southside                   Southside                  
+## [607] Lakeshore                   Lakeshore                  
+## [609] Lakeshore                   Lakeshore                  
+## [611] Lakeshore                   Memorial Middle            
+## [613] LL                          LL                         
+## [615] LL                          LL                         
+## [617] LL                          LL                         
+## [619] LL                          LL                         
+## [621] LL                          LL                         
+## [623] LL                          MM                         
+## [625] MM                          MM                         
+## [627] MM                          MM                         
+## [629] Giunta Middle               LL                         
+## [631] LL                          LL                         
+## [633] LL                          LL                         
+## [635] LL                          LL                         
+## [637] LL                          Waverly                    
+## [639] Waverly                     Waverly                    
+## [641] Waverly                     Waverly                    
+## [643] Waverly                     Waverly                    
+## [645] Waverly                     Waverly                    
+## [647] Waverly                     Waverly                    
+## [649] Waverly                     Waverly                    
+## [651] Waverly                     Waverly                    
+## [653] Waverly                     Waverly                    
+## [655] Waverly                     Waverly                    
+## [657] Waverly                     Lakeshore                  
+## [659] Lakeshore                   Lakeshore                  
+## [661] Lakeshore                   Lakeshore                  
+## [663] Lakeshore                   Lakeshore                  
+## [665] Lakeshore                   Lakeshore                  
+## [667] Lakeshore                   Lakeshore                  
+## [669] Lakeshore                   Lakeshore                  
+## [671] Lakeshore                   Lakeshore                  
+## [673] Lakeshore                   Lakeshore                  
+## 52 Levels: Aspira South ... Young Middle School</code></pre>
+<pre class="r"><code>###Fix if any girlCode is in Test
+rawdata &lt;- filter(rawdata, girlCode !=&quot;TEST&quot;)
+
+council_girlCode &lt;-with(rawdata,table(girlCode, council))
+
+council_girlCode</code></pre>
+<pre><code>##                council
+## girlCode        Citrus Council Gateway Council Panhandle Council
+##   06084010200                0               0                 0
+##   06152060200                0               0                 0
+##   312AA071702                1               0                 0
+##   312AA111701                1               0                 0
+##   312AB101502                1               0                 0
+##   312AB110701                1               0                 0
+##   312AE012004                1               0                 0
+##   312AE101603                1               0                 0
+##   312AG05182004              1               0                 0
+##   312AG052703                1               0                 0
+##   312AJ100102                1               0                 0
+##   312AL061102                1               0                 0
+##   312AL082602                1               0                 0
+##   312AM022702                1               0                 0
+##   312AM062102                1               0                 0
+##   312AM10142003              1               0                 0
+##   312AM110503                1               0                 0
+##   312AM112403                1               0                 0
+##   312AM112801                1               0                 0
+##   312AO010604                1               0                 0
+##   312AP102904                1               0                 0
+##   312AR090501                1               0                 0
+##   312AS030202                1               0                 0
+##   312AS08222003              1               0                 0
+##   312AW060903                1               0                 0
+##   312AW061702                1               0                 0
+##   312AW071102                1               0                 0
+##   312AW111601                1               0                 0
+##   312BJ021603                1               0                 0
+##   312BL053004                1               0                 0
+##   312BS062004                1               0                 0
+##   312CD081803                1               0                 0
+##   312CE082102                1               0                 0
+##   312CE103003                1               0                 0
+##   312CG092602                1               0                 0
+##   312CM100602                1               0                 0
+##   312CT011403                1               0                 0
+##   312CW020701                1               0                 0
+##   312DD01132003              1               0                 0
+##   312DJ050202                1               0                 0
+##   312DJ101301                1               0                 0
+##   312DM092301                0               0                 0
+##   312DR012403                1               0                 0
+##   312DW011802                1               0                 0
+##   312EE102002                1               0                 0
+##   312ER05152003              1               0                 0
+##   312EV111702                1               0                 0
+##   312FB102003                1               0                 0
+##   312FC101001                1               0                 0
+##   312FM08032004              1               0                 0
+##   312FN091704                1               0                 0
+##   312FS020503                1               0                 0
+##   312GB022203                1               0                 0
+##   312HH082204                1               0                 0
+##   312HJ011602                1               0                 0
+##   312HL07132004              1               0                 0
+##   312IG020403                1               0                 0
+##   312JC012102                1               0                 0
+##   312JC081903                1               0                 0
+##   312JC08272003              1               0                 0
+##   312JF031602                1               0                 0
+##   312JG022402                1               0                 0
+##   312JH080102                1               0                 0
+##   312JH082302                1               0                 0
+##   312JJ012203                1               0                 0
+##   312JM092003                1               0                 0
+##   312JR012903                1               0                 0
+##   312JR021602                1               0                 0
+##   312JR032502                1               0                 0
+##   312JS013102                1               0                 0
+##   312JS042003                1               0                 0
+##   312JT011904                1               0                 0
+##   312JV032902                1               0                 0
+##   312JW012903                1               0                 0
+##   312KB12242003              1               0                 0
+##   312KC022304                1               0                 0
+##   312KC120201                1               0                 0
+##   312KD081803                1               0                 0
+##   312KG012303                1               0                 0
+##   312KJ050403                1               0                 0
+##   312KM012003                1               0                 0
+##   312KN121401                1               0                 0
+##   312KP040204                1               0                 0
+##   312KW062204                1               0                 0
+##   312KW101703                1               0                 0
+##   312LL110803                1               0                 0
+##   312LP021703                1               0                 0
+##   312ME122299                1               0                 0
+##   312MJ092702                1               0                 0
+##   312ML051303                1               0                 0
+##   312MM111903                1               0                 0
+##   312ND011904                1               0                 0
+##   312NM101701                1               0                 0
+##   312NR10132003              1               0                 0
+##   312PM110402                1               0                 0
+##   312PV061702                1               0                 0
+##   312QW012803                1               0                 0
+##   312RN011302                1               0                 0
+##   312RS090703                1               0                 0
+##   312SA050503                1               0                 0
+##   312SA100201                1               0                 0
+##   312SB08292003              1               0                 0
+##   312SC050104                1               0                 0
+##   312SC061204                1               0                 0
+##   312SC121202                1               0                 0
+##   312SG050202                1               0                 0
+##   312SM081703                1               0                 0
+##   312SM082003                1               0                 0
+##   312SMD051304               1               0                 0
+##   312ST051504                1               0                 0
+##   312SU032203                1               0                 0
+##   312TA100802                1               0                 0
+##   312TA111803                1               0                 0
+##   312WS060303                1               0                 0
+##   312YM03042004              1               0                 0
+##   312YR080504                1               0                 0
+##   312ZD072502                1               0                 0
+##   312ZP100504                1               0                 0
+##   312ZS011902                1               0                 0
+##   312ZT060802                1               0                 0
+##   312ZW012502                1               0                 0
+##   313AA041803                0               1                 0
+##   313AA091300                0               1                 0
+##   313AB050904                0               1                 0
+##   313AB060404                0               1                 0
+##   313AB062704                0               1                 0
+##   313AB071302                0               1                 0
+##   313AB112002                0               1                 0
+##   313AC020102                0               1                 0
+##   313AC080304                0               1                 0
+##   313AC082303                0               1                 0
+##   313AC103103                0               1                 0
+##   313AD050602                0               1                 0
+##   313AE041502                0               1                 0
+##   313AE050404                0               2                 0
+##   313AE070802                0               1                 0
+##   313AF040403                0               1                 0
+##   313AF070302                0               1                 0
+##   313AG040602                0               1                 0
+##   313AH030201                0               1                 0
+##   313AH052504                0               1                 0
+##   313AH072703                0               1                 0
+##   313AH082204                0               1                 0
+##   313AH082502                0               1                 0
+##   313AH090402                0               1                 0
+##   313AJ032101                0               1                 0
+##   313AJ041002                0               1                 0
+##   313AJ061101                0               1                 0
+##   313AJ092103                0               1                 0
+##   313AJ100301                0               1                 0
+##   313AJ100704                0               1                 0
+##   313AJ111203                0               1                 0
+##   313AJ111601                0               1                 0
+##   313AJ111803                0               1                 0
+##   313AJ120702                0               1                 0
+##   313AK052902                0               1                 0
+##   313AL042602                0               1                 0
+##   313AM022202                0               1                 0
+##   313AM030805                0               1                 0
+##   313AN060301                0               1                 0
+##   313AN121503                0               1                 0
+##   313AN122002                0               1                 0
+##   313AP042602                0               1                 0
+##   313AP090203                0               1                 0
+##   313AR080201                0               1                 0
+##   313AV040903                0               1                 0
+##   313AW060203                0               1                 0
+##   313AW110303                0               1                 0
+##   313BB032502                0               1                 0
+##   313BB032805                0               1                 0
+##   313BB040203                0               1                 0
+##   313BB052401                0               1                 0
+##   313BB082902                0               1                 0
+##   313BC040204                0               1                 0
+##   313BC082900                0               1                 0
+##   313BH042702                0               1                 0
+##   313BM050404                0               1                 0
+##   313BM102701                0               1                 0
+##   313BN052400                0               1                 0
+##   313BS013101                0               1                 0
+##   313BS033102                0               1                 0
+##   313BS041502                0               1                 0
+##   313CB101103                0               1                 0
+##   313CC032104                0               1                 0
+##   313CD032504                0               1                 0
+##   313CD122702                0               1                 0
+##   313CF080102                0               1                 0
+##   313CH080602                0               1                 0
+##   313CH121604                0               1                 0
+##   313CJ081604                0               1                 0
+##   313CM120103                0               1                 0
+##   313CP050801                0               1                 0
+##   313CW020602                0               1                 0
+##   313DB013101                0               1                 0
+##   313DC0614003               0               1                 0
+##   313DE100602                0               1                 0
+##   313DF063004                0               1                 0
+##   313DG072603                0               1                 0
+##   313DJ013001                0               1                 0
+##   313DJ031804                0               1                 0
+##   313DL032102                0               1                 0
+##   313DL091702                0               1                 0
+##   313DL122400                0               1                 0
+##   313DM020603                0               1                 0
+##   313DM031404                0               1                 0
+##   313DM081401                0               1                 0
+##   313DM081501                0               1                 0
+##   313DP021104                0               1                 0
+##   313DP102903                0               1                 0
+##   313DW020202                0               1                 0
+##   313DW060502                0               1                 0
+##   313DY100502                0               1                 0
+##   313EC081602                0               1                 0
+##   313EG050502                0               1                 0
+##   313EH121700                0               1                 0
+##   313EM050301                0               1                 0
+##   313EO080204                0               1                 0
+##   313ER111602                0               1                 0
+##   313ER122203                0               1                 0
+##   313ES060503                0               1                 0
+##   313ET110102                0               1                 0
+##   313FF120202                0               1                 0
+##   313FS043102                0               1                 0
+##   313GR040203                0               1                 0
+##   313GT051001                0               1                 0
+##   313GW050404                0               1                 0
+##   313HB022103                0               1                 0
+##   313HB060202                0               2                 0
+##   313HB081401                0               1                 0
+##   313HH091900                0               1                 0
+##   313HR070802                0               1                 0
+##   313HW011803                0               1                 0
+##   313HW090202                0               1                 0
+##   313IA091203                0               1                 0
+##   313IH091404                0               1                 0
+##   313IJ090703                0               1                 0
+##   313JB060403                0               1                 0
+##   313JB090301                0               1                 0
+##   313JB090402                0               1                 0
+##   313JB091302                0               1                 0
+##   313JB122201                0               1                 0
+##   313JC012502                0               1                 0
+##   313JC121003                0               1                 0
+##   313JD042302                0               1                 0
+##   313JD052803                0               1                 0
+##   313JD090803                0               1                 0
+##   313JD120102                0               1                 0
+##   313JG070402                0               1                 0
+##   313JG111203                0               1                 0
+##   313JH041802                0               1                 0
+##   313JH050703                0               1                 0
+##   313JH110902                0               1                 0
+##   313JJ051600                0               1                 0
+##   313JK122602                0               1                 0
+##   313JL032903                0               1                 0
+##   313JL110304                0               1                 0
+##   313JM040603                0               1                 0
+##   313JM072404                0               1                 0
+##   313JP011003                0               1                 0
+##   313JP070503                0               1                 0
+##   313JP090103                0               1                 0
+##   313JR021003                0               1                 0
+##   313JR060502                0               1                 0
+##   313JR081602                0               1                 0
+##   313JR112301                0               1                 0
+##   313JS053004                0               1                 0
+##   313JS091402                0               1                 0
+##   313JS100203                0               1                 0
+##   313JS103001                0               1                 0
+##   313JT110202                0               1                 0
+##   313JT110402                0               1                 0
+##   313JW081700                0               1                 0
+##   313JW081804                0               1                 0
+##   313JW111002                0               1                 0
+##   313JY070403                0               1                 0
+##   313KA090203                0               1                 0
+##   313KB121202                0               1                 0
+##   313KC010603                0               1                 0
+##   313KC111302                0               1                 0
+##   313KD041503                0               1                 0
+##   313KD042102                0               1                 0
+##   313KD091402                0               0                 1
+##   313KE011302                0               1                 0
+##   313KE040805                0               1                 0
+##   313KF050203                0               1                 0
+##   313KG061204                0               1                 0
+##   313KH032104                0               1                 0
+##   313KH120302                0               2                 0
+##   313KJ012003                0               1                 0
+##   313KM011503                0               1                 0
+##   313KM080502                0               1                 0
+##   313KS081404                0               1                 0
+##   313KT082103                0               1                 0
+##   313LC041404                0               1                 0
+##   313LD102701                0               1                 0
+##   313LE082703                0               1                 0
+##   313LF022804                0               1                 0
+##   313LF071302                0               1                 0
+##   313LG040801                0               1                 0
+##   313LH031502                0               1                 0
+##   313LJ090102                0               1                 0
+##   313LL121002                0               1                 0
+##   313LM010502                0               1                 0
+##   313LM110402                0               1                 0
+##   313LP081302                0               1                 0
+##   313LS021104                0               1                 0
+##   313LS090504                0               1                 0
+##   313LS120602                0               1                 0
+##   313MA082702                0               1                 0
+##   313MA090303                0               1                 0
+##   313MB050801                0               1                 0
+##   313MB090202                0               1                 0
+##   313MD050604                0               1                 0
+##   313MD100300                0               1                 0
+##   313MD120302                0               1                 0
+##   313MG090502                0               1                 0
+##   313MG102902                0               1                 0
+##   313MH120302                0               1                 0
+##   313MH120402                0               1                 0
+##   313MK050201                0               1                 0
+##   313MM071604                0               1                 0
+##   313MM110400                0               1                 0
+##   313MN060203                0               1                 0
+##   313MP031502                0               1                 0
+##   313MS031104                0               1                 0
+##   313MS033102                0               1                 0
+##   313MY060702                0               1                 0
+##   313NB041502                0               1                 0
+##   313NB120901                0               1                 0
+##   313ND012403                0               1                 0
+##   313NF070900                0               1                 0
+##   313NH071604                0               1                 0
+##   313NJ122099                0               1                 0
+##   313NM092901                0               1                 0
+##   313NM110602                0               1                 0
+##   313NS050901                0               1                 0
+##   313NW110203                0               1                 0
+##   313NW122502                0               1                 0
+##   313OF022803                0               1                 0
+##   313OM070501                0               1                 0
+##   313PK110102                0               1                 0
+##   313PM082503                0               1                 0
+##   313PS090801                0               1                 0
+##   313QB062902                0               1                 0
+##   313RB031401                0               1                 0
+##   313RH032805                0               1                 0
+##   313RL060201                0               1                 0
+##   313RL062003                0               1                 0
+##   313RN100203                0               1                 0
+##   313SA080202                0               1                 0
+##   313SD010203                0               1                 0
+##   313SF120603                0               1                 0
+##   313SH092302                0               1                 0
+##   313SJ060203                0               1                 0
+##   313SJ092102                0               1                 0
+##   313SJ102903                0               1                 0
+##   313SL102501                0               1                 0
+##   313SP101602                0               1                 0
+##   313SR051403                0               1                 0
+##   313SS080202                0               1                 0
+##   313SS080601                0               0                 1
+##   313SS081403                0               1                 0
+##   313SS101702                0               1                 0
+##   313SS102000                0               1                 0
+##   313SS111303                0               1                 0
+##   313ST020303                0               1                 0
+##   313ST122101                0               1                 0
+##   313SW013103                0               1                 0
+##   313SW021304                0               1                 0
+##   313SW080304                0               1                 0
+##   313SW083004                0               1                 0
+##   313SW091702                0               1                 0
+##   313SY042303                0               1                 0
+##   313TA020602                0               1                 0
+##   313TA042602                0               1                 0
+##   313TA060203                0               1                 0
+##   313TA120503                0               1                 0
+##   313TB110302                0               2                 0
+##   313TB112002                0               1                 0
+##   313TC071503                0               1                 0
+##   313TD073104                0               1                 0
+##   313TG012003                0               1                 0
+##   313TG041203                0               1                 0
+##   313TG053004                0               1                 0
+##   313TG072302                0               1                 0
+##   313TG091001                0               1                 0
+##   313TH082203                0               1                 0
+##   313TP102402                0               1                 0
+##   313TR060701                0               1                 0
+##   313TR122902                0               1                 0
+##   313TS010303                0               1                 0
+##   313TW010504                0               2                 0
+##   313TW060904                0               1                 0
+##   313TW111601                0               1                 0
+##   313VJ061503                0               1                 0
+##   313VJ112402                0               1                 0
+##   313YJ031404                0               1                 0
+##   313YJ062501                0               1                 0
+##   313ZJ050403                0               1                 0
+##   319AR110403                0               0                 0
+##   319AS092801                0               0                 0
+##   319AS112003                0               0                 0
+##   319AT122100                0               0                 0
+##   319CC091001                0               0                 0
+##   319DA011704                0               0                 0
+##   319DD071802                0               0                 0
+##   319GR020401                0               0                 0
+##   319JC122501                0               0                 0
+##   319LP092203                0               0                 0
+##   319PG030400                0               0                 0
+##   319RO072004                0               0                 0
+##   319RO073004                0               0                 0
+##   319SW111400                0               0                 0
+##   319TC080201                0               0                 0
+##   319TG101801                0               0                 0
+##   319YL092403                0               0                 0
+##   320AB022203                0               0                 0
+##   320AB061103                0               0                 0
+##   320AB101201                0               0                 0
+##   320AC012304                0               0                 0
+##   320AD120303                0               0                 0
+##   320AF050702                0               0                 0
+##   320AF050902                0               0                 0
+##   320AF062602                0               0                 0
+##   320AG022403                0               0                 0
+##   320AG061103                0               0                 0
+##   320AG091203                0               0                 0
+##   320AH013102                0               0                 0
+##   320AH070602                0               0                 0
+##   320AM021301                0               0                 0
+##   320AM040103                0               0                 0
+##   320AM070802                0               0                 0
+##   320AM072903                0               0                 0
+##   320AM091902                0               0                 0
+##   320AR060504                0               0                 0
+##   320AR100902                0               0                 0
+##   320AR101101                0               0                 0
+##   320AS062504                0               0                 0
+##   320AS121201                0               0                 0
+##   320AT101602                0               0                 0
+##   320AW022103                0               0                 0
+##   320AW050904                0               0                 0
+##   320AW063002                0               0                 0
+##   320AW122102                0               0                 0
+##   320BA100102                0               0                 0
+##   320BR031803                0               0                 0
+##   320BR072103                0               0                 0
+##   320CB100901                0               0                 0
+##   320CD010605                0               0                 0
+##   320CD032401                0               0                 0
+##   320CF032904                0               0                 0
+##   320CK031402                0               0                 0
+##   320CM070102                0               0                 0
+##   320CM110501                0               0                 0
+##   320CM120402                0               0                 0
+##   320CO111303                0               0                 0
+##   320CT030303                0               0                 0
+##   320CW111203                0               0                 0
+##   320DL112002                0               0                 0
+##   320DP041202                0               0                 0
+##   320DR110103                0               0                 0
+##   320DT031504                0               0                 0
+##   320DV032303                0               0                 0
+##   320DW031301                0               0                 0
+##   320DY030802                0               0                 0
+##   320EG111204                0               0                 0
+##   320ER101503                0               0                 0
+##   320ER121001                0               0                 0
+##   320FB012202                0               0                 0
+##   320GB111401                0               0                 0
+##   320GC121002                0               0                 0
+##   320GD120203                0               0                 0
+##   320GE021302                0               0                 0
+##   320HG052803                0               0                 0
+##   320HL040802                0               0                 0
+##   320HP121201                0               0                 0
+##   320HS082803                0               0                 0
+##   320II081302                0               0                 0
+##   320IM121905                0               0                 0
+##   320IR061103                0               0                 0
+##   320IW012403                0               0                 0
+##   320JB062102                0               0                 0
+##   320JB110501                0               0                 0
+##   320JB112003                0               0                 0
+##   320JD061002                0               0                 0
+##   320JF042902                0               0                 0
+##   320JJ070902                0               0                 0
+##   320JL052202                0               0                 0
+##   320JM102701                0               0                 0
+##   320JN030502                0               0                 0
+##   320JO122602                0               0                 0
+##   320JR042303                0               0                 0
+##   320JR062102                0               0                 0
+##   320JR071102                0               0                 0
+##   320JS020803                0               0                 0
+##   320JS031504                0               0                 0
+##   320JW033002                0               0                 0
+##   320KA081802                0               0                 0
+##   320KD052502                0               0                 0
+##   320KD071103                0               0                 0
+##   320KF052703                0               0                 0
+##   320KH061601                0               0                 0
+##   320KJ022602                0               0                 0
+##   320KM050604                0               0                 0
+##   320KO071502                0               0                 0
+##   320KP110300                0               0                 0
+##   320KS040804                0               0                 0
+##   320KW122401                0               0                 0
+##   320LB082503                0               0                 0
+##   320LM121403                0               0                 0
+##   320LR071604                0               0                 0
+##   320LS042403                0               0                 0
+##   320LS082302                0               0                 0
+##   320LS111202                0               0                 0
+##   320MB011702                0               0                 0
+##   320MB030803                0               0                 0
+##   320MD082804                0               0                 0
+##   320MG030803                0               0                 0
+##   320MG041503                0               0                 0
+##   320MG041902                0               0                 0
+##   320MG121902                0               0                 0
+##   320MH081602                0               0                 0
+##   320MM031402                0               0                 0
+##   320MS022703                0               0                 0
+##   320NC011102                0               0                 0
+##   320NL051303                0               0                 0
+##   320NO030504                0               0                 0
+##   320NR060503                0               0                 0
+##   320NT043002                0               0                 0
+##   320OO062303                0               0                 0
+##   320PG021002                0               0                 0
+##   320PT010305                0               0                 0
+##   320RD020603                0               0                 0
+##   320RG071003                0               0                 0
+##   320RM080702                0               0                 0
+##   320RM112402                0               0                 0
+##   320RR110100                0               0                 0
+##   320RR110901                0               0                 0
+##   320SA080203                0               0                 0
+##   320SA122401                0               0                 0
+##   320SB020803                0               0                 0
+##   320SB070701                0               0                 0
+##   320SB093001                0               0                 0
+##   320SB122902                0               0                 0
+##   320SC072304                0               0                 0
+##   320SC121301                0               0                 0
+##   320SD031803                0               0                 0
+##   320SE081902                0               0                 0
+##   320SJ052502                0               0                 0
+##   320SJ072302                0               0                 0
+##   320SL061102                0               0                 0
+##   320SM030502                0               0                 0
+##   320SN020402                0               0                 0
+##   320SS091403                0               0                 0
+##   320SS110101                0               0                 0
+##   320SW090104                0               0                 0
+##   320TD060303                0               0                 0
+##   320TD091903                0               0                 0
+##   320TD102003                0               0                 0
+##   320TF073003                0               0                 0
+##   320TH032403                0               0                 0
+##   320TJ071403                0               0                 0
+##   320TL081304                0               0                 0
+##   320TM040302                0               0                 0
+##   320TM043002                0               0                 0
+##   320TM060203                0               0                 0
+##   320TY071903                0               0                 0
+##   320VT121102                0               0                 0
+##   320YA020502                0               0                 0
+##   320YS111401                0               0                 0
+##   320YT091702                0               0                 0
+##   320ZP050602                0               0                 0
+##   321AD020803                0               0                 0
+##   321AG092602                0               0                 0
+##   321AG111402                0               0                 0
+##   321AI022702                0               0                 0
+##   321AT022802                0               0                 0
+##   321AW022601                0               0                 0
+##   321AW080402                0               0                 0
+##   321AW110701                0               0                 0
+##   321BB100901                0               0                 0
+##   321BL051301                0               0                 0
+##   321BM081003                0               0                 0
+##   321BR081401                0               0                 0
+##   321BS111403                0               0                 0
+##   321CA061801                0               0                 0
+##   321CF051501                0               0                 0
+##   321CG082901                0               0                 0
+##   321CG111501                0               0                 0
+##   321CH092703                0               0                 0
+##   321CR101403                0               0                 0
+##   321DD121800                0               0                 0
+##   321DG010202                0               0                 0
+##   321DK121300                0               0                 0
+##   321DR082201                0               0                 0
+##   321DS012802                0               0                 0
+##   321EN012402                0               0                 0
+##   321FB061002                0               0                 0
+##   321FC060101                0               0                 0
+##   321GC050202                0               0                 0
+##   321IJ071800                0               0                 0
+##   321IM121403                0               0                 0
+##   321IP041602                0               0                 0
+##   321JA091201                0               1                 0
+##   321JD101502                0               0                 0
+##   321JJ051601                0               0                 0
+##   321JP061803                0               0                 0
+##   321JR051302                0               0                 0
+##   321JV021803                0               0                 0
+##   321KG030902                0               0                 0
+##   321KG120501                0               0                 0
+##   321KJ012703                0               0                 0
+##   321KM121501                0               0                 0
+##   321KN101601                0               0                 0
+##   321KT083104                0               0                 0
+##   321LD090102                0               0                 0
+##   321LL050202                0               0                 0
+##   321LU072702                0               0                 0
+##   321MA081902                0               0                 0
+##   321MD062803                0               0                 0
+##   321MG081303                0               0                 0
+##   321MM092802                0               0                 0
+##   321MW112701                0               0                 0
+##   321NJ032201                0               0                 0
+##   321NJ061904                0               0                 0
+##   321NL052800                0               0                 0
+##   321NO010803                0               0                 0
+##   321NT052302                0               0                 0
+##   321PA012503                0               0                 0
+##   321PO071002                0               0                 0
+##   321PP043003                0               0                 0
+##   321RF031302                0               0                 0
+##   321RJ011800                0               0                 0
+##   321RJ081099                0               0                 0
+##   321RL060204                0               0                 0
+##   321RL121002                0               0                 0
+##   321SA080701                0               0                 0
+##   321SC092001                0               0                 0
+##   321SD111202                0               0                 0
+##   321SE122802                0               0                 0
+##   321SH100301                0               0                 0
+##   321SJ032501                0               0                 0
+##   321SM012903                0               0                 0
+##   321SP071002                0               0                 0
+##   321SW013102                0               0                 0
+##   321TA121501                0               0                 0
+##   321TB042701                0               0                 0
+##   321TB090501                0               0                 0
+##   321TC011203                0               0                 0
+##   321TC051403                0               0                 0
+##   321ZW050102                0               0                 0
+##   322CA061704                0               0                 1
+##   322CR071803                0               0                 1
+##   322DM041603                0               0                 0
+##   322DS092602                0               0                 1
+##   322MJ091704                0               0                 1
+##   322NB061103                0               0                 1
+##                council
+## girlCode        Southeast Council Tropical Council West Central Council
+##   06084010200                   0                0                    1
+##   06152060200                   0                0                    1
+##   312AA071702                   0                0                    0
+##   312AA111701                   0                0                    0
+##   312AB101502                   0                0                    0
+##   312AB110701                   0                0                    0
+##   312AE012004                   0                0                    0
+##   312AE101603                   0                0                    0
+##   312AG05182004                 0                0                    0
+##   312AG052703                   0                0                    0
+##   312AJ100102                   0                0                    0
+##   312AL061102                   0                0                    0
+##   312AL082602                   0                0                    0
+##   312AM022702                   0                0                    0
+##   312AM062102                   0                0                    0
+##   312AM10142003                 0                0                    0
+##   312AM110503                   0                0                    0
+##   312AM112403                   0                0                    0
+##   312AM112801                   0                0                    0
+##   312AO010604                   0                0                    0
+##   312AP102904                   0                0                    0
+##   312AR090501                   0                0                    0
+##   312AS030202                   0                0                    0
+##   312AS08222003                 0                0                    0
+##   312AW060903                   0                0                    0
+##   312AW061702                   0                0                    0
+##   312AW071102                   0                0                    0
+##   312AW111601                   0                0                    0
+##   312BJ021603                   0                0                    0
+##   312BL053004                   0                0                    0
+##   312BS062004                   0                0                    0
+##   312CD081803                   0                0                    0
+##   312CE082102                   0                0                    0
+##   312CE103003                   0                0                    0
+##   312CG092602                   0                0                    0
+##   312CM100602                   0                0                    0
+##   312CT011403                   0                0                    0
+##   312CW020701                   0                0                    0
+##   312DD01132003                 0                0                    0
+##   312DJ050202                   0                0                    0
+##   312DJ101301                   0                0                    0
+##   312DM092301                   1                0                    0
+##   312DR012403                   0                0                    0
+##   312DW011802                   0                0                    0
+##   312EE102002                   0                0                    0
+##   312ER05152003                 0                0                    0
+##   312EV111702                   0                0                    0
+##   312FB102003                   0                0                    0
+##   312FC101001                   0                0                    0
+##   312FM08032004                 0                0                    0
+##   312FN091704                   0                0                    0
+##   312FS020503                   0                0                    0
+##   312GB022203                   0                0                    0
+##   312HH082204                   0                0                    0
+##   312HJ011602                   0                0                    0
+##   312HL07132004                 0                0                    0
+##   312IG020403                   0                0                    0
+##   312JC012102                   0                0                    0
+##   312JC081903                   0                0                    0
+##   312JC08272003                 0                0                    0
+##   312JF031602                   0                0                    0
+##   312JG022402                   0                0                    0
+##   312JH080102                   0                0                    0
+##   312JH082302                   0                0                    0
+##   312JJ012203                   0                0                    0
+##   312JM092003                   0                0                    0
+##   312JR012903                   0                0                    0
+##   312JR021602                   0                0                    0
+##   312JR032502                   0                0                    0
+##   312JS013102                   0                0                    0
+##   312JS042003                   0                0                    0
+##   312JT011904                   0                0                    0
+##   312JV032902                   0                0                    0
+##   312JW012903                   0                0                    0
+##   312KB12242003                 0                0                    0
+##   312KC022304                   0                0                    0
+##   312KC120201                   0                0                    0
+##   312KD081803                   0                0                    0
+##   312KG012303                   0                0                    0
+##   312KJ050403                   0                0                    0
+##   312KM012003                   0                0                    0
+##   312KN121401                   0                0                    0
+##   312KP040204                   0                0                    0
+##   312KW062204                   0                0                    0
+##   312KW101703                   0                0                    0
+##   312LL110803                   0                0                    0
+##   312LP021703                   0                0                    0
+##   312ME122299                   0                0                    0
+##   312MJ092702                   0                0                    0
+##   312ML051303                   0                0                    0
+##   312MM111903                   0                0                    0
+##   312ND011904                   0                0                    0
+##   312NM101701                   0                0                    0
+##   312NR10132003                 0                0                    0
+##   312PM110402                   0                0                    0
+##   312PV061702                   0                0                    0
+##   312QW012803                   0                0                    0
+##   312RN011302                   0                0                    0
+##   312RS090703                   0                0                    0
+##   312SA050503                   0                0                    0
+##   312SA100201                   0                0                    0
+##   312SB08292003                 0                0                    0
+##   312SC050104                   0                0                    0
+##   312SC061204                   0                0                    0
+##   312SC121202                   0                0                    0
+##   312SG050202                   0                0                    0
+##   312SM081703                   0                0                    0
+##   312SM082003                   0                0                    0
+##   312SMD051304                  0                0                    0
+##   312ST051504                   0                0                    0
+##   312SU032203                   0                0                    0
+##   312TA100802                   0                0                    0
+##   312TA111803                   0                0                    0
+##   312WS060303                   0                0                    0
+##   312YM03042004                 0                0                    0
+##   312YR080504                   0                0                    0
+##   312ZD072502                   0                0                    0
+##   312ZP100504                   0                0                    0
+##   312ZS011902                   0                0                    0
+##   312ZT060802                   0                0                    0
+##   312ZW012502                   0                0                    0
+##   313AA041803                   0                0                    0
+##   313AA091300                   0                0                    0
+##   313AB050904                   0                0                    0
+##   313AB060404                   0                0                    0
+##   313AB062704                   0                0                    0
+##   313AB071302                   0                0                    0
+##   313AB112002                   0                0                    0
+##   313AC020102                   0                0                    0
+##   313AC080304                   0                0                    0
+##   313AC082303                   0                0                    0
+##   313AC103103                   0                0                    0
+##   313AD050602                   0                0                    0
+##   313AE041502                   0                0                    0
+##   313AE050404                   0                0                    0
+##   313AE070802                   0                0                    0
+##   313AF040403                   0                0                    0
+##   313AF070302                   0                0                    0
+##   313AG040602                   0                0                    0
+##   313AH030201                   0                0                    0
+##   313AH052504                   0                0                    0
+##   313AH072703                   0                0                    0
+##   313AH082204                   0                0                    0
+##   313AH082502                   0                0                    0
+##   313AH090402                   0                0                    0
+##   313AJ032101                   0                0                    0
+##   313AJ041002                   0                0                    0
+##   313AJ061101                   0                0                    0
+##   313AJ092103                   0                0                    0
+##   313AJ100301                   0                0                    0
+##   313AJ100704                   0                0                    0
+##   313AJ111203                   0                0                    0
+##   313AJ111601                   0                0                    0
+##   313AJ111803                   0                0                    0
+##   313AJ120702                   0                0                    0
+##   313AK052902                   0                0                    0
+##   313AL042602                   0                0                    0
+##   313AM022202                   0                0                    0
+##   313AM030805                   0                0                    0
+##   313AN060301                   0                0                    0
+##   313AN121503                   0                0                    0
+##   313AN122002                   0                0                    0
+##   313AP042602                   0                0                    0
+##   313AP090203                   0                0                    0
+##   313AR080201                   0                0                    0
+##   313AV040903                   0                0                    0
+##   313AW060203                   0                0                    0
+##   313AW110303                   0                0                    0
+##   313BB032502                   0                0                    0
+##   313BB032805                   0                0                    0
+##   313BB040203                   0                0                    0
+##   313BB052401                   0                0                    0
+##   313BB082902                   0                0                    0
+##   313BC040204                   0                0                    0
+##   313BC082900                   0                0                    0
+##   313BH042702                   0                0                    0
+##   313BM050404                   0                0                    0
+##   313BM102701                   0                0                    0
+##   313BN052400                   0                0                    0
+##   313BS013101                   0                0                    0
+##   313BS033102                   0                0                    0
+##   313BS041502                   0                0                    0
+##   313CB101103                   0                0                    0
+##   313CC032104                   0                0                    0
+##   313CD032504                   0                0                    0
+##   313CD122702                   0                0                    0
+##   313CF080102                   0                0                    0
+##   313CH080602                   0                0                    0
+##   313CH121604                   0                0                    0
+##   313CJ081604                   0                0                    0
+##   313CM120103                   0                0                    0
+##   313CP050801                   0                0                    0
+##   313CW020602                   0                0                    0
+##   313DB013101                   0                0                    0
+##   313DC0614003                  0                0                    0
+##   313DE100602                   0                0                    0
+##   313DF063004                   0                0                    0
+##   313DG072603                   0                0                    0
+##   313DJ013001                   0                0                    0
+##   313DJ031804                   0                0                    0
+##   313DL032102                   0                0                    0
+##   313DL091702                   0                0                    0
+##   313DL122400                   0                0                    0
+##   313DM020603                   0                0                    0
+##   313DM031404                   0                0                    0
+##   313DM081401                   0                0                    0
+##   313DM081501                   0                0                    0
+##   313DP021104                   0                0                    0
+##   313DP102903                   0                0                    0
+##   313DW020202                   0                0                    0
+##   313DW060502                   0                0                    0
+##   313DY100502                   0                0                    0
+##   313EC081602                   0                0                    0
+##   313EG050502                   0                0                    0
+##   313EH121700                   0                0                    0
+##   313EM050301                   0                0                    0
+##   313EO080204                   0                0                    0
+##   313ER111602                   0                0                    0
+##   313ER122203                   0                0                    0
+##   313ES060503                   0                0                    0
+##   313ET110102                   0                0                    0
+##   313FF120202                   0                0                    0
+##   313FS043102                   0                0                    0
+##   313GR040203                   0                0                    0
+##   313GT051001                   0                0                    0
+##   313GW050404                   0                0                    0
+##   313HB022103                   0                0                    0
+##   313HB060202                   0                0                    0
+##   313HB081401                   0                0                    0
+##   313HH091900                   0                0                    0
+##   313HR070802                   0                0                    0
+##   313HW011803                   0                0                    0
+##   313HW090202                   0                0                    0
+##   313IA091203                   0                0                    0
+##   313IH091404                   0                0                    0
+##   313IJ090703                   0                0                    0
+##   313JB060403                   0                0                    0
+##   313JB090301                   0                0                    0
+##   313JB090402                   0                0                    0
+##   313JB091302                   0                0                    0
+##   313JB122201                   0                0                    0
+##   313JC012502                   0                0                    0
+##   313JC121003                   0                0                    0
+##   313JD042302                   0                0                    0
+##   313JD052803                   0                0                    0
+##   313JD090803                   0                0                    0
+##   313JD120102                   0                0                    0
+##   313JG070402                   0                0                    0
+##   313JG111203                   0                0                    0
+##   313JH041802                   0                0                    0
+##   313JH050703                   0                0                    0
+##   313JH110902                   0                0                    0
+##   313JJ051600                   0                0                    0
+##   313JK122602                   0                0                    0
+##   313JL032903                   0                0                    0
+##   313JL110304                   0                0                    0
+##   313JM040603                   0                0                    0
+##   313JM072404                   0                0                    0
+##   313JP011003                   0                0                    0
+##   313JP070503                   0                0                    0
+##   313JP090103                   0                0                    0
+##   313JR021003                   0                0                    0
+##   313JR060502                   0                0                    0
+##   313JR081602                   0                0                    0
+##   313JR112301                   0                0                    0
+##   313JS053004                   0                0                    0
+##   313JS091402                   0                0                    0
+##   313JS100203                   0                0                    0
+##   313JS103001                   0                0                    0
+##   313JT110202                   0                0                    0
+##   313JT110402                   0                0                    0
+##   313JW081700                   0                0                    0
+##   313JW081804                   0                0                    0
+##   313JW111002                   0                0                    0
+##   313JY070403                   0                0                    0
+##   313KA090203                   0                0                    0
+##   313KB121202                   0                0                    0
+##   313KC010603                   0                0                    0
+##   313KC111302                   0                0                    0
+##   313KD041503                   0                0                    0
+##   313KD042102                   0                0                    0
+##   313KD091402                   0                0                    0
+##   313KE011302                   0                0                    0
+##   313KE040805                   0                0                    0
+##   313KF050203                   0                0                    0
+##   313KG061204                   0                0                    0
+##   313KH032104                   0                0                    0
+##   313KH120302                   0                0                    0
+##   313KJ012003                   0                0                    0
+##   313KM011503                   0                0                    0
+##   313KM080502                   0                0                    0
+##   313KS081404                   0                0                    0
+##   313KT082103                   0                0                    0
+##   313LC041404                   0                0                    0
+##   313LD102701                   0                0                    0
+##   313LE082703                   0                0                    0
+##   313LF022804                   0                0                    0
+##   313LF071302                   0                0                    0
+##   313LG040801                   0                0                    0
+##   313LH031502                   0                0                    0
+##   313LJ090102                   0                0                    0
+##   313LL121002                   0                0                    0
+##   313LM010502                   0                0                    0
+##   313LM110402                   0                0                    0
+##   313LP081302                   0                0                    0
+##   313LS021104                   0                0                    0
+##   313LS090504                   0                0                    0
+##   313LS120602                   0                0                    0
+##   313MA082702                   0                0                    0
+##   313MA090303                   0                0                    0
+##   313MB050801                   0                0                    0
+##   313MB090202                   0                0                    0
+##   313MD050604                   0                0                    0
+##   313MD100300                   0                0                    0
+##   313MD120302                   0                0                    0
+##   313MG090502                   0                0                    0
+##   313MG102902                   0                0                    0
+##   313MH120302                   0                0                    0
+##   313MH120402                   0                0                    0
+##   313MK050201                   0                0                    0
+##   313MM071604                   0                0                    0
+##   313MM110400                   0                0                    0
+##   313MN060203                   0                0                    0
+##   313MP031502                   0                0                    0
+##   313MS031104                   0                0                    0
+##   313MS033102                   0                0                    0
+##   313MY060702                   0                0                    0
+##   313NB041502                   0                0                    0
+##   313NB120901                   0                0                    0
+##   313ND012403                   0                0                    0
+##   313NF070900                   0                0                    0
+##   313NH071604                   0                0                    0
+##   313NJ122099                   0                0                    0
+##   313NM092901                   0                0                    0
+##   313NM110602                   0                0                    0
+##   313NS050901                   0                0                    0
+##   313NW110203                   0                0                    0
+##   313NW122502                   0                0                    0
+##   313OF022803                   0                0                    0
+##   313OM070501                   0                0                    0
+##   313PK110102                   0                0                    0
+##   313PM082503                   0                0                    0
+##   313PS090801                   0                0                    0
+##   313QB062902                   0                0                    0
+##   313RB031401                   0                0                    0
+##   313RH032805                   0                0                    0
+##   313RL060201                   0                0                    0
+##   313RL062003                   0                0                    0
+##   313RN100203                   0                0                    0
+##   313SA080202                   0                0                    0
+##   313SD010203                   0                0                    0
+##   313SF120603                   0                0                    0
+##   313SH092302                   0                0                    0
+##   313SJ060203                   0                0                    0
+##   313SJ092102                   0                0                    0
+##   313SJ102903                   0                0                    0
+##   313SL102501                   0                0                    0
+##   313SP101602                   0                0                    0
+##   313SR051403                   0                0                    0
+##   313SS080202                   0                0                    0
+##   313SS080601                   0                0                    0
+##   313SS081403                   0                0                    0
+##   313SS101702                   0                0                    0
+##   313SS102000                   0                0                    0
+##   313SS111303                   0                0                    0
+##   313ST020303                   0                0                    0
+##   313ST122101                   0                0                    0
+##   313SW013103                   0                0                    0
+##   313SW021304                   0                0                    0
+##   313SW080304                   0                0                    0
+##   313SW083004                   0                0                    0
+##   313SW091702                   0                0                    0
+##   313SY042303                   0                0                    0
+##   313TA020602                   0                0                    0
+##   313TA042602                   0                0                    0
+##   313TA060203                   0                0                    0
+##   313TA120503                   0                0                    0
+##   313TB110302                   0                0                    0
+##   313TB112002                   0                0                    0
+##   313TC071503                   0                0                    0
+##   313TD073104                   0                0                    0
+##   313TG012003                   0                0                    0
+##   313TG041203                   0                0                    0
+##   313TG053004                   0                0                    0
+##   313TG072302                   0                0                    0
+##   313TG091001                   0                0                    0
+##   313TH082203                   0                0                    0
+##   313TP102402                   0                0                    0
+##   313TR060701                   0                0                    0
+##   313TR122902                   0                0                    0
+##   313TS010303                   0                0                    0
+##   313TW010504                   0                0                    0
+##   313TW060904                   0                0                    0
+##   313TW111601                   0                0                    0
+##   313VJ061503                   0                0                    0
+##   313VJ112402                   0                0                    0
+##   313YJ031404                   0                0                    0
+##   313YJ062501                   0                0                    0
+##   313ZJ050403                   0                0                    0
+##   319AR110403                   0                1                    0
+##   319AS092801                   0                2                    0
+##   319AS112003                   0                2                    0
+##   319AT122100                   0                1                    0
+##   319CC091001                   0                1                    0
+##   319DA011704                   0                1                    0
+##   319DD071802                   0                1                    0
+##   319GR020401                   0                1                    0
+##   319JC122501                   0                1                    0
+##   319LP092203                   0                1                    0
+##   319PG030400                   0                1                    0
+##   319RO072004                   0                1                    0
+##   319RO073004                   0                1                    0
+##   319SW111400                   0                2                    0
+##   319TC080201                   0                1                    0
+##   319TG101801                   0                1                    0
+##   319YL092403                   0                2                    0
+##   320AB022203                   0                0                    1
+##   320AB061103                   0                0                    1
+##   320AB101201                   0                0                    1
+##   320AC012304                   0                0                    1
+##   320AD120303                   0                0                    1
+##   320AF050702                   0                0                    1
+##   320AF050902                   0                0                    1
+##   320AF062602                   0                0                    1
+##   320AG022403                   0                0                    1
+##   320AG061103                   0                0                    1
+##   320AG091203                   0                0                    1
+##   320AH013102                   0                0                    1
+##   320AH070602                   0                0                    1
+##   320AM021301                   0                0                    1
+##   320AM040103                   0                0                    1
+##   320AM070802                   0                0                    1
+##   320AM072903                   0                0                    1
+##   320AM091902                   0                0                    1
+##   320AR060504                   0                0                    1
+##   320AR100902                   0                0                    1
+##   320AR101101                   0                0                    1
+##   320AS062504                   0                0                    1
+##   320AS121201                   0                0                    1
+##   320AT101602                   0                0                    1
+##   320AW022103                   0                0                    1
+##   320AW050904                   0                0                    1
+##   320AW063002                   0                0                    1
+##   320AW122102                   0                0                    1
+##   320BA100102                   0                0                    1
+##   320BR031803                   0                0                    1
+##   320BR072103                   0                0                    1
+##   320CB100901                   0                0                    1
+##   320CD010605                   0                0                    1
+##   320CD032401                   0                0                    1
+##   320CF032904                   0                0                    1
+##   320CK031402                   0                0                    1
+##   320CM070102                   0                0                    1
+##   320CM110501                   0                0                    1
+##   320CM120402                   0                0                    1
+##   320CO111303                   0                0                    1
+##   320CT030303                   0                0                    1
+##   320CW111203                   0                0                    1
+##   320DL112002                   0                0                    1
+##   320DP041202                   0                0                    1
+##   320DR110103                   0                0                    1
+##   320DT031504                   0                0                    1
+##   320DV032303                   0                0                    1
+##   320DW031301                   0                0                    1
+##   320DY030802                   0                0                    1
+##   320EG111204                   0                0                    1
+##   320ER101503                   0                0                    1
+##   320ER121001                   0                0                    1
+##   320FB012202                   0                0                    1
+##   320GB111401                   0                0                    1
+##   320GC121002                   0                0                    1
+##   320GD120203                   0                0                    1
+##   320GE021302                   0                0                    1
+##   320HG052803                   0                0                    1
+##   320HL040802                   0                0                    1
+##   320HP121201                   0                0                    1
+##   320HS082803                   0                0                    1
+##   320II081302                   0                0                    1
+##   320IM121905                   0                0                    1
+##   320IR061103                   0                0                    1
+##   320IW012403                   0                0                    1
+##   320JB062102                   0                0                    1
+##   320JB110501                   0                0                    1
+##   320JB112003                   0                0                    1
+##   320JD061002                   0                0                    1
+##   320JF042902                   0                0                    1
+##   320JJ070902                   0                0                    1
+##   320JL052202                   0                0                    1
+##   320JM102701                   0                0                    1
+##   320JN030502                   0                0                    1
+##   320JO122602                   0                0                    1
+##   320JR042303                   0                0                    1
+##   320JR062102                   0                0                    1
+##   320JR071102                   0                0                    1
+##   320JS020803                   0                0                    1
+##   320JS031504                   0                0                    1
+##   320JW033002                   0                0                    1
+##   320KA081802                   0                0                    1
+##   320KD052502                   0                0                    1
+##   320KD071103                   0                0                    1
+##   320KF052703                   0                0                    1
+##   320KH061601                   0                0                    1
+##   320KJ022602                   0                0                    1
+##   320KM050604                   0                0                    1
+##   320KO071502                   0                0                    1
+##   320KP110300                   0                0                    1
+##   320KS040804                   0                0                    1
+##   320KW122401                   0                0                    1
+##   320LB082503                   0                0                    1
+##   320LM121403                   0                0                    1
+##   320LR071604                   0                0                    1
+##   320LS042403                   0                0                    1
+##   320LS082302                   0                0                    1
+##   320LS111202                   0                0                    1
+##   320MB011702                   0                0                    1
+##   320MB030803                   0                0                    1
+##   320MD082804                   0                0                    1
+##   320MG030803                   0                0                    1
+##   320MG041503                   0                0                    1
+##   320MG041902                   0                0                    1
+##   320MG121902                   0                0                    1
+##   320MH081602                   0                0                    2
+##   320MM031402                   0                0                    1
+##   320MS022703                   0                0                    1
+##   320NC011102                   0                0                    1
+##   320NL051303                   0                0                    1
+##   320NO030504                   0                0                    1
+##   320NR060503                   0                0                    1
+##   320NT043002                   0                0                    1
+##   320OO062303                   0                0                    1
+##   320PG021002                   0                0                    1
+##   320PT010305                   0                0                    1
+##   320RD020603                   0                0                    1
+##   320RG071003                   0                0                    1
+##   320RM080702                   0                0                    1
+##   320RM112402                   0                0                    1
+##   320RR110100                   0                0                    1
+##   320RR110901                   0                0                    1
+##   320SA080203                   0                0                    1
+##   320SA122401                   0                0                    1
+##   320SB020803                   0                0                    1
+##   320SB070701                   0                0                    1
+##   320SB093001                   0                0                    2
+##   320SB122902                   0                0                    1
+##   320SC072304                   0                0                    1
+##   320SC121301                   0                0                    1
+##   320SD031803                   0                0                    1
+##   320SE081902                   0                0                    1
+##   320SJ052502                   0                0                    1
+##   320SJ072302                   0                0                    1
+##   320SL061102                   0                0                    2
+##   320SM030502                   0                0                    1
+##   320SN020402                   0                0                    1
+##   320SS091403                   0                0                    1
+##   320SS110101                   0                0                    1
+##   320SW090104                   0                0                    1
+##   320TD060303                   0                0                    1
+##   320TD091903                   0                0                    1
+##   320TD102003                   0                0                    1
+##   320TF073003                   0                0                    1
+##   320TH032403                   0                0                    1
+##   320TJ071403                   0                0                    1
+##   320TL081304                   0                0                    1
+##   320TM040302                   0                0                    1
+##   320TM043002                   0                0                    1
+##   320TM060203                   0                0                    1
+##   320TY071903                   0                0                    1
+##   320VT121102                   0                0                    1
+##   320YA020502                   0                0                    1
+##   320YS111401                   0                0                    1
+##   320YT091702                   0                0                    1
+##   320ZP050602                   0                0                    1
+##   321AD020803                   1                0                    0
+##   321AG092602                   1                0                    0
+##   321AG111402                   1                0                    0
+##   321AI022702                   2                0                    0
+##   321AT022802                   1                0                    0
+##   321AW022601                   1                0                    0
+##   321AW080402                   1                0                    0
+##   321AW110701                   1                0                    0
+##   321BB100901                   1                0                    0
+##   321BL051301                   1                0                    0
+##   321BM081003                   1                0                    0
+##   321BR081401                   1                0                    0
+##   321BS111403                   1                0                    0
+##   321CA061801                   1                0                    0
+##   321CF051501                   1                0                    0
+##   321CG082901                   1                0                    0
+##   321CG111501                   1                0                    0
+##   321CH092703                   1                0                    0
+##   321CR101403                   1                0                    0
+##   321DD121800                   1                0                    0
+##   321DG010202                   1                0                    0
+##   321DK121300                   1                0                    0
+##   321DR082201                   1                0                    0
+##   321DS012802                   1                0                    0
+##   321EN012402                   1                0                    0
+##   321FB061002                   1                0                    0
+##   321FC060101                   1                0                    0
+##   321GC050202                   1                0                    0
+##   321IJ071800                   1                0                    0
+##   321IM121403                   1                0                    0
+##   321IP041602                   1                0                    0
+##   321JA091201                   0                0                    0
+##   321JD101502                   1                0                    0
+##   321JJ051601                   1                0                    0
+##   321JP061803                   2                0                    0
+##   321JR051302                   2                0                    0
+##   321JV021803                   1                0                    0
+##   321KG030902                   1                0                    0
+##   321KG120501                   1                0                    0
+##   321KJ012703                   1                0                    0
+##   321KM121501                   1                0                    0
+##   321KN101601                   1                0                    0
+##   321KT083104                   1                0                    0
+##   321LD090102                   1                0                    0
+##   321LL050202                   1                0                    0
+##   321LU072702                   1                0                    0
+##   321MA081902                   1                0                    0
+##   321MD062803                   1                0                    0
+##   321MG081303                   1                0                    0
+##   321MM092802                   1                0                    0
+##   321MW112701                   1                0                    0
+##   321NJ032201                   1                0                    0
+##   321NJ061904                   1                0                    0
+##   321NL052800                   1                0                    0
+##   321NO010803                   1                0                    0
+##   321NT052302                   1                0                    0
+##   321PA012503                   1                0                    0
+##   321PO071002                   1                0                    0
+##   321PP043003                   1                0                    0
+##   321RF031302                   1                0                    0
+##   321RJ011800                   1                0                    0
+##   321RJ081099                   1                0                    0
+##   321RL060204                   0                1                    0
+##   321RL121002                   1                0                    0
+##   321SA080701                   1                0                    0
+##   321SC092001                   1                0                    0
+##   321SD111202                   1                0                    0
+##   321SE122802                   1                0                    0
+##   321SH100301                   1                0                    0
+##   321SJ032501                   1                0                    0
+##   321SM012903                   1                0                    0
+##   321SP071002                   2                0                    0
+##   321SW013102                   1                0                    0
+##   321TA121501                   1                0                    0
+##   321TB042701                   1                0                    0
+##   321TB090501                   1                0                    0
+##   321TC011203                   1                0                    0
+##   321TC051403                   1                0                    0
+##   321ZW050102                   1                0                    0
+##   322CA061704                   0                0                    0
+##   322CR071803                   0                0                    0
+##   322DM041603                   0                0                    1
+##   322DS092602                   0                0                    0
+##   322MJ091704                   0                0                    0
+##   322NB061103                   0                0                    0</code></pre>
 </div>
 <div id="subset-all-finished-surveys" class="section level3">
 <h3>Subset all finished surveys</h3>
@@ -180,8 +2027,11 @@ str(rawdata$girlCode)</code></pre>
 
 fin &lt;- subset (rawdata, Finished  == 1)
 
-dim(fin)</code></pre>
-<pre><code>## [1] 671  51</code></pre>
+
+str(fin$girlCode)</code></pre>
+<pre><code>##  chr [1:670] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre class="r"><code>dim(fin)</code></pre>
+<pre><code>## [1] 670  51</code></pre>
 </div>
 </div>
 <div id="pre-surveys" class="section level1">
@@ -192,7 +2042,7 @@ dim(fin)</code></pre>
 
 pre &lt;- subset (fin, Time == &quot;Pre&quot;)
 dim(pre)</code></pre>
-<pre><code>## [1] 670  51</code></pre>
+<pre><code>## [1] 669  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-unique-student-codes" class="section level3">
 <h3>Subset Pre Surveys with unique student codes</h3>
@@ -200,7 +2050,7 @@ dim(pre)</code></pre>
 preUnique&lt;- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]
 
 dim(preUnique)</code></pre>
-<pre><code>## [1] 642  51</code></pre>
+<pre><code>## [1] 641  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-duplicate-student-codes-needs-updated-data" class="section level3">
 <h3>Subset Pre Surveys with duplicate student codes (needs updated data)</h3>
@@ -251,11 +2101,14 @@ postDupes &lt;-post[postDupes, ]</code></pre>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 saveRDS(postUnique, file=&quot;girl_post_12202015.rds&quot;)</code></pre>
+</div>
+<div id="send-data-to-sqlite-database" class="section level3">
+<h3>Send data to Sqlite database</h3>
 <pre class="r"><code>library(sqldf)</code></pre>
-<pre><code>## Loading required package: gsubfn
-## Loading required package: proto
-## Loading required package: RSQLite
-## Loading required package: DBI</code></pre>
+<pre><code>## Loading required package: gsubfn</code></pre>
+<pre><code>## Loading required package: proto</code></pre>
+<pre><code>## Loading required package: RSQLite</code></pre>
+<pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)

@@ -90,10 +90,38 @@ rawdata$girlCode <- as.character(rawdata$girlCode)
 
 rawdata$girlCode <- toupper(rawdata$girlCode)
 
+
+
+
+
+
+
+
 str(rawdata$girlCode)
 
+dim(rawdata)
 
 ```
+
+
+### Test Chunk
+```{r}
+###Test to see if any test girlCode in system
+rawdata$girlCode
+
+####Test to see if any test schools in syste
+rawdata$school
+
+###Fix if any girlCode is in Test
+rawdata <- filter(rawdata, girlCode !="TEST")
+
+council_girlCode <-with(rawdata,table(girlCode, council))
+
+council_girlCode
+
+```
+
+
 
 
 ### Subset all finished surveys
@@ -105,7 +133,15 @@ str(rawdata$girlCode)
 
 fin <- subset (rawdata, Finished  == 1)
 
+
+str(fin$girlCode)
+
+
+
+
 dim(fin)
+
+
 ```
 
 #Pre Surveys
