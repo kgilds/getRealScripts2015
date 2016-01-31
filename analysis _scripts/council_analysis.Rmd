@@ -11,6 +11,8 @@ knitr::opts_chunk$set(fig.width=12, fig.height=5, fig.path='Figs/',
 
 
 
+
+
 ```
 
 
@@ -29,7 +31,7 @@ library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
-
+library (ezknitr)
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
@@ -98,7 +100,9 @@ q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
 
 ```
 
-## Healthy Releationships
+## Healthy Relationships
+
+The number of valid surveys is `r nrow(outcomes)`
 
 ### Healthy Relationships Outcome Tables
 ```{r hr, eval=FALSE}
@@ -121,7 +125,7 @@ pander(hr_tbl_p)
 ```
 
 
-
+### Percent Achieving at high level
 ```{r council_hr}
 
 
@@ -147,6 +151,9 @@ pander(hr_tbl_cp)
 
 ### Healthy Relationship Plots
 
+Students must average a 4.45 on the questions to achieve this outcome a high level.
+
+
 ```{r}
 
 hr <- select(outcomes, council, hr.avg)
@@ -167,6 +174,8 @@ hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
 ## Academic Engagement
 
 ### Academic Engagement Outcome Tables
+
+The number of valid surveys is ` r nrow(outcomes)`
 
 ```{r ae, eval=FALSE}
 ### Prepare data frame for tables
@@ -201,7 +210,7 @@ pander(ae_tbl_cp)
 ```
 
 
-
+### Percent Achieving at high level
 ```{r council_ae}
 
 ### Prepare data frame for tables
@@ -225,12 +234,32 @@ pander(ae_tbl_cp)
 
 ```
 
+### Academic Engagement Plots
+
+Students must average a 4.5 on the questions to achieve this outcome a high level.
+
+Potential high impact outcome as many students are close. 
+
+
+```{r ae_plots_council}
+
+ae <- select(outcomes, council, ae.avg)
+
+ae_hist <- ggplot(ae, aes(x=ae.avg))
+        ae_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+        
+ae_box <- ggplot(ae, aes(x=factor(council), ae.avg))
+        hr_box + geom_boxplot(fill="blue") + labs(y=" All Outcome Scores", title = "Pre: Academic Engagment")
+
+```
 
 
 ## Academic Mastery
 
 
-### Academic Mastery Outcome tables
+### Academic Mastery Outcome Tables
+
+The number of valid surveys entered is ` r nrow(outcomes)`
 
 ```{r am, eval=FALSE}
 
@@ -256,7 +285,7 @@ pander(am_tbl_p)
 ```
 
 
-
+### Percent Achieving at high level
 ```{r council_am}
 
 am  <- select(outcomes, council, am.avg)
@@ -278,8 +307,24 @@ pander(am_cp)
 
 ```
 
+### Academic Mastery Plots
+
+Students must average a 4.8 on the questions to achieve this outcome a high level
+
+```{r}
+
+am <- select(outcomes, council, am.avg)
+
+am_hist <- ggplot(am, aes(x=hr.avg))
+        hr_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Academic Mastery")
+        
+am_box <- ggplot(am, aes(x=factor(council), am.avg))
+        am_box + geom_boxplot(fill="blue") + labs(y=" All Outcome Scores", title = "Pre: Academic Mastery")
+
+```
 
 
+Academic Data: Quarter 1
 
 ## Language Arts Grades:
 
@@ -305,6 +350,16 @@ pander(lang_grades_c)
 ```
 
 
+```{r}
+
+lang_plot <- ggplot(q1_langarts,(aes(x = langGrade, y = council)))
+
+lang_plot + geom_count()
+
+```
+
+
+
 ## Reading Courses:
 
 The number of valid reading courses entered is **`r nrow (q1_reading)`**. 
@@ -328,6 +383,15 @@ pander(read_grades_c)
 
 ```
 
+### Reading Grade Plot
+```{r}
+
+read_plot <- ggplot(q1_reading,(aes(x = readingGrade, y = council)))
+
+read_plot + geom_count()
+
+
+```
 
 
 
@@ -357,6 +421,15 @@ pander(total_abs_tbl)
 total_abs_tbl_c <-with(q1_absences,table(council.x, sum_abs))
 
 pander(total_abs_tbl_c)
+
+```
+
+
+```{r plot_absences}
+total_absPlot <- ggplot(q1_absences,(aes(x = sum_abs, y = council.x)))
+
+total_absPlot + geom_count()
+
 
 ```
 
@@ -427,6 +500,16 @@ pander(susp_total)
 susp_total_c <-with(q1_suspensions, table(council.x, susp_sum))
 
 pander(susp_total_c)
+
+```
+
+
+```{r}
+
+suspension_plot <- ggplot(q1_suspensions,(aes(x = susp_sum, y = council.x)))
+
+suspension_plot + geom_count()
+
 
 ```
 
