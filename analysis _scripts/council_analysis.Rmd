@@ -2,8 +2,10 @@
 title: "Council Report"
 author: "Kevin Gilds, MPA"
 date: "January 30, 2016"
-output: html_document
+output: pdf_document
 ---
+
+The data below is from data pulled in December 2015 and the basis for the Formative Evaluation Report. 
 
 ```{r r global_options, include=FALSE}
 knitr::opts_chunk$set(fig.width=12, fig.height=5, fig.path='Figs/',
@@ -101,9 +103,9 @@ q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
 
 ## Healthy Relationships
 
-The number of valid surveys is `r nrow(outcomes)`
+The number of valid surveys is **`r nrow(outcomes)`**.
 
-### Healthy Relationships Outcome Tables
+### Healthy Relationships Outcome Tables:
 ```{r hr, eval=FALSE}
 ### create basic outcome table for healty releationship outcome
 
@@ -124,7 +126,7 @@ pander(hr_tbl_p)
 ```
 
 
-### Percent Achieving at high level
+### Percent Achieving at high level:
 ```{r council_hr}
 
 
@@ -148,7 +150,7 @@ pander(hr_tbl_cp)
 ```
 
 
-### Healthy Relationship Plots
+### Healthy Relationship Plots:
 
 Students must average a 4.45 on the questions to achieve this outcome a high level.
 
@@ -172,9 +174,9 @@ hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
 
 ## Academic Engagement
 
-### Academic Engagement Outcome Tables
+### Academic Engagement Outcome Tables:
 
-The number of valid surveys is ` r nrow(outcomes)`
+The number of valid surveys is **`r nrow(outcomes)`**
 
 ```{r ae, eval=FALSE}
 ### Prepare data frame for tables
@@ -209,7 +211,7 @@ pander(ae_tbl_cp)
 ```
 
 
-### Percent Achieving at high level
+### Percent Achieving at high level:
 ```{r council_ae}
 
 ### Prepare data frame for tables
@@ -233,11 +235,11 @@ pander(ae_tbl_cp)
 
 ```
 
-### Academic Engagement Plots
+### Academic Engagement Plots:
 
 Students must average a 4.5 on the questions to achieve this outcome a high level.
 
-Potential high impact outcome as many students are close. 
+
 
 
 ```{r ae_plots_council}
@@ -256,9 +258,9 @@ ae_box <- ggplot(ae, aes(x=factor(council), ae.avg))
 ## Academic Mastery
 
 
-### Academic Mastery Outcome Tables
+### Academic Mastery Outcome Tables:
 
-The number of valid surveys entered is ` r nrow(outcomes)`
+The number of valid surveys entered is **`r nrow(outcomes)`**
 
 ```{r am, eval=FALSE}
 
@@ -284,7 +286,7 @@ pander(am_tbl_p)
 ```
 
 
-### Percent Achieving at high level
+### Percent Achieving at high level:
 ```{r council_am}
 
 am  <- select(outcomes, council, am.avg)
@@ -306,7 +308,7 @@ pander(am_cp)
 
 ```
 
-### Academic Mastery Plots
+### Academic Mastery Plots:
 
 Students must average a 4.8 on the questions to achieve this outcome a high level
 
@@ -382,7 +384,7 @@ pander(read_grades_c)
 
 ```
 
-### Reading Grade Plot
+### Reading Grade Plot:
 ```{r}
 
 read_plot <- ggplot(q1_reading,(aes(x = readingGrade, y = council)))
