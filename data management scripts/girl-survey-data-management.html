@@ -79,13 +79,11 @@ img {
 <li><a href="#subset-pre-surveys">Subset Pre surveys</a></li>
 <li><a href="#subset-pre-surveys-with-unique-student-codes">Subset Pre Surveys with unique student codes</a></li>
 <li><a href="#subset-pre-surveys-with-duplicate-student-codes-needs-updated-data">Subset Pre Surveys with duplicate student codes (needs updated data)</a></li>
-<li><a href="#save-pre-data-to-rds-file-needs-updated-data">Save Pre Data to RDS File (needs updated data)</a></li>
 </ul></li>
 <li><a href="#post-survey">Post Survey</a><ul>
 <li><a href="#subset-post-girl-surveys">Subset post girl surveys</a></li>
 <li><a href="#find-unique-student-codes-from-post-surveys">Find unique student codes from post surveys</a></li>
 <li><a href="#find-duplicate-student-codes-from-post-surveys">Find duplicate student codes from post surveys</a></li>
-<li><a href="#save-post-survey-needs-updated-data">Save Post Survey (needs updated data)</a></li>
 <li><a href="#send-data-to-sqlite-database">Send data to Sqlite database</a></li>
 </ul></li>
 </ul>
@@ -96,7 +94,7 @@ img {
 <div id="set-working-directory-library-and-read-raw-data-needs-updated-data" class="section level3">
 <h3>Set working directory, library, and read raw data (needs updated data)</h3>
 <pre class="r"><code>########################Set Working Directories##################
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/February 2016&quot;)
 
 library(dplyr)</code></pre>
 <pre><code>## 
@@ -108,9 +106,9 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girl_survey_12202015.csv&quot;, skip=1)
+rawdata &lt;- read.csv(&quot;girlSurvey02022016.csv&quot;, skip=1)
 dim(rawdata)</code></pre>
-<pre><code>## [1] 674  51</code></pre>
+<pre><code>## [1] 718  51</code></pre>
 </div>
 <div id="change-column-names-to-make-them-human-readable." class="section level3">
 <h3>Change column names to make them human readable.</h3>
@@ -178,9 +176,9 @@ rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
 
 str(rawdata$girlCode)</code></pre>
-<pre><code>##  chr [1:674] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:718] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(rawdata)</code></pre>
-<pre><code>## [1] 674  51</code></pre>
+<pre><code>## [1] 718  51</code></pre>
 </div>
 <div id="test-chunk" class="section level3">
 <h3>Test Chunk</h3>
@@ -354,7 +352,18 @@ rawdata$girlCode</code></pre>
 ## [661] &quot;313EM050301&quot;   &quot;313LS120602&quot;   &quot;313KM080502&quot;   &quot;313PS090801&quot;  
 ## [665] &quot;313KD042102&quot;   &quot;313MN060203&quot;   &quot;313JD120102&quot;   &quot;313JT110202&quot;  
 ## [669] &quot;313JS100203&quot;   &quot;313OM070501&quot;   &quot;313MK050201&quot;   &quot;313ZJ050403&quot;  
-## [673] &quot;313LM010502&quot;   &quot;313ST020303&quot;</code></pre>
+## [673] &quot;313LM010502&quot;   &quot;313ST020303&quot;   &quot;320PP083004&quot;   &quot;321FJ011803&quot;  
+## [677] &quot;321ML073004&quot;   &quot;321BB091003&quot;   &quot;321DJ032902&quot;   &quot;321JC043001&quot;  
+## [681] &quot;321AD022202&quot;   &quot;321ES020904&quot;   &quot;321TT051801&quot;   &quot;322SS090102&quot;  
+## [685] &quot;322SP032202&quot;   &quot;322GT051303&quot;   &quot;322KS020203&quot;   &quot;322MT120403&quot;  
+## [689] &quot;322ZM090601&quot;   &quot;322OP121701&quot;   &quot;322SM021802&quot;   &quot;322AC091602&quot;  
+## [693] &quot;322BB052903&quot;   &quot;322OB012603&quot;   &quot;322JJ041702&quot;   &quot;322AA040102&quot;  
+## [697] &quot;322CL122002&quot;   &quot;322TT051503&quot;   &quot;322TF032403&quot;   &quot;322MA030702&quot;  
+## [701] &quot;319UA121101&quot;   &quot;319VW101601&quot;   &quot;3119BG071102&quot;  &quot;319CG122501&quot;  
+## [705] &quot;319DM061702&quot;   &quot;319RO073004&quot;   &quot;319SV102999&quot;   &quot;319DA011704&quot;  
+## [709] &quot;319IS122903&quot;   &quot;319OH110503&quot;   &quot;319AB012503&quot;   &quot;319AS112801&quot;  
+## [713] &quot;319JR092803&quot;   &quot;319KM091803&quot;   &quot;319IS122903&quot;   &quot;320PP083004&quot;  
+## [717] &quot;319AR020603&quot;   &quot;319BG071102&quot;</code></pre>
 <pre class="r"><code>####Test to see if any test schools in syste
 rawdata$school</code></pre>
 <pre><code>##   [1] Emerson                     Robinswood Middle School   
@@ -694,7 +703,29 @@ rawdata$school</code></pre>
 ## [669] Lakeshore                   Lakeshore                  
 ## [671] Lakeshore                   Lakeshore                  
 ## [673] Lakeshore                   Lakeshore                  
-## 52 Levels: Aspira South ... Young Middle School</code></pre>
+## [675] South McKeel Academy        LL                         
+## [677] LL                          LL                         
+## [679] LL                          LL                         
+## [681] LL                          LL                         
+## [683] LL                          JINKS MIDDLE SCHOOL        
+## [685] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [687] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [689] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [691] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [693] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [695] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [697] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [699] JINKS MIDDLE SCHOOL         JINKS MIDDLE SCHOOL        
+## [701] Cutler Bay Academy          Cutler Bay Academy         
+## [703] Cutler Bay Academy          Cutler Bay Academy         
+## [705] Cutler Bay Academy          ASPIRA South Charter School
+## [707] ASPIRA South Charter School ASPIRA South Charter School
+## [709] ASPIRA South Charter School ASPIRA South Charter School
+## [711] ASPIRA South Charter School ASPIRA South Charter School
+## [713] ASPIRA South Charter School ASPIRA South Charter School
+## [715] ASPIRA South Charter School South McKeel Academy       
+## [717] Cutler Bay Academy          Cutler Bay Academy         
+## 53 Levels: Aspira South ... Young Middle School</code></pre>
 <pre class="r"><code>###Fix if any girlCode is in Test
 rawdata &lt;- filter(rawdata, girlCode !=&quot;TEST&quot;)
 
@@ -705,6 +736,7 @@ council_girlCode</code></pre>
 ## girlCode        Citrus Council Gateway Council Panhandle Council
 ##   06084010200                0               0                 0
 ##   06152060200                0               0                 0
+##   3119BG071102               0               0                 0
 ##   312AA071702                1               0                 0
 ##   312AA111701                1               0                 0
 ##   312AB101502                1               0                 0
@@ -1102,22 +1134,35 @@ council_girlCode</code></pre>
 ##   313YJ031404                0               1                 0
 ##   313YJ062501                0               1                 0
 ##   313ZJ050403                0               1                 0
+##   319AB012503                0               0                 0
+##   319AR020603                0               0                 0
 ##   319AR110403                0               0                 0
 ##   319AS092801                0               0                 0
 ##   319AS112003                0               0                 0
+##   319AS112801                0               0                 0
 ##   319AT122100                0               0                 0
+##   319BG071102                0               0                 0
 ##   319CC091001                0               0                 0
+##   319CG122501                0               0                 0
 ##   319DA011704                0               0                 0
 ##   319DD071802                0               0                 0
+##   319DM061702                0               0                 0
 ##   319GR020401                0               0                 0
+##   319IS122903                0               0                 0
 ##   319JC122501                0               0                 0
+##   319JR092803                0               0                 0
+##   319KM091803                0               0                 0
 ##   319LP092203                0               0                 0
+##   319OH110503                0               0                 0
 ##   319PG030400                0               0                 0
 ##   319RO072004                0               0                 0
 ##   319RO073004                0               0                 0
+##   319SV102999                0               0                 0
 ##   319SW111400                0               0                 0
 ##   319TC080201                0               0                 0
 ##   319TG101801                0               0                 0
+##   319UA121101                0               0                 0
+##   319VW101601                0               0                 0
 ##   319YL092403                0               0                 0
 ##   320AB022203                0               0                 0
 ##   320AB061103                0               0                 0
@@ -1234,6 +1279,7 @@ council_girlCode</code></pre>
 ##   320NT043002                0               0                 0
 ##   320OO062303                0               0                 0
 ##   320PG021002                0               0                 0
+##   320PP083004                0               0                 0
 ##   320PT010305                0               0                 0
 ##   320RD020603                0               0                 0
 ##   320RG071003                0               0                 0
@@ -1276,6 +1322,7 @@ council_girlCode</code></pre>
 ##   320YT091702                0               0                 0
 ##   320ZP050602                0               0                 0
 ##   321AD020803                0               0                 0
+##   321AD022202                0               0                 0
 ##   321AG092602                0               0                 0
 ##   321AG111402                0               0                 0
 ##   321AI022702                0               0                 0
@@ -1283,6 +1330,7 @@ council_girlCode</code></pre>
 ##   321AW022601                0               0                 0
 ##   321AW080402                0               0                 0
 ##   321AW110701                0               0                 0
+##   321BB091003                0               0                 0
 ##   321BB100901                0               0                 0
 ##   321BL051301                0               0                 0
 ##   321BM081003                0               0                 0
@@ -1296,17 +1344,21 @@ council_girlCode</code></pre>
 ##   321CR101403                0               0                 0
 ##   321DD121800                0               0                 0
 ##   321DG010202                0               0                 0
+##   321DJ032902                0               0                 0
 ##   321DK121300                0               0                 0
 ##   321DR082201                0               0                 0
 ##   321DS012802                0               0                 0
 ##   321EN012402                0               0                 0
+##   321ES020904                0               0                 0
 ##   321FB061002                0               0                 0
 ##   321FC060101                0               0                 0
+##   321FJ011803                0               0                 0
 ##   321GC050202                0               0                 0
 ##   321IJ071800                0               0                 0
 ##   321IM121403                0               0                 0
 ##   321IP041602                0               0                 0
 ##   321JA091201                0               1                 0
+##   321JC043001                0               0                 0
 ##   321JD101502                0               0                 0
 ##   321JJ051601                0               0                 0
 ##   321JP061803                0               0                 0
@@ -1324,6 +1376,7 @@ council_girlCode</code></pre>
 ##   321MA081902                0               0                 0
 ##   321MD062803                0               0                 0
 ##   321MG081303                0               0                 0
+##   321ML073004                0               0                 0
 ##   321MM092802                0               0                 0
 ##   321MW112701                0               0                 0
 ##   321NJ032201                0               0                 0
@@ -1353,17 +1406,36 @@ council_girlCode</code></pre>
 ##   321TB090501                0               0                 0
 ##   321TC011203                0               0                 0
 ##   321TC051403                0               0                 0
+##   321TT051801                0               0                 0
 ##   321ZW050102                0               0                 0
+##   322AA040102                0               0                 1
+##   322AC091602                0               0                 1
+##   322BB052903                0               0                 1
 ##   322CA061704                0               0                 1
+##   322CL122002                0               0                 1
 ##   322CR071803                0               0                 1
 ##   322DM041603                0               0                 0
 ##   322DS092602                0               0                 1
+##   322GT051303                0               0                 1
+##   322JJ041702                0               0                 1
+##   322KS020203                0               0                 1
+##   322MA030702                0               0                 1
 ##   322MJ091704                0               0                 1
+##   322MT120403                0               0                 1
 ##   322NB061103                0               0                 1
+##   322OB012603                0               0                 1
+##   322OP121701                0               0                 1
+##   322SM021802                0               0                 1
+##   322SP032202                0               0                 1
+##   322SS090102                0               0                 1
+##   322TF032403                0               0                 1
+##   322TT051503                0               0                 1
+##   322ZM090601                0               0                 1
 ##                council
 ## girlCode        Southeast Council Tropical Council West Central Council
 ##   06084010200                   0                0                    1
 ##   06152060200                   0                0                    1
+##   3119BG071102                  0                1                    0
 ##   312AA071702                   0                0                    0
 ##   312AA111701                   0                0                    0
 ##   312AB101502                   0                0                    0
@@ -1761,22 +1833,35 @@ council_girlCode</code></pre>
 ##   313YJ031404                   0                0                    0
 ##   313YJ062501                   0                0                    0
 ##   313ZJ050403                   0                0                    0
+##   319AB012503                   0                1                    0
+##   319AR020603                   0                1                    0
 ##   319AR110403                   0                1                    0
 ##   319AS092801                   0                2                    0
 ##   319AS112003                   0                2                    0
+##   319AS112801                   0                1                    0
 ##   319AT122100                   0                1                    0
+##   319BG071102                   0                1                    0
 ##   319CC091001                   0                1                    0
-##   319DA011704                   0                1                    0
+##   319CG122501                   0                1                    0
+##   319DA011704                   0                2                    0
 ##   319DD071802                   0                1                    0
+##   319DM061702                   0                1                    0
 ##   319GR020401                   0                1                    0
+##   319IS122903                   0                2                    0
 ##   319JC122501                   0                1                    0
+##   319JR092803                   0                1                    0
+##   319KM091803                   0                1                    0
 ##   319LP092203                   0                1                    0
+##   319OH110503                   0                1                    0
 ##   319PG030400                   0                1                    0
 ##   319RO072004                   0                1                    0
-##   319RO073004                   0                1                    0
+##   319RO073004                   0                2                    0
+##   319SV102999                   0                1                    0
 ##   319SW111400                   0                2                    0
 ##   319TC080201                   0                1                    0
 ##   319TG101801                   0                1                    0
+##   319UA121101                   0                1                    0
+##   319VW101601                   0                1                    0
 ##   319YL092403                   0                2                    0
 ##   320AB022203                   0                0                    1
 ##   320AB061103                   0                0                    1
@@ -1893,6 +1978,7 @@ council_girlCode</code></pre>
 ##   320NT043002                   0                0                    1
 ##   320OO062303                   0                0                    1
 ##   320PG021002                   0                0                    1
+##   320PP083004                   0                0                    2
 ##   320PT010305                   0                0                    1
 ##   320RD020603                   0                0                    1
 ##   320RG071003                   0                0                    1
@@ -1935,6 +2021,7 @@ council_girlCode</code></pre>
 ##   320YT091702                   0                0                    1
 ##   320ZP050602                   0                0                    1
 ##   321AD020803                   1                0                    0
+##   321AD022202                   1                0                    0
 ##   321AG092602                   1                0                    0
 ##   321AG111402                   1                0                    0
 ##   321AI022702                   2                0                    0
@@ -1942,6 +2029,7 @@ council_girlCode</code></pre>
 ##   321AW022601                   1                0                    0
 ##   321AW080402                   1                0                    0
 ##   321AW110701                   1                0                    0
+##   321BB091003                   1                0                    0
 ##   321BB100901                   1                0                    0
 ##   321BL051301                   1                0                    0
 ##   321BM081003                   1                0                    0
@@ -1955,17 +2043,21 @@ council_girlCode</code></pre>
 ##   321CR101403                   1                0                    0
 ##   321DD121800                   1                0                    0
 ##   321DG010202                   1                0                    0
+##   321DJ032902                   1                0                    0
 ##   321DK121300                   1                0                    0
 ##   321DR082201                   1                0                    0
 ##   321DS012802                   1                0                    0
 ##   321EN012402                   1                0                    0
+##   321ES020904                   1                0                    0
 ##   321FB061002                   1                0                    0
 ##   321FC060101                   1                0                    0
+##   321FJ011803                   1                0                    0
 ##   321GC050202                   1                0                    0
 ##   321IJ071800                   1                0                    0
 ##   321IM121403                   1                0                    0
 ##   321IP041602                   1                0                    0
 ##   321JA091201                   0                0                    0
+##   321JC043001                   1                0                    0
 ##   321JD101502                   1                0                    0
 ##   321JJ051601                   1                0                    0
 ##   321JP061803                   2                0                    0
@@ -1983,6 +2075,7 @@ council_girlCode</code></pre>
 ##   321MA081902                   1                0                    0
 ##   321MD062803                   1                0                    0
 ##   321MG081303                   1                0                    0
+##   321ML073004                   1                0                    0
 ##   321MM092802                   1                0                    0
 ##   321MW112701                   1                0                    0
 ##   321NJ032201                   1                0                    0
@@ -2012,13 +2105,31 @@ council_girlCode</code></pre>
 ##   321TB090501                   1                0                    0
 ##   321TC011203                   1                0                    0
 ##   321TC051403                   1                0                    0
+##   321TT051801                   1                0                    0
 ##   321ZW050102                   1                0                    0
+##   322AA040102                   0                0                    0
+##   322AC091602                   0                0                    0
+##   322BB052903                   0                0                    0
 ##   322CA061704                   0                0                    0
+##   322CL122002                   0                0                    0
 ##   322CR071803                   0                0                    0
 ##   322DM041603                   0                0                    1
 ##   322DS092602                   0                0                    0
+##   322GT051303                   0                0                    0
+##   322JJ041702                   0                0                    0
+##   322KS020203                   0                0                    0
+##   322MA030702                   0                0                    0
 ##   322MJ091704                   0                0                    0
-##   322NB061103                   0                0                    0</code></pre>
+##   322MT120403                   0                0                    0
+##   322NB061103                   0                0                    0
+##   322OB012603                   0                0                    0
+##   322OP121701                   0                0                    0
+##   322SM021802                   0                0                    0
+##   322SP032202                   0                0                    0
+##   322SS090102                   0                0                    0
+##   322TF032403                   0                0                    0
+##   322TT051503                   0                0                    0
+##   322ZM090601                   0                0                    0</code></pre>
 </div>
 <div id="subset-all-finished-surveys" class="section level3">
 <h3>Subset all finished surveys</h3>
@@ -2029,9 +2140,9 @@ fin &lt;- subset (rawdata, Finished  == 1)
 
 
 str(fin$girlCode)</code></pre>
-<pre><code>##  chr [1:670] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:712] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(fin)</code></pre>
-<pre><code>## [1] 670  51</code></pre>
+<pre><code>## [1] 712  51</code></pre>
 </div>
 </div>
 <div id="pre-surveys" class="section level1">
@@ -2042,7 +2153,7 @@ str(fin$girlCode)</code></pre>
 
 pre &lt;- subset (fin, Time == &quot;Pre&quot;)
 dim(pre)</code></pre>
-<pre><code>## [1] 669  51</code></pre>
+<pre><code>## [1] 711  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-unique-student-codes" class="section level3">
 <h3>Subset Pre Surveys with unique student codes</h3>
@@ -2050,7 +2161,7 @@ dim(pre)</code></pre>
 preUnique&lt;- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]
 
 dim(preUnique)</code></pre>
-<pre><code>## [1] 641  51</code></pre>
+<pre><code>## [1] 677  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-duplicate-student-codes-needs-updated-data" class="section level3">
 <h3>Subset Pre Surveys with duplicate student codes (needs updated data)</h3>
@@ -2063,16 +2174,7 @@ preDupes &lt;-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 preDupes &lt;-pre[preDupes, ]
 
 dim(preDupes)</code></pre>
-<pre><code>## [1] 28 51</code></pre>
-<pre class="r"><code>####Save object to RDS file
-saveRDS(preDupes, file=&quot;duplicate_girl_survey_12202015.rds&quot;)
-write.csv(preDupes, &quot;pre_girl_dupes_12202015.csv&quot;, row.names=FALSE)</code></pre>
-</div>
-<div id="save-pre-data-to-rds-file-needs-updated-data" class="section level3">
-<h3>Save Pre Data to RDS File (needs updated data)</h3>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
-
-saveRDS(preUnique, file=&quot;girl_survey_12202015.RDS&quot;)</code></pre>
+<pre><code>## [1] 34 51</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
@@ -2095,12 +2197,6 @@ postDupes &lt;-duplicated(post$girlCode) | duplicated(post$girlCode, fromLast=TR
 
 ##### I think this is pulling the actuall duplicate values####################
 postDupes &lt;-post[postDupes, ]</code></pre>
-</div>
-<div id="save-post-survey-needs-updated-data" class="section level3">
-<h3>Save Post Survey (needs updated data)</h3>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
-
-saveRDS(postUnique, file=&quot;girl_post_12202015.rds&quot;)</code></pre>
 </div>
 <div id="send-data-to-sqlite-database" class="section level3">
 <h3>Send data to Sqlite database</h3>

@@ -14,13 +14,13 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/February 2016")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girl_survey_12202015.csv", skip=1)
+rawdata <- read.csv("girlSurvey02022016.csv", skip=1)
 dim(rawdata)
 
 ```
@@ -182,21 +182,10 @@ preDupes <-pre[preDupes, ]
 
 dim(preDupes)
 
-####Save object to RDS file
-saveRDS(preDupes, file="duplicate_girl_survey_12202015.rds")
-write.csv(preDupes, "pre_girl_dupes_12202015.csv", row.names=FALSE)
-
-```
-
-
-### Save Pre Data to RDS File (needs updated data)
-```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
-
-saveRDS(preUnique, file="girl_survey_12202015.RDS")
 
 
 ```
+
 
 
 
@@ -235,15 +224,6 @@ postDupes <-post[postDupes, ]
 ```
 
 
-### Save Post Survey (needs updated data)
-```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
-
-saveRDS(postUnique, file="girl_post_12202015.rds")
-
-
-
-```
 
 ### Send data to Sqlite database
 ```{r}
