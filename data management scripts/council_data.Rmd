@@ -1,0 +1,123 @@
+---
+title: "Council_Data_Export"
+author: "Kevin Gilds, MPA"
+date: "February 2, 2016"
+output: html_document
+---
+
+
+
+```{r echo=FALSE}
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(dplyr)
+library(pander)
+library(ggplot2)
+library (ezknitr)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+girl <- dbReadTable(getReal_2016db, "girl_pre")
+
+###Select the neeeded data for data entry status update
+girl <- select(girl, council)
+###Create and add column for status update
+girl$dataSource <-"girl"
+
+### Make connection with database
+parent <-dbReadTable(getReal_2016db,"pre_parent")
+###Select the neeeded data for data entry status update
+parent <- select(parent,council)
+###Create and add column for status update
+parent$dataSource <- "parent"
+
+### Make connection with database
+teacher <-dbReadTable(getReal_2016db, "pre_teacher")
+###Select the neeeded data for data entry status update
+teacher <-select(teacher,council)
+###Create and add column for status update
+teacher$dataSource <- "teacher"
+
+###Bind girl and parent objects to prepare for status report
+girl_parent <- rbind(girl,parent)
+
+### Make connection with database
+grades_q1 <- dbReadTable(getReal_2016db,"Q1_Absences")
+###Select the neeeded data for data entry status update
+
+q1_stats <- select(grades_q1,council.x)
+###Change column name to make it match with other data sets
+colnames (q1_stats) [1] <- "council"
+###Create and add column for status update
+q1_stats$dataSource <- "Q1"
+
+
+### Add the teacher to binding for status report
+add_teacher <- rbind(girl_parent, teacher)
+
+
+###Findal addition to create data frame for status report
+survey_status <- rbind(add_teacher, q1_stats)
+
+### Read the pre girl survey for reference down stream
+girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
+### Read the pre girl survey for reference down stream
+parent_survey_dupes <-dbReadTable(getReal_2016db, "pre_parent_duplicate")
+### Read the pre girl survey for reference down stream
+q1_dupes <-dbReadTable(getReal_2016db, "Q1_duplicates")
+
+### Reade the girl_pre_survey database for analysis. 
+outcomes <- dbReadTable(getReal_2016db, "girl_pre")
+###Select the variables of interest from the pre_survey
+outcomes <- select(outcomes, girlCode, school, council, hr.avg, am.avg, ae.avg)
+
+
+q1_reading <-dbReadTable(getReal_2016db, "Q1_reading")
+q1_langarts <-dbReadTable(getReal_2016db,"Q1_lang")
+q1_absences <-dbReadTable(getReal_2016db, "Q1_Absences")
+q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
+
+
+```
+
+
+```{r}
+
+girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
+
+```
+
+### Southeast Council
+```{r}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/southeast")
+
+girl_southeast <- filter(girl_tbl, council == "Southeast Council")
+
+write.csv(girl_southeast, file="southeast_girl_data.csv", row.names=FALSE)
+
+
+girl_survey_dupes <- select(girl_survey_dupes,council, school, girlCode)
+
+southeast_girl_dupes <- filter(girl_survey_dupes, council == "Southeast Council")
+
+write.csv(southeast_girl_dupes, file="duplicate_girl_data.csv", row.names = FALSE)
+
+
+
+```
+
+
+
+
+
