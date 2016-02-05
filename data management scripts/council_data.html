@@ -71,21 +71,75 @@ img {
 <pre><code>## Loading required package: proto</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
-<pre class="r"><code>girl_tbl &lt;- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )</code></pre>
+<pre class="r"><code>girl_tbl &lt;- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
+
+girl_survey_dupes &lt;- select(girl_survey_dupes,council, school, girlCode)</code></pre>
+<div id="girl-file-function" class="section level3">
+<h3>Girl File Function</h3>
+<pre class="r"><code>girl_file &lt;- function(x) {
+    girl_tbl &lt;- filter(girl_tbl, council == x)
+    write.csv (girl_tbl, file=&quot;girl_survey.csv&quot;, row.names=FALSE)
+    
+    
+}</code></pre>
+</div>
+<div id="dupe-girl-file-functions" class="section level3">
+<h3>Dupe Girl File Functions</h3>
+<pre class="r"><code>girl_dupe_file &lt;- function(x) {
+    girl_survey_dupes &lt;- filter(girl_survey_dupes, council == x)
+    write.csv(girl_survey_dupes, &quot;girl_survey_dupes.csv&quot;, row.names=FALSE)
+}</code></pre>
+</div>
+<div id="citrus-council" class="section level3">
+<h3>Citrus Council</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/citrus_council&quot;)
+
+girl_file(&quot;Citrus Council&quot;)
+
+girl_dupe_file(&quot;Citrus Council&quot;)</code></pre>
+</div>
 <div id="southeast-council" class="section level3">
 <h3>Southeast Council</h3>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/southeast&quot;)
 
-girl_southeast &lt;- filter(girl_tbl, council == &quot;Southeast Council&quot;)
 
-write.csv(girl_southeast, file=&quot;southeast_girl_data.csv&quot;, row.names=FALSE)
+girl_file(&quot;Southeast Council&quot;)
 
 
-girl_survey_dupes &lt;- select(girl_survey_dupes,council, school, girlCode)
+girl_dupe_file(&quot;Southeast Counil&quot;)</code></pre>
+</div>
+<div id="gateway-council" class="section level3">
+<h3>Gateway Council</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/gateway_council&quot;)
 
-southeast_girl_dupes &lt;- filter(girl_survey_dupes, council == &quot;Southeast Council&quot;)
+girl_file(&quot;Gateway Council&quot;)
 
-write.csv(southeast_girl_dupes, file=&quot;duplicate_girl_data.csv&quot;, row.names = FALSE)</code></pre>
+girl_dupe_file(&quot;Gateway Council&quot;)</code></pre>
+</div>
+<div id="tropical-council" class="section level3">
+<h3>Tropical Council</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/tropical_council&quot;)
+
+girl_file(&quot;Tropical Council&quot;)
+
+girl_dupe_file(&quot;Tropical Council&quot;)</code></pre>
+</div>
+<div id="panhandle-council" class="section level3">
+<h3>Panhandle Council</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/panhandle_council&quot;)
+
+girl_file(&quot;Panhandle Council&quot;)
+
+
+girl_dupe_file(&quot;Panhandle Council&quot;)</code></pre>
+</div>
+<div id="west-central-council" class="section level3">
+<h3>West Central Council</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/west_central_council&quot;)
+
+girl_file(&quot;West Central Council&quot;)
+
+girl_dupe_file(&quot;West Central Council&quot;)</code></pre>
 </div>
 
 

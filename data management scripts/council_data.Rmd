@@ -95,29 +95,116 @@ q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
 
 girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
 
+girl_survey_dupes <- select(girl_survey_dupes,council, school, girlCode)
+
+
 ```
+
+
+### Girl File Function
+```{r}
+
+girl_file <- function(x) {
+    girl_tbl <- filter(girl_tbl, council == x)
+    write.csv (girl_tbl, file="girl_survey.csv", row.names=FALSE)
+    
+    
+}
+
+
+
+```
+
+
+### Dupe Girl File Functions
+```{r}
+
+girl_dupe_file <- function(x) {
+    girl_survey_dupes <- filter(girl_survey_dupes, council == x)
+    write.csv(girl_survey_dupes, "girl_survey_dupes.csv", row.names=FALSE)
+}
+
+```
+
+
+
+### Citrus Council
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/citrus_council")
+
+girl_file("Citrus Council")
+
+girl_dupe_file("Citrus Council")
+
+
+```
+
+
+
 
 ### Southeast Council
 ```{r}
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/southeast")
 
-girl_southeast <- filter(girl_tbl, council == "Southeast Council")
 
-write.csv(girl_southeast, file="southeast_girl_data.csv", row.names=FALSE)
+girl_file("Southeast Council")
 
 
-girl_survey_dupes <- select(girl_survey_dupes,council, school, girlCode)
-
-southeast_girl_dupes <- filter(girl_survey_dupes, council == "Southeast Council")
-
-write.csv(southeast_girl_dupes, file="duplicate_girl_data.csv", row.names = FALSE)
+girl_dupe_file("Southeast Counil")
 
 
 
 ```
 
+### Gateway Council
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/gateway_council")
+
+girl_file("Gateway Council")
+
+girl_dupe_file("Gateway Council")
 
 
+```
 
+### Tropical Council
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/tropical_council")
+
+girl_file("Tropical Council")
+
+girl_dupe_file("Tropical Council")
+
+
+```
+
+### Panhandle Council
+
+```{r}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/panhandle_council")
+
+girl_file("Panhandle Council")
+
+
+girl_dupe_file("Panhandle Council")
+
+```
+
+
+### West Central Council
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/west_central_council")
+
+girl_file("West Central Council")
+
+girl_dupe_file("West Central Council")
+
+
+```
 
