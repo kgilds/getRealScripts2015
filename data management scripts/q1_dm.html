@@ -72,22 +72,20 @@ img {
 <pre class="r"><code>#### Load the Libraries
 library(dplyr)</code></pre>
 <pre><code>## 
-## Attaching package: 'dplyr'
+## Attaching package: 'dplyr'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
 ## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(reshape2)
 library(pander)
 library(sqldf)</code></pre>
-<pre><code>## Loading required package: gsubfn
-## Loading required package: proto
-## Loading required package: RSQLite
-## Loading required package: DBI</code></pre>
+<pre><code>## Loading required package: gsubfn</code></pre>
+<pre><code>## Loading required package: proto</code></pre>
+<pre><code>## Loading required package: RSQLite</code></pre>
+<pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>### Locate file to read from
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015&quot;)
 
@@ -246,12 +244,6 @@ mq1Reading$readingGrade &lt;-sub(&quot;0&quot;, &quot;F&quot;, fixed=TRUE, mq1Re
 
 
 
-
-
-
-
-
-
 ###Change grades to all upper case to match
 mq1Reading$readingGrade &lt;- toupper(mq1Reading$readingGrade)
 
@@ -295,14 +287,6 @@ levels(mq1Reading$readingGrade)</code></pre>
 names(q1free_read)</code></pre>
 <pre><code>## [1] &quot;council&quot;   &quot;girlCode&quot;  &quot;readFree1&quot; &quot;readFree2&quot;</code></pre>
 </div>
-</div>
-<div id="save-reading-to-rds-file" class="section level3">
-<h3>Save Reading to RDS File</h3>
-<pre class="r"><code>### I want the data to go here. 
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
-
-### Save the object for analysis in another script
-saveRDS(mq1Reading, file = &quot;reading_q1_12182015.rds&quot;)</code></pre>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest
@@ -433,14 +417,6 @@ total_abs_tbl</code></pre>
 ##   0   1   2   3   4   5   6   7   8   9  10  11 
 ## 213  81  93  66  39  34  20   8   4   1   3   1</code></pre>
 </div>
-<div id="total-suspensions-to-rds" class="section level3">
-<h3>Total Suspensions to RDS</h3>
-<pre class="r"><code>### Set to save data to correct file folder
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
-
-### Save to read data for analysis script or file
-saveRDS(total_abs, &quot;total_Absences_12182015.rds&quot;)</code></pre>
-</div>
 <div id="in-school-suspensions" class="section level3">
 <h3>In School Suspensions</h3>
 <pre class="r"><code>### Look at data of interest
@@ -503,14 +479,6 @@ susp_total_tbl</code></pre>
 ##   0   1   2   3   4   5   8 
 ## 505  28  14   7   3   5   1</code></pre>
 </div>
-<div id="total-suspensions-to-rds-1" class="section level3">
-<h3>Total Suspensions to RDS</h3>
-<pre class="r"><code>### Save file to correct file folder
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
-
-### Save to RDS for analysis script to read
-saveRDS(susp_total, &quot;total_susp_12182015.rds&quot;)</code></pre>
-</div>
 <div id="expelled" class="section level3">
 <h3>Expelled</h3>
 <pre class="r"><code>### Select the variable of interest
@@ -535,15 +503,111 @@ expelled_tbl</code></pre>
 ##  No Yes 
 ## 565   1</code></pre>
 </div>
-<div id="expelled-object-to-rds" class="section level3">
-<h3>Expelled Object to RDS</h3>
-<pre class="r"><code>### Save object to correct desintation file folder
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+<div id="merge-behavior-data" class="section level3">
+<h3>Merge Behavior Data</h3>
+<pre class="r"><code>abs_susp &lt;- full_join(total_abs, susp_total)</code></pre>
+<pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
+<pre class="r"><code>dim(abs_susp)</code></pre>
+<pre><code>## [1] 566   9</code></pre>
+<pre class="r"><code>behavior_data &lt;- full_join(abs_susp, expelled)</code></pre>
+<pre><code>## Joining by: &quot;girlCode&quot;</code></pre>
+<pre class="r"><code>behavior_data &lt;- select(behavior_data,council.x, girlCode, sum_abs, susp_sum, expelled)
 
-### Save to RDS for analytics script. 
-saveRDS(expelled, &quot;expelled_12182015.rds&quot;)
+colnames (behavior_data) [1] &lt;- &quot;council&quot;
+colnames (behavior_data) [3] &lt;- &quot;total_absences&quot;
+colnames (behavior_data) [4] &lt;- &quot;total_suspensions&quot;
 
-write.csv(&quot;expelled&quot;, file=&quot;expelled.csv&quot;, row.names = FALSE)</code></pre>
+
+head(behavior_data)</code></pre>
+<pre><code>##           council    girlCode total_absences total_suspensions expelled
+## 1 Gateway Council 313AW060203              0                 0       No
+## 2 Gateway Council 313AP042602              0                 0       No
+## 3 Gateway Council 313AE041502              0                 0       No
+## 4 Gateway Council 313AJ111203              1                 0       No
+## 5 Gateway Council 313AM022202              4                 0       No
+## 6 Gateway Council 313AE050404              0                 0       No</code></pre>
+</div>
+<div id="merge-grade-data" class="section level3">
+<h3>Merge Grade Data</h3>
+<pre class="r"><code>lang_read &lt;- full_join(mq1_lang, mq1Reading)</code></pre>
+<pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
+<pre class="r"><code>dim(lang_read)</code></pre>
+<pre><code>## [1] 564   6</code></pre>
+<pre class="r"><code>head(lang_read)</code></pre>
+<pre><code>##      girlCode          council     langCourses langGrade readingCourses
+## 1 312FB102003   Citrus Council mjLangArts1ESOL         C   mjIntensRead
+## 2 312ND011904   Citrus Council mjLangArts1ESOL         D           &lt;NA&gt;
+## 3 319LP092203 Tropical Council mjLangArts1ESOL         C           &lt;NA&gt;
+## 4 319AR110403 Tropical Council mjLangArts1ESOL         A           &lt;NA&gt;
+## 5 312BL053004   Citrus Council mjLangArts2ESOL         B mjDelaESOLRead
+## 6 312MJ092702   Citrus Council mjLangArts2ESOL         B           &lt;NA&gt;
+##   readingGrade
+## 1            B
+## 2         &lt;NA&gt;
+## 3         &lt;NA&gt;
+## 4         &lt;NA&gt;
+## 5            A
+## 6         &lt;NA&gt;</code></pre>
+<pre class="r"><code>lang_read &lt;- select(lang_read, council, girlCode, langCourses, langGrade, readingCourses, readingGrade)
+
+head(lang_read)</code></pre>
+<pre><code>##            council    girlCode     langCourses langGrade readingCourses
+## 1   Citrus Council 312FB102003 mjLangArts1ESOL         C   mjIntensRead
+## 2   Citrus Council 312ND011904 mjLangArts1ESOL         D           &lt;NA&gt;
+## 3 Tropical Council 319LP092203 mjLangArts1ESOL         C           &lt;NA&gt;
+## 4 Tropical Council 319AR110403 mjLangArts1ESOL         A           &lt;NA&gt;
+## 5   Citrus Council 312BL053004 mjLangArts2ESOL         B mjDelaESOLRead
+## 6   Citrus Council 312MJ092702 mjLangArts2ESOL         B           &lt;NA&gt;
+##   readingGrade
+## 1            B
+## 2         &lt;NA&gt;
+## 3         &lt;NA&gt;
+## 4         &lt;NA&gt;
+## 5            A
+## 6         &lt;NA&gt;</code></pre>
+<pre class="r"><code>colnames (lang_read) [1] &lt;- &quot;council&quot;</code></pre>
+</div>
+<div id="merge-all" class="section level3">
+<h3>Merge all</h3>
+<pre class="r"><code>academic_data &lt;- full_join(lang_read, behavior_data, by=&quot;girlCode&quot;)
+
+dim(academic_data)</code></pre>
+<pre><code>## [1] 568  10</code></pre>
+<pre class="r"><code>head(academic_data)</code></pre>
+<pre><code>##          council.x    girlCode     langCourses langGrade readingCourses
+## 1   Citrus Council 312FB102003 mjLangArts1ESOL         C   mjIntensRead
+## 2   Citrus Council 312ND011904 mjLangArts1ESOL         D           &lt;NA&gt;
+## 3 Tropical Council 319LP092203 mjLangArts1ESOL         C           &lt;NA&gt;
+## 4 Tropical Council 319AR110403 mjLangArts1ESOL         A           &lt;NA&gt;
+## 5   Citrus Council 312BL053004 mjLangArts2ESOL         B mjDelaESOLRead
+## 6   Citrus Council 312MJ092702 mjLangArts2ESOL         B           &lt;NA&gt;
+##   readingGrade        council.y total_absences total_suspensions expelled
+## 1            B   Citrus Council              0                 0       No
+## 2         &lt;NA&gt;   Citrus Council              0                 0       No
+## 3         &lt;NA&gt; Tropical Council              3                 0       No
+## 4         &lt;NA&gt; Tropical Council              1                 0       No
+## 5            A   Citrus Council              0                 0       No
+## 6         &lt;NA&gt;   Citrus Council              0                 0       No</code></pre>
+<pre class="r"><code>academic_data &lt;- select(academic_data, council.x, girlCode, langCourses, langGrade, readingCourses,readingGrade,total_absences, total_suspensions, expelled)
+
+colnames (academic_data) [1] &lt;- &quot;council&quot;
+
+
+head(academic_data)</code></pre>
+<pre><code>##            council    girlCode     langCourses langGrade readingCourses
+## 1   Citrus Council 312FB102003 mjLangArts1ESOL         C   mjIntensRead
+## 2   Citrus Council 312ND011904 mjLangArts1ESOL         D           &lt;NA&gt;
+## 3 Tropical Council 319LP092203 mjLangArts1ESOL         C           &lt;NA&gt;
+## 4 Tropical Council 319AR110403 mjLangArts1ESOL         A           &lt;NA&gt;
+## 5   Citrus Council 312BL053004 mjLangArts2ESOL         B mjDelaESOLRead
+## 6   Citrus Council 312MJ092702 mjLangArts2ESOL         B           &lt;NA&gt;
+##   readingGrade total_absences total_suspensions expelled
+## 1            B              0                 0       No
+## 2         &lt;NA&gt;              0                 0       No
+## 3         &lt;NA&gt;              3                 0       No
+## 4         &lt;NA&gt;              1                 0       No
+## 5            A              0                 0       No
+## 6         &lt;NA&gt;              0                 0       No</code></pre>
 </div>
 <div id="save-data-objects-to-sqlite" class="section level3">
 <h3>Save data objects to Sqlite</h3>
@@ -552,7 +616,9 @@ write.csv(&quot;expelled&quot;, file=&quot;expelled.csv&quot;, row.names = FALSE
 getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)
 
 
-### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn =getReal_2016db, name = &quot;academic_data&quot;, value = academic_data, row.names = FALSE, overwrite = TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>### Write Q1 Expelled data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = &quot;Q1_expelled&quot;, value = expelled, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;Q1_duplicates&quot;, value = q1Dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
