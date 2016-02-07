@@ -2197,6 +2197,9 @@ postDupes &lt;-duplicated(post$girlCode) | duplicated(post$girlCode, fromLast=TR
 
 ##### I think this is pulling the actuall duplicate values####################
 postDupes &lt;-post[postDupes, ]</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Reports/Apps/girl_survey_app&quot;)
+
+saveRDS(preUnique, file=&quot;girl_survey_02022016.rds&quot;)</code></pre>
 </div>
 <div id="send-data-to-sqlite-database" class="section level3">
 <h3>Send data to Sqlite database</h3>

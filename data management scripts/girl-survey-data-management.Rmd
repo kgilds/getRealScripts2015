@@ -223,6 +223,14 @@ postDupes <-post[postDupes, ]
 
 ```
 
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/Apps/girl_survey_app")
+
+saveRDS(preUnique, file="girl_survey_02022016.rds")
+
+```
+
+
 
 
 ### Send data to Sqlite database
