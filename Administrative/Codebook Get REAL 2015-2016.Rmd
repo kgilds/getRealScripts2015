@@ -72,6 +72,51 @@ Academic Engagement        |4.5=>
 2. Number and percent of students who decreased their suspensions.
 
 
+### Survey Outcomes
+
+Students in the Get REAL! program take surveys at the time of enrollment and at the end of the program year. 
+
+Criteria for determining success is based on the following criteria
+
+
+The primary criteria is that student either increased their outcome score or maintained a high achievement level. The number and percent for this criteria is based on the following two outcomes. 
+
+* student increased their healthy relationship outcome score.
+
+* student  maintained a high achievement level but did not increase their outcome score.
+
+
+Secondary but reported outcome is the following. 
+
+* student improved score from a low achievement level to a high achievement level.
+
+
+
+
+
+### Grade Outcomes
+
+**Reading and Language Arts Courses Outcome Tables**
+
+1. Grade increase
+
+2. Dropped grade but maintained a "C" grade
+
+3. Fail to pass
+
+
+**Attedance Outomce**
+
+1. Number and percent of students without an absence
+
+2. Number and percent of students who decreased their absences
+
+
+**Suspension Outcome**
+
+1. Number and percent of students without a suspension.
+
+2. Number and percent of students who decreased their suspensions.
 
 
 # Girl Survey Variables
