@@ -88,8 +88,6 @@ q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
 
 
 
-
-
 ## Healthy Relationships
 
 The number of valid surveys is **`r nrow(outcomes)`**.
