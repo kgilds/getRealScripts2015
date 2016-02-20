@@ -33,7 +33,7 @@ Analysis of survey and academic data is compared across the school year using th
 
 1. *teacher_survey_dm*--The purpose of this script is to prepare the teacher survey for analysis and sends data to sqlite database. 
 
-2. *teacher_survey_analysis*. Reads data from sqlite database and has scripts to run analysis. 
+2. *teacher_survey_analysis*. Reads data from sqlite database and has scripts to run analysis. This script is dependent on  updated teacher_survey_ survey data management script. 
 
 
 
