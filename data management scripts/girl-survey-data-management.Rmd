@@ -20,7 +20,7 @@ library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girlSurvey02022016.csv", skip=1)
+rawdata <- read.csv("girlSurvey02202016.csv", skip=1)
 dim(rawdata)
 
 ```
