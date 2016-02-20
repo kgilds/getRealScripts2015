@@ -111,7 +111,7 @@ girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
 girl_tbl_test <- with(girl_tbl, table(council))
 
 ###Show output
-girl_tbl_test
+pander(girl_tbl_test)
 
 ###Read girl survey dupes
 girl_survey_dupes <- select(girl_survey_dupes,council, school, girlCode)
@@ -120,12 +120,12 @@ girl_survey_dupes <- select(girl_survey_dupes,council, school, girlCode)
 dupe_test <-with(girl_survey_dupes, table(council))
 
 ###Create output
-dupe_test
+pander(dupe_test)
 
 ###Create table to show many councils per. 
-with(academic_data,table(council))
+q1grades <- with(academic_data,table(council))
 
-
+pander(q1grades)
 
 ```
 
