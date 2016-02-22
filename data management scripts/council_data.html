@@ -71,6 +71,73 @@ img {
 <pre><code>## Loading required package: proto</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
+<pre class="r"><code>survey_status_tbl &lt;-with(survey_status, table(council,dataSource))
+
+pander(survey_status_tbl)</code></pre>
+<table style="width:79%;">
+<colgroup>
+<col width="37%"></col>
+<col width="9%"></col>
+<col width="12%"></col>
+<col width="6%"></col>
+<col width="12%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">girl</th>
+<th align="center">parent</th>
+<th align="center">Q1</th>
+<th align="center">teacher</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Citrus Council</strong></td>
+<td align="center">118</td>
+<td align="center">24</td>
+<td align="center">44</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Gateway Council</strong></td>
+<td align="center">273</td>
+<td align="center">269</td>
+<td align="center">271</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Panhandle Council</strong></td>
+<td align="center">24</td>
+<td align="center">0</td>
+<td align="center">19</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Southeast Council</strong></td>
+<td align="center">83</td>
+<td align="center">75</td>
+<td align="center">110</td>
+<td align="center">42</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Tropical Council</strong></td>
+<td align="center">25</td>
+<td align="center">1</td>
+<td align="center">11</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>West Central Council</strong></td>
+<td align="center">318</td>
+<td align="center">89</td>
+<td align="center">111</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data&quot;)
+write.csv(girl_survey_dupes, &quot;all_girl_dupes.csv&quot;)</code></pre>
 <pre class="r"><code>### Read girl survey data
 girl_tbl &lt;- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
 
@@ -124,6 +191,8 @@ pander(girl_tbl_test)</code></pre>
 </table>
 <pre class="r"><code>###Read girl survey dupes
 girl_survey_dupes &lt;- select(girl_survey_dupes,council, school, girlCode)
+
+
 
 ###Create table to see how many to be expected
 dupe_test &lt;-with(girl_survey_dupes, table(council))
@@ -224,6 +293,27 @@ pander(q1grades)</code></pre>
     write.csv(academic_data, &quot;student_academics.csv&quot;, row.names = FALSE)
 }</code></pre>
 </div>
+<div id="parent-survey-file-function" class="section level3">
+<h3>Parent Survey File Function</h3>
+<pre class="r"><code>parent_file &lt;- function(x) {
+    pre_parent &lt;- filter(pre_parent, council ==x)
+    write.csv(pre_parent, &quot;pre_parent_survey.csv&quot;, row.names = FALSE)
+}</code></pre>
+</div>
+<div id="parent-survey-dupe-file-function" class="section level3">
+<h3>Parent survey Dupe File Function</h3>
+<pre class="r"><code>parent_file_dupe &lt;- function(x) {
+    parent_survey_dupes &lt;- filter(parent_survey_dupes, council == x)
+    write.csv(parent_survey_dupes, &quot;pre_parent_survey_dupes.csv&quot;, row.names = FALSE )
+}</code></pre>
+</div>
+<div id="teacher-survey-file-function" class="section level3">
+<h3>Teacher Survey File Function</h3>
+<pre class="r"><code>teacher_file &lt;- function(x){
+    pre_teacher &lt;- filter(pre_teacher, council == x)
+    write.csv(pre_teacher, &quot;pre_teacher_survey.csv&quot;, row.names = FALSE)
+}</code></pre>
+</div>
 <div id="citrus-council" class="section level3">
 <h3>Citrus Council</h3>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/citrus_council&quot;)
@@ -232,7 +322,13 @@ girl_file(&quot;Citrus Council&quot;)
 
 girl_dupe_file(&quot;Citrus Council&quot;)
 
-grade_file(&quot;Citrus Council&quot;)</code></pre>
+grade_file(&quot;Citrus Council&quot;)
+
+parent_file(&quot;Citrus Council&quot;)
+
+parent_file_dupe(&quot;Citrus Council&quot;)
+
+teacher_file(&quot;Citrus Council&quot;)</code></pre>
 </div>
 <div id="southeast-council" class="section level3">
 <h3>Southeast Council</h3>
@@ -241,11 +337,15 @@ grade_file(&quot;Citrus Council&quot;)</code></pre>
 
 girl_file(&quot;Southeast Council&quot;)
 
-
-
 girl_dupe_file(&quot;Southeast Council&quot;)
 
-grade_file(&quot;Southeast Council&quot;)</code></pre>
+grade_file(&quot;Southeast Council&quot;)
+
+parent_file(&quot;Southeast Council&quot;)
+
+parent_file_dupe(&quot;Southeast Council&quot;)
+
+teacher_file(&quot;Southeast Council&quot;)</code></pre>
 </div>
 <div id="gateway-council" class="section level3">
 <h3>Gateway Council</h3>
@@ -255,7 +355,13 @@ girl_file(&quot;Gateway Council&quot;)
 
 girl_dupe_file(&quot;Gateway Council&quot;)
 
-grade_file(&quot;Gateway Council&quot;)</code></pre>
+grade_file(&quot;Gateway Council&quot;)
+
+parent_file(&quot;Gateway Council&quot;)
+
+parent_file_dupe(&quot;Gateway Council&quot;)
+
+teacher_file(&quot;Gateway Council&quot;)</code></pre>
 </div>
 <div id="tropical-council" class="section level3">
 <h3>Tropical Council</h3>
@@ -265,7 +371,13 @@ girl_file(&quot;Tropical Council&quot;)
 
 girl_dupe_file(&quot;Tropical Council&quot;)
 
-grade_file(&quot;Tropical Council&quot;)</code></pre>
+grade_file(&quot;Tropical Council&quot;)
+
+parent_file(&quot;Tropical Council&quot;)
+
+parent_file_dupe(&quot;Tropical Council&quot;)
+
+teacher_file(&quot;Tropical Council&quot;)</code></pre>
 </div>
 <div id="panhandle-council" class="section level3">
 <h3>Panhandle Council</h3>
@@ -276,7 +388,13 @@ girl_file(&quot;Panhandle Council&quot;)
 
 girl_dupe_file(&quot;Panhandle Council&quot;)
 
-grade_file(&quot;Panhandle Council&quot;)</code></pre>
+grade_file(&quot;Panhandle Council&quot;)
+
+parent_file(&quot;Pandhandle Council&quot;)
+
+parent_file_dupe(&quot;Pandhandle Council&quot;)
+
+teacher_file(&quot;Pandhandle Council&quot;)</code></pre>
 </div>
 <div id="west-central-council" class="section level3">
 <h3>West Central Council</h3>
@@ -286,7 +404,11 @@ girl_file(&quot;West Central Council&quot;)
 
 girl_dupe_file(&quot;West Central Council&quot;)
 
-grade_file(&quot;West Central Council&quot;)</code></pre>
+grade_file(&quot;West Central Council&quot;)
+
+parent_file(&quot;West Central Council&quot;)
+
+parent_file_dupe(&quot;West Central Council&quot;)</code></pre>
 </div>
 
 
