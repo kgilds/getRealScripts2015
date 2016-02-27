@@ -148,6 +148,8 @@ girl_file <- function(x) {
 ### Dupe Girl File Functions
 ```{r}
 
+ setwd("C:/Users/kevin/Dropbox/GetReal/Council_data")
+
 girl_dupe_file <- function(x) {
     girl_survey_dupes <- filter(girl_survey_dupes, council == x)
     write.csv(girl_survey_dupes, "girl_survey_dupes.csv", row.names=FALSE)
