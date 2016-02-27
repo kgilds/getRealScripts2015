@@ -37,9 +37,9 @@ girl$dataSource <-"girl"
 ### Make connection with database
 parent <-dbReadTable(getReal_2016db,"pre_parent")
 ###Select the neeeded data for data entry status update
-parent <- select(parent,council)
+parent1 <- select(parent,council)
 ###Create and add column for status update
-parent$dataSource <- "parent"
+parent1$dataSource <- "parent"
 
 ### Make connection with database
 teacher <-dbReadTable(getReal_2016db, "pre_teacher")
@@ -49,7 +49,7 @@ teacher <-select(teacher,council)
 teacher$dataSource <- "teacher"
 
 ###Bind girl and parent objects to prepare for status report
-girl_parent <- rbind(girl,parent)
+girl_parent <- rbind(girl,parent1)
 
 ### Make connection with database
 grades_q1 <- dbReadTable(getReal_2016db,"Q1_Absences")
@@ -178,6 +178,15 @@ grade_dupe_file <- function(x) {
 }
 
 ```
+
+
+### Parent Survey
+
+```{r}
+
+
+```
+
 
 
 ### Citrus Council
