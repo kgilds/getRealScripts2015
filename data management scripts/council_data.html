@@ -152,6 +152,14 @@ with(academic_data,table(council))</code></pre>
 ##                   44                  271                   19 
 ##    Southeast Council     Tropical Council West Central Council 
 ##                  110                   13                  107</code></pre>
+<div id="save-all-to-main-council-folder" class="section level3">
+<h3>Save All to main council folder</h3>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data&quot;)
+
+write.csv(girl_survey_dupes, &quot;girl_survey_dupes.csv&quot;, row.names = FALSE)
+write.csv(parent_survey_dupes, &quot;parent_survey_dupes.csv&quot;, row.names = FALSE)
+write.csv(q1_dupes, &quot;q1_dupes.csv&quot;, row.names = FALSE)</code></pre>
+</div>
 <div id="girl-survey-file-function" class="section level3">
 <h3>Girl Survey File Function</h3>
 <pre class="r"><code>girl_file &lt;- function(x) {

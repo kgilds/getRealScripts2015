@@ -129,6 +129,17 @@ with(academic_data,table(council))
 
 ```
 
+### Save All to main council folder
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data")
+
+write.csv(girl_survey_dupes, "girl_survey_dupes.csv", row.names = FALSE)
+write.csv(parent_survey_dupes, "parent_survey_dupes.csv", row.names = FALSE)
+write.csv(q1_dupes, "q1_dupes.csv", row.names = FALSE)
+
+```
+
+
 
 ### Girl Survey File Function
 ```{r}
