@@ -114,7 +114,7 @@ girl_tbl_test <- with(girl_tbl, table(council))
 girl_tbl_test
 
 ###Read girl survey dupes
-girl_survey_dupes <- select(girl_survey_dupes,council, school, girlCode)
+girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
 
 ###Create table to see how many to be expected
 dupe_test <-with(girl_survey_dupes, table(council))
@@ -148,7 +148,7 @@ girl_file <- function(x) {
 ### Dupe Girl File Functions
 ```{r}
 
- setwd("C:/Users/kevin/Dropbox/GetReal/Council_data")
+ 
 
 girl_dupe_file <- function(x) {
     girl_survey_dupes <- filter(girl_survey_dupes, council == x)
@@ -168,6 +168,16 @@ grade_file <-function(x) {
 
 ```
 
+### Grade Dupe Function
+
+```{r}
+
+grade_dupe_file <- function(x) {
+    q1_dupes <- filter(q1_dupes, council == x)
+    write.csv(q1_dupes, "q1_dupes.csv", row.names = FALSE)
+}
+
+```
 
 
 ### Citrus Council
@@ -180,6 +190,8 @@ girl_file("Citrus Council")
 girl_dupe_file("Citrus Council")
 
 grade_file("Citrus Council")
+
+grade_dupe_file("Citrus Council")
 
 ```
 
@@ -200,6 +212,8 @@ girl_dupe_file("Southeast Council")
 
 grade_file("Southeast Council")
 
+grade_dupe_file("Southeast Counil")
+
 ```
 
 ### Gateway Council
@@ -213,6 +227,8 @@ girl_dupe_file("Gateway Council")
 
 grade_file("Gateway Council")
 
+grade_dupe_file("Gateway Council")
+
 ```
 
 ### Tropical Council
@@ -225,6 +241,8 @@ girl_file("Tropical Council")
 girl_dupe_file("Tropical Council")
 
 grade_file("Tropical Council")
+
+grade_dupe_file("Tropical Council")
 
 ```
 
@@ -241,6 +259,8 @@ girl_dupe_file("Panhandle Council")
 
 grade_file("Panhandle Council")
 
+grade_dupe_file("Panhandle Council")
+
 ```
 
 
@@ -254,6 +274,8 @@ girl_file("West Central Council")
 girl_dupe_file("West Central Council")
 
 grade_file("West Central Council")
+
+grade_dupe_file("West Central Council")
 
 ```
 
