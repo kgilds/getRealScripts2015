@@ -189,6 +189,13 @@ with(academic_data,table(council))</code></pre>
     write.csv(pre_parent, &quot;pre_parent_survey.csv&quot;, row.names = FALSE)
 }</code></pre>
 </div>
+<div id="pre-parent-dupe" class="section level3">
+<h3>Pre Parent dupe</h3>
+<pre class="r"><code>pre_parent_dupe_file &lt;- function(x) {
+    pre_parent_dupe &lt;- filter(parent_survey_dupes, council == x)
+    write.csv(pre_parent_dupe, &quot;pre_parent_dupes.csv&quot;, row.names = FALSE)
+}</code></pre>
+</div>
 <div id="citrus-council" class="section level3">
 <h3>Citrus Council</h3>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data/citrus_council&quot;)
@@ -201,7 +208,9 @@ grade_file(&quot;Citrus Council&quot;)
 
 grade_dupe_file(&quot;Citrus Council&quot;)
 
-pre_parent(&quot;Citrus Council&quot;)</code></pre>
+pre_parent(&quot;Citrus Council&quot;)
+
+pre_parent_dupe_file(&quot;Citrus Council&quot;)</code></pre>
 </div>
 <div id="southeast-council" class="section level3">
 <h3>Southeast Council</h3>
@@ -218,7 +227,9 @@ grade_file(&quot;Southeast Council&quot;)
 
 grade_dupe_file(&quot;Southeast Counil&quot;)
 
-pre_parent(&quot;Southeast Council&quot;)</code></pre>
+pre_parent(&quot;Southeast Council&quot;)
+
+pre_parent_dupe_file(&quot;Southeast Council&quot;)</code></pre>
 </div>
 <div id="gateway-council" class="section level3">
 <h3>Gateway Council</h3>
@@ -232,7 +243,9 @@ grade_file(&quot;Gateway Council&quot;)
 
 grade_dupe_file(&quot;Gateway Council&quot;)
 
-pre_parent(&quot;Gateway Council&quot;)</code></pre>
+pre_parent(&quot;Gateway Council&quot;)
+
+pre_parent_dupe_file(&quot;Gateway Council&quot;)</code></pre>
 </div>
 <div id="tropical-council" class="section level3">
 <h3>Tropical Council</h3>
@@ -246,7 +259,9 @@ grade_file(&quot;Tropical Council&quot;)
 
 grade_dupe_file(&quot;Tropical Council&quot;)
 
-pre_parent(&quot;Tropical Council&quot;)</code></pre>
+pre_parent(&quot;Tropical Council&quot;)
+
+pre_parent_dupe_file(&quot;Tropical Council&quot;)</code></pre>
 </div>
 <div id="panhandle-council" class="section level3">
 <h3>Panhandle Council</h3>
@@ -261,7 +276,9 @@ grade_file(&quot;Panhandle Council&quot;)
 
 grade_dupe_file(&quot;Panhandle Council&quot;)
 
-pre_parent(&quot;Panhandle Council&quot;)</code></pre>
+pre_parent(&quot;Panhandle Council&quot;)
+
+pre_parent_dupe_file(&quot;Panhandle Council&quot;)</code></pre>
 </div>
 <div id="west-central-council" class="section level3">
 <h3>West Central Council</h3>
@@ -275,7 +292,9 @@ grade_file(&quot;West Central Council&quot;)
 
 grade_dupe_file(&quot;West Central Council&quot;)
 
-pre_parent(&quot;West Central Council&quot;)</code></pre>
+pre_parent(&quot;West Central Council&quot;)
+
+pre_parent_dupe_file(&quot;West Central Council&quot;)</code></pre>
 </div>
 
 
