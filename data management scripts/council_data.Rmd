@@ -183,7 +183,10 @@ grade_dupe_file <- function(x) {
 ### Parent Survey
 
 ```{r}
-
+pre_parent <- function(x){
+    pre_parent <-filter(parent, council == x)
+    write.csv(pre_parent, "pre_parent_survey.csv", row.names = FALSE)
+}
 
 ```
 
@@ -201,6 +204,8 @@ girl_dupe_file("Citrus Council")
 grade_file("Citrus Council")
 
 grade_dupe_file("Citrus Council")
+
+pre_parent("Citrus Council")
 
 ```
 
@@ -223,6 +228,8 @@ grade_file("Southeast Council")
 
 grade_dupe_file("Southeast Counil")
 
+pre_parent("Southeast Council")
+
 ```
 
 ### Gateway Council
@@ -238,6 +245,8 @@ grade_file("Gateway Council")
 
 grade_dupe_file("Gateway Council")
 
+pre_parent("Gateway Council")
+
 ```
 
 ### Tropical Council
@@ -252,6 +261,8 @@ girl_dupe_file("Tropical Council")
 grade_file("Tropical Council")
 
 grade_dupe_file("Tropical Council")
+
+pre_parent("Tropical Council")
 
 ```
 
@@ -270,6 +281,8 @@ grade_file("Panhandle Council")
 
 grade_dupe_file("Panhandle Council")
 
+pre_parent("Panhandle Council")
+
 ```
 
 
@@ -285,6 +298,8 @@ girl_dupe_file("West Central Council")
 grade_file("West Central Council")
 
 grade_dupe_file("West Central Council")
+
+pre_parent("West Central Council")
 
 ```
 
