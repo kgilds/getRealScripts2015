@@ -44,9 +44,9 @@ parent1$dataSource <- "parent"
 ### Make connection with database
 teacher <-dbReadTable(getReal_2016db, "pre_teacher")
 ###Select the neeeded data for data entry status update
-teacher <-select(teacher,council)
+teacher1 <-select(teacher,council)
 ###Create and add column for status update
-teacher$dataSource <- "teacher"
+teacher1$dataSource <- "teacher"
 
 ###Bind girl and parent objects to prepare for status report
 girl_parent <- rbind(girl,parent1)
@@ -63,7 +63,7 @@ q1_stats$dataSource <- "Q1"
 
 
 ### Add the teacher to binding for status report
-add_teacher <- rbind(girl_parent, teacher)
+add_teacher <- rbind(girl_parent, teacher1)
 
 
 ###Findal addition to create data frame for status report
@@ -212,6 +212,15 @@ pre_parent_dupe_file <- function(x) {
 
 ```
 
+### Pre Teacher Survey
+```{r}
+pre_teacher_file <- function(x) {
+    pre_teacher <- filter(teacher, council == x)
+    write.csv(pre_teacher, "pre_teacher.csv", row.names = FALSE)
+}
+
+```
+
 
 
 ### Citrus Council
@@ -230,6 +239,8 @@ grade_dupe_file("Citrus Council")
 pre_parent("Citrus Council")
 
 pre_parent_dupe_file("Citrus Council")
+
+pre_teacher_file("Citrus Council")
 
 ```
 
@@ -256,6 +267,8 @@ pre_parent("Southeast Council")
 
 pre_parent_dupe_file("Southeast Council")
 
+pre_teacher_file("Southeast Council")
+
 ```
 
 ### Gateway Council
@@ -275,6 +288,8 @@ pre_parent("Gateway Council")
 
 pre_parent_dupe_file("Gateway Council")
 
+pre_teacher_file("Gateway council")
+
 ```
 
 ### Tropical Council
@@ -293,6 +308,8 @@ grade_dupe_file("Tropical Council")
 pre_parent("Tropical Council")
 
 pre_parent_dupe_file("Tropical Council")
+
+pre_teacher_file("Tropical Council")
 
 ```
 
@@ -315,6 +332,8 @@ pre_parent("Panhandle Council")
 
 pre_parent_dupe_file("Panhandle Council")
 
+pre_teacher_file("Panhandle Council")
+
 ```
 
 
@@ -334,6 +353,8 @@ grade_dupe_file("West Central Council")
 pre_parent("West Central Council")
 
 pre_parent_dupe_file("West Central Council")
+
+pre_teacher_file("West Central Council")
 
 ```
 
