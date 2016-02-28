@@ -102,11 +102,22 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 ```
 
 
+```{r}
+library(DT)
+
+survey_status <-with(survey_status,table(council,dataSource))
+
+pander(survey_status)
+
+
+
+```
+
+
+
 
 ```{r}
 
-
-```{r}
 
 ### Read girl survey data
 girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
@@ -121,30 +132,116 @@ girl_tbl_test
 girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
 
 ###Create table to see how many to be expected
-dupe_test <-with(girl_survey_dupes, table(council))
+student_survey_dupe_ <-with(girl_survey_dupes, table(council))
 
 ###Create output
-dupe_test
+pander(student_survey_dupe_)
+
+
+
+
+
+```
+
+
+### Girl Survey Duplicates
+
+```{r}
+library(DT)
+
+girl_survey_dupes <- select(girl_survey_dupes, 24:27)
+
+datatable(girl_survey_dupes)
+
+
+```
+
+
+
+
+### Girl Survey 
+
+```{r}
+library(DT)
+
+datatable(girl_tbl)
+```
+
+###  Data Entry Status Academic Data Q1
+```{r}
 
 ###Create table to show many councils per. 
-with(academic_data,table(council))
+q1_data <- with(academic_data,table(council))
+
+pander(q1_data)
 
 
 
 ```
 
 
-```{r tabsets, echo=FALSE}
-
-shinyAppDir(
-  system.file("/Users/kevin/Dropbox/GetReal/Reports/Apps/girl_survey_app/Survey_App.RMD", package = "shiny"),
-  options = list(
-    width = "100%", height = 550
-  )
-)
+### Interactive Table for Academic Data
+```{r}
+datatable(academic_data)
 ```
 
 
+### Summary of  Duplicate Entries for Q1 by Council
+
+```{r}
+
+q1_dupes_tbl <-with(q1_dupes, table(council))
+
+pander(q1_dupes_tbl)
+
 ```
 
+
+###  Data Table for Duplicate Entries for Q1
+
+```{r}
+
+q1_dupes <- select(q1_dupes, 7:10)
+
+datatable(q1_dupes)
+
+```
+
+
+### Interactive Table for Academic Data
+```{r}
+datatable(academic_data)
+```
+
+
+### Interactive Table for Parent Survey
+
+```{r}
+
+parent <- select(parent, 6:9)
+
+datatable(parent)
+
+
+```
+
+
+### Duplicate Entries for Parent Survey
+
+```{r}
+
+parent_survey_dupes_tbl <-with(parent_survey_dupes, table(council))
+
+```
+
+
+### Interactive Table for Duplicate Parent Survey
+
+```{r}
+
+parent_survey_dupes <- select(parent_survey_dupes, 6:9)
+
+datatable(parent_survey_dupes)
+
+```
 

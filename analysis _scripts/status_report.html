@@ -137,15 +137,34 @@ girl_tbl_test</code></pre>
 girl_survey_dupes1 &lt;- select(girl_survey_dupes,council, school, girlCode)
 
 ###Create table to see how many to be expected
-dupe_test &lt;-with(girl_survey_dupes, table(council))
+student_survey_dupe_ &lt;-with(girl_survey_dupes, table(council))
 
 ###Create output
-dupe_test</code></pre>
-<pre><code>## council
-##      Gateway Council    Southeast Council     Tropical Council 
-##                    8                    6                   14 
-## West Central Council 
-##                    6</code></pre>
+pander(student_survey_dupe_)</code></pre>
+<table>
+<colgroup>
+<col width="22%"></col>
+<col width="25%"></col>
+<col width="24%"></col>
+<col width="27%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Gateway Council</th>
+<th align="center">Southeast Council</th>
+<th align="center">Tropical Council</th>
+<th align="center">West Central Council</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">6</td>
+<td align="center">14</td>
+<td align="center">6</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>###Create table to show many councils per. 
 with(academic_data,table(council))</code></pre>
 <pre><code>## council
@@ -153,7 +172,30 @@ with(academic_data,table(council))</code></pre>
 ##                   44                  271                   19 
 ##    Southeast Council     Tropical Council West Central Council 
 ##                  110                   13                  107</code></pre>
-<p>```</p>
+<div id="application" class="section level3">
+<h3>Application</h3>
+<pre class="r"><code>library(shiny)
+
+
+shinyApp(
+  
+  ui = fluidPage(
+    selectInput(&quot;region&quot;, &quot;Region:&quot;, 
+                choices = colnames(WorldPhones)),
+    plotOutput(&quot;phonePlot&quot;)
+  ),
+  
+  server = function(input, output) {
+    output$phonePlot &lt;- renderPlot({
+      barplot(WorldPhones[,input$region]*1000, 
+              ylab = &quot;Number of Telephones&quot;, xlab = &quot;Year&quot;)
+    })
+  },
+  
+  options = list(height = 500)
+)</code></pre>
+<p><div style="width: 100% ; height: 500px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div> ```</p>
+</div>
 
 
 
