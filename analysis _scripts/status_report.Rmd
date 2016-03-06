@@ -102,6 +102,7 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 ```
 
 
+### Data Entry Status
 ```{r}
 library(DT)
 
@@ -115,6 +116,7 @@ pander(survey_status)
 
 
 
+### Student Survey
 
 ```{r}
 
@@ -126,7 +128,33 @@ girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
 girl_tbl_test <- with(girl_tbl, table(council))
 
 ###Show output
-girl_tbl_test
+#pander(girl_tbl_test)
+
+
+
+
+
+```
+
+### Interactive Student Survey Status
+
+```{r}
+library(DT)
+
+datatable(girl_tbl)
+```
+
+
+```{r}
+
+
+```
+
+
+
+### Girl Survey Duplicates Report
+
+```{r}
 
 ###Read girl survey dupes
 girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
@@ -139,12 +167,9 @@ pander(student_survey_dupe_)
 
 
 
-
-
 ```
 
-
-### Girl Survey Duplicates
+### Girl Survey Duplicate Interactive Report
 
 ```{r}
 library(DT)
@@ -159,31 +184,52 @@ datatable(girl_survey_dupes)
 
 
 
-### Girl Survey 
 
-```{r}
-library(DT)
-
-datatable(girl_tbl)
-```
-
-###  Data Entry Status Academic Data Q1
-```{r}
-
-###Create table to show many councils per. 
-q1_data <- with(academic_data,table(council))
-
-pander(q1_data)
-
-
-
-```
 
 
 ### Interactive Table for Academic Data
 ```{r}
 datatable(academic_data)
 ```
+
+
+
+###  Data Table for Duplicate Entries for Q1
+
+```{r}
+
+###Read girl survey dupes
+girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
+
+###Create table to see how many to be expected
+student_survey_dupe_ <-with(girl_survey_dupes, table(council))
+
+###Create output
+pander(student_survey_dupe_)
+
+
+
+```
+
+
+```{r}
+
+q1_dupes <- select(q1_dupes, 7:10)
+
+datatable(q1_dupes)
+
+```
+
+
+
+
+
+
+### Interactive Table for Academic Data
+```{r}
+datatable(academic_data)
+```
+
 
 
 ### Summary of  Duplicate Entries for Q1 by Council
@@ -196,22 +242,6 @@ pander(q1_dupes_tbl)
 
 ```
 
-
-###  Data Table for Duplicate Entries for Q1
-
-```{r}
-
-q1_dupes <- select(q1_dupes, 7:10)
-
-datatable(q1_dupes)
-
-```
-
-
-### Interactive Table for Academic Data
-```{r}
-datatable(academic_data)
-```
 
 
 ### Interactive Table for Parent Survey
