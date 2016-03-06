@@ -240,7 +240,7 @@ datatable(parent_survey_dupes)
 # Teacher Survey
 
 ## Data Table for Teacher Survey
-```{r}
+```{r echo = FALSE}
 
 teacher <- select(teacher, 6:9)
 
