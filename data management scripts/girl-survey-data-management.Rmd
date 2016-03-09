@@ -1,7 +1,7 @@
 ---
 title: "girlSurvey Data Management"
 author: "Kevin Gilds"
-date: "Saturday November 14, 2015"
+date: '`r Sys.Date()`'
 output:
   html_document:
     toc: yes
@@ -14,13 +14,13 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/February 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girlSurvey02202016.csv", skip=1)
+rawdata <- read.csv("girlSurvey03092016.csv", skip=1)
 dim(rawdata)
 
 ```
@@ -227,7 +227,7 @@ postDupes <-post[postDupes, ]
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/Apps/girl_survey_app")
 
-saveRDS(preUnique, file="girl_survey_02022016.rds")
+saveRDS(preUnique, file="girl_survey_03092016.rds")
 
 ```
 
