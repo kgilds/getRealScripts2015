@@ -1,7 +1,7 @@
 ---
 title: "Q1grades_dm"
 author: "Kevin Gilds"
-date: "December 5, 2015"
+date: '`r Sys.Date()`'
 output: html_document
 ---
 
@@ -17,10 +17,10 @@ library(sqldf)
 
 
 ### Locate file to read from
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
 
 ### read the data into R
-grades <- read.csv('grades_q1_12182015.csv', skip = 1, na.strings="")
+grades <- read.csv('q1Grades03092016.csv', skip = 1, na.strings="")
 
 
 ```
@@ -176,8 +176,7 @@ gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Cou
 ### Save in relevant data file
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
-### RDS file for status report. 
-saveRDS(gradesUnique, "grades_q1_12182015.rds")
+
 
 ```
 
@@ -338,8 +337,6 @@ table(free_lang$free_lang2)
 ### Ensure the dat goes to the correct directory
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
-### Save the object for analysis script or file
-saveRDS(mq1_lang, "langQ1_12182015.rds")
 
 ```
 
