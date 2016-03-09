@@ -1,7 +1,7 @@
 ---
 title: "parent data management"
 author: "Kevin Gilds"
-date: "Sunday December  27, 2015"
+date: '`r Sys.Date()`'
 output:
   html_document:
     keep_md: yes
@@ -19,9 +19,9 @@ output:
 ```{r}
 library(dplyr)
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
 
-parent <- read.csv("parent_survey_12272015.csv", skip=1)
+parent <- read.csv("parentSurvey03092016.csv", skip=1)
 
 
 ```
@@ -109,8 +109,6 @@ dim(parentPreUnique)
 
 ```{r}
 
-### Set working directory to save data to correct file folder
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
 
 
 ### Find duplicates
@@ -123,23 +121,11 @@ parent_pre_dupes<- parentPre[parent_pre_dupes,]
 ## How many duplicates
 dim(parent_pre_dupes)
 
-### Write to csv file
-write.csv(parent_pre_dupes, "parent_dupes_12272015.csv", row.names=FALSE)
-
 ```
 
 
 
-## Save RDS File
-```{r}
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-#############################Save Pre and Post Data Frames####################33
-
-saveRDS(parentPreUnique, file="pre_parent_12272015.rds")
-
-```
 
 
 
@@ -161,16 +147,6 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 
 ```
 
-
-
-## Save RDS Files
-```{r}
-
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-saveRDS(parentPostUnique, file="post_parent_12272015.rds")
-
-```
 
 
 ### Send data to Sqlite database
