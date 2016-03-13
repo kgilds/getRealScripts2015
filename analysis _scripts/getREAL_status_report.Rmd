@@ -2,9 +2,10 @@
 title: "Get REAL! Data Entry Status Report"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
-output: 
-  html_document: 
+output:
+  html_document:
     toc: yes
+  
 ---
 
 
