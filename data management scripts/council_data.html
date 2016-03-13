@@ -11,6 +11,7 @@
 
 <meta name="author" content="Kevin Gilds, MPA" />
 
+<meta name="date" content="2016-03-10" />
 
 <title>Council_Data_Export</title>
 
@@ -110,11 +111,12 @@ $(document).ready(function () {
 
 <h1 class="title">Council_Data_Export</h1>
 <h4 class="author"><em>Kevin Gilds, MPA</em></h4>
-<h4 class="date"><em>February 2, 2016</em></h4>
+<h4 class="date"><em>2016-03-10</em></h4>
 
 </div>
 
 
+<p>Run date: ‘2016-03-10’</p>
 <pre><code>## Loading required package: gsubfn</code></pre>
 <pre><code>## Loading required package: proto</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
@@ -131,7 +133,7 @@ girl_tbl_test</code></pre>
 ##       Citrus Council      Gateway Council    Panhandle Council 
 ##                  118                  273                   24 
 ##    Southeast Council     Tropical Council West Central Council 
-##                   83                   25                  318</code></pre>
+##                   83                   26                  318</code></pre>
 <pre class="r"><code>###Read girl survey dupes
 girl_survey_dupes1 &lt;- select(girl_survey_dupes,council, school, girlCode)
 
@@ -142,16 +144,16 @@ dupe_test &lt;-with(girl_survey_dupes, table(council))
 dupe_test</code></pre>
 <pre><code>## council
 ##      Gateway Council    Southeast Council     Tropical Council 
-##                    8                    6                   14 
+##                    8                    6                   12 
 ## West Central Council 
 ##                    6</code></pre>
 <pre class="r"><code>###Create table to show many councils per. 
 with(academic_data,table(council))</code></pre>
 <pre><code>## council
 ##       Citrus Council      Gateway Council    Panhandle Council 
-##                   44                  271                   19 
+##                   45                  271                   19 
 ##    Southeast Council     Tropical Council West Central Council 
-##                  110                   13                  107</code></pre>
+##                  110                   13                  144</code></pre>
 <div id="save-all-to-main-council-folder" class="section level3">
 <h3>Save All to main council folder</h3>
 <pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data&quot;)
