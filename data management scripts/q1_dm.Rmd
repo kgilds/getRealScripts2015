@@ -118,7 +118,6 @@ gradesq1$girlCode <- as.character(gradesq1$girlCode)
 
 ```{r}
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Council_data")
 
 ##############################Subset Duplicate Values##################
 ### find the duplicates
@@ -127,7 +126,6 @@ q1Dupes <-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast
 ### Subset the duplicates
 q1Dupes <-gradesq1[q1Dupes, ]
 
-write.csv(q1Dupes, file="q1_dupes.csv", row.names=FALSE)
 
 
 
