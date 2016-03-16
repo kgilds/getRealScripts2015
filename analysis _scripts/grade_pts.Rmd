@@ -1,0 +1,60 @@
+---
+title: "grade_point"
+author: "Kevin Gilds, MPA"
+date: '`r (today <- Sys.Date())
+format(today, "%B %d, %Y")`'
+output: html_document
+---
+
+```{r echo=FALSE}
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+```
+
+
+```{r}
+
+q1_reading <-dbReadTable(getReal_2016db, "Q1_reading")
+
+
+reading_pts <-numeric(0)
+
+for(i in q1_reading$readingGrade){
+   
+     reading_pts<- c(reading_pts,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     reading_pts
+
+    
+}
+
+
+
+
+
+
+
+
+
+```
+
+
+```{r}
+
+reading_pts
+
+mean(reading_pts)
+sd(reading_pts)
+hist(reading_pts)
+boxplot(reading_pts)
+q1_reading <- cbind(q1_reading, reading_pts)
+
+head(q1_reading)
+tail(q1_reading)
+
+```
+
