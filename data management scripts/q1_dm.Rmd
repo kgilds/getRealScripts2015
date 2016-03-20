@@ -261,6 +261,25 @@ names(q1free_read)
 
 ```
 
+### Reading Grade Point Average
+
+```{r}
+
+###Set up the vector or column to place date
+reading_pts <-numeric(0)
+
+for(i in mq1Reading$readingGrade){ #transverse the column
+   
+     reading_pts<- c(reading_pts,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0)) #assign point value for grades.
+    
+     reading_pts
+
+    
+}
+
+mq1Reading <- cbind(mq1Reading, reading_pts)
+
+```
 
 
 
@@ -328,7 +347,6 @@ table(free_lang$free_lang1)
 table(free_lang$free_lang2)
 
 ```
-
 
 
 

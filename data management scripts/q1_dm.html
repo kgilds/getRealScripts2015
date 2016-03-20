@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-09" />
+<meta name="date" content="2016-03-20" />
 
 <title>Q1grades_dm</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Q1grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-09</em></h4>
+<h4 class="date"><em>2016-03-20</em></h4>
 
 </div>
 
@@ -211,16 +211,12 @@ gradesq1$council &lt;- as.character(gradesq1$council)
 
 ### Make sure R does not make this a factor variable 
 gradesq1$girlCode &lt;- as.character(gradesq1$girlCode)</code></pre>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Council_data&quot;)
-
-##############################Subset Duplicate Values##################
+<pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q1Dupes &lt;-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast=TRUE)
 
 ### Subset the duplicates
-q1Dupes &lt;-gradesq1[q1Dupes, ]
-
-write.csv(q1Dupes, file=&quot;q1_dupes.csv&quot;, row.names=FALSE)</code></pre>
+q1Dupes &lt;-gradesq1[q1Dupes, ]</code></pre>
 <pre class="r"><code>##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
@@ -334,6 +330,22 @@ levels(mq1Reading$readingGrade)</code></pre>
 names(q1free_read)</code></pre>
 <pre><code>## [1] &quot;council&quot;   &quot;girlCode&quot;  &quot;readFree1&quot; &quot;readFree2&quot;</code></pre>
 </div>
+</div>
+<div id="reading-grade-point-average" class="section level3">
+<h3>Reading Grade Point Average</h3>
+<pre class="r"><code>###Set up the vector or column to place date
+reading_pts &lt;-numeric(0)
+
+for(i in mq1Reading$readingGrade){ #transverse the column
+   
+     reading_pts&lt;- c(reading_pts,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0)) #assign point value for grades.
+    
+     reading_pts
+
+    
+}
+
+mq1Reading &lt;- cbind(mq1Reading, reading_pts)</code></pre>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest
@@ -407,11 +419,6 @@ table(free_lang$free_lang1)</code></pre>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
 <pre class="r"><code>table(free_lang$free_lang2)</code></pre>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
-</div>
-<div id="lang-arts-save-to-rds" class="section level3">
-<h3>Lang Arts Save to RDS</h3>
-<pre class="r"><code>### Ensure the dat goes to the correct directory
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)</code></pre>
 </div>
 <div id="unexcused-absences" class="section level3">
 <h3>Unexcused Absences</h3>
@@ -576,7 +583,7 @@ head(behavior_data)</code></pre>
 <pre class="r"><code>lang_read &lt;- full_join(mq1_lang, mq1Reading)</code></pre>
 <pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
 <pre class="r"><code>dim(lang_read)</code></pre>
-<pre><code>## [1] 602   6</code></pre>
+<pre><code>## [1] 602   7</code></pre>
 <pre class="r"><code>head(lang_read)</code></pre>
 <pre><code>##      girlCode          council     langCourses langGrade readingCourses
 ## 1 312FB102003   Citrus Council mjLangArts1ESOL         C   mjIntensRead
@@ -585,13 +592,13 @@ head(behavior_data)</code></pre>
 ## 4 319AR110403 Tropical Council mjLangArts1ESOL         A           &lt;NA&gt;
 ## 5 312BL053004   Citrus Council mjLangArts2ESOL         B mjDelaESOLRead
 ## 6 312MJ092702   Citrus Council mjLangArts2ESOL         B           &lt;NA&gt;
-##   readingGrade
-## 1            B
-## 2         &lt;NA&gt;
-## 3         &lt;NA&gt;
-## 4         &lt;NA&gt;
-## 5            A
-## 6         &lt;NA&gt;</code></pre>
+##   readingGrade reading_pts
+## 1            B           3
+## 2         &lt;NA&gt;          NA
+## 3         &lt;NA&gt;          NA
+## 4         &lt;NA&gt;          NA
+## 5            A           4
+## 6         &lt;NA&gt;          NA</code></pre>
 <pre class="r"><code>lang_read &lt;- select(lang_read, council, girlCode, langCourses, langGrade, readingCourses, readingGrade)
 
 head(lang_read)</code></pre>
