@@ -329,14 +329,7 @@ table(free_lang$free_lang2)
 
 ```
 
-### Lang Arts Save to RDS
 
-```{r}
-### Ensure the dat goes to the correct directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
-
-
-```
 
 
 
