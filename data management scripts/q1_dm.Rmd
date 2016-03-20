@@ -349,6 +349,25 @@ table(free_lang$free_lang2)
 ```
 
 
+### Grade Point Lang Arts
+
+```{r}
+
+lang_pts <- numeric(0)
+
+for(i in mq1_lang$langGrade){
+   
+     lang_pts<- c(lang_pts,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     lang_pts
+
+    
+}
+
+mq1_lang <- cbind(mq1_lang, lang_pts)
+
+```
+
 
 
 ### Unexcused Absences
