@@ -58,3 +58,44 @@ tail(q1_reading)
 
 ```
 
+
+
+```{r}
+
+q1_lang <-dbReadTable(getReal_2016db, "Q1_lang")
+
+lang_pts <- numeric(0)
+
+for(i in q1_lang$langGrade){
+   
+     lang_pts<- c(lang_pts,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     lang_pts
+
+    
+}
+
+
+
+
+```
+
+```{r}
+
+lang_pts
+
+head(lang_pts)
+tail(lang_pts)
+
+
+hist(lang_pts)
+
+mean(lang_pts)
+sd(lang_pts)
+
+q1_lang <- cbind(q1_lang, lang_pts)
+
+q1_lang
+
+```
+

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds, MPA" />
 
-<meta name="date" content="2016-03-16" />
+<meta name="date" content="2016-03-20" />
 
 <title>grade_point</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">grade_point</h1>
 <h4 class="author"><em>Kevin Gilds, MPA</em></h4>
-<h4 class="date"><em>March 16, 2016</em></h4>
+<h4 class="date"><em>March 20, 2016</em></h4>
 
 </div>
 
@@ -176,6 +176,1252 @@ head(q1_reading)</code></pre>
 ## 297           3
 ## 298           3
 ## 299           4</code></pre>
+<pre class="r"><code>q1_lang &lt;-dbReadTable(getReal_2016db, &quot;Q1_lang&quot;)
+
+lang_pts &lt;- numeric(0)
+
+for(i in q1_lang$langGrade){
+   
+     lang_pts&lt;- c(lang_pts,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0))
+    
+     lang_pts
+
+    
+}</code></pre>
+<pre class="r"><code>lang_pts</code></pre>
+<pre><code>##   [1] 2 1 2 4 3 3 4 2 2 2 2 1 2 3 0 3 2 2 2 2 2 3 3 1 3 0 0 1 4 3 3 2 1 3 1
+##  [36] 1 2 1 3 4 2 1 3 3 2 3 3 1 1 2 4 2 1 2 3 2 3 1 2 3 2 2 2 3 3 2 1 1 2 1
+##  [71] 1 2 2 0 1 2 1 2 2 3 3 4 1 3 3 1 2 3 2 3 2 2 4 3 2 1 4 2 0 4 2 4 4 2 3
+## [106] 2 4 4 4 2 4 1 1 2 2 3 0 2 2 3 4 3 3 1 3 1 0 2 1 3 0 0 3 2 1 0 1 2 1 4
+## [141] 4 4 4 3 2 2 1 4 3 4 3 3 1 2 4 4 3 3 2 4 4 4 4 4 3 2 4 3 2 1 1 2 2 3 3
+## [176] 3 4 2 4 2 3 4 2 2 0 3 2 1 2 2 0 3 3 2 2 1 3 3 3 4 3 2 1 1 2 3 2 3 3 3
+## [211] 2 3 3 2 3 2 2 2 2 3 4 2 3 3 3 3 3 3 4 2 3 0 3 2 1 2 2 2 1 0 1 2 3 2 1
+## [246] 1 2 2 1 2 3 2 4 3 3 3 3 2 2 3 2 4 3 4 3 3 3 2 3 3 3 1 3 0 3 2 2 4 3 0
+## [281] 3 1 4 1 3 0 2 1 1 0 3 2 1 2 1 0 0 0 1 2 3 2 1 4 3 4 4 1 4 2 3 3 2 4 4
+## [316] 3 4 2 2 3 4 4 4 3 4 3 3 4 3 4 3 4 3 3 3 4 3 4 4 4 4 4 4 3 4 4 4 4 4 4
+## [351] 4 4 4 3 4 1 4 2 4 2 3 4 3 4 3 2 2 3 4 3 3 1 3 1 2 3 2 2 2 1 2 3 4 2 1
+## [386] 3 2 2 2 4 3 2 1 2 2 4 4 2 1 3 3 2 2 1 3 3 2 3 3 2 2 1 2 2 1 2 2 0 2 3
+## [421] 2 1 2 1 1 1 2 2 1 2 3 3 2 2 1 2 0 1 3 3 3 3 4 2 3 3 2 3 2 2 3 1 3 4 4
+## [456] 4 3 2 2 4 2 4 4 4 2 3 3 1 3 3 2 2 3 4 3 3 4 4 1 2 4 3 2 3 2 2 2 3 3 2
+## [491] 4 3 3 3 4 3 3 4 4 2 1 2 1 3 1 2 3 0 0 2 3 3 2 0 2 4 4 4 3 3 3 2 2 3 2
+## [526] 4 4 3 3 4 3 3 2 3 4 3 2 2 2 3 3 3 4 3 3 3 2 4 2 4 3 3 4 4 3 4 4 3 4 3
+## [561] 4 4 4 3 4 4 4 4 4 4 4 3 4 4 3 3 1 4 4 2 4 3 2 3 4 3 4 3 4 4 4 2 3 2 2
+## [596] 3 3 3 3 2</code></pre>
+<pre class="r"><code>head(lang_pts)</code></pre>
+<pre><code>## [1] 2 1 2 4 3 3</code></pre>
+<pre class="r"><code>tail(lang_pts)</code></pre>
+<pre><code>## [1] 2 3 3 3 3 2</code></pre>
+<pre class="r"><code>hist(lang_pts)</code></pre>
+<p><img src="data:image/png;base64,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" title alt width="672" /></p>
+<pre class="r"><code>mean(lang_pts)</code></pre>
+<pre><code>## [1] 2.541667</code></pre>
+<pre class="r"><code>sd(lang_pts)</code></pre>
+<pre><code>## [1] 1.100128</code></pre>
+<pre class="r"><code>q1_lang &lt;- cbind(q1_lang, lang_pts)
+
+q1_lang</code></pre>
+<pre><code>##         girlCode              council        langCourses langGrade
+## 1    312FB102003       Citrus Council    mjLangArts1ESOL         C
+## 2    312ND011904       Citrus Council    mjLangArts1ESOL         D
+## 3    319LP092203     Tropical Council    mjLangArts1ESOL         C
+## 4    319AR110403     Tropical Council    mjLangArts1ESOL         A
+## 5    312BL053004       Citrus Council    mjLangArts2ESOL         B
+## 6    312MJ092702       Citrus Council    mjLangArts2ESOL         B
+## 7    312BJ021603       Citrus Council    mjLangArts2ESOL         A
+## 8    320BR031803 West Central Council    mjLangArts2ESOL         C
+## 9    319LP092203     Tropical Council mjDevelpmentalESOL         C
+## 10   319AR110403     Tropical Council mjDevelpmentalESOL         C
+## 11   313AW060203      Gateway Council        mjLangArts1         C
+## 12   313AP042602      Gateway Council        mjLangArts1         D
+## 13   313AE041502      Gateway Council        mjLangArts1         C
+## 14   313AJ111203      Gateway Council        mjLangArts1         B
+## 15   313AM022202      Gateway Council        mjLangArts1         F
+## 16   313AE050404      Gateway Council        mjLangArts1         B
+## 17   313AM030805      Gateway Council        mjLangArts1         C
+## 18   313BB032805      Gateway Council        mjLangArts1         C
+## 19   313CC032104      Gateway Council        mjLangArts1         C
+## 20   313CM120103      Gateway Council        mjLangArts1         C
+## 21   313IH091404      Gateway Council        mjLangArts1         C
+## 22   313IA091203      Gateway Council        mjLangArts1         B
+## 23   313KF050203      Gateway Council        mjLangArts1         B
+## 24   313MM071604      Gateway Council        mjLangArts1         D
+## 25   313MS031104      Gateway Council        mjLangArts1         B
+## 26   313OF022803      Gateway Council        mjLangArts1         F
+## 27   313SJ102903      Gateway Council        mjLangArts1         F
+## 28   313SW021304      Gateway Council        mjLangArts1         D
+## 29   313TG053004      Gateway Council        mjLangArts1         A
+## 30   313TG041203      Gateway Council        mjLangArts1         B
+## 31   313TA120503      Gateway Council        mjLangArts1         B
+## 32   313TD073104      Gateway Council        mjLangArts1         C
+## 33   313YJ031404      Gateway Council        mjLangArts1         D
+## 34   313PW072304      Gateway Council        mjLangArts1         B
+## 35   313MA082702      Gateway Council        mjLangArts1         D
+## 36   313AA041803      Gateway Council        mjLangArts1         D
+## 37   313AJ100704      Gateway Council        mjLangArts1         C
+## 38   313KS081404      Gateway Council        mjLangArts1         D
+## 39   313AC080304      Gateway Council        mjLangArts1         B
+## 40   313AH082204      Gateway Council        mjLangArts1         A
+## 41   313LS090504      Gateway Council        mjLangArts1         C
+## 42   313LL121002      Gateway Council        mjLangArts1         D
+## 43   313RN100203      Gateway Council        mjLangArts1         B
+## 44   313RE011302      Gateway Council        mjLangArts1         B
+## 45   313SR051403      Gateway Council        mjLangArts1         C
+## 46   313SW080304      Gateway Council        mjLangArts1         B
+## 47   313TW060904      Gateway Council        mjLangArts1         B
+## 48   313TH082203      Gateway Council        mjLangArts1         D
+## 49   313JW081804      Gateway Council        mjLangArts1         D
+## 50   313MD050604      Gateway Council        mjLangArts1         C
+## 51   313AC103103      Gateway Council        mjLangArts1         A
+## 52   313AN121503      Gateway Council        mjLangArts1         C
+## 53   313AB062704      Gateway Council        mjLangArts1         D
+## 54   313BM050404      Gateway Council        mjLangArts1         C
+## 55   313BC040204      Gateway Council        mjLangArts1         B
+## 56   313CH121604      Gateway Council        mjLangArts1         C
+## 57   313DP021104      Gateway Council        mjLangArts1         B
+## 58   313EO080204      Gateway Council        mjLangArts1         D
+## 59   313JC121003      Gateway Council        mjLangArts1         C
+## 60   313JM072404      Gateway Council        mjLangArts1         B
+## 61   313JT110402      Gateway Council        mjLangArts1         C
+## 62   313KM011503      Gateway Council        mjLangArts1         C
+## 63   313KG061204      Gateway Council        mjLangArts1         C
+## 64   313KT082103      Gateway Council        mjLangArts1         B
+## 65   313KA090203      Gateway Council        mjLangArts1         B
+## 66   313LF022804      Gateway Council        mjLangArts1         C
+## 67   313MA090303      Gateway Council        mjLangArts1         D
+## 68   313SS111303      Gateway Council        mjLangArts1         D
+## 69   313SF120603      Gateway Council        mjLangArts1         C
+## 70   313SW091702      Gateway Council        mjLangArts1         D
+## 71   313SW083004      Gateway Council        mjLangArts1         D
+## 72   313TC071503      Gateway Council        mjLangArts1         C
+## 73   313TG091001      Gateway Council        mjLangArts1         C
+## 74   313TS010303      Gateway Council        mjLangArts1         F
+## 75   313KE040805      Gateway Council        mjLangArts1         D
+## 76   313LS021104      Gateway Council        mjLangArts1         C
+## 77   313NH071604      Gateway Council        mjLangArts1         D
+## 78   313RH032805      Gateway Council        mjLangArts1         C
+## 79   313TA060203      Gateway Council        mjLangArts1         C
+## 80   313AB050904      Gateway Council        mjLangArts1         B
+## 81   313AJ111803      Gateway Council        mjLangArts1         B
+## 82   313CJ081604      Gateway Council        mjLangArts1         A
+## 83   313CD032504      Gateway Council        mjLangArts1         D
+## 84   313DF063004      Gateway Council        mjLangArts1         B
+## 85   313DM031404      Gateway Council        mjLangArts1         B
+## 86   313GW050404      Gateway Council        mjLangArts1         D
+## 87   313JS053004      Gateway Council        mjLangArts1         C
+## 88   313JH050703      Gateway Council        mjLangArts1         B
+## 89   313KH032104      Gateway Council        mjLangArts1         C
+## 90   321RL060204    Southeast Council        mjLangArts1         B
+## 91   312JG081903       Citrus Council        mjLangArts1         C
+## 92   321IM121403    Southeast Council        mjLangArts1         C
+## 93   312FN091704       Citrus Council        mjLangArts1         A
+## 94   321BS111403    Southeast Council        mjLangArts1         B
+## 95   321KT083104    Southeast Council        mjLangArts1         C
+## 96   312QW012803       Citrus Council        mjLangArts1         D
+## 97   321NJ061904    Southeast Council        mjLangArts1         A
+## 98   321CR101403    Southeast Council        mjLangArts1         C
+## 99   321KD040803    Southeast Council        mjLangArts1         F
+## 100  321NW102103    Southeast Council        mjLangArts1         A
+## 101  321DG010202    Southeast Council        mjLangArts1         C
+## 102  321ZJ092702    Southeast Council        mjLangArts1         A
+## 103  319YL092403     Tropical Council        mjLangArts1         A
+## 104  319AS092801     Tropical Council        mjLangArts1         C
+## 105  319AS112003     Tropical Council        mjLangArts1         B
+## 106  320DR111003 West Central Council        mjLangArts1         C
+## 107  320SP042903 West Central Council        mjLangArts1         A
+## 108  320DT010203 West Central Council        mjLangArts1         A
+## 109  320KJ090903 West Central Council        mjLangArts1         A
+## 110  322AC082804    Panhandle Council        mjLangArts1         C
+## 111  322CA061704    Panhandle Council        mjLangArts1         A
+## 112  322NB061103    Panhandle Council        mjLangArts1         D
+## 113  322JC071704    Panhandle Council        mjLangArts1         D
+## 114  322JH012203    Panhandle Council        mjLangArts1         C
+## 115  322MJ091704    Panhandle Council        mjLangArts1         C
+## 116  322AK101603    Panhandle Council        mjLangArts1         B
+## 117  322RM052704    Panhandle Council        mjLangArts1         F
+## 118  322KP072504    Panhandle Council        mjLangArts1         C
+## 119 322KMP072504    Panhandle Council        mjLangArts1         C
+## 120  322EP020204    Panhandle Council        mjLangArts1         B
+## 121  322BP090303    Panhandle Council        mjLangArts1         A
+## 122  322CB071803    Panhandle Council        mjLangArts1         B
+## 123  322DS092602    Panhandle Council        mjLangArts1         B
+## 124  322BS102103    Panhandle Council        mjLangArts1         D
+## 125  322DS122003    Panhandle Council        mjLangArts1         B
+## 126  322RT071904    Panhandle Council        mjLangArts1         D
+## 127  322KV111303    Panhandle Council        mjLangArts1         F
+## 128  322WW012004    Panhandle Council        mjLangArts1         C
+## 129  313DP102903      Gateway Council        mjLangArts1         D
+## 130  313IJ090703      Gateway Council        mjLangArts1         B
+## 131  313JD052803      Gateway Council        mjLangArts1         F
+## 132  313JY070403      Gateway Council        mjLangArts1         F
+## 133  313NW110203      Gateway Council        mjLangArts1         B
+## 134  313AH052504      Gateway Council        mjLangArts1         C
+## 135  313LC041404      Gateway Council        mjLangArts1         D
+## 136  313ST020303      Gateway Council        mjLangArts1         F
+## 137  313JS100203      Gateway Council        mjLangArts1         D
+## 138  313MN060203      Gateway Council        mjLangArts1         C
+## 139  313JB060403      Gateway Council        mjLangArts1         D
+## 140  320SS091403 West Central Council        mjLangArts1         A
+## 141  320AS062504 West Central Council        mjLangArts1         A
+## 142  320DT031504 West Central Council        mjLangArts1         A
+## 143  320CW111203 West Central Council        mjLangArts1         A
+## 144  320GD120203 West Central Council        mjLangArts1         B
+## 145  320CF032904 West Central Council        mjLangArts1         C
+## 146  320KF052703 West Central Council        mjLangArts1         C
+## 147  320TM060203 West Central Council        mjLangArts1         D
+## 148  320KM050604 West Central Council        mjLangArts1         A
+## 149  320NR030504 West Central Council        mjLangArts1         B
+## 150  320AW050904 West Central Council        mjLangArts1         A
+## 151  321CH092703    Southeast Council    mjlangsArts1Adv         B
+## 152  321RM121303    Southeast Council    mjlangsArts1Adv         B
+## 153  320MB030803 West Central Council    mjlangsArts1Adv         D
+## 154  320SM102203 West Central Council    mjlangsArts1Adv         C
+## 155  320JM011404 West Central Council    mjlangsArts1Adv         A
+## 156  320YT091702 West Central Council    mjlangsArts1Adv         A
+## 157  320TD102003 West Central Council    mjlangsArts1Adv         B
+## 158  320LR071604 West Central Council    mjlangsArts1Adv         B
+## 159  320TD091903 West Central Council    mjlangsArts1Adv         C
+## 160  320AD123003 West Central Council    mjlangsArts1Adv         A
+## 161  320CD010605 West Central Council    mjlangsArts1Adv         A
+## 162  320CO111303 West Central Council    mjlangsArts1Adv         A
+## 163  320ER101503 West Central Council    mjlangsArts1Adv         A
+## 164  320KS040804 West Central Council    mjlangsArts1Adv         A
+## 165  320SW080104 West Central Council    mjlangsArts1Adv         B
+## 166  313ES060503      Gateway Council        mjLangArts2         C
+## 167  313JS091402      Gateway Council        mjLangArts2         A
+## 168  313JL032903      Gateway Council        mjLangArts2         B
+## 169  313MP031502      Gateway Council        mjLangArts2         C
+## 170  313NW122502      Gateway Council        mjLangArts2         D
+## 171  313NM110602      Gateway Council        mjLangArts2         D
+## 172  313ND012403      Gateway Council        mjLangArts2         C
+## 173  313PK110102      Gateway Council        mjLangArts2         C
+## 174  313SW013103      Gateway Council        mjLangArts2         B
+## 175  312DR012403       Citrus Council        mjLangArts2         B
+## 176  312GB022203       Citrus Council        mjLangArts2         B
+## 177  312SG050202       Citrus Council        mjLangArts2         A
+## 178  312JW012903       Citrus Council        mjLangArts2         C
+## 179  312KM012003       Citrus Council        mjLangArts2         A
+## 180  312PM110402       Citrus Council        mjLangArts2         C
+## 181 312AG0502703       Citrus Council        mjLangArts2         B
+## 182  312CM100602       Citrus Council        mjLangArts2         A
+## 183  313MG102902      Gateway Council        mjLangArts2         C
+## 184  313GR040203      Gateway Council        mjLangArts2         C
+## 185  313JP090103      Gateway Council        mjLangArts2         F
+## 186  313BB040203      Gateway Council        mjLangArts2         B
+## 187  313SJ060203      Gateway Council        mjLangArts2         C
+## 188  313MB090202      Gateway Council        mjLangArts2         D
+## 189  313SD010203      Gateway Council        mjLangArts2         C
+## 190  313SS101702      Gateway Council        mjLangArts2         C
+## 191  313ST122101      Gateway Council        mjLangArts2         F
+## 192  313LJ090102      Gateway Council        mjLangArts2         B
+## 193  313BB052401      Gateway Council        mjLangArts2         B
+## 194  313SL102501      Gateway Council        mjLangArts2         C
+## 195  313SJ092102      Gateway Council        mjLangArts2         C
+## 196  313LM110402      Gateway Council        mjLangArts2         D
+## 197  313SP101602      Gateway Council        mjLangArts2         B
+## 198  313DG072603      Gateway Council        mjLangArts2         B
+## 199  313DE100602      Gateway Council        mjLangArts2         B
+## 200  313EC081602      Gateway Council        mjLangArts2         A
+## 201  313KH120302      Gateway Council        mjLangArts2         B
+## 202  313LE082703      Gateway Council        mjLangArts2         C
+## 203  313MH120302      Gateway Council        mjLangArts2         D
+## 204  313NB120901      Gateway Council        mjLangArts2         D
+## 205  313TG012003      Gateway Council        mjLangArts2         C
+## 206  313SY042303      Gateway Council        mjLangArts2         B
+## 207  313AJ041002      Gateway Council        mjLangArts2         C
+## 208  313TA020602      Gateway Council        mjLangArts2         B
+## 209  313MH120402      Gateway Council        mjLangArts2         B
+## 210  313DL091702      Gateway Council        mjLangArts2         B
+## 211  313CB101103      Gateway Council        mjLangArts2         C
+## 212  313AV040903      Gateway Council        mjLangArts2         B
+## 213  313AH090402      Gateway Council        mjLangArts2         B
+## 214  313AP090203      Gateway Council        mjLangArts2         C
+## 215  313DC061403      Gateway Council        mjLangArts2         B
+## 216  313HW090202      Gateway Council        mjLangArts2         C
+## 217  313KJ012003      Gateway Council        mjLangArts2         C
+## 218  313LP081302      Gateway Council        mjLangArts2         C
+## 219  313TR122902      Gateway Council        mjLangArts2         C
+## 220  313VJ061503      Gateway Council        mjLangArts2         B
+## 221  313AH082502      Gateway Council        mjLangArts2         A
+## 222  321PA012503    Southeast Council        mjLangArts2         C
+## 223  321CB090701    Southeast Council        mjLangArts2         B
+## 224  321TC051403    Southeast Council        mjLangArts2         B
+## 225  321AD020803    Southeast Council        mjLangArts2         B
+## 226  321JD101502    Southeast Council        mjLangArts2         B
+## 227  321SE122802    Southeast Council        mjLangArts2         B
+## 228  321AG111402    Southeast Council        mjLangArts2         B
+## 229  321FJ118003    Southeast Council        mjLangArts2         A
+## 230  313AC082303      Gateway Council        mjLangArts2         C
+## 231  313AJ092103      Gateway Council        mjLangArts2         B
+## 232  313AW110303      Gateway Council        mjLangArts2         F
+## 233  313AF040403      Gateway Council        mjLangArts2         B
+## 234  313CD122702      Gateway Council        mjLangArts2         C
+## 235  313DJ031804      Gateway Council        mjLangArts2         D
+## 236  313ER122203      Gateway Council        mjLangArts2         C
+## 237  313JL110304      Gateway Council        mjLangArts2         C
+## 238  313JM040603      Gateway Council        mjLangArts2         C
+## 239  313JB122201      Gateway Council        mjLangArts2         D
+## 240  313JD090803      Gateway Council        mjLangArts2         F
+## 241  313JP011003      Gateway Council        mjLangArts2         D
+## 242  313SH092302      Gateway Council        mjLangArts2         C
+## 243  313TP102402      Gateway Council        mjLangArts2         B
+## 244  313LH031502      Gateway Council        mjLangArts2         C
+## 245  313MD120302      Gateway Council        mjLangArts2         D
+## 246  313HW011803      Gateway Council        mjLangArts2         D
+## 247  313NB041502      Gateway Council        mjLangArts2         C
+## 248  313SS081403      Gateway Council        mjLangArts2         C
+## 249  313SS080202      Gateway Council        mjLangArts2         D
+## 250  313VJ112402      Gateway Council        mjLangArts2         C
+## 251  313AN122002      Gateway Council        mjLangArts2         B
+## 252  313AH072703      Gateway Council        mjLangArts2         C
+## 253  313DM020603      Gateway Council        mjLangArts2         A
+## 254  321SM012903    Southeast Council        mjLangArts2         B
+## 255  313KD091402      Gateway Council        mjLangArts2         B
+## 256  313KB121202      Gateway Council        mjLangArts2         B
+## 257  321MM092802    Southeast Council        mjLangArts2         B
+## 258  321JP061803    Southeast Council        mjLangArts2         C
+## 259  321PP043003    Southeast Council        mjLangArts2         C
+## 260  321SP121202    Southeast Council        mjLangArts2         B
+## 261  321LU072702    Southeast Council        mjLangArts2         C
+## 262  321AV122302    Southeast Council        mjLangArts2         A
+## 263  321ZW050102    Southeast Council        mjLangArts2         B
+## 264  312ML051303       Citrus Council        mjLangArts2         A
+## 265  321JM100202    Southeast Council        mjLangArts2         B
+## 266  321KG030902    Southeast Council        mjLangArts2         B
+## 267  321SD111202    Southeast Council        mjLangArts2         B
+## 268  321SW013102    Southeast Council        mjLangArts2         C
+## 269  321LJ032104    Southeast Council        mjLangArts2         B
+## 270  321LL050202    Southeast Council        mjLangArts2         B
+## 271  321BM081003    Southeast Council        mjLangArts2         B
+## 272  320AT101602 West Central Council        mjLangArts2         D
+## 273  320AM072903 West Central Council        mjLangArts2         B
+## 274  320AP030203 West Central Council        mjLangArts2         F
+## 275  320CM100402 West Central Council        mjLangArts2         B
+## 276  320RM080702 West Central Council        mjLangArts2         C
+## 277  320JM102701 West Central Council        mjLangArts2         C
+## 278  320DL112002 West Central Council        mjLangArts2         A
+## 279  320DV032303 West Central Council        mjLangArts2         B
+## 280  320OO062303 West Central Council        mjLangArts2         F
+## 281  320TF073003 West Central Council        mjLangArts2         B
+## 282  320KG080703 West Central Council        mjLangArts2         D
+## 283  320SJ072302 West Central Council        mjLangArts2         A
+## 284  313BB082902      Gateway Council        mjLangArts2         D
+## 285  313BB032502      Gateway Council        mjLangArts2         B
+## 286  313CH080602      Gateway Council        mjLangArts2         F
+## 287  313ET110102      Gateway Council        mjLangArts2         C
+## 288  313HB022103      Gateway Council        mjLangArts2         D
+## 289  313JH041802      Gateway Council        mjLangArts2         D
+## 290  313JC012502      Gateway Council        mjLangArts2         F
+## 291  313JH110902      Gateway Council        mjLangArts2         B
+## 292  313BS041502      Gateway Council        mjLangArts2         C
+## 293  313JW111002      Gateway Council        mjLangArts2         D
+## 294  313SA080202      Gateway Council        mjLangArts2         C
+## 295  313KD041503      Gateway Council        mjLangArts2         D
+## 296  313JK122602      Gateway Council        mjLangArts2         F
+## 297  313LM010502      Gateway Council        mjLangArts2         F
+## 298  313ZJ050403      Gateway Council        mjLangArts2         F
+## 299  313JT110202      Gateway Council        mjLangArts2         D
+## 300  313JD120102      Gateway Council        mjLangArts2         C
+## 301  313KD042102      Gateway Council        mjLangArts2         B
+## 302  313KM080502      Gateway Council        mjLangArts2         C
+## 303  313LS120602      Gateway Council        mjLangArts2         D
+## 304  320MG030803 West Central Council        mjLangArts2         A
+## 305  320SA122401 West Central Council        mjLangArts2         B
+## 306  320SB100701 West Central Council        mjLangArts2         A
+## 307  320RD020603 West Central Council        mjLangArts2         A
+## 308  320SE081902 West Central Council        mjLangArts2         D
+## 309  320DH042501 West Central Council        mjLangArts2         A
+## 310  320BR031803 West Central Council        mjLangArts2         C
+## 311  320ER121001 West Central Council        mjLangArts2         B
+## 312  320LS111202 West Central Council        mjLangArts2         B
+## 313  320HS082803 West Central Council        mjLangArts2         C
+## 314  320II081302 West Central Council        mjLangArts2         A
+## 315  320LS042403 West Central Council        mjLangArts2         A
+## 316  313FF120202      Gateway Council     mjLangArts2Adv         B
+## 317  313LF071302      Gateway Council     mjLangArts2Adv         A
+## 318  313TB112002      Gateway Council     mjLangArts2Adv         C
+## 319  312SM120402       Citrus Council     mjLangArts2Adv         C
+## 320  312AJ100102       Citrus Council     mjLangArts2Adv         B
+## 321  312FS020503       Citrus Council     mjLangArts2Adv         A
+## 322  312LP021703       Citrus Council     mjLangArts2Adv         A
+## 323  313RL062003      Gateway Council     mjLangArts2Adv         A
+## 324  313AJ100301      Gateway Council     mjLangArts2Adv         B
+## 325  313MY060702      Gateway Council     mjLangArts2Adv         A
+## 326  313KC111302      Gateway Council     mjLangArts2Adv         B
+## 327  321CB042803    Southeast Council     mjLangArts2Adv         B
+## 328  321MC030803    Southeast Council     mjLangArts2Adv         A
+## 329  321MO062803    Southeast Council     mjLangArts2Adv         B
+## 330  321DM121902    Southeast Council     mjLangArts2Adv         A
+## 331  321TS010703    Southeast Council     mjLangArts2Adv         B
+## 332  321DS012802    Southeast Council     mjLangArts2Adv         A
+## 333  321JV021803    Southeast Council     mjLangArts2Adv         B
+## 334  312CG092602       Citrus Council     mjLangArts2Adv         B
+## 335  312SC121202       Citrus Council     mjLangArts2Adv         B
+## 336  320AB061103 West Central Council     mjLangArts2Adv         A
+## 337  320BR072103 West Central Council     mjLangArts2Adv         B
+## 338  320DM041603 West Central Council     mjLangArts2Adv         A
+## 339  320KW122401 West Central Council     mjLangArts2Adv         A
+## 340  320IW012403 West Central Council     mjLangArts2Adv         A
+## 341  320IR061103 West Central Council     mjLangArts2Adv         A
+## 342  320BA100102 West Central Council     mjLangArts2Adv         A
+## 343  320TY071903 West Central Council     mjLangArts2Adv         A
+## 344  320AG022403 West Central Council     mjLangArts2Adv         B
+## 345  320RM112402 West Central Council     mjLangArts2Adv         A
+## 346  320TH032403 West Central Council     mjLangArts2Adv         A
+## 347  320DW112402 West Central Council     mjLangArts2Adv         A
+## 348  320SB122902 West Central Council     mjLangArts2Adv         A
+## 349  320SD031803 West Central Council     mjLangArts2Adv         A
+## 350  320MG041503 West Central Council     mjLangArts2Adv         A
+## 351  320HG052803 West Central Council     mjLangArts2Adv         A
+## 352  320AG061103 West Central Council     mjLangArts2Adv         A
+## 353  320RG071003 West Central Council     mjLangArts2Adv         A
+## 354  320AB022203 West Central Council     mjLangArts2Adv         B
+## 355  320TD060303 West Central Council     mjLangArts2Adv         A
+## 356  320AM022103 West Central Council     mjLangArts2Adv         D
+## 357  320AR100902 West Central Council     mjLangArts2Adv         A
+## 358  320JS020802 West Central Council     mjLangArts2Adv         C
+## 359  320CT030303 West Central Council     mjLangArts2Adv         A
+## 360  320AW122102 West Central Council     mjLangArts2Adv         C
+## 361  312KN121401       Citrus Council        mjLangArts3         B
+## 362  312JF031602       Citrus Council        mjLangArts3         A
+## 363  312AL061102       Citrus Council        mjLangArts3         B
+## 364  312KC120201       Citrus Council        mjLangArts3         A
+## 365  312DJ101301       Citrus Council        mjLangArts3         B
+## 366  312AA111701       Citrus Council        mjLangArts3         C
+## 367  312JH080102       Citrus Council        mjLangArts3         C
+## 368  312AR090501       Citrus Council        mjLangArts3         B
+## 369  312ZT060802       Citrus Council        mjLangArts3         A
+## 370  312DW011802       Citrus Council        mjLangArts3         B
+## 371  313DW060502      Gateway Council        mjLangArts3         B
+## 372  313HB060202      Gateway Council        mjLangArts3         D
+## 373  313JB091302      Gateway Council        mjLangArts3         B
+## 374  313JR060502      Gateway Council        mjLangArts3         D
+## 375  313AK052902      Gateway Council        mjLangArts3         C
+## 376  313CW020602      Gateway Council        mjLangArts3         B
+## 377  313CF080102      Gateway Council        mjLangArts3         C
+## 378  313TG072302      Gateway Council        mjLangArts3         C
+## 379  313MM110400      Gateway Council        mjLangArts3         C
+## 380  313YJ062501      Gateway Council        mjLangArts3         D
+## 381  313RL060201      Gateway Council        mjLangArts3         C
+## 382  313AJ061101      Gateway Council        mjLangArts3         B
+## 383  313AN060301      Gateway Council        mjLangArts3         A
+## 384  313RB031401      Gateway Council        mjLangArts3         C
+## 385  313AB071302      Gateway Council        mjLangArts3         D
+## 386  313BC082900      Gateway Council        mjLangArts3         B
+## 387  313AH030201      Gateway Council        mjLangArts3         C
+## 388  313SS080601      Gateway Council        mjLangArts3         C
+## 389  313TR060701      Gateway Council        mjLangArts3         C
+## 390  313NM092901      Gateway Council        mjLangArts3         A
+## 391  313AA091300      Gateway Council        mjLangArts3         B
+## 392  313AL042602      Gateway Council        mjLangArts3         C
+## 393  313BS033102      Gateway Council        mjLangArts3         D
+## 394  313BS013101      Gateway Council        mjLangArts3         C
+## 395  313CP050801      Gateway Council        mjLangArts3         C
+## 396  313EH121700      Gateway Council        mjLangArts3         A
+## 397  313HR070802      Gateway Council        mjLangArts3         A
+## 398  313MS033102      Gateway Council        mjLangArts3         C
+## 399  313TW111601      Gateway Council        mjLangArts3         D
+## 400  313AJ111601      Gateway Council        mjLangArts3         B
+## 401  313HB081401      Gateway Council        mjLangArts3         B
+## 402  313JJ051600      Gateway Council        mjLangArts3         C
+## 403  313BN052400      Gateway Council        mjLangArts3         C
+## 404  313DM081501      Gateway Council        mjLangArts3         D
+## 405  313AF070302      Gateway Council        mjLangArts3         B
+## 406  313AR080201      Gateway Council        mjLangArts3         B
+## 407  313KC010603      Gateway Council        mjLangArts3         C
+## 408  313MG090502      Gateway Council        mjLangArts3         B
+## 409  313DY100502      Gateway Council        mjLangArts3         B
+## 410  313ER111602      Gateway Council        mjLangArts3         C
+## 411  313JD042302      Gateway Council        mjLangArts3         C
+## 412  313JS103001      Gateway Council        mjLangArts3         D
+## 413  313JR021003      Gateway Council        mjLangArts3         C
+## 414  313JR081602      Gateway Council        mjLangArts3         C
+## 415  313PM082503      Gateway Council        mjLangArts3         D
+## 416  313LG040801      Gateway Council        mjLangArts3         C
+## 417  313MB050801      Gateway Council        mjLangArts3         C
+## 418  313NS050901      Gateway Council        mjLangArts3         F
+## 419  313NF070900      Gateway Council        mjLangArts3         C
+## 420  313QB062902      Gateway Council        mjLangArts3         B
+## 421  313SS102000      Gateway Council        mjLangArts3         C
+## 422  313TA042602      Gateway Council        mjLangArts3         D
+## 423  313AE070802      Gateway Council        mjLangArts3         C
+## 424  313BH042702      Gateway Council        mjLangArts3         D
+## 425  313DJ013001      Gateway Council        mjLangArts3         D
+## 426  313DB013101      Gateway Council        mjLangArts3         D
+## 427  313DL032102      Gateway Council        mjLangArts3         C
+## 428  313DL122400      Gateway Council        mjLangArts3         C
+## 429  313DW020202      Gateway Council        mjLangArts3         D
+## 430  313FS043102      Gateway Council        mjLangArts3         C
+## 431  313GT051001      Gateway Council        mjLangArts3         B
+## 432  313HH091900      Gateway Council        mjLangArts3         B
+## 433  313JW081700      Gateway Council        mjLangArts3         C
+## 434  321CA061801    Southeast Council        mjLangArts3         C
+## 435  321JA091201    Southeast Council        mjLangArts3         D
+## 436  321GC050202    Southeast Council        mjLangArts3         C
+## 437  321RJ011800    Southeast Council        mjLangArts3         F
+## 438  321CG082901    Southeast Council        mjLangArts3         D
+## 439  321CG111501    Southeast Council        mjLangArts3         B
+## 440  321NL052800    Southeast Council        mjLangArts3         B
+## 441  321JJ071102    Southeast Council        mjLangArts3         B
+## 442  321CJ042201    Southeast Council        mjLangArts3         B
+## 443  321TM022201    Southeast Council        mjLangArts3         A
+## 444  321DD121800    Southeast Council        mjLangArts3         C
+## 445  321NE031201    Southeast Council        mjLangArts3         B
+## 446  321IJ071800    Southeast Council        mjLangArts3         B
+## 447  321DM092301    Southeast Council        mjLangArts3         C
+## 448  321JR042402    Southeast Council        mjLangArts3         B
+## 449  321AW080402    Southeast Council        mjLangArts3         C
+## 450  321AW022601    Southeast Council        mjLangArts3         C
+## 451  321KG120501    Southeast Council        mjLangArts3         B
+## 452  321SC092001    Southeast Council        mjLangArts3         D
+## 453  321AG092602    Southeast Council        mjLangArts3         B
+## 454  321RJ081099    Southeast Council        mjLangArts3         A
+## 455  321HM011102    Southeast Council        mjLangArts3         A
+## 456  321KM121501    Southeast Council        mjLangArts3         A
+## 457  321IP051602    Southeast Council        mjLangArts3         B
+## 458  321TA121501    Southeast Council        mjLangArts3         C
+## 459  321TB090501    Southeast Council        mjLangArts3         C
+## 460  321FB061802    Southeast Council        mjLangArts3         A
+## 461  321FC060101    Southeast Council        mjLangArts3         C
+## 462  321SD090701    Southeast Council        mjLangArts3         A
+## 463  321RF031302    Southeast Council        mjLangArts3         A
+## 464  321RL121002    Southeast Council        mjLangArts3         A
+## 465  321DF082201    Southeast Council        mjLangArts3         C
+## 466  321MG081303    Southeast Council        mjLangArts3         B
+## 467  321JJ051601    Southeast Council        mjLangArts3         B
+## 468  321AI052900    Southeast Council        mjLangArts3         D
+## 469  321NL101201    Southeast Council        mjLangArts3         B
+## 470  321NT052302    Southeast Council        mjLangArts3         B
+## 471  321TT051801    Southeast Council        mjLangArts3         C
+## 472  321JR051302    Southeast Council        mjLangArts3         C
+## 473  321RP082102    Southeast Council        mjLangArts3         B
+## 474  321BL051301    Southeast Council        mjLangArts3         A
+## 475  321NJ032201    Southeast Council        mjLangArts3         B
+## 476  319CC091001     Tropical Council        mjLangArts3         B
+## 477  319TG080201     Tropical Council        mjLangArts3         A
+## 478  319GR020401     Tropical Council        mjLangArts3         A
+## 479  319TC080201     Tropical Council        mjLangArts3         D
+## 480  319AT122100     Tropical Council        mjLangArts3         C
+## 481  319JC122101     Tropical Council        mjLangArts3         A
+## 482  320AB041702 West Central Council        mjLangArts3         B
+## 483  320JR062102 West Central Council        mjLangArts3         C
+## 484  320SC121301 West Central Council        mjLangArts3         B
+## 485  320HP121201 West Central Council        mjLangArts3         C
+## 486  320AF092500 West Central Council        mjLangArts3         C
+## 487  320DW031401 West Central Council        mjLangArts3         C
+## 488  320DR071502 West Central Council        mjLangArts3         B
+## 489  320PM121901 West Central Council        mjLangArts3         B
+## 490  320SN020402 West Central Council        mjLangArts3         C
+## 491  320KC050902 West Central Council        mjLangArts3         A
+## 492  320IL010602 West Central Council        mjLangArts3         B
+## 493  320TM043002 West Central Council        mjLangArts3         B
+## 494  320JL052202 West Central Council        mjLangArts3         B
+## 495  320CK031402 West Central Council        mjLangArts3         A
+## 496  320CM070102 West Central Council        mjLangArts3         B
+## 497  320MG121902 West Central Council        mjLangArts3         B
+## 498  320CB100701 West Central Council        mjLangArts3         A
+## 499  320SM030502 West Central Council        mjLangArts3         A
+## 500  313BM102701      Gateway Council        mjLangArts3         C
+## 501  313JR112301      Gateway Council        mjLangArts3         D
+## 502  313LD102701      Gateway Council        mjLangArts3         C
+## 503  313AJ120702      Gateway Council        mjLangArts3         D
+## 504  313AC020102      Gateway Council        mjLangArts3         B
+## 505  313MK050201      Gateway Council        mjLangArts3         D
+## 506  313OM070501      Gateway Council        mjLangArts3         C
+## 507  313PS090801      Gateway Council        mjLangArts3         B
+## 508  313EM050301      Gateway Council        mjLangArts3         F
+## 509  313AJ032101      Gateway Council        mjLangArts3         F
+## 510  313JB090301      Gateway Council        mjLangArts3         C
+## 511  320AH013102 West Central Council        mjLangArts3         B
+## 512  320AB101201 West Central Council        mjLangArts3         B
+## 513  320CD090201 West Central Council        mjLangArts3         C
+## 514  320CD032401 West Central Council        mjLangArts3         F
+## 515  320RK110200 West Central Council        mjLangArts3         C
+## 516  320CM051801 West Central Council        mjLangArts3         A
+## 517  320KH061601 West Central Council        mjLangArts3         A
+## 518  320RH050902 West Central Council        mjLangArts3         A
+## 519  312JS013102       Citrus Council     mjLangArts3Adv         B
+## 520  312AW111601       Citrus Council     mjLangArts3Adv         B
+## 521  312JC012102       Citrus Council     mjLangArts3Adv         B
+## 522  312AS030202       Citrus Council     mjLangArts3Adv         C
+## 523  312RN011302       Citrus Council     mjLangArts3Adv         C
+## 524  312AM112801       Citrus Council     mjLangArts3Adv         B
+## 525  312JV032902       Citrus Council     mjLangArts3Adv         C
+## 526  313JB090402      Gateway Council     mjLangArts3Adv         A
+## 527  313JG070402      Gateway Council     mjLangArts3Adv         A
+## 528  313AD050602      Gateway Council     mjLangArts3Adv         B
+## 529  313MD100300      Gateway Council     mjLangArts3Adv         B
+## 530  313AG040602      Gateway Council     mjLangArts3Adv         A
+## 531  312AM022702       Citrus Council     mjLangArts3Adv         B
+## 532  312CD081803       Citrus Council     mjLangArts3Adv         B
+## 533  321DK121300    Southeast Council     mjLangArts3Adv         C
+## 534  321EN012402    Southeast Council     mjLangArts3Adv         B
+## 535  321AW110701    Southeast Council     mjLangArts3Adv         A
+## 536  321LD090102    Southeast Council     mjLangArts3Adv         B
+## 537  321BB100901    Southeast Council     mjLangArts3Adv         C
+## 538  321AW010102    Southeast Council     mjLangArts3Adv         C
+## 539  321SA080701    Southeast Council     mjLangArts3Adv         C
+## 540  321SW081001    Southeast Council     mjLangArts3Adv         B
+## 541  321AT022802    Southeast Council     mjLangArts3Adv         B
+## 542  321LS110601    Southeast Council     mjLangArts3Adv         B
+## 543  321SP071002    Southeast Council     mjLangArts3Adv         A
+## 544  321KN101601    Southeast Council     mjLangArts3Adv         B
+## 545  321RM011802    Southeast Council     mjLangArts3Adv         B
+## 546  321SJ032501    Southeast Council     mjLangArts3Adv         B
+## 547  321SH032201    Southeast Council     mjLangArts3Adv         C
+## 548  320SS110101 West Central Council     mjLangArts3Adv         A
+## 549  320ZP050602 West Central Council     mjLangArts3Adv         C
+## 550  320JV031102 West Central Council     mjLangArts3Adv         A
+## 551  320NT043002 West Central Council     mjLangArts3Adv         B
+## 552  320YC042602 West Central Council     mjLangArts3Adv         B
+## 553  320SB093001 West Central Council     mjLangArts3Adv         A
+## 554  320KA081802 West Central Council     mjLangArts3Adv         A
+## 555  320AC071102 West Central Council     mjLangArts3Adv         B
+## 556  320AF050702 West Central Council     mjLangArts3Adv         A
+## 557  320MB011702 West Central Council     mjLangArts3Adv         A
+## 558  320AW063002 West Central Council     mjLangArts3Adv         B
+## 559  320GE021302 West Central Council     mjLangArts3Adv         A
+## 560  320MH081602 West Central Council     mjLangArts3Adv         B
+## 561  320VT121102 West Central Council     mjLangArts3Adv         A
+## 562  320KO071502 West Central Council     mjLangArts3Adv         A
+## 563  320YS111401 West Central Council     mjLangArts3Adv         A
+## 564  320YA020502 West Central Council     mjLangArts3Adv         B
+## 565  320LS082302 West Central Council     mjLangArts3Adv         A
+## 566  320JN030502 West Central Council     mjLangArts3Adv         A
+## 567  320DY030802 West Central Council     mjLangArts3Adv         A
+## 568  320PG021002 West Central Council     mjLangArts3Adv         A
+## 569  320JW033002 West Central Council     mjLangArts3Adv         A
+## 570  320RR110901 West Central Council     mjLangArts3Adv         A
+## 571  320AH070602 West Central Council     mjLangArts3Adv         A
+## 572  320MG041902 West Central Council     mjLangArts3Adv         B
+## 573  320AM091902 West Central Council     mjLangArts3Adv         A
+## 574  320GB111401 West Central Council     mjLangArts3Adv         A
+## 575  320FB012202 West Central Council     mjLangArts3Adv         B
+## 576  320AF062602 West Central Council     mjLangArts3Adv         B
+## 577  320AM070802 West Central Council     mjLangArts3Adv         D
+## 578  320AM021301 West Central Council     mjLangArts3Adv         A
+## 579  320DP041202 West Central Council     mjLangArts3Adv         A
+## 580  320JB110501 West Central Council     mjLangArts3Adv         C
+## 581  320AG091201 West Central Council     mjLangArts3Adv         A
+## 582  320SJ052502 West Central Council     mjLangArts3Adv         B
+## 583  313EG050502      Gateway Council     mjEng2Cambsec2         C
+## 584  312AM110503       Citrus Council      mjIBLangArts1         B
+## 585  320MM031402 West Central Council      mjEng2CamSec1         A
+## 586  312WS060303       Citrus Council      mjIBLangArts2         B
+## 587  312KJ050403       Citrus Council      mjIBLangArts2         A
+## 588  321MA081902    Southeast Council   mjIntensLangArts         B
+## 589  321TC011203    Southeast Council   mjIntensLangArts         A
+## 590  321KJ012703    Southeast Council   mjIntensLangArts         A
+## 591  321NO010803    Southeast Council   mjIntensLangArts         A
+## 592  321SA022402    Southeast Council   mjIntensLangArts         C
+## 593  321TB042701    Southeast Council   mjIntensLangArts         B
+## 594  321CF051501    Southeast Council   mjIntensLangArts         C
+## 595  321MW112701    Southeast Council   mjIntensLangArts         C
+## 596  321SL100301    Southeast Council   mjIntensLangArts         B
+## 597  321VG060702    Southeast Council   mjIntensLangArts         B
+## 598  321AI022702    Southeast Council   mjIntensLangArts         B
+## 599  320KJ022603 West Central Council   mjIntensLangArts         B
+## 600  320JJ070902 West Central Council   mjIntensLangArts         C
+##     lang_pts
+## 1          2
+## 2          1
+## 3          2
+## 4          4
+## 5          3
+## 6          3
+## 7          4
+## 8          2
+## 9          2
+## 10         2
+## 11         2
+## 12         1
+## 13         2
+## 14         3
+## 15         0
+## 16         3
+## 17         2
+## 18         2
+## 19         2
+## 20         2
+## 21         2
+## 22         3
+## 23         3
+## 24         1
+## 25         3
+## 26         0
+## 27         0
+## 28         1
+## 29         4
+## 30         3
+## 31         3
+## 32         2
+## 33         1
+## 34         3
+## 35         1
+## 36         1
+## 37         2
+## 38         1
+## 39         3
+## 40         4
+## 41         2
+## 42         1
+## 43         3
+## 44         3
+## 45         2
+## 46         3
+## 47         3
+## 48         1
+## 49         1
+## 50         2
+## 51         4
+## 52         2
+## 53         1
+## 54         2
+## 55         3
+## 56         2
+## 57         3
+## 58         1
+## 59         2
+## 60         3
+## 61         2
+## 62         2
+## 63         2
+## 64         3
+## 65         3
+## 66         2
+## 67         1
+## 68         1
+## 69         2
+## 70         1
+## 71         1
+## 72         2
+## 73         2
+## 74         0
+## 75         1
+## 76         2
+## 77         1
+## 78         2
+## 79         2
+## 80         3
+## 81         3
+## 82         4
+## 83         1
+## 84         3
+## 85         3
+## 86         1
+## 87         2
+## 88         3
+## 89         2
+## 90         3
+## 91         2
+## 92         2
+## 93         4
+## 94         3
+## 95         2
+## 96         1
+## 97         4
+## 98         2
+## 99         0
+## 100        4
+## 101        2
+## 102        4
+## 103        4
+## 104        2
+## 105        3
+## 106        2
+## 107        4
+## 108        4
+## 109        4
+## 110        2
+## 111        4
+## 112        1
+## 113        1
+## 114        2
+## 115        2
+## 116        3
+## 117        0
+## 118        2
+## 119        2
+## 120        3
+## 121        4
+## 122        3
+## 123        3
+## 124        1
+## 125        3
+## 126        1
+## 127        0
+## 128        2
+## 129        1
+## 130        3
+## 131        0
+## 132        0
+## 133        3
+## 134        2
+## 135        1
+## 136        0
+## 137        1
+## 138        2
+## 139        1
+## 140        4
+## 141        4
+## 142        4
+## 143        4
+## 144        3
+## 145        2
+## 146        2
+## 147        1
+## 148        4
+## 149        3
+## 150        4
+## 151        3
+## 152        3
+## 153        1
+## 154        2
+## 155        4
+## 156        4
+## 157        3
+## 158        3
+## 159        2
+## 160        4
+## 161        4
+## 162        4
+## 163        4
+## 164        4
+## 165        3
+## 166        2
+## 167        4
+## 168        3
+## 169        2
+## 170        1
+## 171        1
+## 172        2
+## 173        2
+## 174        3
+## 175        3
+## 176        3
+## 177        4
+## 178        2
+## 179        4
+## 180        2
+## 181        3
+## 182        4
+## 183        2
+## 184        2
+## 185        0
+## 186        3
+## 187        2
+## 188        1
+## 189        2
+## 190        2
+## 191        0
+## 192        3
+## 193        3
+## 194        2
+## 195        2
+## 196        1
+## 197        3
+## 198        3
+## 199        3
+## 200        4
+## 201        3
+## 202        2
+## 203        1
+## 204        1
+## 205        2
+## 206        3
+## 207        2
+## 208        3
+## 209        3
+## 210        3
+## 211        2
+## 212        3
+## 213        3
+## 214        2
+## 215        3
+## 216        2
+## 217        2
+## 218        2
+## 219        2
+## 220        3
+## 221        4
+## 222        2
+## 223        3
+## 224        3
+## 225        3
+## 226        3
+## 227        3
+## 228        3
+## 229        4
+## 230        2
+## 231        3
+## 232        0
+## 233        3
+## 234        2
+## 235        1
+## 236        2
+## 237        2
+## 238        2
+## 239        1
+## 240        0
+## 241        1
+## 242        2
+## 243        3
+## 244        2
+## 245        1
+## 246        1
+## 247        2
+## 248        2
+## 249        1
+## 250        2
+## 251        3
+## 252        2
+## 253        4
+## 254        3
+## 255        3
+## 256        3
+## 257        3
+## 258        2
+## 259        2
+## 260        3
+## 261        2
+## 262        4
+## 263        3
+## 264        4
+## 265        3
+## 266        3
+## 267        3
+## 268        2
+## 269        3
+## 270        3
+## 271        3
+## 272        1
+## 273        3
+## 274        0
+## 275        3
+## 276        2
+## 277        2
+## 278        4
+## 279        3
+## 280        0
+## 281        3
+## 282        1
+## 283        4
+## 284        1
+## 285        3
+## 286        0
+## 287        2
+## 288        1
+## 289        1
+## 290        0
+## 291        3
+## 292        2
+## 293        1
+## 294        2
+## 295        1
+## 296        0
+## 297        0
+## 298        0
+## 299        1
+## 300        2
+## 301        3
+## 302        2
+## 303        1
+## 304        4
+## 305        3
+## 306        4
+## 307        4
+## 308        1
+## 309        4
+## 310        2
+## 311        3
+## 312        3
+## 313        2
+## 314        4
+## 315        4
+## 316        3
+## 317        4
+## 318        2
+## 319        2
+## 320        3
+## 321        4
+## 322        4
+## 323        4
+## 324        3
+## 325        4
+## 326        3
+## 327        3
+## 328        4
+## 329        3
+## 330        4
+## 331        3
+## 332        4
+## 333        3
+## 334        3
+## 335        3
+## 336        4
+## 337        3
+## 338        4
+## 339        4
+## 340        4
+## 341        4
+## 342        4
+## 343        4
+## 344        3
+## 345        4
+## 346        4
+## 347        4
+## 348        4
+## 349        4
+## 350        4
+## 351        4
+## 352        4
+## 353        4
+## 354        3
+## 355        4
+## 356        1
+## 357        4
+## 358        2
+## 359        4
+## 360        2
+## 361        3
+## 362        4
+## 363        3
+## 364        4
+## 365        3
+## 366        2
+## 367        2
+## 368        3
+## 369        4
+## 370        3
+## 371        3
+## 372        1
+## 373        3
+## 374        1
+## 375        2
+## 376        3
+## 377        2
+## 378        2
+## 379        2
+## 380        1
+## 381        2
+## 382        3
+## 383        4
+## 384        2
+## 385        1
+## 386        3
+## 387        2
+## 388        2
+## 389        2
+## 390        4
+## 391        3
+## 392        2
+## 393        1
+## 394        2
+## 395        2
+## 396        4
+## 397        4
+## 398        2
+## 399        1
+## 400        3
+## 401        3
+## 402        2
+## 403        2
+## 404        1
+## 405        3
+## 406        3
+## 407        2
+## 408        3
+## 409        3
+## 410        2
+## 411        2
+## 412        1
+## 413        2
+## 414        2
+## 415        1
+## 416        2
+## 417        2
+## 418        0
+## 419        2
+## 420        3
+## 421        2
+## 422        1
+## 423        2
+## 424        1
+## 425        1
+## 426        1
+## 427        2
+## 428        2
+## 429        1
+## 430        2
+## 431        3
+## 432        3
+## 433        2
+## 434        2
+## 435        1
+## 436        2
+## 437        0
+## 438        1
+## 439        3
+## 440        3
+## 441        3
+## 442        3
+## 443        4
+## 444        2
+## 445        3
+## 446        3
+## 447        2
+## 448        3
+## 449        2
+## 450        2
+## 451        3
+## 452        1
+## 453        3
+## 454        4
+## 455        4
+## 456        4
+## 457        3
+## 458        2
+## 459        2
+## 460        4
+## 461        2
+## 462        4
+## 463        4
+## 464        4
+## 465        2
+## 466        3
+## 467        3
+## 468        1
+## 469        3
+## 470        3
+## 471        2
+## 472        2
+## 473        3
+## 474        4
+## 475        3
+## 476        3
+## 477        4
+## 478        4
+## 479        1
+## 480        2
+## 481        4
+## 482        3
+## 483        2
+## 484        3
+## 485        2
+## 486        2
+## 487        2
+## 488        3
+## 489        3
+## 490        2
+## 491        4
+## 492        3
+## 493        3
+## 494        3
+## 495        4
+## 496        3
+## 497        3
+## 498        4
+## 499        4
+## 500        2
+## 501        1
+## 502        2
+## 503        1
+## 504        3
+## 505        1
+## 506        2
+## 507        3
+## 508        0
+## 509        0
+## 510        2
+## 511        3
+## 512        3
+## 513        2
+## 514        0
+## 515        2
+## 516        4
+## 517        4
+## 518        4
+## 519        3
+## 520        3
+## 521        3
+## 522        2
+## 523        2
+## 524        3
+## 525        2
+## 526        4
+## 527        4
+## 528        3
+## 529        3
+## 530        4
+## 531        3
+## 532        3
+## 533        2
+## 534        3
+## 535        4
+## 536        3
+## 537        2
+## 538        2
+## 539        2
+## 540        3
+## 541        3
+## 542        3
+## 543        4
+## 544        3
+## 545        3
+## 546        3
+## 547        2
+## 548        4
+## 549        2
+## 550        4
+## 551        3
+## 552        3
+## 553        4
+## 554        4
+## 555        3
+## 556        4
+## 557        4
+## 558        3
+## 559        4
+## 560        3
+## 561        4
+## 562        4
+## 563        4
+## 564        3
+## 565        4
+## 566        4
+## 567        4
+## 568        4
+## 569        4
+## 570        4
+## 571        4
+## 572        3
+## 573        4
+## 574        4
+## 575        3
+## 576        3
+## 577        1
+## 578        4
+## 579        4
+## 580        2
+## 581        4
+## 582        3
+## 583        2
+## 584        3
+## 585        4
+## 586        3
+## 587        4
+## 588        3
+## 589        4
+## 590        4
+## 591        4
+## 592        2
+## 593        3
+## 594        2
+## 595        2
+## 596        3
+## 597        3
+## 598        3
+## 599        3
+## 600        2</code></pre>
 
 
 
