@@ -118,7 +118,6 @@ gradesq1$girlCode <- as.character(gradesq1$girlCode)
 
 ```{r}
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Council_data")
 
 ##############################Subset Duplicate Values##################
 ### find the duplicates
@@ -127,7 +126,6 @@ q1Dupes <-duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast
 ### Subset the duplicates
 q1Dupes <-gradesq1[q1Dupes, ]
 
-write.csv(q1Dupes, file="q1_dupes.csv", row.names=FALSE)
 
 
 
@@ -263,6 +261,25 @@ names(q1free_read)
 
 ```
 
+### Reading Grade Point Average
+
+```{r}
+
+###Set up the vector or column to place date
+reading_pts <-numeric(0)
+
+for(i in mq1Reading$readingGrade){ #transverse the column
+   
+     reading_pts<- c(reading_pts,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0)) #assign point value for grades.
+    
+     reading_pts
+
+    
+}
+
+mq1Reading <- cbind(mq1Reading, reading_pts)
+
+```
 
 
 
@@ -331,12 +348,23 @@ table(free_lang$free_lang2)
 
 ```
 
-### Lang Arts Save to RDS
+
+### Grade Point Lang Arts
 
 ```{r}
-### Ensure the dat goes to the correct directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
+lang_pts <- numeric(0)
+
+for(i in mq1_lang$langGrade){
+   
+     lang_pts<- c(lang_pts,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     lang_pts
+
+    
+}
+
+mq1_lang <- cbind(mq1_lang, lang_pts)
 
 ```
 
@@ -504,7 +532,7 @@ dim(lang_read)
 
 head(lang_read)
 
-lang_read <- select(lang_read, council, girlCode, langCourses, langGrade, readingCourses, readingGrade)
+lang_read <- select(lang_read, council, girlCode, langCourses, langGrade, lang_pts, readingCourses, readingGrade, reading_pts)
 
 head(lang_read)
 
@@ -525,7 +553,7 @@ dim(academic_data)
 
 head(academic_data)
 
-academic_data <- select(academic_data, council.x, girlCode, langCourses, langGrade, readingCourses,readingGrade,total_absences, total_suspensions, expelled)
+academic_data <- select(academic_data, council.x, girlCode, langCourses, langGrade, lang_pts, readingCourses,readingGrade, reading_pts, total_absences, total_suspensions, expelled)
 
 colnames (academic_data) [1] <- "council"
 
