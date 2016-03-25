@@ -1,10 +1,13 @@
 ---
 title: "grade_point"
 author: "Kevin Gilds, MPA"
-date: '`r (today <- Sys.Date())
-format(today, "%B %d, %Y")`'
-output: html_document
+date: '`r (today <- Sys.Date())`'
+output: 
+  html_document: 
+    toc: yes
 ---
+
+r (today <- Sys.Date())
 
 ```{r echo=FALSE}
 library(sqldf)
@@ -95,7 +98,117 @@ sd(lang_pts)
 
 q1_lang <- cbind(q1_lang, lang_pts)
 
-q1_lang
+
+
+```
+
+
+```{r}
+library(reshape2)
+
+q2_lang <-dbReadTable(getReal_2016db, "Q2_lang")
+
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2_lang_dupes <-duplicated(q2_lang$girlCode) | duplicated(q2_lang$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2_lang_dupes <-q2_lang[q2_lang_dupes, ]
+
+
+girl_order<- order(q2_lang_dupes$girlCode)
+
+q2_lang_dupes$girlCode[girl_order]
+
+q2_lang_dupes[girl_order, ]
+
+
+
+
+lang_pts2 <- numeric(0)
+
+for(i in q2_lang_dupes$langGrade){
+   
+     lang_pts2<- c(lang_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     lang_pts2
+
+    
+}
+
+q2_lang_dupes <- cbind(q2_lang_dupes, lang_pts2)
+
+dim(q2_lang_dupes)
+
+q2_lang_dupes
+
+```
+
+
+```{r}
+q2_lang_dupes_cast <- dcast(q2_lang_dupes, girlCode+langGrade~langCourses)
+
+dim(q2_lang_dupes_cast)
+
+complete.cases(q2_lang_dupes_cast)
+
+dim(q2_lang_dupes_cast)
+
+try <- q2_lang_dupes_cast[complete.cases(q2_lang_dupes_cast),]
+
+try
+
+```
+
+
+
+```{r}
+test <-with(q2_lang_dupes, aggregate(lang_pts2,list(girlCode=girlCode, langCourses=langCourses),mean))
+
+mean(test$x)
+
+test1 <-with(q2_lang_dupes, aggregate(lang_pts2,list(girlCode=girlCode),mean))
+
+test1
+
+mean(test1$x)
+
+
+```
+
+
+
+```{r}
+library(dplyr)
+
+
+semester1 <- filter(q2_lang_dupes, !grepl("_semester", langCourses))
+
+head(semester1)
+
+dim(semester1)
+
+grep("_quarter", ignore.case =  TRUE, q2_lang_dupes$langCourses)
+
+
+
+
+
+
+quarter <- q2_lang_dupes[grep("_quarter", q2_lang_dupes$langCourses, ignore.case = TRUE),]
+
+dim(quarter)
+head(quarter)
+
+
+semester <- q2_lang_dupes[grep("_semester", q2_lang_dupes$langCourses, ignore.case = TRUE),]
+
+
+head(semester)
+
+
+
 
 ```
 
