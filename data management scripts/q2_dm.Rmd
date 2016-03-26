@@ -348,6 +348,9 @@ names(q2free_read)
 
 
 
+
+
+
 #### Language Arts Courses
 
 ```{r}
@@ -416,6 +419,75 @@ table(q2_free_lang$free_lang2_semester)
 ```
 
 
+###Find both quarter and semester grades and finalize semester grade
+
+```{r}
+
+##################Duplicates#########################################
+
+### Find the unique girlCodes with just one grade 
+mq2_lang_ok <- mq2_lang [!(duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast = TRUE)), ]
+
+dim(mq2_lang_ok)
+
+
+### Find the girl codes with multiple grades
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2lang_dupes <-duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2lang_dupes <- mq2_lang[q2lang_dupes, ]
+
+
+dim(q2lang_dupes)
+
+
+```
+
+#### Find and subset the Semester Grades in duplicate version 
+
+```{r}
+semester <- q2lang_dupes[grep("_semester", q2lang_dupes$langCourses, ignore.case = TRUE),]
+
+dim(semester)
+
+head(semester)
+```
+
+
+#### Bind the Language Arts Courses together
+
+```{r}
+mq2_lang_all <- rbind(mq2_lang_ok, semester)
+
+
+
+dim(mq2_lang_all)
+
+```
+
+
+Calculate Grade Points
+```{r}
+
+lang_pts2 <- numeric(0)
+
+for(i in mq2_lang_all$langGrade){
+   
+     lang_pts2<- c(lang_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     lang_pts2
+
+    
+}
+
+mq2_lang_all <- cbind(mq2_lang_all, lang_pts2)
+
+head(mq2_lang_all)
+
+```
 
 
 

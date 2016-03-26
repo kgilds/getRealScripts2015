@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-13" />
+<meta name="date" content="2016-03-26" />
 
 <title>Q2_grades_dm</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Q2_grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-13</em></h4>
+<h4 class="date"><em>2016-03-26</em></h4>
 
 </div>
 
@@ -425,6 +425,14 @@ names(q2free_read)</code></pre>
 <pre><code>## [1] &quot;council&quot;           &quot;girlCode&quot;          &quot;readFree1_quarter&quot;
 ## [4] &quot;readFree2_quarter&quot;</code></pre>
 </div>
+</div>
+<div id="check-for-duplicate-reading-grades" class="section level3">
+<h3>Check for duplicate reading grades</h3>
+<pre class="r"><code>### Find the unique girlCodes with just one grade 
+mq2_read_ok &lt;- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast = TRUE)), ]
+
+dim(mq2Reading)</code></pre>
+<pre><code>## [1] 314   4</code></pre>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest
@@ -518,6 +526,81 @@ table(q2_free_lang$free_lang1_quarter)</code></pre>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
 <pre class="r"><code>table(q2_free_lang$free_lang2_semester)</code></pre>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
+</div>
+<div id="find-both-quarter-and-semester-grades-and-finalize-semester-grade" class="section level3">
+<h3>Find both quarter and semester grades and finalize semester grade</h3>
+<pre class="r"><code>##################Duplicates#########################################
+
+### Find the unique girlCodes with just one grade 
+mq2_lang_ok &lt;- mq2_lang [!(duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast = TRUE)), ]
+
+dim(mq2_lang_ok)</code></pre>
+<pre><code>## [1] 461   4</code></pre>
+<pre class="r"><code>### Find the girl codes with multiple grades
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2lang_dupes &lt;-duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2lang_dupes &lt;- mq2_lang[q2lang_dupes, ]
+
+
+dim(q2lang_dupes)</code></pre>
+<pre><code>## [1] 130   4</code></pre>
+<div id="find-and-subset-the-semester-grades-in-duplicate-version" class="section level4">
+<h4>Find and subset the Semester Grades in duplicate version</h4>
+<pre class="r"><code>semester &lt;- q2lang_dupes[grep(&quot;_semester&quot;, q2lang_dupes$langCourses, ignore.case = TRUE),]
+
+dim(semester)</code></pre>
+<pre><code>## [1] 65  4</code></pre>
+<pre class="r"><code>head(semester)</code></pre>
+<pre><code>##         girlCode              council          langCourses langGrade
+## 5265 320DR110103 West Central Council mjLangArts1_semester         B
+## 5266 320EF111204 West Central Council mjLangArts1_semester         A
+## 5295 320LM121403 West Central Council mjLangArts1_semester         B
+## 5296 320DT031504 West Central Council mjLangArts1_semester         B
+## 5298 320SS091403 West Central Council mjLangArts1_semester         B
+## 5299 320AR060504 West Central Council mjLangArts1_semester         B</code></pre>
+</div>
+<div id="bind-the-language-arts-courses-together" class="section level4">
+<h4>Bind the Language Arts Courses together</h4>
+<pre class="r"><code>mq2_lang_all &lt;- rbind(mq2_lang_ok, semester)
+
+
+
+dim(mq2_lang_all)</code></pre>
+<pre><code>## [1] 526   4</code></pre>
+<p>Calculate Grade Points</p>
+<pre class="r"><code>lang_pts2 &lt;- numeric(0)
+
+for(i in mq2_lang_all$langGrade){
+   
+     lang_pts2&lt;- c(lang_pts2,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0))
+    
+     lang_pts2
+
+    
+}
+
+mq2_lang_all &lt;- cbind(mq2_lang_all, lang_pts2)
+
+head(mq2_lang_all)</code></pre>
+<pre><code>##         girlCode              council             langCourses langGrade
+## 1463 320BR031803 West Central Council mjLangArts2ESOL_quarter         C
+## 4242 321KT083104    Southeast Council     mjLangArts1_quarter         C
+## 4248 321KD040803    Southeast Council     mjLangArts1_quarter         F
+## 4250 321AM091203    Southeast Council     mjLangArts1_quarter         C
+## 4251 321BS111403    Southeast Council     mjLangArts1_quarter         B
+## 4269 313AW060203      Gateway Council     mjLangArts1_quarter         C
+##      lang_pts2
+## 1463         2
+## 4242         2
+## 4248         0
+## 4250         2
+## 4251         3
+## 4269         2</code></pre>
+</div>
 </div>
 <div id="unexcused-absences" class="section level3">
 <h3>Unexcused Absences</h3>
