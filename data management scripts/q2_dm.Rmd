@@ -368,7 +368,36 @@ dim(q2reading_dupes)
 ```
 
 
-### 
+### Find the Semester Grades 
+
+```{r}
+
+
+read_quarter <- q2reading_dupes[grep("_quarter", q2reading_dupes$readingCourses, ignore.case = TRUE),]
+
+dim(read_quarter)
+head(read_quarter)
+
+read_semester <- q2reading_dupes[grep("_semester", q2reading_dupes$readingCourses, ignore.case = TRUE),]
+
+dim(read_semester)
+head(read_semester)
+
+```
+
+### Bind the semester grade back in 
+```{r}
+
+mq2_read_1 <- rbind(mq2_read_ok, read_semester)
+
+dim(mq2_read_1)
+
+```
+
+
+
+
+
 
 
 

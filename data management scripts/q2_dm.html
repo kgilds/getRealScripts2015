@@ -443,6 +443,41 @@ q2reading_dupes &lt;- mq2Reading[q2reading_dupes, ]
 
 dim(q2reading_dupes)</code></pre>
 <pre><code>## [1] 72  4</code></pre>
+</div>
+<div id="find-the-semester-grades" class="section level3">
+<h3>Find the Semester Grades</h3>
+<pre class="r"><code>read_quarter &lt;- q2reading_dupes[grep(&quot;_quarter&quot;, q2reading_dupes$readingCourses, ignore.case = TRUE),]
+
+dim(read_quarter)</code></pre>
+<pre><code>## [1] 41  4</code></pre>
+<pre class="r"><code>head(read_quarter)</code></pre>
+<pre><code>##        girlCode              council       readingCourses readingGrade
+## 397 320CM051801 West Central Council mjIntensRead_quarter            B
+## 416 320JM102701 West Central Council mjIntensRead_quarter            C
+## 476 320JD061002 West Central Council mjIntensRead_quarter            F
+## 479 320SA080203 West Central Council mjIntensRead_quarter            B
+## 496 320EF111204 West Central Council mjIntensRead_quarter            A
+## 503 320SC072304 West Central Council mjIntensRead_quarter            B</code></pre>
+<pre class="r"><code>read_semester &lt;- q2reading_dupes[grep(&quot;_semester&quot;, q2reading_dupes$readingCourses, ignore.case = TRUE),]
+
+dim(read_semester)</code></pre>
+<pre><code>## [1] 31  4</code></pre>
+<pre class="r"><code>head(read_semester)</code></pre>
+<pre><code>##         girlCode              council        readingCourses readingGrade
+## 1006 320JD061002 West Central Council mjIntensRead_semester            F
+## 1009 320SA080203 West Central Council mjIntensRead_semester            B
+## 1026 320EF111204 West Central Council mjIntensRead_semester            A
+## 1033 320SC072304 West Central Council mjIntensRead_semester            B
+## 1047 320JJ070902 West Central Council mjIntensRead_semester            C
+## 1052 320JB112003 West Central Council mjIntensRead_semester            B</code></pre>
+</div>
+<div id="bind-the-semester-grade-back-in" class="section level3">
+<h3>Bind the semester grade back in</h3>
+<pre class="r"><code>mq2_read_1 &lt;- rbind(mq2_read_ok, read_semester)
+
+dim(mq2_read_1)</code></pre>
+<pre><code>## [1] 273   4</code></pre>
+<p>```</p>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest
