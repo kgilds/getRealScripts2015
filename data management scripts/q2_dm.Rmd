@@ -345,9 +345,30 @@ names(q2free_read)
 
 ```
 
+### Check for duplicate reading grades
+
+```{r}
+
+### Find the unique girlCodes with just one grade 
+mq2_read_ok <- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast = TRUE)), ]
+
+dim(mq2Reading)
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2reading_dupes <-duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2reading_dupes <- mq2Reading[q2reading_dupes, ]
 
 
+dim(q2reading_dupes)
 
+
+```
+
+
+### 
 
 
 

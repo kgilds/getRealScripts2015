@@ -433,6 +433,16 @@ mq2_read_ok &lt;- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2
 
 dim(mq2Reading)</code></pre>
 <pre><code>## [1] 314   4</code></pre>
+<pre class="r"><code>##############################Subset Duplicate Values##################
+### find the duplicates
+q2reading_dupes &lt;-duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2reading_dupes &lt;- mq2Reading[q2reading_dupes, ]
+
+
+dim(q2reading_dupes)</code></pre>
+<pre><code>## [1] 72  4</code></pre>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest
