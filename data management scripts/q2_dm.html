@@ -197,7 +197,7 @@ colnames (q2_grades) [36] &lt;- &quot;mjDelaESOLRead_semester&quot;
 
 
 colnames (q2_grades) [37] &lt;- &quot;readFree1_quarter&quot;
-colnames (q2_grades) [38] &lt;- &quot;readFree2_quarter&quot;
+colnames (q2_grades) [38] &lt;- &quot;readFree2_semester&quot;
 
 
 ### Lang Arts Courses
@@ -405,7 +405,7 @@ table(mq2Reading$readingCourses,mq2Reading$readingGrade)</code></pre>
 ##   mjDelaESOLRead_quarter               0  0  0  0  0
 ##   mjDelaESOLRead_semester              0  0  0  0  0
 ##   readFree1_quarter                    2  2  1  0  0
-##   readFree2_quarter                    1  2  0  0  0</code></pre>
+##   readFree2_semester                   1  2  0  0  0</code></pre>
 <pre class="r"><code>with(mq2Reading, table(council,readingGrade))</code></pre>
 <pre><code>##                       readingGrade
 ## council                 A  B  C  D  F
@@ -422,8 +422,8 @@ levels(mq2Reading$readingGrade)</code></pre>
 <pre class="r"><code>q2free_read &lt;- select(q2_gradesUnique, 7,8, 37:38)
 
 names(q2free_read)</code></pre>
-<pre><code>## [1] &quot;council&quot;           &quot;girlCode&quot;          &quot;readFree1_quarter&quot;
-## [4] &quot;readFree2_quarter&quot;</code></pre>
+<pre><code>## [1] &quot;council&quot;            &quot;girlCode&quot;           &quot;readFree1_quarter&quot; 
+## [4] &quot;readFree2_semester&quot;</code></pre>
 </div>
 </div>
 <div id="check-for-duplicate-reading-grades" class="section level3">
@@ -449,7 +449,7 @@ dim(q2reading_dupes)</code></pre>
 <pre class="r"><code>read_quarter &lt;- q2reading_dupes[grep(&quot;_quarter&quot;, q2reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_quarter)</code></pre>
-<pre><code>## [1] 41  4</code></pre>
+<pre><code>## [1] 38  4</code></pre>
 <pre class="r"><code>head(read_quarter)</code></pre>
 <pre><code>##        girlCode              council       readingCourses readingGrade
 ## 397 320CM051801 West Central Council mjIntensRead_quarter            B
@@ -461,7 +461,7 @@ dim(read_quarter)</code></pre>
 <pre class="r"><code>read_semester &lt;- q2reading_dupes[grep(&quot;_semester&quot;, q2reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_semester)</code></pre>
-<pre><code>## [1] 31  4</code></pre>
+<pre><code>## [1] 34  4</code></pre>
 <pre class="r"><code>head(read_semester)</code></pre>
 <pre><code>##         girlCode              council        readingCourses readingGrade
 ## 1006 320JD061002 West Central Council mjIntensRead_semester            F
@@ -471,13 +471,114 @@ dim(read_semester)</code></pre>
 ## 1047 320JJ070902 West Central Council mjIntensRead_semester            C
 ## 1052 320JB112003 West Central Council mjIntensRead_semester            B</code></pre>
 </div>
+<div id="anti-join-to-find-extra-grades" class="section level3">
+<h3>Anti Join to find extra grades</h3>
+<pre class="r"><code>extra_quarters &lt;- anti_join(read_quarter, read_semester, by=&quot;girlCode&quot;)
+
+extra_quarters</code></pre>
+<pre><code>##      girlCode              council       readingCourses readingGrade
+## 1 320CM051801 West Central Council mjIntensRead_quarter            B
+## 2 320CM051801 West Central Council    readFree1_quarter            A
+## 3 320JM102701 West Central Council mjIntensRead_quarter            C
+## 4 320JM102701 West Central Council    readFree1_quarter            C</code></pre>
+<pre class="r"><code>reading_pts_ex &lt;- numeric(0)
+
+for(i in extra_quarters$readingGrade){
+   
+     reading_pts_ex &lt;- c(reading_pts_ex,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0))
+    
+     reading_pts_ex
+
+    
+}
+
+extra_quarters$readingCourses &lt;- &quot;ReadingCourseAvg&quot;
+
+extra_quarters &lt;- cbind(extra_quarters, reading_pts_ex)
+
+head(extra_quarters)</code></pre>
+<pre><code>##      girlCode              council   readingCourses readingGrade
+## 1 320CM051801 West Central Council ReadingCourseAvg            B
+## 2 320CM051801 West Central Council ReadingCourseAvg            A
+## 3 320JM102701 West Central Council ReadingCourseAvg            C
+## 4 320JM102701 West Central Council ReadingCourseAvg            C
+##   reading_pts_ex
+## 1              3
+## 2              4
+## 3              2
+## 4              2</code></pre>
+<pre class="r"><code>extra_quarters &lt;-with(extra_quarters, aggregate(reading_pts_ex,list(girlCode=girlCode, council=council, readingCourses=readingCourses, readingGrade=readingGrade),mean))
+
+extra_quarters</code></pre>
+<pre><code>##      girlCode              council   readingCourses readingGrade x
+## 1 320CM051801 West Central Council ReadingCourseAvg            A 4
+## 2 320CM051801 West Central Council ReadingCourseAvg            B 3
+## 3 320JM102701 West Central Council ReadingCourseAvg            C 2</code></pre>
+<pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;readingPts&quot;
+
+head(extra_quarters)</code></pre>
+<pre><code>##      girlCode              council   readingCourses readingGrade
+## 1 320CM051801 West Central Council ReadingCourseAvg            A
+## 2 320CM051801 West Central Council ReadingCourseAvg            B
+## 3 320JM102701 West Central Council ReadingCourseAvg            C
+##   readingPts
+## 1          4
+## 2          3
+## 3          2</code></pre>
+<pre class="r"><code>extra_quarters</code></pre>
+<pre><code>##      girlCode              council   readingCourses readingGrade
+## 1 320CM051801 West Central Council ReadingCourseAvg            A
+## 2 320CM051801 West Central Council ReadingCourseAvg            B
+## 3 320JM102701 West Central Council ReadingCourseAvg            C
+##   readingPts
+## 1          4
+## 2          3
+## 3          2</code></pre>
+</div>
 <div id="bind-the-semester-grade-back-in" class="section level3">
 <h3>Bind the semester grade back in</h3>
 <pre class="r"><code>mq2_read_1 &lt;- rbind(mq2_read_ok, read_semester)
 
 dim(mq2_read_1)</code></pre>
-<pre><code>## [1] 273   4</code></pre>
-<p>```</p>
+<pre><code>## [1] 276   4</code></pre>
+<pre class="r"><code>reading_pts2 &lt;- numeric(0)
+
+for(i in mq2_read_1$readingGrade){
+   
+     reading_pts2 &lt;- c(reading_pts2,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0))
+    
+     reading_pts2
+
+    
+}
+
+dim(mq2_read_1)</code></pre>
+<pre><code>## [1] 276   4</code></pre>
+<pre class="r"><code>mq2_read_1 &lt;-cbind(mq2_read_1, reading_pts2)</code></pre>
+<div id="merge-all-the-reading-sets" class="section level4">
+<h4>Merge all the reading sets</h4>
+<pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;reading_pts2&quot;
+
+mq2_read_all &lt;- rbind(mq2_read_1, extra_quarters)
+
+dim(mq2_read_all)</code></pre>
+<pre><code>## [1] 279   5</code></pre>
+<pre class="r"><code>head(mq2_read_all)</code></pre>
+<pre><code>##         girlCode           council       readingCourses readingGrade
+## 5  321JJ07112002 Southeast Council mjIntensRead_quarter            C
+## 6    321GC050202 Southeast Council mjIntensRead_quarter            B
+## 7  321DD12182000 Southeast Council mjIntensRead_quarter            C
+## 8    321KD040803 Southeast Council mjIntensRead_quarter            F
+## 9    321NE031201 Southeast Council mjIntensRead_quarter            B
+## 13   321JM100202 Southeast Council mjIntensRead_quarter            A
+##    reading_pts2
+## 5             2
+## 6             3
+## 7             2
+## 8             0
+## 9             3
+## 13            4</code></pre>
+</div>
 <div id="language-arts-courses" class="section level4">
 <h4>Language Arts Courses</h4>
 <pre class="r"><code>### Select the data of interest

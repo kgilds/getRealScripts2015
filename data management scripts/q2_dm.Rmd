@@ -84,7 +84,7 @@ colnames (q2_grades) [36] <- "mjDelaESOLRead_semester"
 
 
 colnames (q2_grades) [37] <- "readFree1_quarter"
-colnames (q2_grades) [38] <- "readFree2_quarter"
+colnames (q2_grades) [38] <- "readFree2_semester"
 
 
 ### Lang Arts Courses
@@ -342,7 +342,6 @@ q2free_read <- select(q2_gradesUnique, 7,8, 37:38)
 names(q2free_read)
 
 
-
 ```
 
 ### Check for duplicate reading grades
@@ -385,6 +384,46 @@ head(read_semester)
 
 ```
 
+
+### Anti Join to find extra grades
+```{r}
+
+extra_quarters <- anti_join(read_quarter, read_semester, by="girlCode")
+
+extra_quarters
+
+reading_pts_ex <- numeric(0)
+
+for(i in extra_quarters$readingGrade){
+   
+     reading_pts_ex <- c(reading_pts_ex,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     reading_pts_ex
+
+    
+}
+
+extra_quarters$readingCourses <- "ReadingCourseAvg"
+
+extra_quarters <- cbind(extra_quarters, reading_pts_ex)
+
+head(extra_quarters)
+
+
+extra_quarters <-with(extra_quarters, aggregate(reading_pts_ex,list(girlCode=girlCode, council=council, readingCourses=readingCourses, readingGrade=readingGrade),mean))
+
+extra_quarters
+
+
+colnames(extra_quarters) [5] <- "readingPts"
+
+head(extra_quarters)
+
+extra_quarters
+
+```
+
+
 ### Bind the semester grade back in 
 ```{r}
 
@@ -392,10 +431,45 @@ mq2_read_1 <- rbind(mq2_read_ok, read_semester)
 
 dim(mq2_read_1)
 
+
+
 ```
 
 
+```{r}
 
+reading_pts2 <- numeric(0)
+
+for(i in mq2_read_1$readingGrade){
+   
+     reading_pts2 <- c(reading_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     reading_pts2
+
+    
+}
+
+dim(mq2_read_1)
+
+mq2_read_1 <-cbind(mq2_read_1, reading_pts2)
+
+
+
+
+```
+
+#### Merge all the reading sets
+```{r}
+
+colnames(extra_quarters) [5] <- "reading_pts2"
+
+mq2_read_all <- rbind(mq2_read_1, extra_quarters)
+
+dim(mq2_read_all)
+
+head(mq2_read_all)
+
+```
 
 
 
