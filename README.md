@@ -39,9 +39,9 @@ Analysis of survey and academic data is compared across the school year using th
 
 ## Academic Data
 
-1. *Q1datamanagement*--The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames and sends data to sqlite database. 
+1. *q1_dm.RMD*--The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames. The script adds a grade point based on the grade received and sends data to sqlite database. 
 
-2. *Q2datamanagement*-- The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames.
+2. *q2_dm.RMD*-- The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames. The script finds students who have both quarter and semester grades; the script removes quarter grades when there is a semester grade giving greater weight to the the semester grade. For students with two or more reading or language arts courses the script will average their course grades and assign a grade point. The script also sends data objects to sqlite database.  
 
 3. *Q3datamanagement*--The purpose of this script is to change the column names, remove duplicate data entry, and to split the subjects into separate data frames.
 
