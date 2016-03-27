@@ -1,7 +1,7 @@
 ---
 title: "codeBook"
 author: "Kevin Gilds"
-date: "November 15, 2015"
+date: '`r Sys.Date()`'
 output:
   html_document:
     keep_md: yes
@@ -47,30 +47,6 @@ Academic Engagement        |4.5=>
 
 
 
-### Academic Data
-
-**Reading and Language Arts Courses Outcome Tables**
-
-1. Grade increase
-
-2. Dropped grade but maintained a "C" grade
-
-3. Fail to pass
-
-
-**Attedance Outomce**
-
-1. Number and percent of students without an absence
-
-2. Number and percent of students who decreased their absences
-
-
-**Suspension Outcome**
-
-1. Number and percent of students without a suspension.
-
-2. Number and percent of students who decreased their suspensions.
-
 
 ### Survey Outcomes
 
@@ -95,6 +71,8 @@ Secondary but reported outcome is the following.
 
 
 ### Grade Outcomes
+
+Please note that semester grades are given greater weight than quarter grades. If a student has a grade in more than one course the grades are averaged to grade point. The grade point is used to compare over the time. 
 
 **Reading and Language Arts Courses Outcome Tables**
 
