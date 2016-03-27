@@ -2,6 +2,8 @@
 
 
 ```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY20152016")
+
 knitr::opts_chunk$set(fig.width=12, fig.height=5, fig.path='Figs/',
                        warning=FALSE, message=FALSE, echo=FALSE)
 
