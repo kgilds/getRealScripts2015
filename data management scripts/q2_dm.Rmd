@@ -486,7 +486,7 @@ head(mq2_read_all)
 ```{r}
 
 ### Select the data of interest
-q2LangArts <- select(q2_gradesUnique, 7,8, 41:74, 78:79 )
+q2LangArts <- select(q2_gradesUnique, 7,8, 41:79 )
 
 
 ### Put the data in the shape I want it in
@@ -521,14 +521,21 @@ mq2_lang$langGrade <-sub("2", "B", fixed=TRUE, mq2_lang$langGrade)
 
 mq2_lang$langGrade <-sub("D+", "D", fixed=TRUE, mq2_lang$langGrade)
 
-
-
-### Create tables to sneak at the data
-table(mq2_lang$langCourses,mq2_lang$langGrade)
-lang_courses <- table(mq2_lang$langCourses) #for output
+mq2_lang$langGrade <-sub("I", "F", fixed=TRUE, mq2_lang$langGrade)
 
 
 
+#TESt  for bad date entry in grades
+table(mq2_lang$langGrade)
+
+
+
+
+##Test for free data entry
+grep("freeLang1_quarter", mq2_lang$langCourses, ignore.case=TRUE)
+grep("freelang_semester", mq2_lang$langCourses, ignore.case=TRUE)
+##Test with code that I know works!
+grep("mjIntensLangArts_quarter", mq2_lang$langCourses, ignore.case=TRUE)
 
 
 
