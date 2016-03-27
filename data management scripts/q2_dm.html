@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-26" />
+<meta name="date" content="2016-03-27" />
 
 <title>Q2_grades_dm</title>
 
@@ -111,13 +111,61 @@ $(document).ready(function () {
 
 <h1 class="title">Q2_grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-26</em></h4>
+<h4 class="date"><em>2016-03-27</em></h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#intro">Intro:</a><ul>
+<li><a href="#import-libaries-needed.">Import Libaries needed.</a></li>
+<li><a href="#make-columna-names-easier-to-read">Make columna names easier to read</a></li>
+<li><a href="#subset-completed-data-entry">Subset completed data entry</a></li>
+<li><a href="#update-factors">Update factors</a></li>
+<li><a href="#deal-with-duplicates">Deal with duplicates</a><ul>
+<li><a href="#subset-duplicate-values">Subset duplicate values</a></li>
+</ul></li>
+<li><a href="#update-council-variable-names-to-match-other-data-sources">Update council variable names to match other data sources</a></li>
+</ul></li>
+<li><a href="#reading-grades-sectionsplit-and-clean-up">Reading Grades Section–Split and Clean up</a><ul>
+<li><a href="#check-for-read-free-data-entry">Check for Read Free Data Entry</a></li>
+<li><a href="#check-for-duplicate-reading-gradesquarter-and-semester-grades">Check for duplicate reading grades(Quarter and Semester Grades)</a><ul>
+<li><a href="#find-and-subset-the-semester-grades">Find and subset the Semester Grades</a></li>
+<li><a href="#anti-join-to-find-extra-gradescases-where-the-student-is-in-more-than-one-reading-course">Anti Join to find extra grades–Cases where the student is in more than one reading course</a></li>
+<li><a href="#bind-the-semester-grade-back-in">Bind the semester grade back in</a></li>
+<li><a href="#reading-grade-points">Reading Grade Points</a></li>
+<li><a href="#merge-all-the-reading-sets">Merge all the reading sets</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#language-arts-coursessplit-and-clean">Language Arts Courses–Split and clean</a><ul>
+<li><a href="#check-for-language-arts-free-data-entry">Check for Language Arts Free Data Entry</a></li>
+<li><a href="#find-both-quarter-and-semester-grades-and-finalize-semester-grade">Find both quarter and semester grades and finalize semester grade</a><ul>
+<li><a href="#find-and-subset-the-semester-grades-in-duplicate-version">Find and subset the Semester Grades in duplicate version</a></li>
+<li><a href="#bind-the-language-arts-courses-together">Bind the Language Arts Courses together</a></li>
+</ul></li>
+<li><a href="#calculate-grade-points-language-arts-courses">Calculate Grade Points Language Arts Courses</a></li>
+</ul></li>
+<li><a href="#unexcused-absences">Unexcused Absences</a></li>
+<li><a href="#excused-absences">Excused Absences</a></li>
+<li><a href="#total-absences">Total Absences</a></li>
+<li><a href="#in-school-suspensions">In School Suspensions</a></li>
+<li><a href="#out-of-school-suspenions">Out of School Suspenions</a></li>
+<li><a href="#total-suspensions">Total suspensions</a></li>
+<li><a href="#expelled">Expelled</a></li>
+<li><a href="#prepare-data-for-database">Prepare data for database</a><ul>
+<li><a href="#merge-behavior-data">Merge Behavior Data</a><ul>
+<li><a href="#merge-grade-data">Merge Grade Data</a></li>
+<li><a href="#merge-all">Merge all</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#script-to-send-to-databases">Script to send to databases</a></li>
+</ul>
+</div>
 
-<div id="intro-this-section-needs-to-be-updated." class="section level3">
-<h3>Intro this section needs to be updated.</h3>
+<div id="intro" class="section level1">
+<h1>Intro:</h1>
+<div id="import-libaries-needed." class="section level2">
+<h2>Import Libaries needed.</h2>
 <pre class="r"><code>#### Load the Libraries
 library(dplyr)</code></pre>
 <pre><code>## 
@@ -141,6 +189,9 @@ setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016&quot;)
 
 ### read the data into R
 q2_grades &lt;- read.csv('q2_grades03122016.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
+</div>
+<div id="make-columna-names-easier-to-read" class="section level2">
+<h2>Make columna names easier to read</h2>
 <pre class="r"><code>### Demo Variables
 colnames (q2_grades) [7] &lt;- &quot;council&quot;
 colnames (q2_grades) [8] &lt;- &quot;girlCode&quot;
@@ -289,10 +340,16 @@ colnames (q2_grades) [76] &lt;- &quot;freeLang2_semester&quot;
 
 colnames (q2_grades) [78] &lt;- &quot;mjLangTran_quarter&quot;
 colnames (q2_grades) [79] &lt;- &quot;mjLangTran_semester&quot;</code></pre>
+</div>
+<div id="subset-completed-data-entry" class="section level2">
+<h2>Subset completed data entry</h2>
 <pre class="r"><code>################Finished Data Entry####################################33
 
 ### Eliminate uncompleted data entry
 gradesq2 &lt;- filter(q2_grades, Finished == 1)</code></pre>
+</div>
+<div id="update-factors" class="section level2">
+<h2>Update factors</h2>
 <pre class="r"><code>#######################Fix Factors ###################################
 
 ### Make all girCode to upper case for matching
@@ -303,6 +360,9 @@ gradesq2$council &lt;- as.character(gradesq2$council)
 
 ### Make sure R does not make this a factor variable 
 gradesq2$girlCode &lt;- as.character(gradesq2$girlCode)</code></pre>
+</div>
+<div id="deal-with-duplicates" class="section level2">
+<h2>Deal with duplicates</h2>
 <pre class="r"><code>##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
@@ -310,6 +370,8 @@ q2_gradesUnique &lt;- gradesq2 [!(duplicated(gradesq2$girlCode) | duplicated(gra
 
 dim(q2_gradesUnique)</code></pre>
 <pre><code>## [1] 530  80</code></pre>
+<div id="subset-duplicate-values" class="section level3">
+<h3>Subset duplicate values</h3>
 <pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q2Dupes &lt;-duplicated(gradesq2$girlCode) | duplicated(gradesq2$girlCode, fromLast=TRUE)
@@ -320,6 +382,10 @@ q2Dupes &lt;-gradesq2[q2Dupes, ]
 
 dim(q2Dupes)</code></pre>
 <pre><code>## [1] 20 80</code></pre>
+</div>
+</div>
+<div id="update-council-variable-names-to-match-other-data-sources" class="section level2">
+<h2>Update council variable names to match other data sources</h2>
 <pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
 q2_gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, q2_gradesUnique$council)
 
@@ -332,6 +398,10 @@ q2_gradesUnique$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&qu
 q2_gradesUnique$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, q2_gradesUnique$council)
 
 q2_gradesUnique$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, q2_gradesUnique$council)</code></pre>
+</div>
+</div>
+<div id="reading-grades-sectionsplit-and-clean-up" class="section level1">
+<h1>Reading Grades Section–Split and Clean up</h1>
 <pre class="r"><code>###############Reading Clean Up###############################################################
 
 ### Select data of interest
@@ -417,17 +487,16 @@ levels(mq2Reading$readingGrade)</code></pre>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
 <pre class="r"><code>names(mq2Reading)</code></pre>
 <pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
-<div id="check-for-read-free-data-entry" class="section level4">
-<h4>Check for Read Free Data Entry</h4>
+<div id="check-for-read-free-data-entry" class="section level2">
+<h2>Check for Read Free Data Entry</h2>
 <pre class="r"><code>q2free_read &lt;- select(q2_gradesUnique, 7,8, 37:38)
 
 names(q2free_read)</code></pre>
 <pre><code>## [1] &quot;council&quot;            &quot;girlCode&quot;           &quot;readFree1_quarter&quot; 
 ## [4] &quot;readFree2_semester&quot;</code></pre>
 </div>
-</div>
-<div id="check-for-duplicate-reading-grades" class="section level3">
-<h3>Check for duplicate reading grades</h3>
+<div id="check-for-duplicate-reading-gradesquarter-and-semester-grades" class="section level2">
+<h2>Check for duplicate reading grades(Quarter and Semester Grades)</h2>
 <pre class="r"><code>### Find the unique girlCodes with just one grade 
 mq2_read_ok &lt;- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast = TRUE)), ]
 
@@ -443,9 +512,8 @@ q2reading_dupes &lt;- mq2Reading[q2reading_dupes, ]
 
 dim(q2reading_dupes)</code></pre>
 <pre><code>## [1] 72  4</code></pre>
-</div>
-<div id="find-the-semester-grades" class="section level3">
-<h3>Find the Semester Grades</h3>
+<div id="find-and-subset-the-semester-grades" class="section level3">
+<h3>Find and subset the Semester Grades</h3>
 <pre class="r"><code>read_quarter &lt;- q2reading_dupes[grep(&quot;_quarter&quot;, q2reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_quarter)</code></pre>
@@ -471,8 +539,8 @@ dim(read_semester)</code></pre>
 ## 1047 320JJ070902 West Central Council mjIntensRead_semester            C
 ## 1052 320JB112003 West Central Council mjIntensRead_semester            B</code></pre>
 </div>
-<div id="anti-join-to-find-extra-grades" class="section level3">
-<h3>Anti Join to find extra grades</h3>
+<div id="anti-join-to-find-extra-gradescases-where-the-student-is-in-more-than-one-reading-course" class="section level3">
+<h3>Anti Join to find extra grades–Cases where the student is in more than one reading course</h3>
 <pre class="r"><code>extra_quarters &lt;- anti_join(read_quarter, read_semester, by=&quot;girlCode&quot;)
 
 extra_quarters</code></pre>
@@ -541,6 +609,9 @@ head(extra_quarters)</code></pre>
 
 dim(mq2_read_1)</code></pre>
 <pre><code>## [1] 276   4</code></pre>
+</div>
+<div id="reading-grade-points" class="section level3">
+<h3>Reading Grade Points</h3>
 <pre class="r"><code>reading_pts2 &lt;- numeric(0)
 
 for(i in mq2_read_1$readingGrade){
@@ -555,8 +626,9 @@ for(i in mq2_read_1$readingGrade){
 dim(mq2_read_1)</code></pre>
 <pre><code>## [1] 276   4</code></pre>
 <pre class="r"><code>mq2_read_1 &lt;-cbind(mq2_read_1, reading_pts2)</code></pre>
-<div id="merge-all-the-reading-sets" class="section level4">
-<h4>Merge all the reading sets</h4>
+</div>
+<div id="merge-all-the-reading-sets" class="section level3">
+<h3>Merge all the reading sets</h3>
 <pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;reading_pts2&quot;
 
 mq2_read_all &lt;- rbind(mq2_read_1, extra_quarters)
@@ -579,8 +651,10 @@ dim(mq2_read_all)</code></pre>
 ## 9             3
 ## 13            4</code></pre>
 </div>
-<div id="language-arts-courses" class="section level4">
-<h4>Language Arts Courses</h4>
+</div>
+</div>
+<div id="language-arts-coursessplit-and-clean" class="section level1">
+<h1>Language Arts Courses–Split and clean</h1>
 <pre class="r"><code>### Select the data of interest
 q2LangArts &lt;- select(q2_gradesUnique, 7,8, 41:74, 78:79 )
 
@@ -659,10 +733,8 @@ table(mq2_lang$langCourses,mq2_lang$langGrade)</code></pre>
 ##   mjLangTran_quarter           0  0  0  0  0  0
 ##   mjLangTran_semester          0  0  0  0  0  0</code></pre>
 <pre class="r"><code>lang_courses &lt;- table(mq2_lang$langCourses) #for output</code></pre>
-</div>
-</div>
-<div id="free-language-arts" class="section level3">
-<h3>Free Language Arts</h3>
+<div id="check-for-language-arts-free-data-entry" class="section level2">
+<h2>Check for Language Arts Free Data Entry</h2>
 <pre class="r"><code>### Review Free Text Entry
 q2_free_lang &lt;- select(q2_gradesUnique, 7,8, 75:76)
 
@@ -673,8 +745,8 @@ table(q2_free_lang$free_lang1_quarter)</code></pre>
 <pre class="r"><code>table(q2_free_lang$free_lang2_semester)</code></pre>
 <pre><code>## &lt; table of extent 0 &gt;</code></pre>
 </div>
-<div id="find-both-quarter-and-semester-grades-and-finalize-semester-grade" class="section level3">
-<h3>Find both quarter and semester grades and finalize semester grade</h3>
+<div id="find-both-quarter-and-semester-grades-and-finalize-semester-grade" class="section level2">
+<h2>Find both quarter and semester grades and finalize semester grade</h2>
 <pre class="r"><code>##################Duplicates#########################################
 
 ### Find the unique girlCodes with just one grade 
@@ -694,8 +766,8 @@ q2lang_dupes &lt;- mq2_lang[q2lang_dupes, ]
 
 dim(q2lang_dupes)</code></pre>
 <pre><code>## [1] 130   4</code></pre>
-<div id="find-and-subset-the-semester-grades-in-duplicate-version" class="section level4">
-<h4>Find and subset the Semester Grades in duplicate version</h4>
+<div id="find-and-subset-the-semester-grades-in-duplicate-version" class="section level3">
+<h3>Find and subset the Semester Grades in duplicate version</h3>
 <pre class="r"><code>semester &lt;- q2lang_dupes[grep(&quot;_semester&quot;, q2lang_dupes$langCourses, ignore.case = TRUE),]
 
 dim(semester)</code></pre>
@@ -709,15 +781,18 @@ dim(semester)</code></pre>
 ## 5298 320SS091403 West Central Council mjLangArts1_semester         B
 ## 5299 320AR060504 West Central Council mjLangArts1_semester         B</code></pre>
 </div>
-<div id="bind-the-language-arts-courses-together" class="section level4">
-<h4>Bind the Language Arts Courses together</h4>
+<div id="bind-the-language-arts-courses-together" class="section level3">
+<h3>Bind the Language Arts Courses together</h3>
 <pre class="r"><code>mq2_lang_all &lt;- rbind(mq2_lang_ok, semester)
 
 
 
 dim(mq2_lang_all)</code></pre>
 <pre><code>## [1] 526   4</code></pre>
-<p>Calculate Grade Points</p>
+</div>
+</div>
+<div id="calculate-grade-points-language-arts-courses" class="section level2">
+<h2>Calculate Grade Points Language Arts Courses</h2>
 <pre class="r"><code>lang_pts2 &lt;- numeric(0)
 
 for(i in mq2_lang_all$langGrade){
@@ -748,8 +823,8 @@ head(mq2_lang_all)</code></pre>
 ## 4269         2</code></pre>
 </div>
 </div>
-<div id="unexcused-absences" class="section level3">
-<h3>Unexcused Absences</h3>
+<div id="unexcused-absences" class="section level1">
+<h1>Unexcused Absences</h1>
 <pre class="r"><code>### Select the data of interest
 q2_unexcused &lt;- select(q2_gradesUnique,7,8, 12)
 
@@ -763,8 +838,8 @@ q2_unexcused_tbl</code></pre>
 ##   0   1   2   3   4   5   6   7   8   9 
 ## 328  67  71  27  12   9   7   2   2   1</code></pre>
 </div>
-<div id="excused-absences" class="section level3">
-<h3>Excused Absences</h3>
+<div id="excused-absences" class="section level1">
+<h1>Excused Absences</h1>
 <pre class="r"><code>### Select the data of interest
 q2_excused &lt;- select(q2_gradesUnique, 7, 8, 13)
 
@@ -778,8 +853,8 @@ q2_excused_tbl</code></pre>
 ##   0   1   2   3   4   5   7 
 ## 323  99  63  21  12   8   4</code></pre>
 </div>
-<div id="total-absences" class="section level3">
-<h3>Total Absences</h3>
+<div id="total-absences" class="section level1">
+<h1>Total Absences</h1>
 <pre class="r"><code>#### Merge unexcused and excused objects
 q2_total_abs &lt;- inner_join(q2_unexcused, q2_excused, by = &quot;girlCode&quot;, Copy=FALSE)
 
@@ -796,8 +871,8 @@ q2_total_abs_tbl</code></pre>
 ##   0   1   2   3   4   5   6   7   8   9  13 
 ## 263  41  67  56  39  32  11   9   4   3   1</code></pre>
 </div>
-<div id="in-school-suspensions" class="section level3">
-<h3>In School Suspensions</h3>
+<div id="in-school-suspensions" class="section level1">
+<h1>In School Suspensions</h1>
 <pre class="r"><code>### Look at data of interest
 q2_in_school &lt;- select(q2_gradesUnique, 7, 8, 14)
 
@@ -811,8 +886,8 @@ q2_in_school_tbl</code></pre>
 ##   0   1   2   3   4   5 
 ## 480  22  17   5   2   1</code></pre>
 </div>
-<div id="out-of-school-suspenions" class="section level3">
-<h3>Out of School Suspenions</h3>
+<div id="out-of-school-suspenions" class="section level1">
+<h1>Out of School Suspenions</h1>
 <pre class="r"><code>q2_out_school &lt;- select(q2_gradesUnique, 7, 8, 15)
 
 q2_out_school_tbl &lt;- with(q2_out_school, table(outofSchoolSusp))
@@ -822,8 +897,8 @@ q2_out_school_tbl</code></pre>
 ##   0   1   2   3   4   5 
 ## 494  13   8   6   6   1</code></pre>
 </div>
-<div id="total-suspensions" class="section level3">
-<h3>Total suspensions</h3>
+<div id="total-suspensions" class="section level1">
+<h1>Total suspensions</h1>
 <pre class="r"><code>q2_susp_total &lt;- inner_join(q2_in_school, q2_out_school, by = &quot;girlCode&quot;, copy=FALSE)
 
 head(q2_susp_total)</code></pre>
@@ -865,8 +940,8 @@ q2_susp_total_tbl</code></pre>
 ##   0   1   2   3   4   5   6 
 ## 456  30  12  14   9   3   1</code></pre>
 </div>
-<div id="expelled" class="section level3">
-<h3>Expelled</h3>
+<div id="expelled" class="section level1">
+<h1>Expelled</h1>
 <pre class="r"><code>### Select the variable of interest
 q2_expelled &lt;- select(q2_gradesUnique, 7,8,16)
 
@@ -889,8 +964,10 @@ q2_expelled_tbl</code></pre>
 ##  No Yes 
 ## 521   9</code></pre>
 </div>
-<div id="merge-behavior-data" class="section level3">
-<h3>Merge Behavior Data</h3>
+<div id="prepare-data-for-database" class="section level1">
+<h1>Prepare data for database</h1>
+<div id="merge-behavior-data" class="section level2">
+<h2>Merge Behavior Data</h2>
 <pre class="r"><code>abs_susp &lt;- full_join(q2_total_abs, q2_susp_total)</code></pre>
 <pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
 <pre class="r"><code>dim(abs_susp)</code></pre>
@@ -919,13 +996,12 @@ head(behavior_data)</code></pre>
 ## 4       No
 ## 5       No
 ## 6       No</code></pre>
-</div>
 <div id="merge-grade-data" class="section level3">
 <h3>Merge Grade Data</h3>
-<pre class="r"><code>q2_lang_read &lt;- full_join(mq2_lang, mq2Reading)</code></pre>
+<pre class="r"><code>q2_lang_read &lt;- full_join(mq2_lang_all, mq2_read_all)</code></pre>
 <pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
 <pre class="r"><code>dim(q2_lang_read)</code></pre>
-<pre><code>## [1] 661   6</code></pre>
+<pre><code>## [1] 530   8</code></pre>
 <pre class="r"><code>head(q2_lang_read)</code></pre>
 <pre><code>##      girlCode              council             langCourses langGrade
 ## 1 320BR031803 West Central Council mjLangArts2ESOL_quarter         C
@@ -934,14 +1010,14 @@ head(behavior_data)</code></pre>
 ## 4 321AM091203    Southeast Council     mjLangArts1_quarter         C
 ## 5 321BS111403    Southeast Council     mjLangArts1_quarter         B
 ## 6 313AW060203      Gateway Council     mjLangArts1_quarter         C
-##         readingCourses readingGrade
-## 1 mjIntensRead_quarter            C
-## 2      mjRead1_quarter            C
-## 3 mjIntensRead_quarter            F
-## 4      mjRead1_quarter            B
-## 5      mjRead1_quarter            A
-## 6      mjRead1_quarter            C</code></pre>
-<pre class="r"><code>q2_lang_read &lt;- select(q2_lang_read, council, girlCode, langCourses, langGrade, readingCourses, readingGrade)
+##   lang_pts2       readingCourses readingGrade reading_pts2
+## 1         2 mjIntensRead_quarter            C            2
+## 2         2      mjRead1_quarter            C            2
+## 3         0 mjIntensRead_quarter            F            0
+## 4         2      mjRead1_quarter            B            3
+## 5         3      mjRead1_quarter            A            4
+## 6         2      mjRead1_quarter            C            2</code></pre>
+<pre class="r"><code>q2_lang_read &lt;- select(q2_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
 
 
 colnames (q2_lang_read) [1] &lt;- &quot;council&quot;
@@ -954,20 +1030,20 @@ head(q2_lang_read)</code></pre>
 ## 4    Southeast Council 321AM091203     mjLangArts1_quarter         C
 ## 5    Southeast Council 321BS111403     mjLangArts1_quarter         B
 ## 6      Gateway Council 313AW060203     mjLangArts1_quarter         C
-##         readingCourses readingGrade
-## 1 mjIntensRead_quarter            C
-## 2      mjRead1_quarter            C
-## 3 mjIntensRead_quarter            F
-## 4      mjRead1_quarter            B
-## 5      mjRead1_quarter            A
-## 6      mjRead1_quarter            C</code></pre>
+##   lang_pts2       readingCourses readingGrade reading_pts2
+## 1         2 mjIntensRead_quarter            C            2
+## 2         2      mjRead1_quarter            C            2
+## 3         0 mjIntensRead_quarter            F            0
+## 4         2      mjRead1_quarter            B            3
+## 5         3      mjRead1_quarter            A            4
+## 6         2      mjRead1_quarter            C            2</code></pre>
 </div>
 <div id="merge-all" class="section level3">
 <h3>Merge all</h3>
 <pre class="r"><code>q2_academic_data &lt;- full_join(q2_lang_read, behavior_data, by=&quot;girlCode&quot;)
 
 dim(q2_academic_data)</code></pre>
-<pre><code>## [1] 662  10</code></pre>
+<pre><code>## [1] 531  12</code></pre>
 <pre class="r"><code>head(q2_academic_data)</code></pre>
 <pre><code>##              council.x    girlCode             langCourses langGrade
 ## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
@@ -976,21 +1052,21 @@ dim(q2_academic_data)</code></pre>
 ## 4    Southeast Council 321AM091203     mjLangArts1_quarter         C
 ## 5    Southeast Council 321BS111403     mjLangArts1_quarter         B
 ## 6      Gateway Council 313AW060203     mjLangArts1_quarter         C
-##         readingCourses readingGrade            council.y total_absences
-## 1 mjIntensRead_quarter            C West Central Council              0
-## 2      mjRead1_quarter            C    Southeast Council             NA
-## 3 mjIntensRead_quarter            F    Southeast Council              0
-## 4      mjRead1_quarter            B    Southeast Council              0
-## 5      mjRead1_quarter            A    Southeast Council              0
-## 6      mjRead1_quarter            C      Gateway Council              3
-##   total_suspensions expelled
-## 1                 0       No
-## 2                 0       No
-## 3                 5       No
-## 4                 4       No
-## 5                 0       No
-## 6                 0       No</code></pre>
-<pre class="r"><code>q2_academic_data &lt;- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, readingCourses,readingGrade,total_absences, total_suspensions, expelled)
+##   lang_pts2       readingCourses readingGrade reading_pts2
+## 1         2 mjIntensRead_quarter            C            2
+## 2         2      mjRead1_quarter            C            2
+## 3         0 mjIntensRead_quarter            F            0
+## 4         2      mjRead1_quarter            B            3
+## 5         3      mjRead1_quarter            A            4
+## 6         2      mjRead1_quarter            C            2
+##              council.y total_absences total_suspensions expelled
+## 1 West Central Council              0                 0       No
+## 2    Southeast Council             NA                 0       No
+## 3    Southeast Council              0                 5       No
+## 4    Southeast Council              0                 4       No
+## 5    Southeast Council              0                 0       No
+## 6      Gateway Council              3                 0       No</code></pre>
+<pre class="r"><code>q2_academic_data &lt;- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
 
 colnames (q2_academic_data) [1] &lt;- &quot;council&quot;
 
@@ -1003,20 +1079,25 @@ head(q2_academic_data)</code></pre>
 ## 4    Southeast Council 321AM091203     mjLangArts1_quarter         C
 ## 5    Southeast Council 321BS111403     mjLangArts1_quarter         B
 ## 6      Gateway Council 313AW060203     mjLangArts1_quarter         C
-##         readingCourses readingGrade total_absences total_suspensions
-## 1 mjIntensRead_quarter            C              0                 0
-## 2      mjRead1_quarter            C             NA                 0
-## 3 mjIntensRead_quarter            F              0                 5
-## 4      mjRead1_quarter            B              0                 4
-## 5      mjRead1_quarter            A              0                 0
-## 6      mjRead1_quarter            C              3                 0
-##   expelled
-## 1       No
-## 2       No
-## 3       No
-## 4       No
-## 5       No
-## 6       No</code></pre>
+##   lang_pts2       readingCourses readingGrade reading_pts2 total_absences
+## 1         2 mjIntensRead_quarter            C            2              0
+## 2         2      mjRead1_quarter            C            2             NA
+## 3         0 mjIntensRead_quarter            F            0              0
+## 4         2      mjRead1_quarter            B            3              0
+## 5         3      mjRead1_quarter            A            4              0
+## 6         2      mjRead1_quarter            C            2              3
+##   total_suspensions expelled
+## 1                 0       No
+## 2                 0       No
+## 3                 5       No
+## 4                 4       No
+## 5                 0       No
+## 6                 0       No</code></pre>
+</div>
+</div>
+</div>
+<div id="script-to-send-to-databases" class="section level1">
+<h1>Script to send to databases</h1>
 <pre class="r"><code>### Save data objects to Sqlite
 
 setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
@@ -1037,10 +1118,10 @@ dbWriteTable(conn = getReal_2016db, name = &quot;Q2_Suspensions&quot;, value = q
 dbWriteTable(conn = getReal_2016db, name = &quot;Q2_Absences&quot;, value = q2_total_abs, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>### Write Q1 Lang Arts grade to sqlite database
-dbWriteTable(conn = getReal_2016db, name = &quot;Q2_lang&quot;, value = mq2_lang, row.names=FALSE, overwrite=TRUE)</code></pre>
+dbWriteTable(conn = getReal_2016db, name = &quot;Q2_lang&quot;, value = mq2_lang_all, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>### Write Q1 Reading grades to sqlite database
-dbWriteTable(conn = getReal_2016db, name = &quot;Q2_reading&quot;, value = mq2Reading, row.names=FALSE, overwrite=TRUE)</code></pre>
+dbWriteTable(conn = getReal_2016db, name = &quot;Q2_reading&quot;, value = mq2_read_all, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 
