@@ -21,11 +21,11 @@ library(sqldf)
 
 
 ### Locate file to read from
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016")
 
 
 ### read the data into R
-q2_grades <- read.csv('q2_grades03122016.csv', skip = 1, na.strings="")
+q2_grades <- read.csv('grades_q2_04082016.csv', skip = 1, na.strings="")
 
 
 ```

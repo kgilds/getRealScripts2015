@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-27" />
+<meta name="date" content="2016-04-08" />
 
 <title>Q2_grades_dm</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Q2_grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-27</em></h4>
+<h4 class="date"><em>2016-04-08</em></h4>
 
 </div>
 
@@ -184,11 +184,11 @@ library(sqldf)</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>### Locate file to read from
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016&quot;)
 
 
 ### read the data into R
-q2_grades &lt;- read.csv('q2_grades03122016.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
+q2_grades &lt;- read.csv('grades_q2_04082016.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
 </div>
 <div id="make-columna-names-easier-to-read" class="section level2">
 <h2>Make columna names easier to read</h2>
@@ -369,7 +369,7 @@ gradesq2$girlCode &lt;- as.character(gradesq2$girlCode)</code></pre>
 q2_gradesUnique &lt;- gradesq2 [!(duplicated(gradesq2$girlCode) | duplicated(gradesq2$girlCode, fromLast = TRUE)), ]
 
 dim(q2_gradesUnique)</code></pre>
-<pre><code>## [1] 530  80</code></pre>
+<pre><code>## [1] 657  80</code></pre>
 <div id="subset-duplicate-values" class="section level3">
 <h3>Subset duplicate values</h3>
 <pre class="r"><code>##############################Subset Duplicate Values##################
@@ -381,7 +381,7 @@ q2Dupes &lt;-gradesq2[q2Dupes, ]
 
 
 dim(q2Dupes)</code></pre>
-<pre><code>## [1] 20 80</code></pre>
+<pre><code>## [1] 22 80</code></pre>
 </div>
 </div>
 <div id="update-council-variable-names-to-match-other-data-sources" class="section level2">
@@ -451,7 +451,7 @@ mq2Reading$readingGrade &lt;-as.factor(mq2Reading$readingGrade)
 
 summary(mq2Reading$readingGrade)</code></pre>
 <pre><code>##   A   B   C   D   F 
-##  58 123 105  18  10</code></pre>
+##  68 160 121  23  10</code></pre>
 <pre class="r"><code>### Create table to sneak peak at the data.    
 table(mq2Reading$readingCourses,mq2Reading$readingGrade)</code></pre>
 <pre><code>##                                      
@@ -460,15 +460,15 @@ table(mq2Reading$readingCourses,mq2Reading$readingGrade)</code></pre>
 ##   mjIntensRead_semester                1  6  2  0  1
 ##   mjIntenseReadCareerPlaning_quarter   0  0  0  0  0
 ##   mjIntenseReadCareerPlaning_semester  0  0  0  0  0
-##   mjRead1_quarter                      1 44 46  2  1
+##   mjRead1_quarter                      6 57 57  3  1
 ##   mjRead1_semester                     0  0  0  0  0
 ##   mjRead1Adv_quarter                  12  6  0  0  0
 ##   mjRead1Adv_semester                 12  4  0  0  0
-##   mjRead2_quarter                      1  7  6  0  0
+##   mjRead2_quarter                      6 28  9  3  0
 ##   mjRead2_semester                     0  2  1  0  0
 ##   mjRead2Adv_quarter                   5  3  4  3  2
 ##   mjRead2Adv_semester                  0  0  0  0  0
-##   mjRead3_quarter                      2  4  9  1  0
+##   mjRead3_quarter                      2  7 11  2  0
 ##   mjRead3_semester                     0  1  0  0  0
 ##   mjRead3Adv_quarter                   2  5  4  1  0
 ##   mjRead3Adv_semester                  1  0  0  0  0
@@ -479,7 +479,9 @@ table(mq2Reading$readingCourses,mq2Reading$readingGrade)</code></pre>
 <pre class="r"><code>with(mq2Reading, table(council,readingGrade))</code></pre>
 <pre><code>##                       readingGrade
 ## council                 A  B  C  D  F
+##   Citrus Council        2 11 10  2  0
 ##   Gateway Council       1 49 56  2  1
+##   Panhandle Council     8 26  6  3  0
 ##   Southeast Council    17 20 20  9  4
 ##   West Central Council 40 54 29  7  5</code></pre>
 <pre class="r"><code>### Check the levels
@@ -501,7 +503,7 @@ names(q2free_read)</code></pre>
 mq2_read_ok &lt;- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast = TRUE)), ]
 
 dim(mq2Reading)</code></pre>
-<pre><code>## [1] 314   4</code></pre>
+<pre><code>## [1] 382   4</code></pre>
 <pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q2reading_dupes &lt;-duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast=TRUE)
@@ -532,12 +534,12 @@ dim(read_semester)</code></pre>
 <pre><code>## [1] 34  4</code></pre>
 <pre class="r"><code>head(read_semester)</code></pre>
 <pre><code>##         girlCode              council        readingCourses readingGrade
-## 1006 320JD061002 West Central Council mjIntensRead_semester            F
-## 1009 320SA080203 West Central Council mjIntensRead_semester            B
-## 1026 320EF111204 West Central Council mjIntensRead_semester            A
-## 1033 320SC072304 West Central Council mjIntensRead_semester            B
-## 1047 320JJ070902 West Central Council mjIntensRead_semester            C
-## 1052 320JB112003 West Central Council mjIntensRead_semester            B</code></pre>
+## 1133 320JD061002 West Central Council mjIntensRead_semester            F
+## 1136 320SA080203 West Central Council mjIntensRead_semester            B
+## 1153 320EF111204 West Central Council mjIntensRead_semester            A
+## 1160 320SC072304 West Central Council mjIntensRead_semester            B
+## 1174 320JJ070902 West Central Council mjIntensRead_semester            C
+## 1179 320JB112003 West Central Council mjIntensRead_semester            B</code></pre>
 </div>
 <div id="anti-join-to-find-extra-gradescases-where-the-student-is-in-more-than-one-reading-course" class="section level3">
 <h3>Anti Join to find extra grades–Cases where the student is in more than one reading course</h3>
@@ -608,7 +610,7 @@ head(extra_quarters)</code></pre>
 <pre class="r"><code>mq2_read_1 &lt;- rbind(mq2_read_ok, read_semester)
 
 dim(mq2_read_1)</code></pre>
-<pre><code>## [1] 276   4</code></pre>
+<pre><code>## [1] 344   4</code></pre>
 </div>
 <div id="reading-grade-points" class="section level3">
 <h3>Reading Grade Points</h3>
@@ -624,7 +626,7 @@ for(i in mq2_read_1$readingGrade){
 }
 
 dim(mq2_read_1)</code></pre>
-<pre><code>## [1] 276   4</code></pre>
+<pre><code>## [1] 344   4</code></pre>
 <pre class="r"><code>mq2_read_1 &lt;-cbind(mq2_read_1, reading_pts2)</code></pre>
 </div>
 <div id="merge-all-the-reading-sets" class="section level3">
@@ -634,7 +636,7 @@ dim(mq2_read_1)</code></pre>
 mq2_read_all &lt;- rbind(mq2_read_1, extra_quarters)
 
 dim(mq2_read_all)</code></pre>
-<pre><code>## [1] 279   5</code></pre>
+<pre><code>## [1] 347   5</code></pre>
 <pre class="r"><code>head(mq2_read_all)</code></pre>
 <pre><code>##         girlCode           council       readingCourses readingGrade
 ## 5  321JJ07112002 Southeast Council mjIntensRead_quarter            C
@@ -698,7 +700,7 @@ mq2_lang$langGrade &lt;-sub(&quot;I&quot;, &quot;F&quot;, fixed=TRUE, mq2_lang$l
 table(mq2_lang$langGrade)</code></pre>
 <pre><code>## 
 ##   A   B   C   D   F 
-## 122 216 199  45   9</code></pre>
+## 147 282 228  51  10</code></pre>
 <pre class="r"><code>##Test for free data entry
 grep(&quot;freeLang1_quarter&quot;, mq2_lang$langCourses, ignore.case=TRUE)</code></pre>
 <pre><code>## integer(0)</code></pre>
@@ -706,8 +708,8 @@ grep(&quot;freeLang1_quarter&quot;, mq2_lang$langCourses, ignore.case=TRUE)</cod
 <pre><code>## integer(0)</code></pre>
 <pre class="r"><code>##Test with code that I know works!
 grep(&quot;mjIntensLangArts_quarter&quot;, mq2_lang$langCourses, ignore.case=TRUE)</code></pre>
-<pre><code>##  [1] 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585
-## [18] 586</code></pre>
+<pre><code>##  [1] 696 697 698 699 700 701 702 703 704 705 706 707 708 709 710 711 712
+## [18] 713</code></pre>
 <div id="check-for-language-arts-free-data-entry" class="section level2">
 <h2>Check for Language Arts Free Data Entry</h2>
 <pre class="r"><code>### Review Free Text Entry
@@ -728,7 +730,7 @@ table(q2_free_lang$free_lang1_quarter)</code></pre>
 mq2_lang_ok &lt;- mq2_lang [!(duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast = TRUE)), ]
 
 dim(mq2_lang_ok)</code></pre>
-<pre><code>## [1] 461   4</code></pre>
+<pre><code>## [1] 588   4</code></pre>
 <pre class="r"><code>### Find the girl codes with multiple grades
 
 ##############################Subset Duplicate Values##################
@@ -749,12 +751,12 @@ dim(semester)</code></pre>
 <pre><code>## [1] 65  4</code></pre>
 <pre class="r"><code>head(semester)</code></pre>
 <pre><code>##         girlCode              council          langCourses langGrade
-## 5265 320DR110103 West Central Council mjLangArts1_semester         B
-## 5266 320EF111204 West Central Council mjLangArts1_semester         A
-## 5295 320LM121403 West Central Council mjLangArts1_semester         B
-## 5296 320DT031504 West Central Council mjLangArts1_semester         B
-## 5298 320SS091403 West Central Council mjLangArts1_semester         B
-## 5299 320AR060504 West Central Council mjLangArts1_semester         B</code></pre>
+## 6408 320DR110103 West Central Council mjLangArts1_semester         B
+## 6409 320EF111204 West Central Council mjLangArts1_semester         A
+## 6438 320LM121403 West Central Council mjLangArts1_semester         B
+## 6439 320DT031504 West Central Council mjLangArts1_semester         B
+## 6441 320SS091403 West Central Council mjLangArts1_semester         B
+## 6442 320AR060504 West Central Council mjLangArts1_semester         B</code></pre>
 </div>
 <div id="bind-the-language-arts-courses-together" class="section level3">
 <h3>Bind the Language Arts Courses together</h3>
@@ -763,7 +765,7 @@ dim(semester)</code></pre>
 
 
 dim(mq2_lang_all)</code></pre>
-<pre><code>## [1] 526   4</code></pre>
+<pre><code>## [1] 653   4</code></pre>
 </div>
 </div>
 <div id="calculate-grade-points-language-arts-courses" class="section level2">
@@ -783,19 +785,19 @@ mq2_lang_all &lt;- cbind(mq2_lang_all, lang_pts2)
 
 head(mq2_lang_all)</code></pre>
 <pre><code>##         girlCode              council             langCourses langGrade
-## 1463 320BR031803 West Central Council mjLangArts2ESOL_quarter         C
-## 4242 321KT083104    Southeast Council     mjLangArts1_quarter         C
-## 4248 321KD040803    Southeast Council     mjLangArts1_quarter         F
-## 4250 321AM091203    Southeast Council     mjLangArts1_quarter         C
-## 4251 321BS111403    Southeast Council     mjLangArts1_quarter         B
-## 4269 313AW060203      Gateway Council     mjLangArts1_quarter         C
+## 1717 320BR031803 West Central Council mjLangArts2ESOL_quarter         C
+## 1930 312BL053004       Citrus Council mjLangArts2ESOL_quarter         B
+## 1941 312MJ092702       Citrus Council mjLangArts2ESOL_quarter         C
+## 1942 312BA070703       Citrus Council mjLangArts2ESOL_quarter         A
+## 3239 312BJ021603       Citrus Council mjLangArts3ESOL_quarter         A
+## 5258 321KT083104    Southeast Council     mjLangArts1_quarter         C
 ##      lang_pts2
-## 1463         2
-## 4242         2
-## 4248         0
-## 4250         2
-## 4251         3
-## 4269         2</code></pre>
+## 1717         2
+## 1930         3
+## 1941         2
+## 1942         4
+## 3239         4
+## 5258         2</code></pre>
 </div>
 </div>
 <div id="unexcused-absences" class="section level1">
@@ -811,7 +813,7 @@ q2_unexcused_tbl &lt;- table(q2_unexcused$unexcusedAbs)
 q2_unexcused_tbl</code></pre>
 <pre><code>## 
 ##   0   1   2   3   4   5   6   7   8   9 
-## 328  67  71  27  12   9   7   2   2   1</code></pre>
+## 410  84  81  38  16  10   7   3   3   1</code></pre>
 </div>
 <div id="excused-absences" class="section level1">
 <h1>Excused Absences</h1>
@@ -825,8 +827,8 @@ q2_excused_tbl &lt;- with(q2_excused,table(excusedAbs))
 ### View the output
 q2_excused_tbl</code></pre>
 <pre><code>## excusedAbs
-##   0   1   2   3   4   5   7 
-## 323  99  63  21  12   8   4</code></pre>
+##   0   1   2   3   4   5   6   7 
+## 428 109  68  23  14   9   2   4</code></pre>
 </div>
 <div id="total-absences" class="section level1">
 <h1>Total Absences</h1>
@@ -844,7 +846,7 @@ q2_total_abs_tbl &lt;- with(q2_total_abs, table(sum_abs))
 q2_total_abs_tbl</code></pre>
 <pre><code>## sum_abs
 ##   0   1   2   3   4   5   6   7   8   9  13 
-## 263  41  67  56  39  32  11   9   4   3   1</code></pre>
+## 337  55  79  70  43  37  11  10   6   3   2</code></pre>
 </div>
 <div id="in-school-suspensions" class="section level1">
 <h1>In School Suspensions</h1>
@@ -858,8 +860,8 @@ q2_in_school_tbl &lt;- with(q2_in_school, table(inSchoolSusp))
 ### View table
 q2_in_school_tbl</code></pre>
 <pre><code>## inSchoolSusp
-##   0   1   2   3   4   5 
-## 480  22  17   5   2   1</code></pre>
+##   0   1   2   3   4   5   6  12  20  24 
+## 601  22  17   5   2   1   3   1   1   1</code></pre>
 </div>
 <div id="out-of-school-suspenions" class="section level1">
 <h1>Out of School Suspenions</h1>
@@ -869,8 +871,8 @@ q2_out_school_tbl &lt;- with(q2_out_school, table(outofSchoolSusp))
 
 q2_out_school_tbl</code></pre>
 <pre><code>## outofSchoolSusp
-##   0   1   2   3   4   5 
-## 494  13   8   6   6   1</code></pre>
+##   0   1   2   3   4   5   6  12 
+## 619  13   8   6   6   1   1   1</code></pre>
 </div>
 <div id="total-suspensions" class="section level1">
 <h1>Total suspensions</h1>
@@ -912,8 +914,8 @@ head(q2_susp_total)</code></pre>
 
 q2_susp_total_tbl</code></pre>
 <pre><code>## susp_sum
-##   0   1   2   3   4   5   6 
-## 456  30  12  14   9   3   1</code></pre>
+##   0   1   2   3   4   5   6  12  18  20  24 
+## 576  30  12  14   9   3   4   1   1   1   1</code></pre>
 </div>
 <div id="expelled" class="section level1">
 <h1>Expelled</h1>
@@ -921,7 +923,7 @@ q2_susp_total_tbl</code></pre>
 q2_expelled &lt;- select(q2_gradesUnique, 7,8,16)
 
 dim(q2_expelled)</code></pre>
-<pre><code>## [1] 530   3</code></pre>
+<pre><code>## [1] 657   3</code></pre>
 <pre class="r"><code>head(q2_expelled)</code></pre>
 <pre><code>##              council      girlCode expelled
 ## 5  Southeast Council   321IM121403       No
@@ -937,7 +939,7 @@ q2_expelled_tbl &lt;-with(q2_expelled,table(expelled))
 q2_expelled_tbl</code></pre>
 <pre><code>## expelled
 ##  No Yes 
-## 521   9</code></pre>
+## 648   9</code></pre>
 </div>
 <div id="prepare-data-for-database" class="section level1">
 <h1>Prepare data for database</h1>
@@ -946,7 +948,7 @@ q2_expelled_tbl</code></pre>
 <pre class="r"><code>abs_susp &lt;- full_join(q2_total_abs, q2_susp_total)</code></pre>
 <pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
 <pre class="r"><code>dim(abs_susp)</code></pre>
-<pre><code>## [1] 530   9</code></pre>
+<pre><code>## [1] 657   9</code></pre>
 <pre class="r"><code>behavior_data &lt;- full_join(abs_susp, q2_expelled)</code></pre>
 <pre><code>## Joining by: &quot;girlCode&quot;</code></pre>
 <pre class="r"><code>behavior_data &lt;- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
@@ -976,21 +978,21 @@ head(behavior_data)</code></pre>
 <pre class="r"><code>q2_lang_read &lt;- full_join(mq2_lang_all, mq2_read_all)</code></pre>
 <pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
 <pre class="r"><code>dim(q2_lang_read)</code></pre>
-<pre><code>## [1] 530   8</code></pre>
+<pre><code>## [1] 657   8</code></pre>
 <pre class="r"><code>head(q2_lang_read)</code></pre>
 <pre><code>##      girlCode              council             langCourses langGrade
 ## 1 320BR031803 West Central Council mjLangArts2ESOL_quarter         C
-## 2 321KT083104    Southeast Council     mjLangArts1_quarter         C
-## 3 321KD040803    Southeast Council     mjLangArts1_quarter         F
-## 4 321AM091203    Southeast Council     mjLangArts1_quarter         C
-## 5 321BS111403    Southeast Council     mjLangArts1_quarter         B
-## 6 313AW060203      Gateway Council     mjLangArts1_quarter         C
+## 2 312BL053004       Citrus Council mjLangArts2ESOL_quarter         B
+## 3 312MJ092702       Citrus Council mjLangArts2ESOL_quarter         C
+## 4 312BA070703       Citrus Council mjLangArts2ESOL_quarter         A
+## 5 312BJ021603       Citrus Council mjLangArts3ESOL_quarter         A
+## 6 321KT083104    Southeast Council     mjLangArts1_quarter         C
 ##   lang_pts2       readingCourses readingGrade reading_pts2
 ## 1         2 mjIntensRead_quarter            C            2
-## 2         2      mjRead1_quarter            C            2
-## 3         0 mjIntensRead_quarter            F            0
-## 4         2      mjRead1_quarter            B            3
-## 5         3      mjRead1_quarter            A            4
+## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 5         4      mjRead2_quarter            D            1
 ## 6         2      mjRead1_quarter            C            2</code></pre>
 <pre class="r"><code>q2_lang_read &lt;- select(q2_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
 
@@ -1000,17 +1002,17 @@ colnames (q2_lang_read) [1] &lt;- &quot;council&quot;
 head(q2_lang_read)</code></pre>
 <pre><code>##                council    girlCode             langCourses langGrade
 ## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
-## 2    Southeast Council 321KT083104     mjLangArts1_quarter         C
-## 3    Southeast Council 321KD040803     mjLangArts1_quarter         F
-## 4    Southeast Council 321AM091203     mjLangArts1_quarter         C
-## 5    Southeast Council 321BS111403     mjLangArts1_quarter         B
-## 6      Gateway Council 313AW060203     mjLangArts1_quarter         C
+## 2       Citrus Council 312BL053004 mjLangArts2ESOL_quarter         B
+## 3       Citrus Council 312MJ092702 mjLangArts2ESOL_quarter         C
+## 4       Citrus Council 312BA070703 mjLangArts2ESOL_quarter         A
+## 5       Citrus Council 312BJ021603 mjLangArts3ESOL_quarter         A
+## 6    Southeast Council 321KT083104     mjLangArts1_quarter         C
 ##   lang_pts2       readingCourses readingGrade reading_pts2
 ## 1         2 mjIntensRead_quarter            C            2
-## 2         2      mjRead1_quarter            C            2
-## 3         0 mjIntensRead_quarter            F            0
-## 4         2      mjRead1_quarter            B            3
-## 5         3      mjRead1_quarter            A            4
+## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 5         4      mjRead2_quarter            D            1
 ## 6         2      mjRead1_quarter            C            2</code></pre>
 </div>
 <div id="merge-all" class="section level3">
@@ -1018,29 +1020,29 @@ head(q2_lang_read)</code></pre>
 <pre class="r"><code>q2_academic_data &lt;- full_join(q2_lang_read, behavior_data, by=&quot;girlCode&quot;)
 
 dim(q2_academic_data)</code></pre>
-<pre><code>## [1] 531  12</code></pre>
+<pre><code>## [1] 658  12</code></pre>
 <pre class="r"><code>head(q2_academic_data)</code></pre>
 <pre><code>##              council.x    girlCode             langCourses langGrade
 ## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
-## 2    Southeast Council 321KT083104     mjLangArts1_quarter         C
-## 3    Southeast Council 321KD040803     mjLangArts1_quarter         F
-## 4    Southeast Council 321AM091203     mjLangArts1_quarter         C
-## 5    Southeast Council 321BS111403     mjLangArts1_quarter         B
-## 6      Gateway Council 313AW060203     mjLangArts1_quarter         C
+## 2       Citrus Council 312BL053004 mjLangArts2ESOL_quarter         B
+## 3       Citrus Council 312MJ092702 mjLangArts2ESOL_quarter         C
+## 4       Citrus Council 312BA070703 mjLangArts2ESOL_quarter         A
+## 5       Citrus Council 312BJ021603 mjLangArts3ESOL_quarter         A
+## 6    Southeast Council 321KT083104     mjLangArts1_quarter         C
 ##   lang_pts2       readingCourses readingGrade reading_pts2
 ## 1         2 mjIntensRead_quarter            C            2
-## 2         2      mjRead1_quarter            C            2
-## 3         0 mjIntensRead_quarter            F            0
-## 4         2      mjRead1_quarter            B            3
-## 5         3      mjRead1_quarter            A            4
+## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA
+## 5         4      mjRead2_quarter            D            1
 ## 6         2      mjRead1_quarter            C            2
 ##              council.y total_absences total_suspensions expelled
 ## 1 West Central Council              0                 0       No
-## 2    Southeast Council             NA                 0       No
-## 3    Southeast Council              0                 5       No
-## 4    Southeast Council              0                 4       No
-## 5    Southeast Council              0                 0       No
-## 6      Gateway Council              3                 0       No</code></pre>
+## 2       Citrus Council              0                 0       No
+## 3       Citrus Council              3                 0       No
+## 4       Citrus Council              0                 0       No
+## 5       Citrus Council              0                 0       No
+## 6    Southeast Council             NA                 0       No</code></pre>
 <pre class="r"><code>q2_academic_data &lt;- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
 
 colnames (q2_academic_data) [1] &lt;- &quot;council&quot;
@@ -1049,23 +1051,23 @@ colnames (q2_academic_data) [1] &lt;- &quot;council&quot;
 head(q2_academic_data)</code></pre>
 <pre><code>##                council    girlCode             langCourses langGrade
 ## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
-## 2    Southeast Council 321KT083104     mjLangArts1_quarter         C
-## 3    Southeast Council 321KD040803     mjLangArts1_quarter         F
-## 4    Southeast Council 321AM091203     mjLangArts1_quarter         C
-## 5    Southeast Council 321BS111403     mjLangArts1_quarter         B
-## 6      Gateway Council 313AW060203     mjLangArts1_quarter         C
+## 2       Citrus Council 312BL053004 mjLangArts2ESOL_quarter         B
+## 3       Citrus Council 312MJ092702 mjLangArts2ESOL_quarter         C
+## 4       Citrus Council 312BA070703 mjLangArts2ESOL_quarter         A
+## 5       Citrus Council 312BJ021603 mjLangArts3ESOL_quarter         A
+## 6    Southeast Council 321KT083104     mjLangArts1_quarter         C
 ##   lang_pts2       readingCourses readingGrade reading_pts2 total_absences
 ## 1         2 mjIntensRead_quarter            C            2              0
-## 2         2      mjRead1_quarter            C            2             NA
-## 3         0 mjIntensRead_quarter            F            0              0
-## 4         2      mjRead1_quarter            B            3              0
-## 5         3      mjRead1_quarter            A            4              0
-## 6         2      mjRead1_quarter            C            2              3
+## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA              0
+## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA              3
+## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA              0
+## 5         4      mjRead2_quarter            D            1              0
+## 6         2      mjRead1_quarter            C            2             NA
 ##   total_suspensions expelled
 ## 1                 0       No
 ## 2                 0       No
-## 3                 5       No
-## 4                 4       No
+## 3                 0       No
+## 4                 0       No
 ## 5                 0       No
 ## 6                 0       No</code></pre>
 </div>
