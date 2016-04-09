@@ -1,7 +1,7 @@
 ---
 title: "grade_analysis_2"
 author: "Kevin Gilds, MPA"
-date: "April 4, 2016"
+date: '`r Sys.Date()`'
 output: html_document
 ---
 
