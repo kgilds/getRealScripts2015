@@ -1,6 +1,6 @@
 # codeBook
 Kevin Gilds  
-November 15, 2015  
+`r Sys.Date()`  
 
 # Introduction 
 
@@ -41,7 +41,32 @@ Academic Engagement        |4.5=>
 
 
 
-### Academic Data
+
+### Survey Outcomes
+
+Students in the Get REAL! program take surveys at the time of enrollment and at the end of the program year. 
+
+Criteria for determining success is based on the following criteria
+
+
+The primary criteria is that student either increased their outcome score or maintained a high achievement level. The number and percent for this criteria is based on the following two outcomes. 
+
+* student increased their healthy relationship outcome score.
+
+* student  maintained a high achievement level but did not increase their outcome score.
+
+
+Secondary but reported outcome is the following. 
+
+* student improved score from a low achievement level to a high achievement level.
+
+
+
+
+
+### Grade Outcomes
+
+Please note that semester grades are given greater weight than quarter grades. If a student has a grade in more than one course the grades are averaged to grade point. The grade point is used to compare over the time. 
 
 **Reading and Language Arts Courses Outcome Tables**
 
@@ -64,8 +89,6 @@ Academic Engagement        |4.5=>
 1. Number and percent of students without a suspension.
 
 2. Number and percent of students who decreased their suspensions.
-
-
 
 
 # Girl Survey Variables

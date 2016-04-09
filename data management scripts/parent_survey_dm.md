@@ -1,6 +1,6 @@
 # parent data management
 Kevin Gilds  
-Sunday December  27, 2015  
+`r Sys.Date()`  
 
 # Data Management Script for the Data Survey. 
 
@@ -17,20 +17,24 @@ library(dplyr)
 ```
 ## 
 ## Attaching package: 'dplyr'
-## 
+```
+
+```
 ## The following objects are masked from 'package:stats':
 ## 
 ##     filter, lag
-## 
+```
+
+```
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
 ```
 
 ```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
 
-parent <- read.csv("parent_survey_12272015.csv", skip=1)
+parent <- read.csv("parentSurvey03092016.csv", skip=1)
 ```
 
 
@@ -82,7 +86,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 479  21
+## [1] 483  21
 ```
 
 
@@ -105,7 +109,7 @@ dim(parentPreUnique)
 ```
 
 ```
-## [1] 458  21
+## [1] 466  21
 ```
 
 
@@ -113,10 +117,6 @@ dim(parentPreUnique)
 
 
 ```r
-### Set working directory to save data to correct file folder
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-
 ### Find duplicates
 parent_pre_dupes<-duplicated(parentPre$girlCode) | duplicated(parentPre$girlCode, fromLast=TRUE)
 
@@ -129,25 +129,12 @@ dim(parent_pre_dupes)
 ```
 
 ```
-## [1] 20 21
-```
-
-```r
-### Write to csv file
-write.csv(parent_pre_dupes, "parent_dupes_12272015.csv", row.names=FALSE)
+## [1] 16 21
 ```
 
 
 
-## Save RDS File
 
-```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-#############################Save Pre and Post Data Frames####################33
-
-saveRDS(parentPreUnique, file="pre_parent_12272015.rds")
-```
 
 
 
@@ -167,15 +154,6 @@ parentPostUnique <- parentPost [!(duplicated(parentPost$girlCode) | duplicated(p
 
 
 
-## Save RDS Files
-
-```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-saveRDS(parentPostUnique, file="post_parent_12272015.rds")
-```
-
-
 ### Send data to Sqlite database
 
 ```r
@@ -184,8 +162,17 @@ library(sqldf)
 
 ```
 ## Loading required package: gsubfn
+```
+
+```
 ## Loading required package: proto
+```
+
+```
 ## Loading required package: RSQLite
+```
+
+```
 ## Loading required package: DBI
 ```
 

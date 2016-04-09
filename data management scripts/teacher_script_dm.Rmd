@@ -1,7 +1,7 @@
 ---
 title: "teacher_data_managment"
 author: "Kevin Gilds"
-date: "Saturday, November 14, 2015"
+date: '`r Sys.Date()`'
 output:
   html_document:
     number_sections: yes
@@ -18,13 +18,13 @@ output:
 
 ```{r}
 ###Read Working directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
 
 #### Required Libraries
 library(dplyr)
 
 ############Read the data in R
-teacher <- read.csv("teacher_survey_12272015.csv", skip=1)
+teacher <- read.csv("teacherSurvey03092016.csv", skip=1)
 
 
 ```
@@ -118,28 +118,12 @@ teacher_pre_dupes<- preTeacher[teacher_pre_dupes,]
 ## How many duplicates
 dim(teacher_pre_dupes)
 
-### Write to csv file
-write.csv(teacher_pre_dupes, "teacher_dupes_12272015.csv", row.names=FALSE)
 
 ```
 
 ```
 
 
-
-
-
-## How many cases for analysis and save to RDS file for analysis.
-
-```{r}
-####Save the data in the correct data directory
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-
-saveRDS(pre_teacher_unique, file="pre_teacher_12272015.rds")
-
-
-```
 
 
 # Post Survey
@@ -160,15 +144,6 @@ post_teacher_unique <-  postTeacherUnique [!(duplicated(postTeacherUnique$girlCo
 
 ```
 
-##  Find the number of cases and save Post data to RDS file for analysis. 
-```{r}
-
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
-
-saveRDS(postTeacherUnique, file="post_teacher_12272015.rds")
-
-
-```
 
 
 ### Send data to Sqlite database

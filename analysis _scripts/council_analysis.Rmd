@@ -1,33 +1,21 @@
----
-title: "Council Report"
-author: "Kevin Gilds, MPA"
-date: "January 30, 2016"
-output: pdf_document
----
 
-The data below is from data pulled in December 2015 and the basis for the Formative Evaluation Report. 
 
-```{r r global_options, include=FALSE}
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY20152016")
+
 knitr::opts_chunk$set(fig.width=12, fig.height=5, fig.path='Figs/',
                        warning=FALSE, message=FALSE, echo=FALSE)
 
-
-
-
 ```
 
+```{r}
 
-
-```{r echo=FALSE}
 library(sqldf)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
-
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(dplyr)
 library(pander)
@@ -98,8 +86,9 @@ q1_langarts <-dbReadTable(getReal_2016db,"Q1_lang")
 q1_absences <-dbReadTable(getReal_2016db, "Q1_Absences")
 q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
 
-
 ```
+
+
 
 ## Healthy Relationships
 

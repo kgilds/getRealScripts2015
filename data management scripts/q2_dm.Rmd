@@ -1,0 +1,865 @@
+---
+title: "Q2_grades_dm"
+author: "Kevin Gilds"
+date: '`r Sys.Date()`'
+output: 
+  html_document: 
+    toc: yes
+---
+
+# Intro: 
+
+## Import Libaries needed. 
+
+```{r}
+
+#### Load the Libraries
+library(dplyr)
+library(reshape2)
+library(pander)
+library(sqldf)
+
+
+### Locate file to read from
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016")
+
+
+### read the data into R
+q2_grades <- read.csv('grades_q2_04082016.csv', skip = 1, na.strings="")
+
+
+```
+
+## Make columna names easier to read
+```{r}
+
+### Demo Variables
+colnames (q2_grades) [7] <- "council"
+colnames (q2_grades) [8] <- "girlCode"
+colnames (q2_grades) [9] <- "schoolName"
+colnames (q2_grades) [10] <- "dateEnrolled"
+
+#### Behavioral Variables
+colnames (q2_grades) [12] <- "unexcusedAbs"
+colnames (q2_grades) [13] <- "excusedAbs"
+colnames (q2_grades) [14] <- "inSchoolSusp"
+colnames (q2_grades) [15] <- "outofSchoolSusp"
+colnames (q2_grades) [16] <- "expelled"
+
+
+### Reading Courses
+
+colnames (q2_grades) [19] <- "mjIntensRead_quarter"
+colnames (q2_grades) [20] <- "mjIntensRead_semester"
+
+colnames (q2_grades) [21] <- "mjIntenseReadCareerPlaning_quarter"
+colnames (q2_grades) [22] <- "mjIntenseReadCareerPlaning_semester"
+
+
+colnames (q2_grades) [23] <- "mjRead1_quarter"
+colnames (q2_grades) [24] <- "mjRead1_semester"
+
+
+colnames (q2_grades) [25] <- "mjRead1Adv_quarter"
+colnames (q2_grades) [26] <- "mjRead1Adv_semester"
+ 
+
+colnames (q2_grades) [27] <- "mjRead2_quarter"
+colnames (q2_grades) [28] <- "mjRead2_semester"
+
+
+colnames (q2_grades) [29] <- "mjRead2Adv_quarter"
+colnames (q2_grades) [30] <- "mjRead2Adv_semester"
+
+
+
+colnames (q2_grades) [31] <- "mjRead3_quarter"
+colnames (q2_grades) [32] <- "mjRead3_semester"
+
+
+
+colnames (q2_grades) [33] <- "mjRead3Adv_quarter"
+colnames (q2_grades) [34] <- "mjRead3Adv_semester"
+
+
+
+colnames (q2_grades) [35] <- "mjDelaESOLRead_quarter"
+colnames (q2_grades) [36] <- "mjDelaESOLRead_semester"
+
+
+
+colnames (q2_grades) [37] <- "readFree1_quarter"
+colnames (q2_grades) [38] <- "readFree2_semester"
+
+
+### Lang Arts Courses
+
+colnames (q2_grades) [41] <- "mjLangArts1ESOL_quarter"
+colnames (q2_grades) [42] <- "mjLangArts1ESOL_semester"
+
+
+
+colnames (q2_grades) [43] <- "mjLangArts2ESOL_quarter"
+colnames (q2_grades) [44] <- "mjLangArts2ESOL_semester"
+
+
+
+colnames (q2_grades) [45] <- "mjLangArts3ESOL_quarter"
+colnames (q2_grades) [46] <- "mjLangArts3ESOL_semester"
+
+
+
+colnames (q2_grades) [47] <- "mjDevelpmentalESOL_quarter"
+colnames (q2_grades) [48] <- "mjDevelpmentalESOL_semester"
+
+
+colnames (q2_grades) [49] <- "mjLangArts1_quarter"
+colnames (q2_grades) [50] <- "mjLangArts1_semester"
+
+
+
+colnames (q2_grades) [51] <-"mjlangsArts1Adv_quarter"
+colnames (q2_grades) [52] <-"mjlangsArts1Adv_semester"
+
+
+
+colnames (q2_grades) [53] <-"mjLangArts2_quarter"
+colnames (q2_grades) [54] <-"mjLangArts2_semester"
+
+
+
+colnames (q2_grades) [55] <- "mjLangArts2Adv_quarter" 
+colnames (q2_grades) [56] <- "mjLangArts2Adv_semester" 
+
+
+
+colnames (q2_grades) [57] <- "mjLangArts3_quarter"
+colnames (q2_grades) [58] <- "mjLangArts3_semester"
+
+
+colnames (q2_grades) [59] <- "mjLangArts3Adv_quarter"
+colnames (q2_grades) [60] <- "mjLangArts3Adv_semester"
+
+
+
+colnames (q2_grades) [61] <- "mjEng2Cambsec2_quarter"
+colnames (q2_grades) [62] <- "mjEng2Cambsec2_semester"
+
+
+
+colnames (q2_grades) [63] <- "mjIBLangArts1_quarter"
+colnames (q2_grades) [64] <- "mjIBLangArts1_semeser"
+
+
+colnames (q2_grades) [65] <- "mjEng2CamSec1_quarter"
+colnames (q2_grades) [66] <- "mjEng2CamSec1_semester"
+
+
+
+colnames (q2_grades) [67] <- "mjIBLangArts3_quarter"
+colnames (q2_grades) [68] <- "mjIBLangArts3_semester"
+
+
+
+colnames (q2_grades) [69] <- "mjIBLangArts2_quarter"
+colnames (q2_grades) [70] <- "mjIBLangArts2_semester"
+
+
+
+colnames (q2_grades) [71] <- "mjEng3Cambsec3_quarter"
+colnames (q2_grades) [72] <- "mjEng3Cambsec3_semester"
+
+
+
+colnames (q2_grades) [73] <- "mjIntensLangArts_quarter"
+colnames (q2_grades) [74] <- "mjIntensLangArts_semester"
+
+
+
+colnames (q2_grades) [75] <- "freeLang1_quarter"
+colnames (q2_grades) [76] <- "freeLang2_semester"
+
+colnames (q2_grades) [78] <- "mjLangTran_quarter"
+colnames (q2_grades) [79] <- "mjLangTran_semester"
+
+
+
+
+```
+
+## Subset completed data entry
+```{r}
+################Finished Data Entry####################################33
+
+### Eliminate uncompleted data entry
+gradesq2 <- filter(q2_grades, Finished == 1)
+
+
+```
+
+## Update factors
+```{r}
+
+#######################Fix Factors ###################################
+
+### Make all girCode to upper case for matching
+gradesq2$girlCode <- toupper(gradesq2$girlCode)
+
+### Make sure R does not make this a factor variable
+gradesq2$council <- as.character(gradesq2$council)
+
+### Make sure R does not make this a factor variable 
+gradesq2$girlCode <- as.character(gradesq2$girlCode)
+
+
+
+```
+
+
+
+## Deal with duplicates
+```{r}
+##################Duplicates#########################################
+
+### Find the unique girlCodes and subset them
+q2_gradesUnique <- gradesq2 [!(duplicated(gradesq2$girlCode) | duplicated(gradesq2$girlCode, fromLast = TRUE)), ]
+
+dim(q2_gradesUnique)
+
+
+
+```
+### Subset duplicate values
+```{r}
+
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2Dupes <-duplicated(gradesq2$girlCode) | duplicated(gradesq2$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2Dupes <-gradesq2[q2Dupes, ]
+
+
+dim(q2Dupes)
+
+
+
+```
+
+
+
+## Update council variable names to match other data sources
+```{r}
+
+### Change council names to be consistent wiht how they displayed with the surveys
+q2_gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, q2_gradesUnique$council)
+
+q2_gradesUnique$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, q2_gradesUnique$council)
+
+q2_gradesUnique$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, q2_gradesUnique$council)
+
+q2_gradesUnique$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, q2_gradesUnique$council)
+
+q2_gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, q2_gradesUnique$council)
+
+q2_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, q2_gradesUnique$council)
+
+
+
+```
+
+
+
+
+
+# Reading Grades Section--Split and Clean up
+```{r}
+###############Reading Clean Up###############################################################
+
+### Select data of interest
+q2Reading <- select(q2_gradesUnique, 7,8, 19:38)
+
+
+
+
+### Put the data in the shape you want it. 
+mq2Reading <- melt(q2Reading, id.vars=c("girlCode", "council"))
+
+
+####################change column names
+colnames (mq2Reading) [4] <-"readingGrade"
+colnames (mq2Reading) [3] <- "readingCourses"
+
+
+### Omit the blanks 
+mq2Reading <-na.omit(mq2Reading)
+
+
+
+
+####Adjust Grades with a plus sign and fix spacing issues
+
+mq2Reading$readingGrade <-sub("B+", "B", fixed=TRUE, mq2Reading$readingGrade)
+
+mq2Reading$readingGrade <-sub("C+", "C", fixed=TRUE, mq2Reading$readingGrade)
+
+mq2Reading$readingGrade <-sub("D+", "D", fixed=TRUE, mq2Reading$readingGrade)
+
+mq2Reading$readingGrade <-sub("C ", "C", fixed=TRUE, mq2Reading$readingGrade)
+
+mq2Reading$readingGrade <-sub("c ", "C", fixed=TRUE, mq2Reading$readingGrade)
+
+mq2Reading$readingGrade <-sub("0", "F", fixed=TRUE, mq2Reading$readingGrade)
+
+mq2Reading$readingGrade <-sub("3", "B", fixed=TRUE, mq2Reading$readingGrade)
+
+
+
+###Change grades to all upper case to match
+mq2Reading$readingGrade <- toupper(mq2Reading$readingGrade)
+
+###change reading grade to factor 
+mq2Reading$readingGrade <-as.factor(mq2Reading$readingGrade)
+
+summary(mq2Reading$readingGrade)
+
+
+### Create table to sneak peak at the data.    
+table(mq2Reading$readingCourses,mq2Reading$readingGrade)
+
+with(mq2Reading, table(council,readingGrade))
+
+### Check the levels
+levels(mq2Reading$readingGrade)
+
+names(mq2Reading)
+
+
+```
+
+
+## Check for Read Free Data Entry
+
+```{r}
+
+q2free_read <- select(q2_gradesUnique, 7,8, 37:38)
+
+names(q2free_read)
+
+
+```
+
+## Check for duplicate reading grades(Quarter and Semester Grades)
+
+```{r}
+
+### Find the unique girlCodes with just one grade 
+mq2_read_ok <- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast = TRUE)), ]
+
+dim(mq2Reading)
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2reading_dupes <-duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2reading_dupes <- mq2Reading[q2reading_dupes, ]
+
+
+dim(q2reading_dupes)
+
+
+```
+
+
+### Find and subset the Semester Grades 
+
+```{r}
+
+
+read_quarter <- q2reading_dupes[grep("_quarter", q2reading_dupes$readingCourses, ignore.case = TRUE),]
+
+dim(read_quarter)
+head(read_quarter)
+
+read_semester <- q2reading_dupes[grep("_semester", q2reading_dupes$readingCourses, ignore.case = TRUE),]
+
+dim(read_semester)
+head(read_semester)
+
+```
+
+
+### Anti Join to find extra grades--Cases where the student is in more than one reading course
+```{r}
+
+extra_quarters <- anti_join(read_quarter, read_semester, by="girlCode")
+
+extra_quarters
+
+reading_pts_ex <- numeric(0)
+
+for(i in extra_quarters$readingGrade){
+   
+     reading_pts_ex <- c(reading_pts_ex,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     reading_pts_ex
+
+    
+}
+
+extra_quarters$readingCourses <- "ReadingCourseAvg"
+
+extra_quarters <- cbind(extra_quarters, reading_pts_ex)
+
+head(extra_quarters)
+
+
+extra_quarters <-with(extra_quarters, aggregate(reading_pts_ex,list(girlCode=girlCode, council=council, readingCourses=readingCourses, readingGrade=readingGrade),mean))
+
+extra_quarters
+
+
+colnames(extra_quarters) [5] <- "readingPts"
+
+head(extra_quarters)
+
+extra_quarters
+
+```
+
+
+### Bind the semester grade back in 
+```{r}
+
+mq2_read_1 <- rbind(mq2_read_ok, read_semester)
+
+dim(mq2_read_1)
+
+
+
+```
+
+### Reading Grade Points
+```{r}
+
+reading_pts2 <- numeric(0)
+
+for(i in mq2_read_1$readingGrade){
+   
+     reading_pts2 <- c(reading_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     reading_pts2
+
+    
+}
+
+dim(mq2_read_1)
+
+mq2_read_1 <-cbind(mq2_read_1, reading_pts2)
+
+
+
+
+```
+
+### Merge all the reading sets
+```{r}
+
+colnames(extra_quarters) [5] <- "reading_pts2"
+
+mq2_read_all <- rbind(mq2_read_1, extra_quarters)
+
+dim(mq2_read_all)
+
+head(mq2_read_all)
+
+```
+
+
+
+
+
+# Language Arts Courses--Split and clean
+
+```{r}
+
+### Select the data of interest
+q2LangArts <- select(q2_gradesUnique, 7,8, 41:79 )
+
+
+### Put the data in the shape I want it in
+mq2_lang <- melt(q2LangArts, id.vars=c("girlCode", "council"))
+
+
+
+####################change column names
+colnames (mq2_lang) [4] <-"langGrade"
+colnames (mq2_lang) [3] <- "langCourses"
+
+
+### Get rid of blanks
+mq2_lang <- na.omit(mq2_lang)
+
+
+###Change grades to all upper case to match
+mq2_lang$langGrade <- toupper(mq2_lang$langGrade)
+
+###change reading grade to factor 
+mq2_lang$langGrade <-as.factor(mq2_lang$langGrade)
+
+####Adjust Grades with a plus sign and fix spacing issues
+
+mq2_lang$langGrade <-sub("B+", "B", fixed=TRUE, mq2_lang$langGrade)
+
+mq2_lang$langGrade <-sub("C+", "C", fixed=TRUE, mq2_lang$langGrade)
+
+mq2_lang$langGrade <-sub("A ", "A", fixed=TRUE, mq2_lang$langGrade)
+
+mq2_lang$langGrade <-sub("2", "B", fixed=TRUE, mq2_lang$langGrade)
+
+mq2_lang$langGrade <-sub("D+", "D", fixed=TRUE, mq2_lang$langGrade)
+
+mq2_lang$langGrade <-sub("I", "F", fixed=TRUE, mq2_lang$langGrade)
+
+
+
+#TESt  for bad date entry in grades
+table(mq2_lang$langGrade)
+
+
+
+
+##Test for free data entry
+grep("freeLang1_quarter", mq2_lang$langCourses, ignore.case=TRUE)
+grep("freelang_semester", mq2_lang$langCourses, ignore.case=TRUE)
+##Test with code that I know works!
+grep("mjIntensLangArts_quarter", mq2_lang$langCourses, ignore.case=TRUE)
+
+
+
+
+```
+
+## Check for Language Arts Free Data Entry
+
+```{r}
+
+### Review Free Text Entry
+q2_free_lang <- select(q2_gradesUnique, 7,8, 75:76)
+
+
+### Test to determine if there is any data in those columns
+table(q2_free_lang$free_lang1_quarter)
+table(q2_free_lang$free_lang2_semester)
+
+```
+
+
+##Find both quarter and semester grades and finalize semester grade
+
+```{r}
+
+##################Duplicates#########################################
+
+### Find the unique girlCodes with just one grade 
+mq2_lang_ok <- mq2_lang [!(duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast = TRUE)), ]
+
+dim(mq2_lang_ok)
+
+
+### Find the girl codes with multiple grades
+
+##############################Subset Duplicate Values##################
+### find the duplicates
+q2lang_dupes <-duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast=TRUE)
+
+### Subset the duplicates
+q2lang_dupes <- mq2_lang[q2lang_dupes, ]
+
+
+dim(q2lang_dupes)
+
+
+```
+
+### Find and subset the Semester Grades in duplicate version 
+
+```{r}
+semester <- q2lang_dupes[grep("_semester", q2lang_dupes$langCourses, ignore.case = TRUE),]
+
+dim(semester)
+
+head(semester)
+```
+
+
+### Bind the Language Arts Courses together
+
+```{r}
+mq2_lang_all <- rbind(mq2_lang_ok, semester)
+
+
+
+dim(mq2_lang_all)
+
+```
+
+
+## Calculate Grade Points Language Arts Courses
+```{r}
+
+lang_pts2 <- numeric(0)
+
+for(i in mq2_lang_all$langGrade){
+   
+     lang_pts2<- c(lang_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+    
+     lang_pts2
+
+    
+}
+
+mq2_lang_all <- cbind(mq2_lang_all, lang_pts2)
+
+head(mq2_lang_all)
+
+```
+
+
+
+# Unexcused Absences
+
+```{r}
+
+### Select the data of interest
+q2_unexcused <- select(q2_gradesUnique,7,8, 12)
+
+
+### Create table to view the summary
+q2_unexcused_tbl <- table(q2_unexcused$unexcusedAbs)
+
+### Print the table
+q2_unexcused_tbl
+
+```
+
+# Excused Absences
+
+```{r}
+### Select the data of interest
+q2_excused <- select(q2_gradesUnique, 7, 8, 13)
+
+
+### Create table to view the data
+q2_excused_tbl <- with(q2_excused,table(excusedAbs))
+
+### View the output
+q2_excused_tbl
+
+```
+
+
+# Total Absences
+
+```{r}
+
+
+#### Merge unexcused and excused objects
+q2_total_abs <- inner_join(q2_unexcused, q2_excused, by = "girlCode", Copy=FALSE)
+
+
+### Sum up the two columns to get a total 
+q2_total_abs$sum_abs <-q2_total_abs$unexcusedAbs + q2_total_abs$excusedAbs
+
+### Create table to view the data
+q2_total_abs_tbl <- with(q2_total_abs, table(sum_abs))
+
+### See the table output
+q2_total_abs_tbl
+
+```
+
+
+
+
+# In School Suspensions
+
+```{r}
+
+### Look at data of interest
+q2_in_school <- select(q2_gradesUnique, 7, 8, 14)
+
+
+### Create table to look at data
+q2_in_school_tbl <- with(q2_in_school, table(inSchoolSusp))
+
+### View table
+q2_in_school_tbl
+
+
+```
+
+# Out of School Suspenions
+
+```{r}
+
+q2_out_school <- select(q2_gradesUnique, 7, 8, 15)
+
+q2_out_school_tbl <- with(q2_out_school, table(outofSchoolSusp))
+
+q2_out_school_tbl
+
+```
+
+
+# Total suspensions
+
+```{r}
+
+q2_susp_total <- inner_join(q2_in_school, q2_out_school, by = "girlCode", copy=FALSE)
+
+head(q2_susp_total)
+
+q2_susp_total$susp_sum <- q2_in_school$inSchoolSusp + q2_out_school$outofSchoolSusp
+
+head(q2_susp_total)
+
+q2_susp_total_tbl <- with(q2_susp_total,table(susp_sum))
+
+q2_susp_total_tbl
+
+
+
+```
+
+
+# Expelled
+
+```{r}
+
+### Select the variable of interest
+q2_expelled <- select(q2_gradesUnique, 7,8,16)
+
+dim(q2_expelled)
+
+head(q2_expelled)
+
+### Create table to view the summary
+q2_expelled_tbl <-with(q2_expelled,table(expelled))
+
+### Print the table
+q2_expelled_tbl
+
+```
+
+
+# Prepare data for database
+
+## Merge Behavior Data
+
+```{r}
+
+abs_susp <- full_join(q2_total_abs, q2_susp_total)
+
+dim(abs_susp)
+
+
+behavior_data <- full_join(abs_susp, q2_expelled)
+
+
+behavior_data <- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
+
+colnames (behavior_data) [1] <- "council"
+colnames (behavior_data) [3] <- "total_absences"
+colnames (behavior_data) [4] <- "total_suspensions"
+
+
+head(behavior_data)
+
+
+
+
+```
+
+
+
+
+
+### Merge Grade Data
+
+```{r}
+
+q2_lang_read <- full_join(mq2_lang_all, mq2_read_all)
+dim(q2_lang_read)
+
+head(q2_lang_read)
+
+q2_lang_read <- select(q2_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
+
+
+colnames (q2_lang_read) [1] <- "council"
+
+head(q2_lang_read)
+
+
+
+```
+
+### Merge all
+```{r}
+
+q2_academic_data <- full_join(q2_lang_read, behavior_data, by="girlCode")
+
+dim(q2_academic_data)
+
+head(q2_academic_data)
+
+q2_academic_data <- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
+
+colnames (q2_academic_data) [1] <- "council"
+
+
+head(q2_academic_data)
+```
+
+
+
+
+# Script to send to databases
+
+```{r}
+### Save data objects to Sqlite
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+dbWriteTable(conn =getReal_2016db, name = "Q2_academic_data", value = q2_academic_data, row.names = FALSE, overwrite = TRUE)
+
+
+
+dbWriteTable(conn = getReal_2016db, name = "Q2_duplicates", value = q2Dupes, row.names=FALSE, overwrite=TRUE)
+
+
+### Write Q1 Expelled data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q2_expelled", value = q2_expelled, row.names=FALSE, overwrite=TRUE)
+
+
+### Write Q1 Suspsenion data to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q2_Suspensions", value = q2_susp_total, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Absences to sqlite datase
+dbWriteTable(conn = getReal_2016db, name = "Q2_Absences", value = q2_total_abs, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Lang Arts grade to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q2_lang", value = mq2_lang_all, row.names=FALSE, overwrite=TRUE)
+
+### Write Q1 Reading grades to sqlite database
+dbWriteTable(conn = getReal_2016db, name = "Q2_reading", value = mq2_read_all, row.names=FALSE, overwrite=TRUE)
+
+```
+
+
+

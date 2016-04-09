@@ -1,0 +1,250 @@
+---
+title: "Status Report"
+author: "Kevin Gilds, MPA"
+date: '`r Sys.Date()`'
+output: 
+  html_document: 
+    toc: yes
+---
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(dplyr)
+library(pander)
+library(ggplot2)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+girl <- dbReadTable(getReal_2016db, "girl_pre")
+
+###Select the neeeded data for data entry status update
+girl <- select(girl, council)
+###Create and add column for status update
+girl$dataSource <-"girl"
+
+### Make connection with database
+parent <-dbReadTable(getReal_2016db,"pre_parent")
+###Select the neeeded data for data entry status update
+parent1 <- select(parent,council)
+###Create and add column for status update
+parent1$dataSource <- "parent"
+
+### Make connection with database
+teacher <-dbReadTable(getReal_2016db, "pre_teacher")
+###Select the neeeded data for data entry status update
+teacher1 <-select(teacher,council)
+###Create and add column for status update
+teacher1$dataSource <- "teacher"
+
+###Bind girl and parent objects to prepare for status report
+girl_parent <- rbind(girl,parent1)
+
+### Make connection with database
+grades_q1 <- dbReadTable(getReal_2016db,"Q1_Absences")
+###Select the neeeded data for data entry status update
+
+q1_stats <- select(grades_q1,council.x)
+###Change column name to make it match with other data sets
+colnames (q1_stats) [1] <- "council"
+###Create and add column for status update
+q1_stats$dataSource <- "Q1"
+
+
+### Add the teacher to binding for status report
+add_teacher <- rbind(girl_parent, teacher1)
+
+
+###Findal addition to create data frame for status report
+survey_status <- rbind(add_teacher, q1_stats)
+
+### Read the pre girl survey for reference down stream
+girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
+### Read the pre girl survey for reference down stream
+parent_survey_dupes <-dbReadTable(getReal_2016db, "pre_parent_duplicate")
+### Read the pre girl survey for reference down stream
+q1_dupes <-dbReadTable(getReal_2016db, "Q1_duplicates")
+
+### Reade the girl_pre_survey database for analysis. 
+outcomes <- dbReadTable(getReal_2016db, "girl_pre")
+###Select the variables of interest from the pre_survey
+outcomes <- select(outcomes, girlCode, school, council, hr.avg, am.avg, ae.avg)
+
+#### Read q1_reading data from database for analysis
+q1_reading <-dbReadTable(getReal_2016db, "Q1_reading")
+
+### Read q1_langarts data from database for analysis
+q1_langarts <-dbReadTable(getReal_2016db,"Q1_lang")
+
+###Read q1_absences data from database for analysis
+q1_absences <-dbReadTable(getReal_2016db, "Q1_Absences")
+
+###Read q2_absences data from database for analysis
+q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
+
+
+###Read academic data from database for file explort
+academic_data <- dbReadTable(getReal_2016db, "academic_data")
+
+
+
+```
+
+
+# Data Entry Status
+```{r echo = FALSE}
+library(DT)
+
+survey_status <-with(survey_status,table(council,dataSource))
+
+pander(survey_status)
+
+
+
+```
+
+
+
+# Student Survey
+
+```{r echo = FALSE}
+
+
+### Read girl survey data
+girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
+
+### create table to see how many to be expected
+girl_tbl_test <- with(girl_tbl, table(council))
+
+###Show output
+#pander(girl_tbl_test)
+
+
+
+
+
+```
+
+## Interactive Student Survey Status
+
+```{r echo = FALSE}
+library(DT)
+
+datatable(girl_tbl)
+```
+
+
+
+### Girl Survey Duplicate Summary Table
+
+```{r echo = FALSE}
+
+###Read girl survey dupes
+girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
+
+###Create table to see how many to be expected
+student_survey_dupe_ <-with(girl_survey_dupes, table(council))
+
+###Create output
+pander(student_survey_dupe_)
+
+
+
+```
+
+### Data Table Girl Survey Duplicates
+
+```{r echo = FALSE}
+library(DT)
+
+girl_survey_dupes <- select(girl_survey_dupes, 24:27)
+
+datatable(girl_survey_dupes)
+
+
+```
+
+# Academic Data
+
+## Data Table for Academic Data
+```{r echo = FALSE}
+datatable(academic_data)
+```
+
+## Summary of Duplicate Data Entries Q1
+```{r echo = FALSE}
+q1_dupes_tbl <-with(q1_dupes, table(council))
+
+pander(q1_dupes_tbl)
+
+```
+
+
+## Data Table of Duplicate Entries Q1
+```{r echo = FALSE}
+
+q1_dupes <- select(q1_dupes, 7:10)
+
+datatable(q1_dupes)
+
+```
+
+
+
+# Parent Survey
+
+
+## Data Table for Parent Survey
+
+```{r echo = FALSE}
+
+parent <- select(parent, 6:9)
+
+datatable(parent)
+
+
+```
+
+
+## Summary of Duplicate Entries for Parent Survey
+
+```{r echo = FALSE}
+
+parent_survey_dupes_tbl <-with(parent_survey_dupes, table(council))
+
+pander(parent_survey_dupes_tbl)
+
+```
+
+
+## Data Table for Duplicate Parent Survey
+
+```{r echo = FALSE}
+
+parent_survey_dupes <- select(parent_survey_dupes, 6:9)
+
+datatable(parent_survey_dupes)
+
+```
+
+# Teacher Survey
+
+## Data Table for Teacher Survey
+```{r echo = FALSE}
+
+teacher <- select(teacher, 6:9)
+
+datatable(teacher)
+
+```
+

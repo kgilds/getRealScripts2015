@@ -1,7 +1,7 @@
 ---
 title: "girlSurvey Data Management"
 author: "Kevin Gilds"
-date: "Saturday November 14, 2015"
+date: '`r Sys.Date()`'
 output:
   html_document:
     toc: yes
@@ -14,13 +14,13 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/February 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girlSurvey02022016.csv", skip=1)
+rawdata <- read.csv("girl_survey_04082016.csv", skip=1)
 dim(rawdata)
 
 ```
@@ -107,17 +107,17 @@ dim(rawdata)
 ### Test Chunk
 ```{r}
 ###Test to see if any test girlCode in system
-rawdata$girlCode
+#rawdata$girlCode
 
 ####Test to see if any test schools in syste
-rawdata$school
+#rawdata$school
 
 ###Fix if any girlCode is in Test
 rawdata <- filter(rawdata, girlCode !="TEST")
 
 council_girlCode <-with(rawdata,table(girlCode, council))
 
-council_girlCode
+#council_girlCode
 
 ```
 
@@ -223,10 +223,11 @@ postDupes <-post[postDupes, ]
 
 ```
 
+### Save Data to Shiny (Web Application)
 ```{r}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/Apps/girl_survey_app")
 
-saveRDS(preUnique, file="girl_survey_02022016.rds")
+saveRDS(preUnique, file="girl_survey_03092016.rds")
 
 ```
 
