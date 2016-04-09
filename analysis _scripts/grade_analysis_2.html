@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds, MPA" />
 
-<meta name="date" content="2016-04-08" />
+<meta name="date" content="2016-04-09" />
 
 <title>grade_analysis_2</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">grade_analysis_2</h1>
 <h4 class="author"><em>Kevin Gilds, MPA</em></h4>
-<h4 class="date"><em>2016-04-08</em></h4>
+<h4 class="date"><em>2016-04-09</em></h4>
 
 </div>
 
@@ -289,7 +289,1337 @@ pander(reading_change_1)</code></pre>
 </table>
 <pre class="r"><code>plot(reading_change)</code></pre>
 <p><img src="data:image/png;base64,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" title alt width="672" /></p>
+<pre class="r"><code>reading_dat &lt;-filter(reading_q2q1,reading_pts2 &gt;=2, reading_pt_diff &gt;=0)
+
+dim(reading_dat)</code></pre>
+<pre><code>## [1] 185   5</code></pre>
+<pre class="r"><code>pander(reading_dat)    </code></pre>
+<table>
+<colgroup>
+<col width="15%"></col>
+<col width="26%"></col>
+<col width="17%"></col>
+<col width="18%"></col>
+<col width="21%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">girlCode</th>
+<th align="center">council.x</th>
+<th align="center">reading_pts</th>
+<th align="center">reading_pts2</th>
+<th align="center">reading_pt_diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">313AP042602</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313KF050203</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313OF022803</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">312AJ100102</td>
+<td align="center">Citrus Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">312GB022203</td>
+<td align="center">Citrus Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">312KN121401</td>
+<td align="center">Citrus Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">312KM012003</td>
+<td align="center">Citrus Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">312CM100602</td>
+<td align="center">Citrus Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321PA012503</td>
+<td align="center">Southeast Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321TC051403</td>
+<td align="center">Southeast Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321AD020803</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321JD101502</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321KJ012703</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321SM012903</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321MM092802</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">321NO010803</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321SP121202</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321JV021803</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321AV122302</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321CA061801</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321GC050202</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321CG111501</td>
+<td align="center">Southeast Council</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">321CJ042201</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321TM022201</td>
+<td align="center">Southeast Council</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">321JM100202</td>
+<td align="center">Southeast Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321NE031201</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321AW022601</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321RJ081099</td>
+<td align="center">Southeast Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321CR101403</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321FC060101</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321CF051501</td>
+<td align="center">Southeast Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321BM081003</td>
+<td align="center">Southeast Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321NT052302</td>
+<td align="center">Southeast Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321RP082102</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321KN101601</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321BL051301</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321NJ032201</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320AT101602</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320AM072903</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320JM102701</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320HP121201</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320AF092500</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320SN020402</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320TM043002</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320EF111204</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">320CW111203</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320AB101201</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320SB100701</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320GD120203</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">320CD090201</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320SE081902</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320KF052703</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320DH042501</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">320CM051801</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320NR030504</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">320BR031803</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320LS111202</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320HS082803</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320AW050904</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320II081302</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320LS042403</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">313AE041502</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313AM022202</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313AE050404</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313AM030805</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313BB032805</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313CC032104</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313IH091404</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313MS031104</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313SJ102903</td>
+<td align="center">Gateway Council</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">313SW021304</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313TG053004</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313TG041203</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313TA120503</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313TD073104</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313YJ031404</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313MA082702</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313AJ100704</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313KS081404</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313AH082204</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313LS090504</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313LL121002</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313RN100203</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313RE011302</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313SW080304</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313TW060904</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313TH082203</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313JW081804</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313MD050604</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313AB062704</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313BM050404</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313BC040204</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313CH121604</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313DP021104</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313EO080204</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313JC121003</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313JM072404</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313JT110402</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313KM011503</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313KT082103</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313KA090203</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313LF022804</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313MA090303</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313SS111303</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313SW091702</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313SW083004</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">313TC071503</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313TG091001</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313TS010303</td>
+<td align="center">Gateway Council</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">313KE040805</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313LS021104</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313RH032805</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313TA060203</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313AB050904</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313AJ111803</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313CJ081604</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313CD032504</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313DF063004</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313DM031404</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313GW050404</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313JS053004</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313JH050703</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321RL060204</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">321IM121403</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321BS111403</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321KT083104</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320KJ090903</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">322JC071704</td>
+<td align="center">Panhandle Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">322RM052704</td>
+<td align="center">Panhandle Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">322KP072504</td>
+<td align="center">Panhandle Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">322EP020204</td>
+<td align="center">Panhandle Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">322DS092602</td>
+<td align="center">Panhandle Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">322BS102103</td>
+<td align="center">Panhandle Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">322DS122003</td>
+<td align="center">Panhandle Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">322KV111303</td>
+<td align="center">Panhandle Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313DP102903</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313IJ090703</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313NW110203</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313AH052504</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313LC041404</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313ST020303</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313JB060403</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320SS091403</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321NW102103</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320JM011404</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320LR071604</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320CD010605</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320CO111303</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320KS040804</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">320AS062504</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320CF032904</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313MG102902</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313BB040203</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313SL102501</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">313LM110402</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">313MH120302</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313TA020602</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313DC061403</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320TD091903</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320AB061103</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320BR072103</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320TD060303</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320RD020603</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320AR100902</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320ER121001</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320JS020802</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320CT030303</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">320AW122102</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">313HB060202</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">313JB091302</td>
+<td align="center">Gateway Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313BC082900</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313CP050801</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">313HB081401</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">313JS103001</td>
+<td align="center">Gateway Council</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">321DM092301</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">321RL121002</td>
+<td align="center">Southeast Council</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320ZP050602</td>
+<td align="center">West Central Council</td>
+<td align="center">1</td>
+<td align="center">3</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">313JR112301</td>
+<td align="center">Gateway Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">321AW010102</td>
+<td align="center">Southeast Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">320PM121901</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">320KC050902</td>
+<td align="center">West Central Council</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320IL010602</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320MH081602</td>
+<td align="center">West Central Council</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">320AG091201</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">320RH050902</td>
+<td align="center">West Central Council</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
 </div>
+<div id="reading-success-function" class="section level2">
+<h2>Reading Success Function</h2>
+<pre class="r"><code>reading_outcome &lt;- function(){
+    reading_dat &lt;-filter(reading_q2q1,reading_pts2 &gt;=2, reading_pt_diff &gt;=0)
+    reading_dat &lt;-  nrow(reading_dat) /nrow(reading_q2q1) 
+    pander(reading_dat)
+}
+
+reading_outcome()</code></pre>
+<p><em>0.752</em></p>
 <div id="reading-stats" class="section level3">
 <h3>Reading Stats</h3>
 <pre class="r"><code>with(reading_q2q1,table(reading_pts))</code></pre>
@@ -312,6 +1642,7 @@ reading_gpa_change</code></pre>
 <pre><code>## [1] 0.1260163</code></pre>
 <pre class="r"><code>mean(reading_q2q1$reading_pt_diff)</code></pre>
 <pre><code>## [1] 0.1260163</code></pre>
+</div>
 </div>
 </div>
 <div id="language-arts-grades" class="section level1">
@@ -408,7 +1739,7 @@ pander(lang_change)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>lang_change_1 &lt;- with(langarts_q2q1, table(lang_pts &gt;=2, pt_diff &gt;=0))
+<pre class="r"><code>lang_change_1 &lt;- with(langarts_q2q1, table(lang_pts2 &gt;=2, pt_diff &gt;=0))
 
 pander(lang_change_1)</code></pre>
 <table style="width:39%;">
@@ -427,13 +1758,13 @@ pander(lang_change_1)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center"><strong>FALSE</strong></td>
-<td align="center">1</td>
-<td align="center">93</td>
+<td align="center">20</td>
+<td align="center">24</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>TRUE</strong></td>
-<td align="center">105</td>
-<td align="center">307</td>
+<td align="center">86</td>
+<td align="center">376</td>
 </tr>
 </tbody>
 </table>

@@ -83,7 +83,25 @@ pander(reading_change)
 
 
 plot(reading_change)
+
+reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+
+dim(reading_dat)
+
+pander(reading_dat)    
 ```
+
+## Reading Success Function
+```{r}
+reading_outcome <- function(){
+    reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+    reading_dat <-  nrow(reading_dat) /nrow(reading_q2q1) 
+    pander(reading_dat)
+}
+
+reading_outcome()
+```
+
 
 
 
@@ -141,7 +159,7 @@ lang_change <- with(langarts_q2q1, table(pt_diff, lang_pts2))
 
 pander(lang_change)
 
-lang_change_1 <- with(langarts_q2q1, table(lang_pts >=2, pt_diff >=0))
+lang_change_1 <- with(langarts_q2q1, table(lang_pts2 >=2, pt_diff >=0))
 
 pander(lang_change_1)
 
