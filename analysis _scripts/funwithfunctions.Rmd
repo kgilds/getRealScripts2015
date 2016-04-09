@@ -1,7 +1,7 @@
 ---
 title: "funwithfunctions"
 author: "Kevin Gilds, MPA"
-date: "February 13, 2016"
+date: '`r Sys.Date()`'
 output: html_document
 ---
 
@@ -137,6 +137,90 @@ hr_percent <- function() {
 hr_percent()
 
 ```
+
+
+```{r}
+ae <- function() {
+    ae_tbl <-with(outcomes,table(ae.avg >=4.5))
+    pander(ae_tbl)
+    
+}
+
+```
+
+
+```{r}
+ae()
+```
+
+
+```{r}
+ae_percent <-function() {
+    ae_tbl <-with(outcomes,table(ae.avg >=4.5))
+    ae_p <-prop.table(ae_tbl)
+    ae_p <-round(ae_p*100,2)
+    pander(ae_p)
+}
+
+```
+
+
+```{r}
+
+ae_percent()
+
+```
+
+
+```{r}
+
+am <- function() {
+    am_tbl <-with(outcomes,table(am.avg >=4.8))
+    pander(am_tbl)
+}
+
+```
+
+```{r}
+am()
+
+
+
+
+
+```{r}
+
+```
+
+
+
+```{r}
+
+am_percent <-function() {
+    am_table <-with(outcomes,table(am.avg >-4.8))
+    am_p <-prop.table(am_table)
+    am_p <-round(am_p*100,2)
+    pander(am_p)
+}
+
+```
+
+
+```{r}
+
+am_percent()
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
