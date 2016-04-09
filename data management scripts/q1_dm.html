@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-20" />
+<meta name="date" content="2016-04-08" />
 
 <title>Q1grades_dm</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Q1grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-20</em></h4>
+<h4 class="date"><em>2016-04-08</em></h4>
 
 </div>
 
@@ -136,10 +136,10 @@ library(sqldf)</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>### Locate file to read from
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016&quot;)
 
 ### read the data into R
-grades &lt;- read.csv('q1Grades03092016.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
+grades &lt;- read.csv('grades_q1_04082016.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
 <pre class="r"><code>### Demo Variables
 colnames (grades) [7] &lt;- &quot;council&quot;
 colnames (grades) [8] &lt;- &quot;girlCode&quot;
@@ -223,7 +223,7 @@ q1Dupes &lt;-gradesq1[q1Dupes, ]</code></pre>
 gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(gradesq1$girlCode, fromLast = TRUE)), ]
 
 dim(gradesUnique)</code></pre>
-<pre><code>## [1] 603  51</code></pre>
+<pre><code>## [1] 602  51</code></pre>
 <pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
 gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesUnique$council)
 
@@ -393,7 +393,7 @@ table(mq1_lang$langCourses,mq1_lang$langGrade)</code></pre>
 ##   mjDevelpmentalESOL  0  0  2  0  0
 ##   mjLangArts1        20 35 45 30 10
 ##   mjlangsArts1Adv     7  5  2  1  0
-##   mjLangArts2        18 52 47 22 11
+##   mjLangArts2        18 51 47 22 11
 ##   mjLangArts2Adv     27 13  4  1  0
 ##   mjLangArts3        26 50 55 22  5
 ##   mjLangArts3Adv     27 26 10  1  0
@@ -448,7 +448,7 @@ unexcused_tbl &lt;- table(unexcused$unexcusedAbs)
 unexcused_tbl</code></pre>
 <pre><code>## 
 ##   0   1   2   3   4   5   6   7   8   9  11 
-## 304 108  92  51  15  17   5   5   2   2   1</code></pre>
+## 303 108  92  51  15  17   5   5   2   2   1</code></pre>
 </div>
 <div id="excused-absences" class="section level3">
 <h3>Excused Absences</h3>
@@ -463,7 +463,7 @@ excused_tbl &lt;- with(excused,table(excusedAbs))
 excused_tbl</code></pre>
 <pre><code>## excusedAbs
 ##   0   1   2   3   4   5   6   7  10 
-## 348 163  58  18   5   3   4   1   1</code></pre>
+## 347 163  58  18   5   3   4   1   1</code></pre>
 </div>
 <div id="total-absences" class="section level3">
 <h3>Total Absences</h3>
@@ -481,7 +481,7 @@ total_abs_tbl &lt;- with(total_abs, table(sum_abs))
 total_abs_tbl</code></pre>
 <pre><code>## sum_abs
 ##   0   1   2   3   4   5   6   7   8   9  10  11 
-## 215 115  93  66  39  34  20   8   4   1   4   1</code></pre>
+## 214 115  93  66  39  34  20   8   4   1   4   1</code></pre>
 </div>
 <div id="in-school-suspensions" class="section level3">
 <h3>In School Suspensions</h3>
@@ -496,7 +496,7 @@ in_school_tbl &lt;- with(in_school, table(inSchoolSusp))
 in_school_tbl</code></pre>
 <pre><code>## inSchoolSusp
 ##   0   1   2   3   4   5   6 
-## 546  28  13   8   2   4   1</code></pre>
+## 545  28  13   8   2   4   1</code></pre>
 </div>
 <div id="out-of-school-suspenions" class="section level3">
 <h3>Out of School Suspenions</h3>
@@ -507,7 +507,7 @@ out_school_tbl &lt;- with(out_school, table(outofSchoolSusp))
 out_school_tbl</code></pre>
 <pre><code>## outofSchoolSusp
 ##   0   1   2   3 
-## 590   6   3   2</code></pre>
+## 589   6   3   2</code></pre>
 </div>
 <div id="total-suspensions" class="section level3">
 <h3>Total suspensions</h3>
@@ -543,7 +543,7 @@ head(susp_total)</code></pre>
 susp_total_tbl</code></pre>
 <pre><code>## susp_sum
 ##   0   1   2   3   4   5   8 
-## 542  28  14   7   3   5   1</code></pre>
+## 541  28  14   7   3   5   1</code></pre>
 </div>
 <div id="expelled" class="section level3">
 <h3>Expelled</h3>
@@ -551,7 +551,7 @@ susp_total_tbl</code></pre>
 expelled &lt;- select(gradesUnique, 7,8,16)
 
 dim(expelled)</code></pre>
-<pre><code>## [1] 603   3</code></pre>
+<pre><code>## [1] 602   3</code></pre>
 <pre class="r"><code>head(expelled)</code></pre>
 <pre><code>##           council    girlCode expelled
 ## 1 Gateway Council 313AW060203       No
@@ -567,14 +567,14 @@ expelled_tbl &lt;-with(expelled,table(expelled))
 expelled_tbl</code></pre>
 <pre><code>## expelled
 ##  No Yes 
-## 602   1</code></pre>
+## 601   1</code></pre>
 </div>
 <div id="merge-behavior-data" class="section level3">
 <h3>Merge Behavior Data</h3>
 <pre class="r"><code>abs_susp &lt;- full_join(total_abs, susp_total)</code></pre>
 <pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
 <pre class="r"><code>dim(abs_susp)</code></pre>
-<pre><code>## [1] 603   9</code></pre>
+<pre><code>## [1] 602   9</code></pre>
 <pre class="r"><code>behavior_data &lt;- full_join(abs_susp, expelled)</code></pre>
 <pre><code>## Joining by: &quot;girlCode&quot;</code></pre>
 <pre class="r"><code>behavior_data &lt;- select(behavior_data,council.x, girlCode, sum_abs, susp_sum, expelled)
@@ -598,7 +598,7 @@ head(behavior_data)</code></pre>
 <pre class="r"><code>lang_read &lt;- full_join(mq1_lang, mq1Reading)</code></pre>
 <pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
 <pre class="r"><code>dim(lang_read)</code></pre>
-<pre><code>## [1] 602   8</code></pre>
+<pre><code>## [1] 601   8</code></pre>
 <pre class="r"><code>head(lang_read)</code></pre>
 <pre><code>##      girlCode          council     langCourses langGrade lang_pts
 ## 1 312FB102003   Citrus Council mjLangArts1ESOL         C        2
@@ -638,7 +638,7 @@ head(lang_read)</code></pre>
 <pre class="r"><code>academic_data &lt;- full_join(lang_read, behavior_data, by=&quot;girlCode&quot;)
 
 dim(academic_data)</code></pre>
-<pre><code>## [1] 606  12</code></pre>
+<pre><code>## [1] 605  12</code></pre>
 <pre class="r"><code>head(academic_data)</code></pre>
 <pre><code>##          council.x    girlCode     langCourses langGrade lang_pts
 ## 1   Citrus Council 312FB102003 mjLangArts1ESOL         C        2
