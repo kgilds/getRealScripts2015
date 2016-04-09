@@ -38,7 +38,7 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
 
 
-# Reading Data
+# Reading Data--Join Q1 and Q2 Data
 
 ```{r}
 reading <-inner_join(q1_reading, q2_reading, by="girlCode")
@@ -133,7 +133,7 @@ mean(reading_q2q1$reading_pt_diff)
 
 
 
-# Language Arts Grades
+# Language Arts Grades--Join Q1 and Q2 Language Arts Grades
 
 ```{r}
 
@@ -168,6 +168,19 @@ plot(lang_change)
 
 ```
 
+```{r}
+lang_success <- function() {
+    lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
+    lang_dat <- nrow(lang_dat)/nrow(langarts_q2q1)
+    pander(lang_dat)
+}
+
+lang_success()
+```
+
+
+
+
 ### Lang Arts Grade Stats
 ```{r}
 with(langarts_q2q1,table(lang_pts))
@@ -201,7 +214,9 @@ absences_q2q1 <- absences_1 %>%
     mutate(abs_diff = sum_abs.y - sum_abs.x)
 
 
+test <-nrow(absences_q2q1)
 
+class(test)
 
 
 ```
@@ -217,7 +232,11 @@ absences_change_1 <-with(absences_q2q1,table(abs_diff <0))
 
 absences_change_2 <-with(absences_q2q1,table(abs_diff ==0, sum_abs.y == 0))
 
+absences_change_3 <-with(absences_q2q1,table(sum_abs.x == 0, sum_abs.y == 0))
+
 pander(absences_change_2)
+
+pander(absences_change_3)
 
 
 pander(absences_change_1)
@@ -225,6 +244,23 @@ pander(absences_change_1)
 plot(absences_change)
 
 ```
+
+
+```{r}
+
+absences_success <- function() {
+    no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0)
+    decrease_abs <- filter(absences_q2q1, abs_diff<0 )
+    abs_total <- nrow(no_absences) + nrow(decrease_abs)
+    abs <- 318/506
+    abs
+}
+
+
+
+absences_success()
+```
+
 
 
 
