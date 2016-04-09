@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-09" />
+<meta name="date" content="2016-04-08" />
 
 <title>girlSurvey Data Management</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">girlSurvey Data Management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-09</em></h4>
+<h4 class="date"><em>2016-04-08</em></h4>
 
 </div>
 
@@ -144,7 +144,7 @@ $(document).ready(function () {
 <div id="set-working-directory-library-and-read-raw-data-needs-updated-data" class="section level3">
 <h3>Set working directory, library, and read raw data (needs updated data)</h3>
 <pre class="r"><code>########################Set Working Directories##################
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016&quot;)
 
 library(dplyr)</code></pre>
 <pre><code>## 
@@ -156,9 +156,9 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girlSurvey03092016.csv&quot;, skip=1)
+rawdata &lt;- read.csv(&quot;girl_survey_04082016.csv&quot;, skip=1)
 dim(rawdata)</code></pre>
-<pre><code>## [1] 881  51</code></pre>
+<pre><code>## [1] 882  51</code></pre>
 </div>
 <div id="change-column-names-to-make-them-human-readable." class="section level3">
 <h3>Change column names to make them human readable.</h3>
@@ -226,9 +226,9 @@ rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
 
 str(rawdata$girlCode)</code></pre>
-<pre><code>##  chr [1:881] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:882] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(rawdata)</code></pre>
-<pre><code>## [1] 881  51</code></pre>
+<pre><code>## [1] 882  51</code></pre>
 </div>
 <div id="test-chunk" class="section level3">
 <h3>Test Chunk</h3>
