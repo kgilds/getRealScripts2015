@@ -2,10 +2,12 @@
 title: "grade_analysis_2"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
-output: html_document
+output: 
+  html_document: 
+    toc: yes
 ---
 
-
+# Set up R to read database
 
 ```{r}
 
@@ -38,7 +40,9 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
 
 
-# Reading Data--Join Q1 and Q2 Data
+# Reading Data--
+
+## Join Q1 and Q2 Data
 
 ```{r}
 reading <-inner_join(q1_reading, q2_reading, by="girlCode")
@@ -91,7 +95,7 @@ dim(reading_dat)
 pander(reading_dat)    
 ```
 
-## Reading Success Function
+### Reading Success Function
 ```{r}
 reading_outcome <- function(){
     reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
@@ -133,7 +137,8 @@ mean(reading_q2q1$reading_pt_diff)
 
 
 
-# Language Arts Grades--Join Q1 and Q2 Language Arts Grades
+# Language Arts Grades--
+## Join Q1 and Q2 Language Arts Grades
 
 ```{r}
 
@@ -168,6 +173,7 @@ plot(lang_change)
 
 ```
 
+## Lang Grade Success Function
 ```{r}
 lang_success <- function() {
     lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
@@ -181,7 +187,7 @@ lang_success()
 
 
 
-### Lang Arts Grade Stats
+## Lang Arts Grade Stats
 ```{r}
 with(langarts_q2q1,table(lang_pts))
 langpts_density <- density(langarts_q2q1$lang_pts)
@@ -198,7 +204,8 @@ mean(langarts_q2q1$pt_diff)
 ```
 
 
-# Absences
+# Absences 
+## Join Absence data from Q1 and Q2
 ```{r}
 
 absences <- inner_join(q1_absences, q2_absences, by="girlCode")
@@ -214,9 +221,7 @@ absences_q2q1 <- absences_1 %>%
     mutate(abs_diff = sum_abs.y - sum_abs.x)
 
 
-test <-nrow(absences_q2q1)
 
-class(test)
 
 
 ```
@@ -245,15 +250,16 @@ plot(absences_change)
 
 ```
 
-
+## Absences Success Function 
 ```{r}
 
 absences_success <- function() {
     no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0)
     decrease_abs <- filter(absences_q2q1, abs_diff<0 )
     abs_total <- nrow(no_absences) + nrow(decrease_abs)
-    abs <- 318/506
-    abs
+    abs_total <- abs_total / nrow(absences_q2q1)
+    abs_total
+    
 }
 
 
@@ -262,7 +268,8 @@ absences_success()
 ```
 
 
-
+#Suspensions
+## Merge Suspensions Q1 and Q2 Data. 
 
 ```{r}
 
@@ -278,7 +285,7 @@ suspensions_q2q1 <- suspsensions_1 %>%
     mutate(susp_diff = susp_sum.y - susp_sum.x)
 
 
-
+dim(suspensions_q2q1)
 
 ```
 
@@ -305,3 +312,17 @@ pander(suspensions_change_2)
 
 plot(suspensions_change)
 ```
+
+## Suspensions Outcome Function
+```{r}
+suspensions_success <- function() {
+    no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0)
+    decrease_suspensions <- filter(suspensions_q2q1, susp_diff <0)
+    total_suspensions <- nrow(no_suspensions) + nrow(decrease_suspensions)
+    total_suspensions <- total_suspensions/nrow(suspensions_q2q1)
+    pander(total_suspensions)
+}
+
+suspensions_success()
+```
+
