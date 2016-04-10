@@ -157,7 +157,7 @@ langarts_q2q1 <- langarts_1 %>%
 ```
 
 
-## Language Arts Grade Change
+### Language Arts Grade Change
 
 ```{r}
 lang_change <- with(langarts_q2q1, table(pt_diff, lang_pts2))
@@ -173,7 +173,7 @@ plot(lang_change)
 
 ```
 
-## Lang Grade Success Function
+### Lang Grade Success Function
 ```{r}
 lang_success <- function() {
     lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
@@ -187,7 +187,7 @@ lang_success()
 
 
 
-## Lang Arts Grade Stats
+### Lang Arts Grade Stats
 ```{r}
 with(langarts_q2q1,table(lang_pts))
 langpts_density <- density(langarts_q2q1$lang_pts)
@@ -226,7 +226,7 @@ absences_q2q1 <- absences_1 %>%
 
 ```
 
-## Absences Change
+### Absences Change
 ```{r}
 
 absences_change <- with(absences_q2q1, table(abs_diff,sum_abs.y))
@@ -250,7 +250,7 @@ plot(absences_change)
 
 ```
 
-## Absences Success Function 
+### Absences Success Function 
 ```{r}
 
 absences_success <- function() {
@@ -290,7 +290,7 @@ dim(suspensions_q2q1)
 ```
 
 
-## Suspensions Changes
+### Suspensions Changes
 
 ```{r}
 
@@ -313,7 +313,7 @@ pander(suspensions_change_2)
 plot(suspensions_change)
 ```
 
-## Suspensions Outcome Function
+### Suspensions Outcome Function
 ```{r}
 suspensions_success <- function() {
     no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0)
