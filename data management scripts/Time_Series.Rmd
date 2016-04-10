@@ -1,7 +1,7 @@
 ---
 title: "Girl Report Trends"
 author: "Kevin Gilds"
-date: "November 28, 2015"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -41,13 +41,15 @@ dim(post_survey_MY1415)
 ### Survey Data from 2015 School year
 
 ```{r}
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
-pre_survey_2015 <- readRDS("girl_survey_12202015.rds")
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
-dim(pre_survey_2015)
+pre_girl_2016 <- dbReadTable(getReal_2016db, "girl_pre")
+
 
 ```
+
 
 ## Life Skills Trends
 
@@ -55,48 +57,20 @@ dim(pre_survey_2015)
 
 ```{r}
 
-pre_2014_hr <- describe(pre_survey_2014$hr.avg)
-pre_2015_hr <- describe(pre_survey_2015$hr.avg)
 
-kable(pre_2014_hr)
-
-
-hr_2014 <- with(pre_survey_2014, table(hr.avg >=4.45))
-
-hr_2014 
-
-
-
-kable(pre_2015_hr)
 
 ```
 
 ### Academic Engagement
 
 ```{r}
-pre_2014_ae <-describe(pre_survey_2014$ae.avg)
-pre_2015_ae <-describe(pre_survey_2015$ae.avg)
 
-ae_pre <- with(pre_survey_2014, table(ae.avg >=4.5))
-
-ae_pre
-
-kable(pre_2014_ae)
-kable(pre_2015_ae)
 ```
 
 ### Academic Mastery
 
 ```{r}
-pre_2014_am <- describe(pre_survey_2014$am.avg)
-pre_2015_am <- describe(pre_survey_2015$am.avg) 
 
-am_pre <-with(pre_survey_2014, table(am.avg >=4.8))
-
-am_pre
-
-kable(pre_2014_am)
-kable(pre_2015_am)
 
 ```
 
@@ -105,7 +79,7 @@ kable(pre_2015_am)
 ### Match Pre Surveys
 ```{r}
 
-pre_merge <- inner_join (pre_survey_2014, pre_survey_2015, by = "girlCode", Copy=FALSE)
+pre_merge <- inner_join (pre_survey_2014, pre_girl_2016, by = "girlCode", Copy=FALSE)
 
 dim(pre_merge)
 
@@ -120,13 +94,15 @@ dim(pre_merge)
 
 ```{r}
 
-post_merge <- inner_join(post_survey_MY1415, pre_survey_2015, by = "girlCode", Copy=FALSE)
+post_merge <- inner_join(post_survey_MY1415, pre_girl_2016, by = "girlCode", Copy=FALSE)
 
-non_match <- anti_join(pre_survey_2015, post_survey_MY1415, by = "girlCode", Copy = FALSE)
+non_match <- anti_join(pre_girl_2016, post_survey_MY1415, by = "girlCode", Copy = FALSE)
 
 dim(post_merge)
 
 dim(non_match)
+
+
 
 
 ```
@@ -155,14 +131,24 @@ kable(non_match_hr_pre)
 
 ```{r}
 
-hr_outcome_pre <- with(post_merge,table(hr.avg.y >=4.45))
+hr_outcome_pre_2015 <- with(post_merge,table(hr.avg.y >=4.45))
 
-pander(hr_outcome_pre)
 
-hr_outcome_post <- with(post_merge,table(hr.avg.x >=4.45))
 
-pander(hr_outcome_post)
+pander(hr_outcome_pre_2015)
 
+hr_outcome_post_2014 <- with(post_merge,table(hr.avg.x >=4.45))
+
+pander(hr_outcome_post_2014)
+
+non_match_outcome <-with(non_match,table(hr.avg >=4.45))
+
+pander(non_match_outcome)
+
+
+wilcox.test(post_merge$hr.avg.y, post_merge$hr.avg.x)
+
+wilcox.test(post_merge$hr.avg.y, non_match$hr.avg)
 
 ```
 
@@ -179,6 +165,19 @@ non_match_ae_pre <-describe(non_match$ae.avg)
 kable(post_merge_ae_pre)
 kable(post_merge_ae_post)
 kable(non_match_ae_pre)
+
+wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, "less",paired=TRUE)
+
+wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, paired=TRUE)
+
+wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, "greater", paired=TRUE)
+
+
+
+wilcox.test(post_merge$ae.avg.y, non_match$ae.avg, paired = FALSE)
+
+
+
 
 ```
 
@@ -207,6 +206,15 @@ non_match_am_pre <- describe(non_match$am.avg)
 kable(post_merge_am_pre)
 kable(post_merge_am_post)
 kable(non_match_am_pre)
+
+
+wilcox.test(post_merge$am.avg.y, post_merge$am.avg.x, paired = TRUE)
+
+wilcox.test(post_merge$am.avg.y, non_match$am.avg, paired = FALSE)
+
+wilcox.test(post_merge$am.avg.y, non_match$am.avg, "greater", paired = FALSE)
+
+
 ```
 
 
@@ -466,12 +474,7 @@ wilcox.test(hr2$hr.avg.y, hr2$hr.avg.x, "less",paired=TRUE)
 
 ### Pre Survey Data and Graphs
 
-```{r fig.width=15}
-
-ggplot(hr1, aes(hr.avg.y >=4.45)) + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
-
-ggplot(hr, aes(hr.avg.y >=4.45, fill= council.x)) + geom_bar(stats = "identity") + facet_grid(~council.x) + labs(x = "Achieving at High Level", title = "Pre: Healthy Relationships by Council")
-
+```{r}
 
 ###########Pre Survey Results
 
@@ -490,6 +493,11 @@ pander(hr_table_pre_council, style = "multiline")
 
 
 ```
+
+```
+
+
+
 
 
 
