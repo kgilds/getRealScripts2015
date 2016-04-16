@@ -51,30 +51,6 @@ pre_girl_2016 <- dbReadTable(getReal_2016db, "girl_pre")
 ```
 
 
-## Life Skills Trends
-
-### Healthy Relationships
-
-```{r}
-
-
-
-```
-
-### Academic Engagement
-
-```{r}
-
-```
-
-### Academic Mastery
-
-```{r}
-
-
-```
-
-
 
 ### Match Pre Surveys
 ```{r}
@@ -229,6 +205,8 @@ am_outcome_post <- with(post_merge,table(am.avg.x >=4.8))
 pander(am_outcome_post)
 
 ```
+
+
 
 
 ### Match Pre, Post, Pre
@@ -494,9 +472,75 @@ pander(hr_table_pre_council, style = "multiline")
 
 ```
 
+
+
+# Grades
+
+## Lang Arts 
+
+```{r}
+q4_lang_2014 <- dbReadTable(getRealdb, "q4_langarts")
+
+q2_lang_2016 <-dbReadTable(getReal_2016db, "Q2_lang")
+
+lang <- inner_join(q4_lang_2014, q2_lang_2016, by="girlCode")
+
+dim(lang)
+
+head(lang)
+
+
+lang$value <-as.numeric(lang$value)
+
+mean(lang$value)
+mean(lang$lang_pts2)
+
+
+langarts_q4q2 <- lang %>%
+    mutate(pt_diff = lang_pts2 - value)
+
+langarts_q4q2 %>%
+select(girlCode, lang_pts2, value, pt_diff)
+
+
+
+
+mean(langarts_q4q2$pt_diff)
+
+plot(langarts_q4q2$pt_diff)
+
+with(langarts_q4q2,table(pt_diff))
+
+with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
+
 ```
 
 
+```{r}
+
+q4_reading_2014 <-dbReadTable(getRealdb, "q4_reading")
+
+q4_reading_2014 <- na.omit(q4_reading_2014)
+
+q2_reading_2016 <-dbReadTable(getReal_2016db, "Q2_reading")
+
+reading <- inner_join(q4_reading_2014, q2_reading_2016, by="girlCode")
+
+dim(reading)
+
+head(reading)
+
+
+
+reading_q4q2 <- reading %>%
+    mutate(pt_diff = reading_pts2 - value)
+reading_q4q2 %>%
+select(girlCode, reading_pts2, value, pt_diff)
+
+
+with(reading_q4q2,table(pt_diff))
+
+with(reading_q4q2,table(reading_pts2 >=2, pt_diff >=0))
 
 
 

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-10" />
+<meta name="date" content="2016-04-16" />
 
 <title>Girl Report Trends</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Girl Report Trends</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-10</em></h4>
+<h4 class="date"><em>2016-04-16</em></h4>
 
 </div>
 
@@ -185,17 +185,6 @@ getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot
 
 pre_girl_2016 &lt;- dbReadTable(getReal_2016db, &quot;girl_pre&quot;)</code></pre>
 </div>
-<div id="life-skills-trends" class="section level2">
-<h2>Life Skills Trends</h2>
-<div id="healthy-relationships" class="section level3">
-<h3>Healthy Relationships</h3>
-</div>
-<div id="academic-engagement" class="section level3">
-<h3>Academic Engagement</h3>
-</div>
-<div id="academic-mastery" class="section level3">
-<h3>Academic Mastery</h3>
-</div>
 <div id="match-pre-surveys" class="section level3">
 <h3>Match Pre Surveys</h3>
 <pre class="r"><code>pre_merge &lt;- inner_join (pre_survey_2014, pre_girl_2016, by = &quot;girlCode&quot;, Copy=FALSE)
@@ -215,7 +204,7 @@ dim(post_merge)</code></pre>
 <pre class="r"><code>dim(non_match)</code></pre>
 <pre><code>## [1] 778  51</code></pre>
 </div>
-<div id="healthy-relationships-1" class="section level3">
+<div id="healthy-relationships" class="section level3">
 <h3>Healthy Relationships</h3>
 </div>
 <div id="healthy-relationship-stats" class="section level3">
@@ -612,7 +601,7 @@ pander(ae_outcome_post)</code></pre>
 </tbody>
 </table>
 </div>
-<div id="academic-mastery-1" class="section level3">
+<div id="academic-mastery" class="section level3">
 <h3>Academic Mastery</h3>
 <pre class="r"><code>post_merge_am_pre &lt;- describe(post_merge$am.avg.y)
 post_merge_am_post &lt;- describe(post_merge$am.avg.x)
@@ -1155,7 +1144,285 @@ pander(hr_table_pre_council, style = &quot;multiline&quot;)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>##########By Percents##################</code></pre>
-<p>```</p>
+</div>
+<div id="grades" class="section level1">
+<h1>Grades</h1>
+<div id="lang-arts" class="section level2">
+<h2>Lang Arts</h2>
+<pre class="r"><code>q4_lang_2014 &lt;- dbReadTable(getRealdb, &quot;q4_langarts&quot;)
+
+q2_lang_2016 &lt;-dbReadTable(getReal_2016db, &quot;Q2_lang&quot;)
+
+lang &lt;- inner_join(q4_lang_2014, q2_lang_2016, by=&quot;girlCode&quot;)
+
+dim(lang)</code></pre>
+<pre><code>## [1] 149   8</code></pre>
+<pre class="r"><code>head(lang)</code></pre>
+<pre><code>##      girlCode                           council.x            variable
+## 1 321FC060101    Girl Scouts of Southeast Florida mjLangArts1_Quarter
+## 2 321LL050202    Girl Scouts of Southeast Florida mjLangArts1_Quarter
+## 3 320SA080203 Girl Scouts of West Central Florida mjLangArts1_Quarter
+## 4 320JD061002 Girl Scouts of West Central Florida mjLangArts1_Quarter
+## 5 320SB122902 Girl Scouts of West Central Florida mjLangArts1_Quarter
+## 6 320TJ071403 Girl Scouts of West Central Florida mjLangArts1_Quarter
+##   value            council.y               langCourses langGrade lang_pts2
+## 1     4    Southeast Council       mjLangArts3_quarter         D         1
+## 2     1    Southeast Council       mjLangArts2_quarter         B         3
+## 3     2 West Central Council mjIntensLangArts_semester         C         2
+## 4     3 West Central Council mjIntensLangArts_semester         F         0
+## 5     3 West Central Council      mjLangArts2_semester         B         3
+## 6     3 West Central Council      mjLangArts2_semester         C         2</code></pre>
+<pre class="r"><code>lang$value &lt;-as.numeric(lang$value)
+
+mean(lang$value)</code></pre>
+<pre><code>## [1] 3.033557</code></pre>
+<pre class="r"><code>mean(lang$lang_pts2)</code></pre>
+<pre><code>## [1] 2.818792</code></pre>
+<pre class="r"><code>langarts_q4q2 &lt;- lang %&gt;%
+    mutate(pt_diff = lang_pts2 - value)
+
+langarts_q4q2 %&gt;%
+select(girlCode, lang_pts2, value, pt_diff)</code></pre>
+<pre><code>##        girlCode lang_pts2 value pt_diff
+## 1   321FC060101         1     4      -3
+## 2   321LL050202         3     1       2
+## 3   320SA080203         2     2       0
+## 4   320JD061002         0     3      -3
+## 5   320SB122902         3     3       0
+## 6   320TJ071403         2     3      -1
+## 7   320AG022403         3     2       1
+## 8   313MH120302         2     3      -1
+## 9   313SJ092102         3     3       0
+## 10  321FC060101         1     3      -2
+## 11  321LL050202         3     1       2
+## 12  320JD061002         0     3      -3
+## 13  320SB122902         3     3       0
+## 14  320TJ071403         2     3      -1
+## 15  320AG022403         3     2       1
+## 16  320SD031803         4     3       1
+## 17  320AH013102         3     4      -1
+## 18  320RG071003         4     4       0
+## 19  320AM070802         4     3       1
+## 20  320BR072103         3     3       0
+## 21  320TH032403         4     4       0
+## 22  320KA081802         4     4       0
+## 23  320GC121002         4     4       0
+## 24  320NL051303         4     4       0
+## 25  313ES060503         3     4      -1
+## 26  313NW122502         2     3      -1
+## 27  320SD031803         4     3       1
+## 28  320AH013102         3     4      -1
+## 29  320RG071003         4     4       0
+## 30  320AM070802         4     3       1
+## 31  320BR072103         3     3       0
+## 32  320TH032403         4     4       0
+## 33  320KA081802         4     4       0
+## 34  320GC121002         4     4       0
+## 35  320NL051303         4     4       0
+## 36  313ES060503         3     4      -1
+## 37  313NW122502         2     3      -1
+## 38  321SA080701         0     1      -1
+## 39  320JN030502         4     4       0
+## 40  320AH070602         4     4       0
+## 41  320DP041202         4     3       1
+## 42  320CB100701         2     4      -2
+## 43  320KO071502         4     3       1
+## 44  313CF080102         3     4      -1
+## 45  313LM110402         3     4      -1
+## 46  313MA082702         2     3      -1
+## 47  313AJ111601         3     4      -1
+## 48  313TA020602         3     3       0
+## 49  313AJ041002         2     4      -2
+## 50  313BS033102         2     4      -2
+## 51  313SP101602         4     3       1
+## 52  313SL102501         3     3       0
+## 53  321SA080701         0     2      -2
+## 54  320KO071502         4     3       1
+## 55  320AF062602         2     4      -2
+## 56  320YS111401         4     3       1
+## 57  320RR110901         1     2      -1
+## 58  320YS111401         4     3       1
+## 59  320CB100701         2     4      -2
+## 60  320RR110901         1     2      -1
+## 61  313AN060301         3     4      -1
+## 62  313AA091300         3     3       0
+## 63  313AB071302         2     3      -1
+## 64  313AJ061101         3     4      -1
+## 65  313BB052401         3     4      -1
+## 66  313RB031401         2     3      -1
+## 67  313DM081401         2     3      -1
+## 68  313HB081401         3     4      -1
+## 69  313JJ051600         3     3       0
+## 70  313BN052400         2     2       0
+## 71  322OH112502         2     4      -2
+## 72  322LR110702         3     0       3
+## 73  321MA081902         4     4       0
+## 74  321DA090103         3     3       0
+## 75  321PA012503         3     3       0
+## 76  321CB090701         2     2       0
+## 77  321TC011203         3     3       0
+## 78  321AD020803         3     4      -1
+## 79  321SE122802         4     3       1
+## 80  321DJ032902         2     3      -1
+## 81  321SM012903         4     3       1
+## 82  321PP043003         3     4      -1
+## 83  321SP121202         1     4      -3
+## 84  313AF040403         3     4      -1
+## 85  321MA081902         4     4       0
+## 86  321DA090103         3     3       0
+## 87  321PA012503         3     3       0
+## 88  321CB090701         2     1       1
+## 89  321TC011203         3     4      -1
+## 90  321AD020803         3     4      -1
+## 91  321SE122802         4     3       1
+## 92  321DJ032902         2     3      -1
+## 93  321SM012903         4     3       1
+## 94  321PP043003         3     3       0
+## 95  321SP121202         1     3      -2
+## 96  321TC051403         4     4       0
+## 97  321MD062803         4     4       0
+## 98  321AG111402         3     2       1
+## 99  321ZW050102         3     3       0
+## 100 321TC051403         4     4       0
+## 101 321MD062803         4     3       1
+## 102 321AG111402         3     3       0
+## 103 321ZW050102         3     3       0
+## 104 312AL061102         3     1       2
+## 105 321TA121501         1     3      -2
+## 106 321SC092001         0     0       0
+## 107 321NJ032201         2     1       1
+## 108 321SP071002         4     4       0
+## 109 321RP082102         2     1       1
+## 110 321NT052302         4     2       2
+## 111 321SW081001         3     4      -1
+## 112 312AL061102         3     2       1
+## 113 321TA121501         1     3      -2
+## 114 321SC092001         0     2      -2
+## 115 321NJ032201         2     2       0
+## 116 321SP071002         4     4       0
+## 117 321RP082102         2     2       0
+## 118 321NT052302         4     2       2
+## 119 321SW081001         3     3       0
+## 120 312JV032902         2     2       0
+## 121 321SA022402         2     3      -1
+## 122 321SB031102         2     2       0
+## 123 321TB042701         2     2       0
+## 124 321AD022202         4     4       0
+## 125 321MG081303         3     3       0
+## 126 321VG060702         2     3      -1
+## 127 321SL100301         3     3       0
+## 128 321RM011802         3     4      -1
+## 129 321TT051801         3     3       0
+## 130 321MW112701         2     2       0
+## 131 321SD090701         4     3       1
+## 132 312JV032902         2     2       0
+## 133 321SA022402         2     3      -1
+## 134 321SB031102         2     2       0
+## 135 321TB042701         2     2       0
+## 136 321AD022202         4     4       0
+## 137 321MG081303         3     3       0
+## 138 321VG060702         2     3      -1
+## 139 321SL100301         3     4      -1
+## 140 321RM011802         3     3       0
+## 141 321TT051801         3     3       0
+## 142 321MW112701         2     2       0
+## 143 321SD090701         4     3       1
+## 144 321RF031302         4     3       1
+## 145 321RF031302         4     3       1
+## 146 321CH040801         3     3       0
+## 147 321RJ081099         4     3       1
+## 148 321CH040801         3     3       0
+## 149 321RJ081099         4     3       1</code></pre>
+<pre class="r"><code>mean(langarts_q4q2$pt_diff)</code></pre>
+<pre><code>## [1] -0.2147651</code></pre>
+<pre class="r"><code>plot(langarts_q4q2$pt_diff)</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAAAYFBMVEUAAAAAADoAAGYAOmYAOpAAZmYAZpAAZrY6AAA6OgA6kJA6kNtmAABmAGZmOgBmtv+QOgCQ29uQ2/+2ZgC2kDq225C2/7a2///bkDrb/7bb////tmb/25D//7b//9v///8/y6kPAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nO3dbYOa2KKmYdOTOclMcibZ7ZnZTpuX//8vj/gKFoXwsAAx1/Whq8roEpd4tyji5jcAkc3SCwCwVgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgNBzB3QDUEz5RBUfsaClZxt4LcUbVXrAkib4HwbwxxJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAChtQb01/fqQChfhl5MQIFyVhbQ/aGaH/85/az89e9hlxdQGqY6Jhl/iFUF9PS0c/Ph7x+fN1lBPVKom+6ojvwZVhXQ7Xll//hf53JuT89H+/NA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" title alt width="672" /></p>
+<pre class="r"><code>with(langarts_q4q2,table(pt_diff))</code></pre>
+<pre><code>## pt_diff
+## -3 -2 -1  0  1  2  3 
+##  4 12 37 62 28  5  1</code></pre>
+<pre class="r"><code>with(langarts_q4q2,table(lang_pts2 &gt;=2, pt_diff &gt;=0))</code></pre>
+<pre><code>##        
+##         FALSE TRUE
+##   FALSE    13    1
+##   TRUE     40   95</code></pre>
+<pre class="r"><code>q4_reading_2014 &lt;-dbReadTable(getRealdb, &quot;q4_reading&quot;)
+
+q4_reading_2014 &lt;- na.omit(q4_reading_2014)
+
+q2_reading_2016 &lt;-dbReadTable(getReal_2016db, &quot;Q2_reading&quot;)
+
+reading &lt;- inner_join(q4_reading_2014, q2_reading_2016, by=&quot;girlCode&quot;)
+
+dim(reading)</code></pre>
+<pre><code>## [1] 31  8</code></pre>
+<pre class="r"><code>head(reading)</code></pre>
+<pre><code>##      girlCode                           council.x             variable
+## 1 321SA080701    Girl Scouts of Southeast Florida mjIntensRead_Quarter
+## 2 320SA080203 Girl Scouts of West Central Florida mjIntensRead_Quarter
+## 3 320JD061002 Girl Scouts of West Central Florida mjIntensRead_Quarter
+## 4 320TJ071403 Girl Scouts of West Central Florida mjIntensRead_Quarter
+## 5 320AG022403 Girl Scouts of West Central Florida mjIntensRead_Quarter
+## 6 313MH120302  Girl Scouts of the Gateway Council mjIntensRead_Quarter
+##   value            council.y        readingCourses readingGrade
+## 1     3    Southeast Council  mjIntensRead_quarter            D
+## 2     4 West Central Council mjIntensRead_semester            B
+## 3     3 West Central Council mjIntensRead_semester            F
+## 4     4 West Central Council      mjRead2_semester            C
+## 5     3 West Central Council      mjRead2_semester            B
+## 6     3      Gateway Council       mjRead2_quarter            C
+##   reading_pts2
+## 1            1
+## 2            3
+## 3            0
+## 4            2
+## 5            3
+## 6            2</code></pre>
+<pre class="r"><code>reading_q4q2 &lt;- reading %&gt;%
+    mutate(pt_diff = reading_pts2 - value)
+reading_q4q2 %&gt;%
+select(girlCode, reading_pts2, value, pt_diff)</code></pre>
+<pre><code>##       girlCode reading_pts2 value pt_diff
+## 1  321SA080701            1     3      -2
+## 2  320SA080203            3     4      -1
+## 3  320JD061002            0     3      -3
+## 4  320TJ071403            2     4      -2
+## 5  320AG022403            3     3       0
+## 6  313MH120302            2     3      -1
+## 7  313DL091702            3     4      -1
+## 8  313SP101602            4     3       1
+## 9  313SL102501            3     4      -1
+## 10 321SA080701            1     3      -2
+## 11 320JD061002            0     3      -3
+## 12 320TJ071403            2     4      -2
+## 13 320AG022403            3     3       0
+## 14 320MB030803            1     3      -2
+## 15 320AB061103            4     3       1
+## 16 320SB122902            3     3       0
+## 17 320JM102701            2     3      -1
+## 18 320CM120402            1     3      -2
+## 19 320AP030203            0     3      -3
+## 20 320NR060503            1     3      -2
+## 21 320AT101602            2     3      -1
+## 22 320MB030803            1     3      -2
+## 23 320AB061103            4     3       1
+## 24 320SB122902            3     3       0
+## 25 320JM102701            2     3      -1
+## 26 320CM120402            1     3      -2
+## 27 320AP030203            0     3      -3
+## 28 320NR060503            1     3      -2
+## 29 320AT101602            2     3      -1
+## 30 320ZP050602            3     4      -1
+## 31 320ZP050602            3     3       0</code></pre>
+<pre class="r"><code>with(reading_q4q2,table(pt_diff))</code></pre>
+<pre><code>## pt_diff
+## -3 -2 -1  0  1 
+##  4 10  9  5  3</code></pre>
+<pre class="r"><code>with(reading_q4q2,table(reading_pts2 &gt;=2, pt_diff &gt;=0))</code></pre>
+<pre><code>##        
+##         FALSE TRUE
+##   FALSE    12    0
+##   TRUE     11    8</code></pre>
 </div>
 </div>
 
