@@ -50,6 +50,8 @@ Analysis of survey and academic data is compared across the school year using th
 
 ### Putting it all together 
 
+1. *council_data* reads data from sqlite database and is used as a status update on the number of valid data entries for each data source. It has functions to place each council's data in a particular dropbox folder. This script also provides data on the duplicate data entries for each data source. 
+
 1. *council_report_analysis* reads data from the sqlite database and has scripts to prepare tabular summaries of council performance and graphical representation of data. 
 
 2. *council_data* reads data from sqlite database and runs functions to write csv files of council data to a shared dropbox folder. Data includes key data points from data sources along with information on duplicate date entry issues. 

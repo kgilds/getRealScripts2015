@@ -69,6 +69,16 @@ add_teacher <- rbind(girl_parent, teacher1)
 ###Findal addition to create data frame for status report
 survey_status <- rbind(add_teacher, q1_stats)
 
+
+#### Read Parent Survey from Database
+
+pre_parent <-dbReadTable(getReal_2016db, "pre_parent")
+
+#### Read Pre Teacher Survey from Database
+
+pre_teacher <-dbReadTable(getReal_2016db, "pre_teacher")
+
+
 ### Read the pre girl survey for reference down stream
 girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
 ### Read the pre girl survey for reference down stream
@@ -104,6 +114,24 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 
 ```{r}
 
+survey_status_tbl <-with(survey_status, table(council,dataSource))
+
+pander(survey_status_tbl)
+
+```
+
+
+
+```{r}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Council_data")
+write.csv(girl_survey_dupes, "all_girl_dupes.csv")
+
+```
+
+
+```{r}
+
 ### Read girl survey data
 girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
 
@@ -111,21 +139,23 @@ girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
 girl_tbl_test <- with(girl_tbl, table(council))
 
 ###Show output
-girl_tbl_test
+pander(girl_tbl_test)
 
 ###Read girl survey dupes
 girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
+
+
 
 ###Create table to see how many to be expected
 dupe_test <-with(girl_survey_dupes, table(council))
 
 ###Create output
-dupe_test
+pander(dupe_test)
 
 ###Create table to show many councils per. 
-with(academic_data,table(council))
+q1grades <- with(academic_data,table(council))
 
-
+pander(q1grades)
 
 ```
 
@@ -138,6 +168,8 @@ write.csv(parent_survey_dupes, "parent_survey_dupes.csv", row.names = FALSE)
 write.csv(q1_dupes, "q1_dupes.csv", row.names = FALSE)
 
 ```
+
+
 
 
 
@@ -179,6 +211,14 @@ grade_file <-function(x) {
 
 ```
 
+<<<<<<< HEAD
+### Parent Survey File Function
+
+```{r}
+parent_file <- function(x) {
+    pre_parent <- filter(pre_parent, council ==x)
+    write.csv(pre_parent, "pre_parent_survey.csv", row.names = FALSE)
+=======
 ### Grade Dupe Function
 
 ```{r}
@@ -186,11 +226,23 @@ grade_file <-function(x) {
 grade_dupe_file <- function(x) {
     q1_dupes <- filter(q1_dupes, council == x)
     write.csv(q1_dupes, "q1_dupes.csv", row.names = FALSE)
+>>>>>>> refs/remotes/origin/master
 }
 
 ```
 
 
+<<<<<<< HEAD
+
+
+### Parent survey Dupe File Function
+
+```{r}
+
+parent_file_dupe <- function(x) {
+    parent_survey_dupes <- filter(parent_survey_dupes, council == x)
+    write.csv(parent_survey_dupes, "pre_parent_survey_dupes.csv", row.names = FALSE )
+=======
 ### Parent Survey
 
 ```{r}
@@ -208,19 +260,34 @@ pre_parent <- function(x){
 pre_parent_dupe_file <- function(x) {
     pre_parent_dupe <- filter(parent_survey_dupes, council == x)
     write.csv(pre_parent_dupe, "pre_parent_dupes.csv", row.names = FALSE)
+>>>>>>> refs/remotes/origin/master
 }
 
 ```
 
+<<<<<<< HEAD
+
+### Teacher Survey File Function
+ 
+```{r}
+teacher_file <- function(x){
+    pre_teacher <- filter(pre_teacher, council == x)
+    write.csv(pre_teacher, "pre_teacher_survey.csv", row.names = FALSE)
+=======
 ### Pre Teacher Survey
 ```{r}
 pre_teacher_file <- function(x) {
     pre_teacher <- filter(teacher, council == x)
     write.csv(pre_teacher, "pre_teacher.csv", row.names = FALSE)
+>>>>>>> refs/remotes/origin/master
 }
 
 ```
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/master
 
 
 ### Citrus Council
@@ -234,6 +301,14 @@ girl_dupe_file("Citrus Council")
 
 grade_file("Citrus Council")
 
+<<<<<<< HEAD
+parent_file("Citrus Council")
+
+parent_file_dupe("Citrus Council")
+
+teacher_file("Citrus Council")
+
+=======
 grade_dupe_file("Citrus Council")
 
 pre_parent("Citrus Council")
@@ -241,6 +316,7 @@ pre_parent("Citrus Council")
 pre_parent_dupe_file("Citrus Council")
 
 pre_teacher_file("Citrus Council")
+>>>>>>> refs/remotes/origin/master
 
 ```
 
@@ -255,12 +331,18 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Council_data/southeast")
 
 girl_file("Southeast Council")
 
-
-
 girl_dupe_file("Southeast Council")
 
 grade_file("Southeast Council")
 
+<<<<<<< HEAD
+parent_file("Southeast Council")
+
+parent_file_dupe("Southeast Council")
+
+teacher_file("Southeast Council")
+
+=======
 grade_dupe_file("Southeast Counil")
 
 pre_parent("Southeast Council")
@@ -268,6 +350,7 @@ pre_parent("Southeast Council")
 pre_parent_dupe_file("Southeast Council")
 
 pre_teacher_file("Southeast Council")
+>>>>>>> refs/remotes/origin/master
 
 ```
 
@@ -282,6 +365,15 @@ girl_dupe_file("Gateway Council")
 
 grade_file("Gateway Council")
 
+<<<<<<< HEAD
+parent_file("Gateway Council")
+
+parent_file_dupe("Gateway Council")
+
+teacher_file("Gateway Council")
+
+
+=======
 grade_dupe_file("Gateway Council")
 
 pre_parent("Gateway Council")
@@ -289,6 +381,7 @@ pre_parent("Gateway Council")
 pre_parent_dupe_file("Gateway Council")
 
 pre_teacher_file("Gateway council")
+>>>>>>> refs/remotes/origin/master
 
 ```
 
@@ -303,6 +396,15 @@ girl_dupe_file("Tropical Council")
 
 grade_file("Tropical Council")
 
+<<<<<<< HEAD
+parent_file("Tropical Council")
+
+parent_file_dupe("Tropical Council")
+
+teacher_file("Tropical Council")
+
+
+=======
 grade_dupe_file("Tropical Council")
 
 pre_parent("Tropical Council")
@@ -310,6 +412,7 @@ pre_parent("Tropical Council")
 pre_parent_dupe_file("Tropical Council")
 
 pre_teacher_file("Tropical Council")
+>>>>>>> refs/remotes/origin/master
 
 ```
 
@@ -326,6 +429,14 @@ girl_dupe_file("Panhandle Council")
 
 grade_file("Panhandle Council")
 
+<<<<<<< HEAD
+parent_file("Pandhandle Council")
+
+parent_file_dupe("Pandhandle Council")
+
+teacher_file("Pandhandle Council")
+
+=======
 grade_dupe_file("Panhandle Council")
 
 pre_parent("Panhandle Council")
@@ -333,6 +444,7 @@ pre_parent("Panhandle Council")
 pre_parent_dupe_file("Panhandle Council")
 
 pre_teacher_file("Panhandle Council")
+>>>>>>> refs/remotes/origin/master
 
 ```
 
@@ -348,6 +460,12 @@ girl_dupe_file("West Central Council")
 
 grade_file("West Central Council")
 
+<<<<<<< HEAD
+parent_file("West Central Council")
+
+parent_file_dupe("West Central Council")
+
+=======
 grade_dupe_file("West Central Council")
 
 pre_parent("West Central Council")
@@ -355,6 +473,7 @@ pre_parent("West Central Council")
 pre_parent_dupe_file("West Central Council")
 
 pre_teacher_file("West Central Council")
+>>>>>>> refs/remotes/origin/master
 
 ```
 
