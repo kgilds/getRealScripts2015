@@ -197,7 +197,7 @@ am()
 ```{r}
 
 am_percent <-function() {
-    am_table <-with(outcomes,table(am.avg >-4.8))
+    am_table <-with(outcomes,table(am.avg >=4.8))
     am_p <-prop.table(am_table)
     am_p <-round(am_p*100,2)
     pander(am_p)
