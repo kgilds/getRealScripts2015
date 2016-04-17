@@ -8,27 +8,86 @@ output:
 ---
 
 
+
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
+library(dplyr)
 library(pander)
-library(psych)
 library(ggplot2)
+library (ezknitr)
+library(formattable)
+library(sqldf)
+library(psych)
 library(knitr)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/December 2015")
+
+### Make connection with database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
 
-girlSurvey <- readRDS("girl_survey_12202015.rds")
-
-outcomes <- select(girlSurvey, Time, council, girlCode, hr.avg, ae.avg, am.avg)
 
 
 ```
 
 
+```{r}
+
+### Reade the girl_pre_survey database for analysis. 
+outcomes <- dbReadTable(getReal_2016db, "girl_pre")
+###Select the variables of interest from the pre_survey
+outcomes <- select(outcomes, girlCode, council, hr.avg, am.avg, ae.avg)
+
+
+```
+
+
+
 # Survey Analysis Basic 
 
 ## Healthy Releationships
+
+
+```{r}
+
+hr <- function(){
+    hr_tbl <- with(outcomes,table(hr.avg >=4.45))
+    pander(hr_tbl)
+    
+}
+```
+
+
+```{r}
+
+hr()
+
+```
+
+
+```{r}
+
+hr_percent <- function() {
+    hr_tbl <- with(outcomes,table(hr.avg >=4.45))
+    hr_tbl_p <- prop.table(hr_tbl)
+    hr_tbl_p <- round(hr_tbl_p*100,2)
+    pander(hr_tbl_p)
+}
+
+```
+
+
+
+```{r}
+
+hr_percent()
+
+```
+
+
+
+
 
 ### Healthy Relationships Outcome Tables
 ```{r}
@@ -67,10 +126,13 @@ pander(hr_tbl_cp)
 ```{r fig.width=15}
 ### Plot outcome results
 hr <- select(outcomes, council, hr.avg)
-ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
+ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
+
+
 
 ### Plot outcome results by council    
-ggplot(hr, aes(hr.avg >=4.45, fill= council)) + geom_bar(stats = "identity") + facet_grid(~council) + labs(x = "Achieving at High Level", title = "Pre: Healthy Relationships by Council")
+hr_hist <- ggplot(hr, aes(x=hr.avg))
+        hr_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
 
 ```
 
@@ -82,6 +144,9 @@ ggplot(hr, aes(hr.avg >=4.45, fill= council)) + geom_bar(stats = "identity") + f
  hr_hist <- ggplot(hr, aes(x=hr.avg)) 
         hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
 
+
+
+        
 ### Box plot for outcome scores
         
 hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
@@ -106,6 +171,40 @@ kable(hr_des)
 
 
 ## Academic Engagement
+
+
+```{r}
+ae <- function() {
+    ae_tbl <-with(outcomes,table(ae.avg >=4.5))
+    pander(ae_tbl)
+    
+}
+
+```
+
+
+```{r}
+ae()
+```
+
+
+```{r}
+ae_percent <-function() {
+    ae_tbl <-with(outcomes,table(ae.avg >=4.5))
+    ae_p <-prop.table(ae_tbl)
+    ae_p <-round(ae_p*100,2)
+    pander(ae_p)
+}
+
+```
+
+
+```{r}
+
+ae_percent()
+
+```
+
 
 ### Academic Engagement Outcome Tables
 
@@ -146,10 +245,11 @@ pander(ae_tbl_cp)
 ```{r fig.width=15}
 ###Create outcome plot 
 ae_plot <-ggplot(ae, aes(ae.avg >= 4.5)) 
-         ae_plot + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Engagement"
+         ae_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Engagement"
                                                                                ) 
 ### Create outcome plot by council    
-ggplot(ae, aes(ae.avg >=4.45, fill= council)) + geom_bar(stats = "identity") + facet_grid(~council) + labs(x = "Achieving at High Level", title = "Pre: Academic Engagement by Council")
+ae_hist <- ggplot(ae, aes(x=ae.avg))
+        ae_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
 
          
 ```
@@ -189,6 +289,29 @@ kable(ae_desc)
 
 
 ## Academic Mastery
+
+```{r}
+am <- function() {
+    am_tbl <-with(outcomes,table(am.avg >=4.8))
+    pander(am_tbl)
+}
+
+am()
+
+
+```
+
+
+```{r}
+am_percent <-function() {
+    am_table <-with(outcomes,table(am.avg >=4.8))
+    am_p <-prop.table(am_table)
+    am_p <-round(am_p*100,2)
+    pander(am_p)
+}
+am_percent()
+
+```
 
 
 ### Academic Mastery Outcome tables
@@ -233,12 +356,12 @@ pander(am_cp)
 
 ### Plot outcome results for academic masters
 am_plot <-ggplot(am, aes(am.avg >= 4.8)) 
-         am_plot + geom_bar(stats="identitiy", fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Mastery") 
+         am_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Mastery") 
      
          
 ## Plot outcome results by council
-ggplot(am, aes(am.avg >=4.8, fill= council)) + geom_bar(stats = "identity") + facet_grid(~council) + labs(x = "Achieving at High Level", title = "Pre: Academic Mastery by Council")
-
+am_hist <- ggplot(am, aes(x=hr.avg))
+        hr_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Academic Mastery")
 
 ```
 
