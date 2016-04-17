@@ -20,7 +20,7 @@ library(sqldf)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016")
 
 ### read the data into R
-grades <- read.csv('grades_q1_04082016.csv', skip = 1, na.strings="")
+grades <- read.csv('grades_q1_04162016.csv', skip = 1, na.strings="")
 
 
 ```
