@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-08" />
+<meta name="date" content="2016-04-16" />
 
 <title>girlSurvey Data Management</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">girlSurvey Data Management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-08</em></h4>
+<h4 class="date"><em>2016-04-16</em></h4>
 
 </div>
 
@@ -156,7 +156,7 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girl_survey_04082016.csv&quot;, skip=1)
+rawdata &lt;- read.csv(&quot;girl_survey_04162016.csv&quot;, skip=1)
 dim(rawdata)</code></pre>
 <pre><code>## [1] 882  51</code></pre>
 </div>
@@ -267,7 +267,7 @@ str(fin$girlCode)</code></pre>
 
 pre &lt;- subset (fin, Time == &quot;Pre&quot;)
 dim(pre)</code></pre>
-<pre><code>## [1] 874  51</code></pre>
+<pre><code>## [1] 875  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-unique-student-codes" class="section level3">
 <h3>Subset Pre Surveys with unique student codes</h3>
@@ -275,7 +275,7 @@ dim(pre)</code></pre>
 preUnique&lt;- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]
 
 dim(preUnique)</code></pre>
-<pre><code>## [1] 842  51</code></pre>
+<pre><code>## [1] 841  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-duplicate-student-codes-needs-updated-data" class="section level3">
 <h3>Subset Pre Surveys with duplicate student codes (needs updated data)</h3>
@@ -288,7 +288,7 @@ preDupes &lt;-duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast=TRUE)
 preDupes &lt;-pre[preDupes, ]
 
 dim(preDupes)</code></pre>
-<pre><code>## [1] 32 51</code></pre>
+<pre><code>## [1] 34 51</code></pre>
 </div>
 </div>
 <div id="post-survey" class="section level1">
