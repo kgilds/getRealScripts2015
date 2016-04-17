@@ -63,6 +63,7 @@ hr <- function(){
 
 hr()
 
+class(hr)
 ```
 
 
