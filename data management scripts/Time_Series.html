@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-16" />
+<meta name="date" content="2016-04-19" />
 
 <title>Girl Report Trends</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Girl Report Trends</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-16</em></h4>
+<h4 class="date"><em>2016-04-19</em></h4>
 
 </div>
 
@@ -200,12 +200,14 @@ dim(pre_merge)</code></pre>
 non_match &lt;- anti_join(pre_girl_2016, post_survey_MY1415, by = &quot;girlCode&quot;, Copy = FALSE)
 
 dim(post_merge)</code></pre>
-<pre><code>## [1]  64 101</code></pre>
+<pre><code>## [1]  63 101</code></pre>
 <pre class="r"><code>dim(non_match)</code></pre>
 <pre><code>## [1] 778  51</code></pre>
 </div>
 <div id="healthy-relationships" class="section level3">
 <h3>Healthy Relationships</h3>
+<pre class="r"><code>hr_pre_2016 &lt;- pre_girl_2016 %&gt;%
+    select(girlCode,council, hr.avg)</code></pre>
 </div>
 <div id="healthy-relationship-stats" class="section level3">
 <h3>Healthy Relationship Stats</h3>
@@ -239,18 +241,18 @@ kable(post_merge_hr_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">64</td>
-<td align="right">4.432812</td>
-<td align="right">1.285395</td>
+<td align="right">63</td>
+<td align="right">4.425794</td>
+<td align="right">1.294482</td>
 <td align="right">4.5</td>
-<td align="right">4.550481</td>
-<td align="right">1.519665</td>
+<td align="right">4.544118</td>
+<td align="right">1.55673</td>
 <td align="right">1.2</td>
 <td align="right">6</td>
 <td align="right">4.8</td>
-<td align="right">-0.5407473</td>
-<td align="right">-0.3724809</td>
-<td align="right">0.1606743</td>
+<td align="right">-0.5224665</td>
+<td align="right">-0.4166657</td>
+<td align="right">0.1630895</td>
 </tr>
 </tbody>
 </table>
@@ -276,18 +278,18 @@ kable(post_merge_hr_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">64</td>
-<td align="right">4.611328</td>
-<td align="right">1.046564</td>
-<td align="right">4.475</td>
-<td align="right">4.723558</td>
-<td align="right">0.778365</td>
+<td align="right">63</td>
+<td align="right">4.613095</td>
+<td align="right">1.054874</td>
+<td align="right">4.45</td>
+<td align="right">4.727941</td>
+<td align="right">0.81543</td>
 <td align="right">0.875</td>
 <td align="right">6</td>
 <td align="right">5.125</td>
-<td align="right">-1.328553</td>
-<td align="right">2.940238</td>
-<td align="right">0.1308205</td>
+<td align="right">-1.322923</td>
+<td align="right">2.855456</td>
+<td align="right">0.1329016</td>
 </tr>
 </tbody>
 </table>
@@ -349,7 +351,7 @@ pander(hr_outcome_pre_2015)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center">31</td>
-<td align="center">33</td>
+<td align="center">32</td>
 </tr>
 </tbody>
 </table>
@@ -370,7 +372,7 @@ pander(hr_outcome_post_2014)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center">15</td>
-<td align="center">49</td>
+<td align="center">48</td>
 </tr>
 </tbody>
 </table>
@@ -400,14 +402,14 @@ pander(non_match_outcome)</code></pre>
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  post_merge$hr.avg.y and post_merge$hr.avg.x
-## W = 1873, p-value = 0.4036
+## W = 1803, p-value = 0.3751
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <pre class="r"><code>wilcox.test(post_merge$hr.avg.y, non_match$hr.avg)</code></pre>
 <pre><code>## 
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  post_merge$hr.avg.y and non_match$hr.avg
-## W = 24992, p-value = 0.9594
+## W = 24518, p-value = 0.9953
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 </div>
@@ -441,18 +443,18 @@ kable(post_merge_ae_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">64</td>
-<td align="right">4.025391</td>
-<td align="right">1.223363</td>
+<td align="right">63</td>
+<td align="right">4.011905</td>
+<td align="right">1.228384</td>
 <td align="right">4.125</td>
-<td align="right">4.052885</td>
+<td align="right">4.036765</td>
 <td align="right">1.11195</td>
 <td align="right">1.125</td>
 <td align="right">6</td>
 <td align="right">4.875</td>
-<td align="right">-0.1851938</td>
-<td align="right">-0.6805512</td>
-<td align="right">0.1529204</td>
+<td align="right">-0.1586733</td>
+<td align="right">-0.6933403</td>
+<td align="right">0.1547619</td>
 </tr>
 </tbody>
 </table>
@@ -478,18 +480,18 @@ kable(post_merge_ae_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">64</td>
-<td align="right">4.148438</td>
-<td align="right">0.9133802</td>
+<td align="right">63</td>
+<td align="right">4.142857</td>
+<td align="right">0.9196163</td>
 <td align="right">4.5</td>
-<td align="right">4.189904</td>
+<td align="right">4.183823</td>
 <td align="right">0.555975</td>
 <td align="right">1.125</td>
 <td align="right">6</td>
 <td align="right">4.875</td>
-<td align="right">-0.7397325</td>
-<td align="right">1.452095</td>
-<td align="right">0.1141725</td>
+<td align="right">-0.7192612</td>
+<td align="right">1.383312</td>
+<td align="right">0.1158608</td>
 </tr>
 </tbody>
 </table>
@@ -535,28 +537,28 @@ kable(post_merge_ae_pre)</code></pre>
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  post_merge$ae.avg.y and post_merge$ae.avg.x
-## V = 636, p-value = 0.241
+## V = 606.5, p-value = 0.2264
 ## alternative hypothesis: true location shift is less than 0</code></pre>
 <pre class="r"><code>wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, paired=TRUE)</code></pre>
 <pre><code>## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  post_merge$ae.avg.y and post_merge$ae.avg.x
-## V = 636, p-value = 0.482
+## V = 606.5, p-value = 0.4529
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <pre class="r"><code>wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, &quot;greater&quot;, paired=TRUE)</code></pre>
 <pre><code>## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  post_merge$ae.avg.y and post_merge$ae.avg.x
-## V = 636, p-value = 0.7618
+## V = 606.5, p-value = 0.7763
 ## alternative hypothesis: true location shift is greater than 0</code></pre>
 <pre class="r"><code>wilcox.test(post_merge$ae.avg.y, non_match$ae.avg, paired = FALSE)</code></pre>
 <pre><code>## 
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  post_merge$ae.avg.y and non_match$ae.avg
-## W = 27749, p-value = 0.126
+## W = 27162, p-value = 0.151
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <pre class="r"><code>ae_outcome_pre &lt;- with(post_merge, table(ae.avg.y &gt;=4.5))
 
@@ -575,7 +577,7 @@ pander(ae_outcome_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center">35</td>
-<td align="center">29</td>
+<td align="center">28</td>
 </tr>
 </tbody>
 </table>
@@ -596,7 +598,7 @@ pander(ae_outcome_post)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center">13</td>
-<td align="center">51</td>
+<td align="center">50</td>
 </tr>
 </tbody>
 </table>
@@ -630,18 +632,18 @@ kable(post_merge_am_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">64</td>
-<td align="right">5.4525</td>
-<td align="right">0.6334937</td>
-<td align="right">5.64</td>
-<td align="right">5.552308</td>
-<td align="right">0.533736</td>
+<td align="right">63</td>
+<td align="right">5.44381</td>
+<td align="right">0.6347248</td>
+<td align="right">5.52</td>
+<td align="right">5.543529</td>
+<td align="right">0.711648</td>
 <td align="right">3.36</td>
 <td align="right">6</td>
 <td align="right">2.64</td>
-<td align="right">-1.249137</td>
-<td align="right">1.116629</td>
-<td align="right">0.0791867</td>
+<td align="right">-1.231356</td>
+<td align="right">1.07229</td>
+<td align="right">0.0799678</td>
 </tr>
 </tbody>
 </table>
@@ -667,18 +669,18 @@ kable(post_merge_am_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">64</td>
-<td align="right">5.19</td>
-<td align="right">0.8130366</td>
+<td align="right">63</td>
+<td align="right">5.177143</td>
+<td align="right">0.8129822</td>
 <td align="right">5.28</td>
-<td align="right">5.303077</td>
+<td align="right">5.289412</td>
 <td align="right">0.711648</td>
 <td align="right">1.44</td>
 <td align="right">6</td>
 <td align="right">4.56</td>
-<td align="right">-1.719048</td>
-<td align="right">5.209387</td>
-<td align="right">0.1016296</td>
+<td align="right">-1.715689</td>
+<td align="right">5.216276</td>
+<td align="right">0.1024261</td>
 </tr>
 </tbody>
 </table>
@@ -731,14 +733,14 @@ kable(post_merge_am_pre)</code></pre>
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  post_merge$am.avg.y and non_match$am.avg
-## W = 30192, p-value = 0.004113
+## W = 29520, p-value = 0.006175
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 <pre class="r"><code>wilcox.test(post_merge$am.avg.y, non_match$am.avg, &quot;greater&quot;, paired = FALSE)</code></pre>
 <pre><code>## 
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  post_merge$am.avg.y and non_match$am.avg
-## W = 30192, p-value = 0.002057
+## W = 29520, p-value = 0.003088
 ## alternative hypothesis: true location shift is greater than 0</code></pre>
 <pre class="r"><code>am_outcome_pre &lt;-with(post_merge,table(am.avg.y &gt;=4.8))
 
@@ -757,7 +759,7 @@ pander(am_outcome_pre)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center">7</td>
-<td align="center">57</td>
+<td align="center">56</td>
 </tr>
 </tbody>
 </table>
@@ -778,7 +780,7 @@ pander(am_outcome_post)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center">8</td>
-<td align="center">56</td>
+<td align="center">55</td>
 </tr>
 </tbody>
 </table>
@@ -939,7 +941,7 @@ hr_achieved</code></pre>
 outcomes &lt;- select(post_merge, girlCode, StartDate.x, hr.avg.x, ae.avg.x, am.avg.x, StartDate.y, hr.avg.y, ae.avg.y, am.avg.y)
 
 dim(outcomes)</code></pre>
-<pre><code>## [1] 64  9</code></pre>
+<pre><code>## [1] 63  9</code></pre>
 <pre class="r"><code>head(outcomes)</code></pre>
 <pre><code>##      girlCode         StartDate.x hr.avg.x ae.avg.x am.avg.x
 ## 1 320SA080203 2015-05-26 08:09:11    4.500    3.375     4.80

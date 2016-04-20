@@ -85,6 +85,14 @@ dim(non_match)
 
 ### Healthy Relationships 
 
+```{r}
+hr_pre_2016 <- pre_girl_2016 %>%
+    select(girlCode,council, hr.avg)
+
+```
+
+
+
 
 ### Healthy Relationship Stats
 ```{r}
