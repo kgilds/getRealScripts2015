@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-19" />
+<meta name="date" content="2016-04-20" />
 
 <title>student_survey_analysis</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">student_survey_analysis</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-19</em></h4>
+<h4 class="date"><em>2016-04-20</em></h4>
 
 </div>
 
@@ -242,10 +242,10 @@ dim(post_merge)</code></pre>
 </div>
 <div id="healthy-relationship-trends" class="section level3">
 <h3>Healthy Relationship Trends</h3>
-<table style="width:75%;">
+<table style="width:74%;">
 <colgroup>
 <col width="9%"></col>
-<col width="19%"></col>
+<col width="18%"></col>
 <col width="9%"></col>
 <col width="6%"></col>
 <col width="29%"></col>
@@ -253,7 +253,7 @@ dim(post_merge)</code></pre>
 <thead>
 <tr class="header">
 <th align="center">Year</th>
-<th align="center">populuation</th>
+<th align="center">population</th>
 <th align="center">mean</th>
 <th align="center">sd</th>
 <th align="center">outcome.1</th>
@@ -276,6 +276,7 @@ dim(post_merge)</code></pre>
 </tr>
 </tbody>
 </table>
+<p>The number of students surveys that could be matched from last year is 63and their average pre score was 4</p>
 </div>
 <div id="healthy-relationship-skills-for-students-in-the-program-last-year." class="section level3">
 <h3>Healthy Relationship Skills for students in the program last year.</h3>
@@ -283,11 +284,10 @@ dim(post_merge)</code></pre>
 
 post_merge_hr_post &lt;-describe(post_merge$hr.avg.x)
 
-non_match_hr_pre &lt;- describe(non_match$hr.avg)
-
-
-
-kable(post_merge_hr_pre)</code></pre>
+non_match_hr_pre &lt;- describe(non_match$hr.avg)</code></pre>
+<div id="pre-survey-healthy-relationship-scores-for-students-in-the-program-last-year" class="section level4">
+<h4>Pre Survey Healthy Relationship Scores for students in the Program last year:</h4>
+<pre class="r"><code>kable(post_merge_hr_pre)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -361,6 +361,9 @@ kable(post_merge_hr_pre)</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="pre-survey-health-relationship-scores-for-students-not-in-the-program-last-year" class="section level4">
+<h4>Pre Survey Health Relationship Scores for students not in the program last year:</h4>
 <pre class="r"><code>kable(non_match_hr_pre)</code></pre>
 <table>
 <thead>
@@ -398,6 +401,7 @@ kable(post_merge_hr_pre)</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="academic-engagement" class="section level2">

@@ -241,7 +241,7 @@ kable(hr_des)
 
 
 hr_history <-
-    select(history, Year,populuation, mean, sd, outcome.1) 
+    select(history, Year,population, mean, sd, outcome.1) 
 
 hr_history <-
     filter(hr_history, outcome.1 == "Healthy Relationships"& Year !="2015")
@@ -252,6 +252,7 @@ pander(hr_history)
 ```
 
 
+The number of students surveys that could be matched from last year is `r nrow(post_merge)`and their average pre score was `r round(mean(post_merge$hr.avg.y,2))`
 
 
 ### Healthy Relationship Skills for students in the program last year. 
@@ -265,12 +266,26 @@ non_match_hr_pre <- describe(non_match$hr.avg)
 
 
 
+
+
+
+```
+
+#### Pre Survey Healthy Relationship Scores for students in the Program last year: 
+```{r}
+
 kable(post_merge_hr_pre)
 kable(post_merge_hr_post)
-kable(non_match_hr_pre)
+
 ```
 
 
+#### Pre Survey Health Relationship Scores for students not in the program last year:
+
+```{r}
+kable(non_match_hr_pre)
+
+```
 
 
 ## Academic Engagement
