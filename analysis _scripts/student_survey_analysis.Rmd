@@ -1,7 +1,7 @@
 ---
 title: "student_survey_analysis"
 author: "Kevin Gilds"
-date: "December 20, 2015"
+date: "`r Sys.Date()`"
 output: 
   html_document: 
     toc: yes
@@ -10,7 +10,7 @@ output:
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(dplyr)
 library(pander)
@@ -32,15 +32,73 @@ getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 ```
 
 
-```{r}
+```{r load outcome survesy, echo=FALSE}
 
 ### Reade the girl_pre_survey database for analysis. 
 outcomes <- dbReadTable(getReal_2016db, "girl_pre")
 ###Select the variables of interest from the pre_survey
 outcomes <- select(outcomes, girlCode, council, hr.avg, am.avg, ae.avg)
 
+history <- dbReadTable(getReal_2016db, "basic_view")
+
 
 ```
+
+
+
+
+```{r lastyeardata, echo=FALSE}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+pre_survey_2014 <- dbReadTable(getRealdb, "pre_girl_survey")
+
+dim(pre_survey_2014)
+
+post_survey_MY1415 <- dbReadTable(getRealdb, "post_girl_survey")
+
+dim(post_survey_MY1415)
+
+
+```
+
+
+```{r}
+
+### Match Pre Surveys
+
+pre_merge <- inner_join (pre_survey_2014, outcomes, by = "girlCode", Copy=FALSE)
+
+dim(pre_merge)
+
+#x=2014, y=2015
+
+
+```
+
+
+
+### Match Post Survey (Matched Post Surveys Spring 2015 and Fall 2015)
+
+```{r}
+
+post_merge <- inner_join(post_survey_MY1415, outcomes, by = "girlCode", Copy=FALSE)
+
+non_match <- anti_join(outcomes, post_survey_MY1415, by = "girlCode", Copy = FALSE)
+
+dim(post_merge)
+
+dim(non_match)
+
+
+
+
+```
+
+
+
+
 
 
 
@@ -49,7 +107,7 @@ outcomes <- select(outcomes, girlCode, council, hr.avg, am.avg, ae.avg)
 ## Healthy Releationships
 
 
-```{r}
+```{r hr_function, echo=FALSE}
 
 hr <- function(){
     hr_tbl <- with(outcomes,table(hr.avg >=4.45))
@@ -59,15 +117,10 @@ hr <- function(){
 ```
 
 
-```{r}
-
-hr()
-
-class(hr)
-```
 
 
-```{r}
+
+```{r hr_percent, echo=FALSE}
 
 hr_percent <- function() {
     hr_tbl <- with(outcomes,table(hr.avg >=4.45))
@@ -76,12 +129,6 @@ hr_percent <- function() {
     pander(hr_tbl_p)
 }
 
-```
-
-
-
-```{r}
-
 hr_percent()
 
 ```
@@ -89,9 +136,8 @@ hr_percent()
 
 
 
-
 ### Healthy Relationships Outcome Tables
-```{r}
+```{r hr outcome tables, echo=FALSE, eval=FALSE}
 ### create basic outcome table for healty releationship outcome
 
 hr_tbl <- with(outcomes,table(hr.avg >=4.45))
@@ -124,12 +170,20 @@ pander(hr_tbl_cp)
 ```
 
 ### Healthy Relationship Outcome Plots
-```{r fig.width=15}
+```{r hr_barchart, fig.width=15, echo=FALSE}
 ### Plot outcome results
 hr <- select(outcomes, council, hr.avg)
 ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
 
 
+
+
+
+```
+
+
+
+```{r hr_hist2, echo=FALSE, eval=FALSE}
 
 ### Plot outcome results by council    
 hr_hist <- ggplot(hr, aes(x=hr.avg))
@@ -138,8 +192,10 @@ hr_hist <- ggplot(hr, aes(x=hr.avg))
 ```
 
 
+
+
 ### Healthy Relationships Outcome Distribution Plots
-```{r}
+```{r hr_hist, echo=FALSE}
 ### Histogram to show all the outcome scores
 ### Abline for ggplot
  hr_hist <- ggplot(hr, aes(x=hr.avg)) 
@@ -148,15 +204,24 @@ hr_hist <- ggplot(hr, aes(x=hr.avg))
 
 
         
+
+```
+
+
+```{r hr_boxplot, echo=FALSE, eval=FALSE}
+
 ### Box plot for outcome scores
         
 hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
         hr_box + geom_boxplot(fill="blue") + labs(y=" All Outcome Scores", title = "Pre: Healthy Relationships")
 
+
 ```
 
+
+
 ### Healthy Relationships Descriptive Stats
-```{r}
+```{r hr_descrip, echo=FALSE}
 ## Try x-table, or kable
 
 ### Prepare data frame for just looking at hr.avg        
@@ -168,6 +233,43 @@ hr_des <- describe(hr_1)
 kable(hr_des)
         
 ```
+
+
+### Healthy Relationship Trends
+
+```{r echo=FALSE}
+
+
+hr_history <-
+    select(history, Year,populuation, mean, sd, outcome.1) 
+
+hr_history <-
+    filter(hr_history, outcome.1 == "Healthy Relationships"& Year !="2015")
+
+
+pander(hr_history)
+
+```
+
+
+
+
+### Healthy Relationship Skills for students in the program last year. 
+```{r}
+
+post_merge_hr_pre <- describe(post_merge$hr.avg.y)
+
+post_merge_hr_post <-describe(post_merge$hr.avg.x)
+
+non_match_hr_pre <- describe(non_match$hr.avg)
+
+
+
+kable(post_merge_hr_pre)
+kable(post_merge_hr_post)
+kable(non_match_hr_pre)
+```
+
 
 
 
