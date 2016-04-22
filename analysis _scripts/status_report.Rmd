@@ -60,6 +60,18 @@ colnames (q1_stats) [1] <- "council"
 ###Create and add column for status update
 q1_stats$dataSource <- "Q1"
 
+### Read Grade 2 data
+grades_q2 <- dbReadTable(getReal_2016db, "Q2_Absences")
+
+###Pair down data
+q2_stats <-select(grades_q2, council.x)
+
+###Change column names
+colnames (q2_stats) [1] <- "council"
+
+### Add a column
+q2_stats$dataSource <- "Q2"
+
 
 ### Add the teacher to binding for status report
 add_teacher <- rbind(girl_parent, teacher1)
@@ -68,12 +80,34 @@ add_teacher <- rbind(girl_parent, teacher1)
 ###Findal addition to create data frame for status report
 survey_status <- rbind(add_teacher, q1_stats)
 
+survey_status <-rbind(survey_status, q2_stats)
+
 ### Read the pre girl survey for reference down stream
 girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
 ### Read the pre girl survey for reference down stream
 parent_survey_dupes <-dbReadTable(getReal_2016db, "pre_parent_duplicate")
 ### Read the pre girl survey for reference down stream
+
+### Read Q1 dupes
 q1_dupes <-dbReadTable(getReal_2016db, "Q1_duplicates")
+
+q1_dupes <- select(q1_dupes, council)
+
+### Add data source for q1. 
+q1_dupes$dataSource <- "Q1_dupes"
+
+
+### Read q2_dupes database
+q2_dupes <-dbReadTable(getReal_2016db, "Q2_duplicates")
+
+q2_dupes <-select(q2_dupes, council)
+
+### add data source column
+q2_dupes$dataSource <- "Q2_dupes"
+
+### bind the data togehter. 
+grades_dupes <- rbind(q1_dupes, q2_dupes)
+
 
 ### Reade the girl_pre_survey database for analysis. 
 outcomes <- dbReadTable(getReal_2016db, "girl_pre")
@@ -102,10 +136,12 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 
 
 # Data Entry Status
-```{r echo = FALSE}
+```{r echo = FALSE, eval=TRUE}
 library(DT)
 
 survey_status <-with(survey_status,table(council,dataSource))
+
+survey_status <- addmargins(survey_status)
 
 pander(survey_status)
 
@@ -135,13 +171,6 @@ girl_tbl_test <- with(girl_tbl, table(council))
 
 ```
 
-## Interactive Student Survey Status
-
-```{r echo = FALSE}
-library(DT)
-
-datatable(girl_tbl)
-```
 
 
 
@@ -162,89 +191,29 @@ pander(student_survey_dupe_)
 
 ```
 
-### Data Table Girl Survey Duplicates
 
-```{r echo = FALSE}
-library(DT)
-
-girl_survey_dupes <- select(girl_survey_dupes, 24:27)
-
-datatable(girl_survey_dupes)
-
-
-```
 
 # Academic Data
 
-## Data Table for Academic Data
-```{r echo = FALSE}
-datatable(academic_data)
-```
+
 
 ## Summary of Duplicate Data Entries Q1
 ```{r echo = FALSE}
-q1_dupes_tbl <-with(q1_dupes, table(council))
+grade_dupes <-with(grades_dupes, table(council,dataSource))
 
-pander(q1_dupes_tbl)
+grade_dupes <- addmargins(grade_dupes)
 
-```
-
-
-## Data Table of Duplicate Entries Q1
-```{r echo = FALSE}
-
-q1_dupes <- select(q1_dupes, 7:10)
-
-datatable(q1_dupes)
+pander(grade_dupes)
 
 ```
 
 
 
-# Parent Survey
 
 
-## Data Table for Parent Survey
-
-```{r echo = FALSE}
-
-parent <- select(parent, 6:9)
-
-datatable(parent)
 
 
-```
 
 
-## Summary of Duplicate Entries for Parent Survey
 
-```{r echo = FALSE}
-
-parent_survey_dupes_tbl <-with(parent_survey_dupes, table(council))
-
-pander(parent_survey_dupes_tbl)
-
-```
-
-
-## Data Table for Duplicate Parent Survey
-
-```{r echo = FALSE}
-
-parent_survey_dupes <- select(parent_survey_dupes, 6:9)
-
-datatable(parent_survey_dupes)
-
-```
-
-# Teacher Survey
-
-## Data Table for Teacher Survey
-```{r echo = FALSE}
-
-teacher <- select(teacher, 6:9)
-
-datatable(teacher)
-
-```
 
