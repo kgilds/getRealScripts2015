@@ -3,9 +3,9 @@ title: "Status Report"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    toc: yes
   html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -153,16 +153,17 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 ```
 
 
-# Data Entry Status
+
 ```{r echo = FALSE, eval=TRUE}
-library(DT)
 
-survey_status <-with(survey_status,table(council,dataSource))
 
-survey_status <- addmargins(survey_status)
 
-pander(survey_status)
 
+survey_status2 <-with(survey_status,table(council, dataSource))
+
+survey_status2 <- addmargins(survey_status2)
+
+pander(survey_status2)
 
 
 ```

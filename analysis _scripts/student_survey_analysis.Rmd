@@ -365,7 +365,7 @@ pander(ae_tbl_cp)
 
 ### Academic Engagment Outcome Plots
 
-```{r fig.width=15}
+```{r fig.width=15, echo = FALSE}
 ###Create outcome plot 
 ae_plot <-ggplot(ae, aes(ae.avg >= 4.5)) 
          ae_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Engagement"
@@ -388,7 +388,7 @@ ae_hist <- ggplot(ae, aes(x=ae.avg))
 
 ### Acedimc Engagement Distribution Plots
 
-```{r}
+```{r echo = FALSE}
 
 ### Create Histogram of all outcome scores
 ae_hist <- ggplot(ae, aes(ae.avg)) 
@@ -408,7 +408,7 @@ ae_box + geom_boxplot(fill="blue") + labs(y="All Outcome Scores", title = "Pre: 
 
 ###  Academic Engagement Descriptive Stats
 
-```{r}
+```{r echo = FALSE}
 ###Summary stats for academic engagement variable
 ae_desc <- describe(ae$ae.avg)
 
@@ -422,7 +422,7 @@ kable(ae_desc)
 
 ## Academic Mastery
 
-```{r}
+```{r echo = FALSE, eval = FALSE}
 am <- function() {
     am_tbl <-with(outcomes,table(am.avg >=4.8))
     pander(am_tbl)
@@ -434,7 +434,7 @@ am()
 ```
 
 
-```{r}
+```{r echo=FALSE}
 am_percent <-function() {
     am_table <-with(outcomes,table(am.avg >=4.8))
     am_p <-prop.table(am_table)
@@ -445,10 +445,18 @@ am_percent()
 
 ```
 
+```{r echo = FALSE}
+
+###Create data fram to set up outcome table
+am <- select(outcomes, council, am.avg)
+
+```
+
+
 
 ### Academic Mastery Outcome tables
 
-```{r}
+```{r echo= FALSE, eval= FALSE}
 
 ###Create data fram to set up outcome table
 am <- select(outcomes, council, am.avg)
@@ -484,13 +492,20 @@ pander(am_cp)
 
 ### Academic Mastery Outcome Plots
 
-```{r fig.width=15}
+```{r fig.width=15, echo = FALSE}
 
 ### Plot outcome results for academic masters
 am_plot <-ggplot(am, aes(am.avg >= 4.8)) 
          am_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Mastery") 
      
          
+
+
+```
+
+
+```{r echo = FALSE, eval= FALSE}
+
 ## Plot outcome results by council
 am_hist <- ggplot(am, aes(x=hr.avg))
         hr_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Academic Mastery")
@@ -501,7 +516,7 @@ am_hist <- ggplot(am, aes(x=hr.avg))
 
 ### Academic Mastery Distribution Plots
 
-```{r}
+```{r echo = FALSE}
 
 ### Create histogram from academic mastery scores
 am_hist <- ggplot(am, aes(am.avg)) 
@@ -515,7 +530,7 @@ am_hist <- ggplot(am, aes(am.avg))
 
 ### Acadmeic Mastery Boxplot
 
-```{r fig.width=15}
+```{r fig.width=15, echo = FALSE, eval = FALSE}
         
 ### Create box plot of academic master outcome scores. 
 am_box <-ggplot(am, aes(x=factor(council), am.avg))
@@ -526,7 +541,7 @@ am_box + geom_boxplot(fill="blue") + labs(y="All Outcome Scores", title = "Pre: 
 
 
 ### Academic Mastery Descriptive Stats
-```{r}
+```{r echo = FALSE}
 
 ### Create stats summary
 am_s <- describe(am$am.avg)
