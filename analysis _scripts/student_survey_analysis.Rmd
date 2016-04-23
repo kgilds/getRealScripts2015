@@ -178,8 +178,8 @@ ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(fill="blue", width = .5) + labs(x="Ach
 
 
 
-
 ```
+
 
 
 
@@ -252,11 +252,11 @@ pander(hr_history)
 ```
 
 
-The number of students surveys that could be matched from last year is `r nrow(post_merge)`and their average pre score was `r round(mean(post_merge$hr.avg.y,2))`
+
 
 
 ### Healthy Relationship Skills for students in the program last year. 
-```{r}
+```{r echo=FALSE}
 
 post_merge_hr_pre <- describe(post_merge$hr.avg.y)
 
@@ -272,7 +272,7 @@ non_match_hr_pre <- describe(non_match$hr.avg)
 ```
 
 #### Pre Survey Healthy Relationship Scores for students in the Program last year: 
-```{r}
+```{r echo=FALSE}
 
 kable(post_merge_hr_pre)
 kable(post_merge_hr_post)
@@ -282,7 +282,7 @@ kable(post_merge_hr_post)
 
 #### Pre Survey Health Relationship Scores for students not in the program last year:
 
-```{r}
+```{r echo=FALSE}
 kable(non_match_hr_pre)
 
 ```
@@ -291,22 +291,21 @@ kable(non_match_hr_pre)
 ## Academic Engagement
 
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 ae <- function() {
     ae_tbl <-with(outcomes,table(ae.avg >=4.5))
     pander(ae_tbl)
     
 }
 
-```
-
-
-```{r}
 ae()
 ```
 
 
-```{r}
+
+
+
+```{r echo = FALSE}
 ae_percent <-function() {
     ae_tbl <-with(outcomes,table(ae.avg >=4.5))
     ae_p <-prop.table(ae_tbl)
@@ -314,19 +313,25 @@ ae_percent <-function() {
     pander(ae_p)
 }
 
-```
-
-
-```{r}
-
 ae_percent()
 
 ```
 
 
+```{r echo = FALSE}
+
+### Prepare data frame for tables
+ae <- select(outcomes, council, ae.avg)
+
+
+```
+
+
+
+
 ### Academic Engagement Outcome Tables
 
-```{r}
+```{r echo=FALSE, eval = FALSE}
 ### Prepare data frame for tables
 ae <- select(outcomes, council, ae.avg)
 
@@ -365,12 +370,21 @@ pander(ae_tbl_cp)
 ae_plot <-ggplot(ae, aes(ae.avg >= 4.5)) 
          ae_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Engagement"
                                                                                ) 
+
+
+         
+```
+
+
+```{r echo=FALSE, eval= FALSE}
+
 ### Create outcome plot by council    
 ae_hist <- ggplot(ae, aes(x=ae.avg))
         ae_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
 
-         
 ```
+
+
 
 ### Acedimc Engagement Distribution Plots
 
@@ -385,7 +399,7 @@ ae_hist <- ggplot(ae, aes(ae.avg))
 
 
 ### Academic Engagement Boxplot
-```{r fig.width=20}
+```{r fig.width=20, echo=FALSE, eval=FALSE}
 
 ###Create box plot by council
 ae_box <-ggplot(ae, aes(x=factor(council), ae.avg))
