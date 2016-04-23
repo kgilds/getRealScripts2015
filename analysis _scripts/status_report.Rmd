@@ -2,8 +2,10 @@
 title: "Status Report"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
-output: 
-  html_document: 
+output:
+  pdf_document:
+    toc: yes
+  html_document:
     toc: yes
 ---
 
@@ -31,7 +33,7 @@ girl <- dbReadTable(getReal_2016db, "girl_pre")
 ###Select the neeeded data for data entry status update
 girl <- select(girl, council)
 ###Create and add column for status update
-girl$dataSource <-"girl"
+girl$dataSource <-"student"
 
 ### Make connection with database
 parent <-dbReadTable(getReal_2016db,"pre_parent")
@@ -84,8 +86,24 @@ survey_status <-rbind(survey_status, q2_stats)
 
 ### Read the pre girl survey for reference down stream
 girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
+
+girl_survey_dupes$dataSource <-"Student"
+
+girl_survey_dupes <- girl_survey_dupes %>%
+    select(council, dataSource)
+
+
 ### Read the pre girl survey for reference down stream
 parent_survey_dupes <-dbReadTable(getReal_2016db, "pre_parent_duplicate")
+
+parent_survey_dupes$dataSource <-"Parent"
+
+parent_survey_dupes <- parent_survey_dupes %>%
+    select(council, dataSource)
+
+
+survey_duplicates <- rbind(girl_survey_dupes, parent_survey_dupes)
+
 ### Read the pre girl survey for reference down stream
 
 ### Read Q1 dupes
@@ -94,7 +112,7 @@ q1_dupes <-dbReadTable(getReal_2016db, "Q1_duplicates")
 q1_dupes <- select(q1_dupes, council)
 
 ### Add data source for q1. 
-q1_dupes$dataSource <- "Q1_dupes"
+q1_dupes$dataSource <- "Q1"
 
 
 ### Read q2_dupes database
@@ -103,7 +121,7 @@ q2_dupes <-dbReadTable(getReal_2016db, "Q2_duplicates")
 q2_dupes <-select(q2_dupes, council)
 
 ### add data source column
-q2_dupes$dataSource <- "Q2_dupes"
+q2_dupes$dataSource <- "Q2"
 
 ### bind the data togehter. 
 grades_dupes <- rbind(q1_dupes, q2_dupes)
@@ -151,62 +169,21 @@ pander(survey_status)
 
 
 
-# Student Survey
-
-```{r echo = FALSE}
-
-
-### Read girl survey data
-girl_tbl <- select(outcomes, council, school, girlCode, hr.avg, ae.avg,am.avg )
-
-### create table to see how many to be expected
-girl_tbl_test <- with(girl_tbl, table(council))
-
-###Show output
-#pander(girl_tbl_test)
 
 
 
 
+# Duplicate Date Entry Status
+```{r echo= FALSE}
+duplicates <- rbind(survey_duplicates, grades_dupes)
+
+duplicates <- with(duplicates, table(council, dataSource))
+
+duplicates <- addmargins(duplicates)
+
+pander(duplicates)
 
 ```
-
-
-
-
-### Girl Survey Duplicate Summary Table
-
-```{r echo = FALSE}
-
-###Read girl survey dupes
-girl_survey_dupes1 <- select(girl_survey_dupes,council, school, girlCode)
-
-###Create table to see how many to be expected
-student_survey_dupe_ <-with(girl_survey_dupes, table(council))
-
-###Create output
-pander(student_survey_dupe_)
-
-
-
-```
-
-
-
-# Academic Data
-
-
-
-## Summary of Duplicate Data Entries Q1
-```{r echo = FALSE}
-grade_dupes <-with(grades_dupes, table(council,dataSource))
-
-grade_dupes <- addmargins(grade_dupes)
-
-pander(grade_dupes)
-
-```
-
 
 
 
