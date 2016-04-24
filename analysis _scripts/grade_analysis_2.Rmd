@@ -63,11 +63,8 @@ reading_q2q1 <- reading_1 %>%
 
 ```
 
-### Reading Grade Change
-
-```{r echo=FALSE}
-
-
+```{r echo=FALSE, eval=FALSE}
+reading_change <- table(reading_q2q1$reading_pt_diff, reading_q2q1$reading_pts2)
 
 reading_change <- table(reading_q2q1$reading_pt_diff, reading_q2q1$reading_pts2)
 
@@ -75,17 +72,16 @@ reading_change <- table(reading_q2q1$reading_pt_diff, reading_q2q1$reading_pts2)
 reading_change_1 <- with(reading_q2q1, table(reading_pts2 >=2, reading_pt_diff >=0))
 pander(reading_change_1)
 
-pander(reading_change)
 
 
-plot(reading_change, col="blue")
-
-reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
-
-  
 ```
 
-### Reading Success Function
+
+
+
+
+
+### Reading Success: % of Students that increased Grade or maintained a C 
 ```{r echo=FALSE}
 reading_outcome <- function(){
     reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
@@ -94,36 +90,91 @@ reading_outcome <- function(){
     pander(reading_dat)
 }
 
-reading_outcome()
+pander(reading_outcome())
 ```
-
-
-
-
-
-
 
 ### Reading Stats
 
 ```{r echo=FALSE}
 
-with(reading_q2q1,table(reading_pts))
+#with(reading_q2q1,table(reading_pts))
 
-with(reading_q2q1,table(reading_pts2))
+#with(reading_q2q1,table(reading_pts2))
 
 
 gpa_reading_1 <- mean(reading_q2q1$reading_pts)
-hist(reading_q2q1$reading_pts)
+#hist(reading_q2q1$reading_pts)
 gpa_reading_2 <- mean(reading_q2q1$reading_pts2)
-hist(reading_q2q1$reading_pts2)
+#hist(reading_q2q1$reading_pts2)
 
-reading_gpa_change <- (gpa_reading_2 - gpa_reading_1)
+#reading_gpa_change <- (gpa_reading_2 - gpa_reading_1)
 
-reading_gpa_change
+#reading_gpa_change
 
 mean(reading_q2q1$reading_pt_diff)
 
 ```
+
+
+
+```{r echo=FALSE}
+###Change name for plots
+
+
+colnames (reading_q2q1) [2] <- "council"
+colnames (reading_q2q1) [3] <- "Q1_Grade"
+colnames (reading_q2q1) [4] <- "Q2_Grade"
+colnames (reading_q2q1) [5] <- "Grade_Change"
+
+
+```
+
+
+### Reading Grades Plots
+
+```{r}
+
+reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+
+reading_grades_q1 + geom_count()
+
+reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+
+reading_grades_q2 + geom_count()
+
+
+```
+
+
+
+
+### Reading Grade Change from Q1 to Q2 
+
+```{r echo=FALSE}
+
+
+#reading_change_plot <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = council)))
+
+#reading_change_plot + geom_count()
+
+
+reading_change_plot2 <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+
+reading_change_plot2 + geom_count()
+
+
+#plot(reading_change, col="Red")
+
+#reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+
+  
+```
+
+
+
+
+
+
 
 
 
