@@ -93,7 +93,7 @@ reading_outcome <- function(){
 pander(reading_outcome())
 ```
 
-### Reading Stats
+### GPA Difference between Q1 and Q2
 
 ```{r echo=FALSE}
 
@@ -111,7 +111,9 @@ gpa_reading_2 <- mean(reading_q2q1$reading_pts2)
 
 #reading_gpa_change
 
-mean(reading_q2q1$reading_pt_diff)
+gpa_diff <- mean(reading_q2q1$reading_pt_diff)
+
+pander(gpa_diff)
 
 ```
 
@@ -132,15 +134,15 @@ colnames (reading_q2q1) [5] <- "Grade_Change"
 
 ### Reading Grades Plots
 
-```{r}
+```{r echo=FALSE}
 
-reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+#reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
 
-reading_grades_q1 + geom_count()
+#reading_grades_q1 + geom_count()
 
-reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+#reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
 
-reading_grades_q2 + geom_count()
+#reading_grades_q2 + geom_count()
 
 
 ```
@@ -186,7 +188,7 @@ reading_change_plot2 + geom_count()
 
 langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
-dim(langarts)
+
 
 langarts_1 <- langarts %>%
     select(girlCode, council.x, lang_pts, lang_pts2)
@@ -215,7 +217,7 @@ plot(lang_change)
 
 ```
 
-### Lang Grade Success Function
+### Language Arts Grade: % of Students that increased Grade or maintained a C 
 ```{r echo=FALSE}
 lang_success <- function() {
     lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
@@ -234,9 +236,75 @@ lang_success()
 ```{r echo=FALSE}
 
 
-mean(langarts_q2q1$pt_diff)
+lang_gpa_diff<-mean(langarts_q2q1$pt_diff)
+
+pander(lang_gpa_diff)
 
 ```
+
+
+```{r echo=FALSE}
+
+colnames (langarts_q2q1) [2] <- "council"
+colnames (langarts_q2q1) [3] <- "Q1_Grade"
+colnames (langarts_q2q1) [4] <- "Q2_Grade"
+colnames (langarts_q2q1) [5] <- "Grade_Change"
+
+
+
+```
+
+
+```{r echo=FALSE}
+
+### Reading Grades Plots
+
+
+
+#reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+
+#reading_grades_q1 + geom_count()
+
+#reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+
+#reading_grades_q2 + geom_count()
+
+
+```
+
+
+
+
+### Language Arts Grade Change from Q1 to Q2 
+
+```{r echo=FALSE}
+
+
+#reading_change_plot <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = council)))
+
+#reading_change_plot + geom_count()
+
+
+langarts_change_plot2 <- ggplot(langarts_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+
+langarts_change_plot2 + geom_count()
+
+
+#plot(reading_change, col="Red")
+
+#reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+
+  
+```
+
+
+
+
+
+
+
+
+
 
 
 # Absences 
