@@ -9,7 +9,7 @@ output:
 
 # Set up R to read database
 
-```{r}
+```{r echo=FALSE, warning=FALSE}
 
 library(sqldf)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
@@ -44,16 +44,15 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
 ## Join Q1 and Q2 Data
 
-```{r}
+```{r echo=FALSE}
 reading <-inner_join(q1_reading, q2_reading, by="girlCode")
 
-dim(reading)
-head(reading)
+
 
 reading_1 <- reading %>%
     select(girlCode,council.x, reading_pts, reading_pts2)
 
-head(reading_1)
+
 
 
 reading_q2q1 <- reading_1 %>%
@@ -62,18 +61,11 @@ reading_q2q1 <- reading_1 %>%
 
 
 
-
-dim(reading_q2q1)
-
-
-    
-
-
 ```
 
 ### Reading Grade Change
 
-```{r}
+```{r echo=FALSE}
 
 
 
@@ -86,20 +78,19 @@ pander(reading_change_1)
 pander(reading_change)
 
 
-plot(reading_change)
+plot(reading_change, col="blue")
 
 reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
 
-dim(reading_dat)
-
-pander(reading_dat)    
+  
 ```
 
 ### Reading Success Function
-```{r}
+```{r echo=FALSE}
 reading_outcome <- function(){
     reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
     reading_dat <-  nrow(reading_dat) /nrow(reading_q2q1) 
+    reading_dat <- round(reading_dat*100,2)
     pander(reading_dat)
 }
 
@@ -114,7 +105,7 @@ reading_outcome()
 
 ### Reading Stats
 
-```{r}
+```{r echo=FALSE}
 
 with(reading_q2q1,table(reading_pts))
 
@@ -140,7 +131,7 @@ mean(reading_q2q1$reading_pt_diff)
 # Language Arts Grades--
 ## Join Q1 and Q2 Language Arts Grades
 
-```{r}
+```{r echo=FALSE}
 
 langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
@@ -159,7 +150,7 @@ langarts_q2q1 <- langarts_1 %>%
 
 ### Language Arts Grade Change
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 lang_change <- with(langarts_q2q1, table(pt_diff, lang_pts2))
 
 pander(lang_change)
@@ -174,10 +165,11 @@ plot(lang_change)
 ```
 
 ### Lang Grade Success Function
-```{r}
+```{r echo=FALSE}
 lang_success <- function() {
     lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
     lang_dat <- nrow(lang_dat)/nrow(langarts_q2q1)
+    lang_dat <- round(lang_dat*100,2)
     pander(lang_dat)
 }
 
@@ -188,16 +180,8 @@ lang_success()
 
 
 ### Lang Arts Grade Stats
-```{r}
-with(langarts_q2q1,table(lang_pts))
-langpts_density <- density(langarts_q2q1$lang_pts)
-hist(langarts_q2q1$lang_pts, freq = FALSE)
-lines(langpts_density)
+```{r echo=FALSE}
 
-with(langarts_q2q1,table(lang_pts2))
-langpts2_density <- density(langarts_q2q1$lang_pts2)
-hist(langarts_q2q1$lang_pts2, freq = FALSE)
-lines(langpts2_density)
 
 mean(langarts_q2q1$pt_diff)
 
@@ -206,13 +190,11 @@ mean(langarts_q2q1$pt_diff)
 
 # Absences 
 ## Join Absence data from Q1 and Q2
-```{r}
+```{r echo=FALSE}
 
 absences <- inner_join(q1_absences, q2_absences, by="girlCode")
 
-dim(absences)
 
-head(absences)
 
 absences_1 <- absences %>%
     select(girlCode, council.x.x, sum_abs.x, sum_abs.y) 
@@ -227,7 +209,7 @@ absences_q2q1 <- absences_1 %>%
 ```
 
 ### Absences Change
-```{r}
+```{r echo=FALSE, eval=FALSE}
 
 absences_change <- with(absences_q2q1, table(abs_diff,sum_abs.y))
 
@@ -251,7 +233,7 @@ plot(absences_change)
 ```
 
 ### Absences Success Function 
-```{r}
+```{r echo=FALSE}
 
 absences_success <- function() {
     no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0)
@@ -271,7 +253,7 @@ absences_success()
 #Suspensions
 ## Merge Suspensions Q1 and Q2 Data. 
 
-```{r}
+```{r echo=FALSE}
 
 suspsensions <- inner_join(q1_suspensions, q2_suspensions, by="girlCode")
 
@@ -292,7 +274,7 @@ dim(suspensions_q2q1)
 
 ### Suspensions Changes
 
-```{r}
+```{r echo=FALSE}
 
 suspensions_change <- with(suspensions_q2q1,table(susp_diff, susp_sum.y))
 
@@ -314,15 +296,96 @@ plot(suspensions_change)
 ```
 
 ### Suspensions Outcome Function
-```{r}
+```{r echo=FALSE}
 suspensions_success <- function() {
     no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0)
     decrease_suspensions <- filter(suspensions_q2q1, susp_diff <0)
     total_suspensions <- nrow(no_suspensions) + nrow(decrease_suspensions)
     total_suspensions <- total_suspensions/nrow(suspensions_q2q1)
+    total_suspensions <- round(total_suspensions*100,2)
     pander(total_suspensions)
 }
 
 suspensions_success()
 ```
+
+```{r echo=FALSE}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+
+```
+
+
+
+
+# Time Series Data
+
+## Lang Arts 
+
+```{r echo=FALSE}
+q4_lang_2014 <- dbReadTable(getRealdb, "q4_langarts")
+
+q2_lang_2016 <-dbReadTable(getReal_2016db, "Q2_lang")
+
+lang <- inner_join(q4_lang_2014, q2_lang_2016, by="girlCode")
+
+dim(lang)
+
+head(lang)
+
+
+lang$value <-as.numeric(lang$value)
+
+mean(lang$value)
+mean(lang$lang_pts2)
+
+
+langarts_q4q2 <- lang %>%
+    mutate(pt_diff = lang_pts2 - value)
+
+langarts_q4q2 %>%
+select(girlCode, lang_pts2, value, pt_diff)
+
+
+
+
+mean(langarts_q4q2$pt_diff)
+
+plot(langarts_q4q2$pt_diff)
+
+with(langarts_q4q2,table(pt_diff))
+
+with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
+
+```
+
+
+```{r echo=FALSE}
+
+q4_reading_2014 <-dbReadTable(getRealdb, "q4_reading")
+
+q4_reading_2014 <- na.omit(q4_reading_2014)
+
+q2_reading_2016 <-dbReadTable(getReal_2016db, "Q2_reading")
+
+reading <- inner_join(q4_reading_2014, q2_reading_2016, by="girlCode")
+
+dim(reading)
+
+head(reading)
+
+
+
+reading_q4q2 <- reading %>%
+    mutate(pt_diff = reading_pts2 - value)
+reading_q4q2 %>%
+select(girlCode, reading_pts2, value, pt_diff)
+
+
+with(reading_q4q2,table(pt_diff))
+
+with(reading_q4q2,table(reading_pts2 >=2, pt_diff >=0))
+
 
