@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-22" />
+<meta name="date" content="2016-04-23" />
 
 <title>student_survey_analysis</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">student_survey_analysis</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-22</em></h4>
+<h4 class="date"><em>2016-04-23</em></h4>
 
 </div>
 
@@ -133,6 +133,8 @@ $(document).ready(function () {
 <li><a href="#acedimc-engagement-distribution-plots">Acedimc Engagement Distribution Plots</a></li>
 <li><a href="#academic-engagement-boxplot">Academic Engagement Boxplot</a></li>
 <li><a href="#academic-engagement-descriptive-stats">Academic Engagement Descriptive Stats</a></li>
+<li><a href="#academic-engagement-trends">Academic Engagement Trends</a></li>
+<li><a href="#academic-engagment">Academic Engagment</a></li>
 </ul></li>
 <li><a href="#academic-mastery">Academic Mastery</a><ul>
 <li><a href="#academic-mastery-outcome-tables">Academic Mastery Outcome tables</a></li>
@@ -140,6 +142,8 @@ $(document).ready(function () {
 <li><a href="#academic-mastery-distribution-plots">Academic Mastery Distribution Plots</a></li>
 <li><a href="#acadmeic-mastery-boxplot">Acadmeic Mastery Boxplot</a></li>
 <li><a href="#academic-mastery-descriptive-stats">Academic Mastery Descriptive Stats</a></li>
+<li><a href="#academic-mastry-trends">Academic Mastry Trends</a></li>
+<li><a href="#academic-mastery-1">Academic Mastery</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -242,13 +246,15 @@ dim(post_merge)</code></pre>
 </div>
 <div id="healthy-relationship-trends" class="section level3">
 <h3>Healthy Relationship Trends</h3>
-<table style="width:74%;">
+<table>
 <colgroup>
-<col width="9%"></col>
-<col width="18%"></col>
-<col width="9%"></col>
+<col width="8%"></col>
+<col width="15%"></col>
+<col width="8%"></col>
 <col width="6%"></col>
-<col width="29%"></col>
+<col width="13%"></col>
+<col width="26%"></col>
+<col width="21%"></col>
 </colgroup>
 <thead>
 <tr class="header">
@@ -256,7 +262,9 @@ dim(post_merge)</code></pre>
 <th align="center">population</th>
 <th align="center">mean</th>
 <th align="center">sd</th>
+<th align="center">achieved</th>
 <th align="center">outcome.1</th>
+<th align="center">percent_achieved</th>
 </tr>
 </thead>
 <tbody>
@@ -265,14 +273,18 @@ dim(post_merge)</code></pre>
 <td align="center">699</td>
 <td align="center">4.55</td>
 <td align="center">1.19</td>
+<td align="center">426</td>
 <td align="center">Healthy Relationships</td>
+<td align="center">60.94</td>
 </tr>
 <tr class="even">
 <td align="center">2014</td>
 <td align="center">1186</td>
 <td align="center">4.44</td>
 <td align="center">1.5</td>
+<td align="center">718</td>
 <td align="center">Healthy Relationships</td>
+<td align="center">60.54</td>
 </tr>
 </tbody>
 </table>
@@ -393,6 +405,75 @@ dim(post_merge)</code></pre>
 </tbody>
 </table>
 </div>
+<div id="healthy-relationship-outcome-achievement" class="section level4">
+<h4>Healthy Relationship Outcome Achievement</h4>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">31</td>
+<td align="center">32</td>
+</tr>
+</tbody>
+</table>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">15</td>
+<td align="center">48</td>
+</tr>
+</tbody>
+</table>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">315</td>
+<td align="center">463</td>
+</tr>
+</tbody>
+</table>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  post_merge$hr.avg.y and post_merge$hr.avg.x
+## W = 1803, p-value = 0.3751
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  post_merge$hr.avg.y and non_match$hr.avg
+## W = 24518, p-value = 0.9953
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
 </div>
 </div>
 <div id="academic-engagement" class="section level2">
@@ -469,6 +550,241 @@ dim(post_merge)</code></pre>
 </tbody>
 </table>
 </div>
+<div id="academic-engagement-trends" class="section level3">
+<h3>Academic Engagement Trends</h3>
+<table>
+<colgroup>
+<col width="8%"></col>
+<col width="15%"></col>
+<col width="8%"></col>
+<col width="5%"></col>
+<col width="13%"></col>
+<col width="23%"></col>
+<col width="25%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">population</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">achieved</th>
+<th align="center">outcome.1</th>
+<th align="center">ae_percent_achieved</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2013</td>
+<td align="center">699</td>
+<td align="center">4.1</td>
+<td align="center">1.18</td>
+<td align="center">329</td>
+<td align="center">Academic Engagement</td>
+<td align="center">47.07</td>
+</tr>
+<tr class="even">
+<td align="center">2014</td>
+<td align="center">1186</td>
+<td align="center">3.82</td>
+<td align="center">1.34</td>
+<td align="center">475</td>
+<td align="center">Academic Engagement</td>
+<td align="center">40.05</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="academic-engagment" class="section level3">
+<h3>Academic Engagment</h3>
+<pre class="r"><code>post_merge_ae_pre &lt;- describe(post_merge$ae.avg.y)
+post_merge_ae_post &lt;- describe(post_merge$ae.avg.x)
+
+non_match_ae_pre &lt;-describe(non_match$ae.avg)
+
+
+kable(post_merge_ae_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">63</td>
+<td align="right">4.011905</td>
+<td align="right">1.228384</td>
+<td align="right">4.125</td>
+<td align="right">4.036765</td>
+<td align="right">1.11195</td>
+<td align="right">1.125</td>
+<td align="right">6</td>
+<td align="right">4.875</td>
+<td align="right">-0.1586733</td>
+<td align="right">-0.6933403</td>
+<td align="right">0.1547619</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(post_merge_ae_post)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">63</td>
+<td align="right">4.142857</td>
+<td align="right">0.9196163</td>
+<td align="right">4.5</td>
+<td align="right">4.183823</td>
+<td align="right">0.555975</td>
+<td align="right">1.125</td>
+<td align="right">6</td>
+<td align="right">4.875</td>
+<td align="right">-0.7192612</td>
+<td align="right">1.383312</td>
+<td align="right">0.1158608</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(non_match_ae_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">778</td>
+<td align="right">3.580816</td>
+<td align="right">1.676006</td>
+<td align="right">3.75</td>
+<td align="right">3.656851</td>
+<td align="right">1.667925</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.4538213</td>
+<td align="right">-0.8616663</td>
+<td align="right">0.0600877</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, &quot;less&quot;,paired=TRUE)</code></pre>
+<pre><code>## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  post_merge$ae.avg.y and post_merge$ae.avg.x
+## V = 606.5, p-value = 0.2264
+## alternative hypothesis: true location shift is less than 0</code></pre>
+<pre class="r"><code>wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, paired=TRUE)</code></pre>
+<pre><code>## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  post_merge$ae.avg.y and post_merge$ae.avg.x
+## V = 606.5, p-value = 0.4529
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, &quot;greater&quot;, paired=TRUE)</code></pre>
+<pre><code>## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  post_merge$ae.avg.y and post_merge$ae.avg.x
+## V = 606.5, p-value = 0.7763
+## alternative hypothesis: true location shift is greater than 0</code></pre>
+<pre class="r"><code>wilcox.test(post_merge$ae.avg.y, non_match$ae.avg, paired = FALSE)</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  post_merge$ae.avg.y and non_match$ae.avg
+## W = 27162, p-value = 0.151
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>ae_outcome_pre &lt;- with(post_merge, table(ae.avg.y &gt;=4.5))
+
+pander(ae_outcome_pre)</code></pre>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">35</td>
+<td align="center">28</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ae_outcome_post &lt;- with(post_merge, table(ae.avg.x &lt;=4.5))
+
+pander(ae_outcome_post)</code></pre>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">13</td>
+<td align="center">50</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="academic-mastery" class="section level2">
 <h2>Academic Mastery</h2>
@@ -540,6 +856,233 @@ dim(post_merge)</code></pre>
 <td align="right">-1.899068</td>
 <td align="right">5.545075</td>
 <td align="right">0.0347245</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="academic-mastry-trends" class="section level3">
+<h3>Academic Mastry Trends</h3>
+<table>
+<colgroup>
+<col width="8%"></col>
+<col width="16%"></col>
+<col width="8%"></col>
+<col width="6%"></col>
+<col width="13%"></col>
+<col width="20%"></col>
+<col width="25%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Year</th>
+<th align="center">population</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">achieved</th>
+<th align="center">outcome.1</th>
+<th align="center">am_percent_achieved</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2013</td>
+<td align="center">699</td>
+<td align="center">5.38</td>
+<td align="center">0.78</td>
+<td align="center">601</td>
+<td align="center">Academic Mastery</td>
+<td align="center">85.98</td>
+</tr>
+<tr class="even">
+<td align="center">2014</td>
+<td align="center">1186</td>
+<td align="center">5.12</td>
+<td align="center">0.95</td>
+<td align="center">913</td>
+<td align="center">Academic Mastery</td>
+<td align="center">76.98</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="academic-mastery-1" class="section level3">
+<h3>Academic Mastery</h3>
+<pre class="r"><code>post_merge_am_pre &lt;- describe(post_merge$am.avg.y)
+post_merge_am_post &lt;- describe(post_merge$am.avg.x)
+
+non_match_am_pre &lt;- describe(non_match$am.avg)
+
+kable(post_merge_am_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">63</td>
+<td align="right">5.44381</td>
+<td align="right">0.6347248</td>
+<td align="right">5.52</td>
+<td align="right">5.543529</td>
+<td align="right">0.711648</td>
+<td align="right">3.36</td>
+<td align="right">6</td>
+<td align="right">2.64</td>
+<td align="right">-1.231356</td>
+<td align="right">1.07229</td>
+<td align="right">0.0799678</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(post_merge_am_post)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">63</td>
+<td align="right">5.177143</td>
+<td align="right">0.8129822</td>
+<td align="right">5.28</td>
+<td align="right">5.289412</td>
+<td align="right">0.711648</td>
+<td align="right">1.44</td>
+<td align="right">6</td>
+<td align="right">4.56</td>
+<td align="right">-1.715689</td>
+<td align="right">5.216276</td>
+<td align="right">0.1024261</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(non_match_am_pre)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">vars</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">trimmed</th>
+<th align="right">mad</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">range</th>
+<th align="right">skew</th>
+<th align="right">kurtosis</th>
+<th align="right">se</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">778</td>
+<td align="right">5.071465</td>
+<td align="right">1.026523</td>
+<td align="right">5.28</td>
+<td align="right">5.233461</td>
+<td align="right">1.067472</td>
+<td align="right">0</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-1.866733</td>
+<td align="right">5.309044</td>
+<td align="right">0.0368026</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>wilcox.test(post_merge$am.avg.y, post_merge$am.avg.x, paired = TRUE)</code></pre>
+<pre><code>## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  post_merge$am.avg.y and post_merge$am.avg.x
+## V = 902, p-value = 0.01055
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>wilcox.test(post_merge$am.avg.y, non_match$am.avg, paired = FALSE)</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  post_merge$am.avg.y and non_match$am.avg
+## W = 29520, p-value = 0.006175
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>wilcox.test(post_merge$am.avg.y, non_match$am.avg, &quot;greater&quot;, paired = FALSE)</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  post_merge$am.avg.y and non_match$am.avg
+## W = 29520, p-value = 0.003088
+## alternative hypothesis: true location shift is greater than 0</code></pre>
+<pre class="r"><code>am_outcome_pre &lt;-with(post_merge,table(am.avg.y &gt;=4.8))
+
+pander(am_outcome_pre)</code></pre>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">56</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>am_outcome_post &lt;- with(post_merge,table(am.avg.x &gt;=4.8))
+
+pander(am_outcome_post)</code></pre>
+<table style="width:22%;">
+<colgroup>
+<col width="11%"></col>
+<col width="11%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">55</td>
 </tr>
 </tbody>
 </table>
