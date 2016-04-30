@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-03-09" />
+<meta name="date" content="2016-04-30" />
 
 <title>parent data management</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">parent data management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-03-09</em></h4>
+<h4 class="date"><em>2016-04-30</em></h4>
 
 </div>
 
@@ -170,6 +170,18 @@ colnames (parent)[17] &lt;-  &quot;helpedMyDaughterAchieveSuccessInSchool&quot;
 colnames (parent)[18] &lt;-  &quot;helpedHerEstablishPostiveRelationshipsWithHerClassmates&quot;
 colnames (parent) [19] &lt;-  &quot;helpedYourDaughterAchieveSuccessInSchool&quot;
 colnames (parent) [20] &lt;-  &quot;ImproveTheGetRealProgram&quot;</code></pre>
+<pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
+parent$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, parent$council)
+
+parent$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, parent$council)
+
+parent$council &lt;-sub(&quot;Girl Scouts of Southeast Florida&quot;, &quot;Southeast Council&quot;, fixed=TRUE, parent$council)
+
+parent$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, parent$council)
+
+parent$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, parent$council)
+
+parent$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, parent$council)</code></pre>
 </div>
 <div id="fix-varaibles-that-will-be-trouble-later" class="section level2">
 <h2><span class="header-section-number">1.3</span> Fix varaibles that will be trouble later</h2>
