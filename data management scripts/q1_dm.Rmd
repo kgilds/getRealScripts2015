@@ -98,6 +98,32 @@ gradesq1 <- filter(grades, Finished == 1)
 
 ```
 
+
+```{r}
+
+### Change council names to be consistent wiht how they displayed with the surveys
+gradesq1$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, gradesq1$council)
+
+gradesq1$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, gradesq1$council)
+
+gradesq1$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, gradesq1$council)
+
+gradesq1$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, gradesq1$council)
+
+gradesq1$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, gradesq1$council)
+
+gradesq1$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, gradesq1$council)
+
+
+```
+
+
+
+
+
+
+
+
 ```{r}
 
 #######################Fix Factors ###################################
@@ -145,25 +171,6 @@ dim(gradesUnique)
 
 ```
 
-
-```{r}
-
-### Change council names to be consistent wiht how they displayed with the surveys
-gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, gradesUnique$council)
-
-gradesUnique$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, gradesUnique$council)
-
-gradesUnique$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, gradesUnique$council)
-
-gradesUnique$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, gradesUnique$council)
-
-gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, gradesUnique$council)
-
-gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, gradesUnique$council)
-
-
-
-```
 
 
 

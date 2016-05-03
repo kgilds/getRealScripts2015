@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-16" />
+<meta name="date" content="2016-04-30" />
 
 <title>Q2_grades_dm</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Q2_grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-16</em></h4>
+<h4 class="date"><em>2016-04-30</em></h4>
 
 </div>
 
@@ -347,6 +347,22 @@ colnames (q2_grades) [79] &lt;- &quot;mjLangTran_semester&quot;</code></pre>
 
 ### Eliminate uncompleted data entry
 gradesq2 &lt;- filter(q2_grades, Finished == 1)</code></pre>
+<pre class="r"><code>## Update council variable names to match other data sources
+
+
+### Change council names to be consistent wiht how they displayed with the surveys
+gradesq2$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesq2$council)
+
+gradesq2$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, gradesq2$council)
+
+gradesq2$council &lt;-sub(&quot;Girl Scouts of Southeast Florida&quot;, &quot;Southeast Council&quot;, fixed=TRUE, gradesq2$council)
+
+gradesq2$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, gradesq2$council)
+
+gradesq2$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, gradesq2$council)
+
+gradesq2$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, gradesq2$council)</code></pre>
+<p>```</p>
 </div>
 <div id="update-factors" class="section level2">
 <h2>Update factors</h2>

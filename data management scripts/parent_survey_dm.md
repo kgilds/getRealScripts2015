@@ -60,6 +60,27 @@ colnames (parent) [20] <-  "ImproveTheGetRealProgram"
 ```
 
 
+
+```r
+### Change council names to be consistent wiht how they displayed with the surveys
+parent$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, parent$council)
+
+parent$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, parent$council)
+
+parent$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, parent$council)
+
+parent$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, parent$council)
+
+parent$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, parent$council)
+
+parent$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, parent$council)
+```
+
+
+
+
+
+
 ## Fix varaibles that will be trouble later
 
 ```r
@@ -88,6 +109,9 @@ dim(parfin)
 ```
 ## [1] 483  21
 ```
+
+
+
 
 
 

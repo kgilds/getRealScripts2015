@@ -2,14 +2,16 @@
 title: "grade_analysis_2"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
-output: 
-  html_document: 
+output:
+  html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
-# Set up R to read database
 
-```{r}
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 
 library(sqldf)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
@@ -40,20 +42,19 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
 
 
-# Reading Data--
+# Reading Grade Data--
 
-## Join Q1 and Q2 Data
 
-```{r}
+
+```{r echo=FALSE}
 reading <-inner_join(q1_reading, q2_reading, by="girlCode")
 
-dim(reading)
-head(reading)
+
 
 reading_1 <- reading %>%
     select(girlCode,council.x, reading_pts, reading_pts2)
 
-head(reading_1)
+
 
 
 reading_q2q1 <- reading_1 %>%
@@ -62,20 +63,10 @@ reading_q2q1 <- reading_1 %>%
 
 
 
-
-dim(reading_q2q1)
-
-
-    
-
-
 ```
 
-### Reading Grade Change
-
-```{r}
-
-
+```{r echo=FALSE, eval=FALSE}
+reading_change <- table(reading_q2q1$reading_pt_diff, reading_q2q1$reading_pts2)
 
 reading_change <- table(reading_q2q1$reading_pt_diff, reading_q2q1$reading_pts2)
 
@@ -83,68 +74,122 @@ reading_change <- table(reading_q2q1$reading_pt_diff, reading_q2q1$reading_pts2)
 reading_change_1 <- with(reading_q2q1, table(reading_pts2 >=2, reading_pt_diff >=0))
 pander(reading_change_1)
 
-pander(reading_change)
 
 
-plot(reading_change)
-
-reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
-
-dim(reading_dat)
-
-pander(reading_dat)    
 ```
 
-### Reading Success Function
-```{r}
+
+
+
+
+
+### Reading Success: % of Students that increased Grade or maintained a C 
+```{r echo=FALSE}
 reading_outcome <- function(){
     reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
     reading_dat <-  nrow(reading_dat) /nrow(reading_q2q1) 
-    pander(reading_dat)
+    reading_dat <- round(reading_dat*100,2)
+    paste(reading_dat, "%", sep= " ")
+    
 }
 
-reading_outcome()
+
 ```
 
 
+The number of matching students from Quarter 1 and Quarter 2 is **`r nrow(reading_q2q1)`**, and the percent of students who increased their reading grade is **`r reading_outcome()`**.
 
 
 
+### GPA Difference between Q1 and Q2
 
+```{r echo=FALSE}
 
-### Reading Stats
+#with(reading_q2q1,table(reading_pts))
 
-```{r}
-
-with(reading_q2q1,table(reading_pts))
-
-with(reading_q2q1,table(reading_pts2))
+#with(reading_q2q1,table(reading_pts2))
 
 
 gpa_reading_1 <- mean(reading_q2q1$reading_pts)
-hist(reading_q2q1$reading_pts)
+#hist(reading_q2q1$reading_pts)
 gpa_reading_2 <- mean(reading_q2q1$reading_pts2)
-hist(reading_q2q1$reading_pts2)
+#hist(reading_q2q1$reading_pts2)
 
-reading_gpa_change <- (gpa_reading_2 - gpa_reading_1)
+#reading_gpa_change <- (gpa_reading_2 - gpa_reading_1)
 
-reading_gpa_change
+#reading_gpa_change
 
-mean(reading_q2q1$reading_pt_diff)
+gpa_diff <- mean(reading_q2q1$reading_pt_diff)
+
+
+
+```
+
+The average reading grade difference is **`r pander(gpa_diff)`**. This is impressive increase because many students may maintain their current grade. 
+
+```{r echo=FALSE}
+###Change name for plots
+
+
+colnames (reading_q2q1) [2] <- "council"
+colnames (reading_q2q1) [3] <- "Q1_Grade"
+colnames (reading_q2q1) [4] <- "Q2_Grade"
+colnames (reading_q2q1) [5] <- "Grade_Change"
+
 
 ```
 
 
+### Reading Grades Plots
+
+```{r echo=FALSE}
+
+#reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+
+#reading_grades_q1 + geom_count()
+
+#reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+
+#reading_grades_q2 + geom_count()
 
 
-# Language Arts Grades--
-## Join Q1 and Q2 Language Arts Grades
+```
 
-```{r}
+The changes in grades from Q1 to Q2 is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. For example those with an A in Q1 can decrease but not increase. Thus ideally we want to see circles heading to right. 
+
+
+### Reading Grade Change from Q1 to Q2 
+
+```{r echo=FALSE}
+
+
+#reading_change_plot <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = council)))
+
+#reading_change_plot + geom_count()
+
+
+reading_change_plot2 <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+
+reading_change_plot2 + geom_count()
+
+
+#plot(reading_change, col="Red")
+
+#reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+
+  
+```
+
+
+
+# Language Arts Grades
+
+
+```{r echo=FALSE}
 
 langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
-dim(langarts)
+
 
 langarts_1 <- langarts %>%
     select(girlCode, council.x, lang_pts, lang_pts2)
@@ -159,7 +204,7 @@ langarts_q2q1 <- langarts_1 %>%
 
 ### Language Arts Grade Change
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 lang_change <- with(langarts_q2q1, table(pt_diff, lang_pts2))
 
 pander(lang_change)
@@ -173,46 +218,98 @@ plot(lang_change)
 
 ```
 
-### Lang Grade Success Function
-```{r}
+### Language Arts Grade: % of Students that increased Grade or maintained a C 
+```{r echo=FALSE}
 lang_success <- function() {
     lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
     lang_dat <- nrow(lang_dat)/nrow(langarts_q2q1)
-    pander(lang_dat)
+    lang_dat <- round(lang_dat*100,2)
+    pander(paste0(lang_dat,"%", sep= ""))
+   
 }
 
-lang_success()
+
 ```
 
-
+The number of students that could be matched from Quarter 1 to Quarter 2 is **`r nrow(langarts_q2q1)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**
 
 
 ### Lang Arts Grade Stats
-```{r}
-with(langarts_q2q1,table(lang_pts))
-langpts_density <- density(langarts_q2q1$lang_pts)
-hist(langarts_q2q1$lang_pts, freq = FALSE)
-lines(langpts_density)
+```{r echo=FALSE}
 
-with(langarts_q2q1,table(lang_pts2))
-langpts2_density <- density(langarts_q2q1$lang_pts2)
-hist(langarts_q2q1$lang_pts2, freq = FALSE)
-lines(langpts2_density)
 
-mean(langarts_q2q1$pt_diff)
+lang_gpa_diff<-mean(langarts_q2q1$pt_diff)
+
+pander(lang_gpa_diff)
 
 ```
 
 
-# Absences 
-## Join Absence data from Q1 and Q2
-```{r}
+The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. This is an impressive increase as the average difference is not picking up students who maintain their grades. 
+
+```{r echo=FALSE}
+
+colnames (langarts_q2q1) [2] <- "council"
+colnames (langarts_q2q1) [3] <- "Q1_Grade"
+colnames (langarts_q2q1) [4] <- "Q2_Grade"
+colnames (langarts_q2q1) [5] <- "Grade_Change"
+
+
+
+```
+
+
+```{r echo=FALSE}
+
+### Reading Grades Plots
+
+
+
+#reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+
+#reading_grades_q1 + geom_count()
+
+#reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+
+#reading_grades_q2 + geom_count()
+
+
+```
+
+
+
+
+### Language Arts Grade Change from Q1 to Q2 
+
+```{r echo=FALSE}
+
+
+#reading_change_plot <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = council)))
+
+#reading_change_plot + geom_count()
+
+
+langarts_change_plot2 <- ggplot(langarts_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+
+langarts_change_plot2 + geom_count()
+
+
+#plot(reading_change, col="Red")
+
+#reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+
+  
+```
+
+
+
+# Absences: 
+
+```{r echo=FALSE}
 
 absences <- inner_join(q1_absences, q2_absences, by="girlCode")
 
-dim(absences)
 
-head(absences)
 
 absences_1 <- absences %>%
     select(girlCode, council.x.x, sum_abs.x, sum_abs.y) 
@@ -226,39 +323,17 @@ absences_q2q1 <- absences_1 %>%
 
 ```
 
-### Absences Change
-```{r}
 
-absences_change <- with(absences_q2q1, table(abs_diff,sum_abs.y))
-
-pander(absences_change)
-
-absences_change_1 <-with(absences_q2q1,table(abs_diff <0))
-
-absences_change_2 <-with(absences_q2q1,table(abs_diff ==0, sum_abs.y == 0))
-
-absences_change_3 <-with(absences_q2q1,table(sum_abs.x == 0, sum_abs.y == 0))
-
-pander(absences_change_2)
-
-pander(absences_change_3)
-
-
-pander(absences_change_1)
-
-plot(absences_change)
-
-```
-
-### Absences Success Function 
-```{r}
+### Absences Success: % of Students who decreased their absences or had no absences. 
+```{r echo=FALSE}
 
 absences_success <- function() {
     no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0)
     decrease_abs <- filter(absences_q2q1, abs_diff<0 )
     abs_total <- nrow(no_absences) + nrow(decrease_abs)
     abs_total <- abs_total / nrow(absences_q2q1)
-    abs_total
+    abs_total <- round(abs_total*100,2)
+    pander(paste0(abs_total, "%", sep= ""))
     
 }
 
@@ -267,16 +342,85 @@ absences_success <- function() {
 absences_success()
 ```
 
+The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. 
+
+
+### Absences Change
+```{r echo=FALSE, eval=TRUE}
+
+absences_change <- with(absences_q2q1, table(abs_diff))
+
+pander(absences_change)
+
+
+
+#absences_change_1 <-with(absences_q2q1,table(abs_diff <0))
+
+#absences_change_2 <-with(absences_q2q1,table(abs_diff ==0, sum_abs.y == 0))
+
+#absences_change_3 <-with(absences_q2q1,table(sum_abs.x == 0, sum_abs.y == 0))
+
+#pander(absences_change_2)
+
+#pander(absences_change_3)
+
+
+#pander(absences_change_1)
+
+#plot(absences_change)
+
+```
+
+### Average Change from Quarter 1 to Quarter 2
+
+```{r echo=FALSE}
+
+abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))
+
+
+```
+
+
+The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
+
+```{r echo=FALSE}
+
+colnames (absences_q2q1) [2] <- "Council"
+colnames (absences_q2q1) [3] <- "Q1_Abs"
+colnames (absences_q2q1) [4] <- "Q2_Abs"
+colnames (absences_q2q1) [5] <- "Abs_Change"
+
+```
+
+The plot below has the council on the vertical axix and the difference in abesences between Quarter 1 and Quarter 2. For this plot it is good to see the circles on the left to reflect decreases. 
+
+
+```{r echo=FALSE, warning=FALSE}
+
+abs_change_plot_c <- ggplot(absences_q2q1,(aes(x = Abs_Change, y = Council)))
+
+abs_change_plot_c + geom_count()
+
+
+
+#abs_change_plot2 <- ggplot(absences_q2q1,(aes(x = Abs_Change, y = Q1_Abs)))
+
+#abs_change_plot2 + geom_count()
+
+```
+
+
+
 
 #Suspensions
-## Merge Suspensions Q1 and Q2 Data. 
+ 
 
-```{r}
+```{r echo=FALSE}
 
 suspsensions <- inner_join(q1_suspensions, q2_suspensions, by="girlCode")
 
 
-head(suspsensions)
+
 
 suspsensions_1 <- suspsensions %>%
     select(girlCode, council.y.x, susp_sum.x, susp_sum.y)
@@ -285,44 +429,313 @@ suspensions_q2q1 <- suspsensions_1 %>%
     mutate(susp_diff = susp_sum.y - susp_sum.x)
 
 
-dim(suspensions_q2q1)
+
 
 ```
 
-
-### Suspensions Changes
-
-```{r}
-
-suspensions_change <- with(suspensions_q2q1,table(susp_diff, susp_sum.y))
-
-pander(suspensions_change)
-
-suspensions_change_1 <- with(suspensions_q2q1,table(susp_diff < 0))
-
-pander(suspensions_change_1)
-
-
-suspensions_change_2 <- with(suspensions_q2q1,table(susp_diff ==0, susp_sum.y==0))
-
-pander(suspensions_change_2)
-
-
-
-
-plot(suspensions_change)
-```
-
-### Suspensions Outcome Function
-```{r}
+### Suspensions: % of students who reduced the number of supsensions or never received a suspsenion. 
+```{r echo=FALSE}
 suspensions_success <- function() {
     no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0)
     decrease_suspensions <- filter(suspensions_q2q1, susp_diff <0)
     total_suspensions <- nrow(no_suspensions) + nrow(decrease_suspensions)
     total_suspensions <- total_suspensions/nrow(suspensions_q2q1)
-    pander(total_suspensions)
+    total_suspensions <- round(total_suspensions*100,2)
+    pander(paste0(total_suspensions, "%", sep= ""))
 }
 
-suspensions_success()
+
 ```
+
+The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**
+
+### Suspensions Change: Plot of suspsention changes from Q1 to Q2. 
+
+```{r echo=FALSE}
+
+suspensions_change <- with(suspensions_q2q1,table(susp_diff))
+
+pander(suspensions_change)
+
+susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE))
+
+#suspensions_change_1 <- with(suspensions_q2q1,table(susp_diff < 0))
+
+#pander(suspensions_change_1)
+
+
+#suspensions_change_2 <- with(suspensions_q2q1,table(susp_diff ==0, susp_sum.y==0))
+
+#pander(suspensions_change_2)
+
+
+
+
+#plot(suspensions_change)
+```
+
+The average difference of supsentions between Quarter 1 and Quarter 2 is `r susp_diff`
+
+
+```{r echo=FALSE}
+
+colnames (suspensions_q2q1) [2] <- "Council"
+colnames (suspensions_q2q1) [3] <- "Q1_Suspenions"
+colnames (suspensions_q2q1) [4] <- "Q2_Suspensions"
+colnames (suspensions_q2q1) [5] <- "Suspensions_Change"
+
+```
+
+Suspensions Change Plots from Quarter 1 to Quarter 2. 
+
+The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the veticial axis and the suspensions change is on the bottom axis. The desire is for the cirlces to be on the left.  
+```{r echo=FALSE, warning=FALSE}
+
+suspenesions_change_plot_c <- ggplot(suspensions_q2q1,(aes(x = Suspensions_Change, y = Council)))
+
+suspenesions_change_plot_c + geom_count()
+
+#suspenesions_change_plot2 <- ggplot(suspensions_q2q1,(aes(x = Suspensions_Change, y = Q1_Suspenions)))
+
+#suspenesions_change_plot2 + geom_count()
+
+
+
+
+
+
+```
+
+
+
+
+
+
+```{r echo=FALSE}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+q4_lang_2014 <- dbReadTable(getRealdb, "q4_langarts")
+
+q2_lang_2016 <-dbReadTable(getReal_2016db, "Q2_lang")
+
+lang <- inner_join(q4_lang_2014, q2_lang_2016, by="girlCode")
+
+
+
+
+lang$value <-as.numeric(lang$value)
+
+#mean(lang$value)
+#mean(lang$lang_pts2)
+
+
+langarts_q4q2 <- lang %>%
+    mutate(pt_diff = lang_pts2 - value)
+
+langarts_q4q2 <-
+select(langarts_q4q2,girlCode, lang_pts2, value, pt_diff)
+
+
+langarts_q4q2_test <- distinct(langarts_q4q2, girlCode)
+
+dim(langarts_q4q2_test)
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+lang_success_m <- function() {
+    lang_dat <- filter(langarts_q4q2_test, lang_pts2 >=2, pt_diff >=0)
+    lang_dat <- nrow(lang_dat)/nrow(langarts_q4q2)
+    lang_dat <- round(lang_dat*100,2)
+    pander(lang_dat)
+}
+
+
+
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+m_gpa_lang <- mean(langarts_q4q2$pt_diff)
+
+m_gpa_lang <-pander(m_gpa_lang)
+
+#plot(langarts_q4q2$pt_diff)
+
+#with(langarts_q4q2,table(pt_diff))
+
+#with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
+
+
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+
+
+
+colnames (langarts_q4q2) [2] <- "Q1_Grade"
+colnames (langarts_q4q2) [3] <- "Q4_Grade"
+colnames (langarts_q4q2) [4] <- "Grade_Change"
+
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+### Reading Grades Plots
+
+
+
+#reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+
+#reading_grades_q1 + geom_count()
+
+#reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+
+#reading_grades_q2 + geom_count()
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+langarts_change_plot_m <- ggplot(langarts_q4q2,(aes(x = Grade_Change, y = Q4_Grade)))
+
+langarts_change_plot_m + geom_count()
+
+
+```
+
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+q4_reading_2014 <-dbReadTable(getRealdb, "q4_reading")
+
+q4_reading_2014 <- na.omit(q4_reading_2014)
+
+q2_reading_2016 <-dbReadTable(getReal_2016db, "Q2_reading")
+
+reading <- inner_join(q4_reading_2014, q2_reading_2016, by="girlCode")
+
+
+
+
+reading_q4q2 <- reading %>%
+    mutate(pt_diff = reading_pts2 - value)
+
+reading_q4q2 <- 
+select(reading_q4q2,girlCode, reading_pts2, value, pt_diff)
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+
+
+
+with(reading_q4q2,table(pt_diff))
+
+with(reading_q4q2,table(reading_pts2 >=2, pt_diff >=0))
+
+```
+
+```{r echo=FALSE, eval=FALSE}
+
+read_success_m <- function() {
+    read_dat <- filter(reading_q4q2, reading_pts2 >=2, pt_diff >=0)
+    read_dat <- nrow(read_dat)/nrow(reading_q4q2)
+    read_dat <- round(read_dat*100,2)
+    pander(read_dat)
+}
+
+read_success_m()
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+reading_mean_m<- mean(reading_q4q2$pt_diff)
+
+pander(reading_mean_m)
+
+#plot(langarts_q4q2$pt_diff)
+
+#with(langarts_q4q2,table(pt_diff))
+
+#with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
+
+
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+
+
+
+colnames (reading_q4q2) [2] <- "Q1_Grade"
+colnames (reading_q4q2) [3] <- "Q4_Grade"
+colnames (reading_q4q2) [4] <- "Grade_Change"
+
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+### Reading Grades Plots
+
+
+
+#reading_grades_q1 <- ggplot(reading_q2q1,(aes(x = Q1_Grade, y = council)))
+
+#reading_grades_q1 + geom_count()
+
+#reading_grades_q2 <- ggplot(reading_q2q1,(aes(x = Q2_Grade, y = council)))
+
+#reading_grades_q2 + geom_count()
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+reading_change_plot_m <- ggplot(reading_q4q2,(aes(x = Grade_Change, y = Q4_Grade)))
+
+reading_change_plot_m + geom_count()
+
+
+```
+
+
+
 

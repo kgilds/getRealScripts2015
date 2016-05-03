@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-16" />
+<meta name="date" content="2016-04-30" />
 
 <title>Q1grades_dm</title>
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
 <h1 class="title">Q1grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-16</em></h4>
+<h4 class="date"><em>2016-04-30</em></h4>
 
 </div>
 
@@ -201,6 +201,18 @@ colnames (grades) [50] &lt;- &quot;mjLangTran&quot;</code></pre>
 
 ### Eliminate uncompleted data entry
 gradesq1 &lt;- filter(grades, Finished == 1)</code></pre>
+<pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
+gradesq1$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesq1$council)
+
+gradesq1$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, gradesq1$council)
+
+gradesq1$council &lt;-sub(&quot;Girl Scouts of Southeast Florida&quot;, &quot;Southeast Council&quot;, fixed=TRUE, gradesq1$council)
+
+gradesq1$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, gradesq1$council)
+
+gradesq1$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, gradesq1$council)
+
+gradesq1$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, gradesq1$council)</code></pre>
 <pre class="r"><code>#######################Fix Factors ###################################
 
 ### Make all girCode to upper case for matching
@@ -224,18 +236,6 @@ gradesUnique &lt;- gradesq1 [!(duplicated(gradesq1$girlCode) | duplicated(grades
 
 dim(gradesUnique)</code></pre>
 <pre><code>## [1] 602  51</code></pre>
-<pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesUnique$council)
-
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, gradesUnique$council)
-
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of Southeast Florida&quot;, &quot;Southeast Council&quot;, fixed=TRUE, gradesUnique$council)
-
-gradesUnique$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&quot;, &quot;Tropical Council&quot;, fixed = TRUE, gradesUnique$council)
-
-gradesUnique$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, gradesUnique$council)
-
-gradesUnique$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, gradesUnique$council)</code></pre>
 </div>
 <div id="save-data-object-grades-to-rds-for-status-report" class="section level3">
 <h3>Save data object Grades to RDS for status report</h3>

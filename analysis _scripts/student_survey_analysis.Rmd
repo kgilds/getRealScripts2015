@@ -1,9 +1,11 @@
 ---
 title: "student_survey_analysis"
 author: "Kevin Gilds"
-date: "`r Sys.Date()`"
-output: 
-  html_document: 
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -54,23 +56,22 @@ getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
 pre_survey_2014 <- dbReadTable(getRealdb, "pre_girl_survey")
 
-dim(pre_survey_2014)
 
 post_survey_MY1415 <- dbReadTable(getRealdb, "post_girl_survey")
 
-dim(post_survey_MY1415)
+
 
 
 ```
 
 
-```{r}
+```{r echo=FALSE}
 
 ### Match Pre Surveys
 
 pre_merge <- inner_join (pre_survey_2014, outcomes, by = "girlCode", Copy=FALSE)
 
-dim(pre_merge)
+
 
 #x=2014, y=2015
 
@@ -79,30 +80,19 @@ dim(pre_merge)
 
 
 
-### Match Post Survey (Matched Post Surveys Spring 2015 and Fall 2015)
 
-```{r}
+
+```{r echo=FALSE}
 
 post_merge <- inner_join(post_survey_MY1415, outcomes, by = "girlCode", Copy=FALSE)
 
 non_match <- anti_join(outcomes, post_survey_MY1415, by = "girlCode", Copy = FALSE)
-
-dim(post_merge)
-
-dim(non_match)
-
-
 
 
 ```
 
 
 
-
-
-
-
-# Survey Analysis Basic 
 
 ## Healthy Releationships
 
@@ -119,24 +109,26 @@ hr <- function(){
 
 
 
+### Percent of students achieving at a high level
+
+
+
 
 ```{r hr_percent, echo=FALSE}
 
 hr_percent <- function() {
-    hr_tbl <- with(outcomes,table(hr.avg >=4.45))
-    hr_tbl_p <- prop.table(hr_tbl)
+    hr_tbl <- filter(outcomes, hr.avg >=4.45)
+    hr_tbl_p <- nrow(hr_tbl) /nrow(outcomes)
     hr_tbl_p <- round(hr_tbl_p*100,2)
-    pander(hr_tbl_p)
+    pander(paste(hr_tbl_p, "%", sep=""))
 }
 
-hr_percent()
 
 ```
 
+The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. The number of valid survey entries is **`r nrow(outcomes)`**.
+The percent of students achieving this outcome at a high level is **`r hr_percent()`**.
 
-
-
-### Healthy Relationships Outcome Tables
 ```{r hr outcome tables, echo=FALSE, eval=FALSE}
 ### create basic outcome table for healty releationship outcome
 
@@ -176,14 +168,12 @@ hr <- select(outcomes, council, hr.avg)
 ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
 
 
-
-
-
 ```
 
 
 
-```{r hr_hist2, echo=FALSE, eval=FALSE}
+
+```{r hr_hist2, echo=FALSE, eval=FALSE, message=FALSE}
 
 ### Plot outcome results by council    
 hr_hist <- ggplot(hr, aes(x=hr.avg))
@@ -199,7 +189,7 @@ hr_hist <- ggplot(hr, aes(x=hr.avg))
 ### Histogram to show all the outcome scores
 ### Abline for ggplot
  hr_hist <- ggplot(hr, aes(x=hr.avg)) 
-        hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+        hr_hist + geom_histogram(fill="blue", bins=40) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
 
 
 
@@ -220,8 +210,7 @@ hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
 
 
 
-### Healthy Relationships Descriptive Stats
-```{r hr_descrip, echo=FALSE}
+```{r hr_descrip, echo=FALSE, eval=FALSE}
 ## Try x-table, or kable
 
 ### Prepare data frame for just looking at hr.avg        
@@ -235,18 +224,52 @@ kable(hr_des)
 ```
 
 
-### Healthy Relationship Trends
+### Pre Survey Healthy Relationship Trends from 2013-2015
+
+Pre survey average scores are down this year along with the proportion of students achieving the outcome at a high level. The key for this analysis is the percent of students increasing their outcome score. 
 
 ```{r echo=FALSE}
 
 
 hr_history <-
-    select(history, Year,populuation, mean, sd, outcome.1) 
+    select(history, Year,population, mean, sd, achieved, outcome.1) 
 
 hr_history <-
     filter(hr_history, outcome.1 == "Healthy Relationships"& Year !="2015")
 
 
+percent_achieved <- hr_history$achieved / hr_history$population
+
+percent_achieved <- round(percent_achieved*100, 2)
+
+percent_achieved <- paste0(percent_achieved, "%")
+
+hr_history <- cbind(hr_history, percent_achieved)
+
+hr_history <- select(hr_history, Year, population, mean, sd, percent_achieved)
+
+colnames(hr_history)[5] <-"percent achieved"
+
+hr_Year <- "2015"
+hr_population <- nrow(outcomes)
+hr_mean <- mean(outcomes$hr.avg)
+hr_sd <-sd(outcomes$hr.avg)
+hr_achieved1 <- filter(outcomes, hr.avg >=4.45)
+hr_achieved <- nrow(hr_achieved1)/nrow(outcomes)
+hr_percent1 <- round(hr_achieved*100,2)
+hr_percent <- paste0(hr_percent1, "%")
+
+
+hr_df <- data.frame(hr_Year, hr_population, hr_mean, hr_sd, hr_percent )
+ 
+colnames(hr_df)[1] <-"Year"
+colnames(hr_df)[2] <- "population"
+colnames(hr_df)[3] <- "mean"
+colnames(hr_df)[4] <- "sd"
+colnames(hr_df)[5] <- "percent achieved"
+
+
+hr_history <- rbind(hr_history, hr_df)
 pander(hr_history)
 
 ```
@@ -254,21 +277,186 @@ pander(hr_history)
 
 
 
-### Healthy Relationship Skills for students in the program last year. 
-```{r}
 
-post_merge_hr_pre <- describe(post_merge$hr.avg.y)
+ 
+```{r echo=FALSE, eval=FALSE}
 
-post_merge_hr_post <-describe(post_merge$hr.avg.x)
-
-non_match_hr_pre <- describe(non_match$hr.avg)
+post_merge_hr_pre <- mean(post_merge$hr.avg.y)
 
 
+post_merge_hr_post <-mean(post_merge$hr.avg.x)
+
+non_match_hr_pre <- mean(non_match$hr.avg)
+
+
+
+
+
+
+```
+
+
+### Healthy Relationship Time Series
+
+The number of student survey records that could be matched from last year is  **`r nrow(post_merge)`**.
+Last year students who participated for multiple years had higher healthy relationship scores than students who had not participated in the program before. This is not the case this year. 
+
+Healthy Relationship scores regressed from the post survey and students in the program did not score better than students in the program in terms of average scores or proportion of students achieving the skill at a high level. 
+
+
+The number of matched student is **`r nrow(post_merge)`**, and the number of non matched students is   **`r nrow(non_match)`**.
+
+
+
+
+```{r echo=FALSE}
+
+hr_population_pre <- "Matched: Pre 2015-2016"
+hr_mean_pre <- mean(post_merge$hr.avg.y)
+hr_sd_pre <- sd(post_merge$hr.avg.y)
+hr_achieved_1 <- filter(post_merge, hr.avg.y >= 4.45)
+hr_achieved <- nrow(hr_achieved_1)
+hr_percent_1 <- nrow(hr_achieved_1)/nrow(post_merge)
+hr_percent_1 <- round(hr_percent_1*100,2)
+hr_percent <- paste0(hr_percent_1, "%", sep= " ")
+
+
+hr_trend_pre<-data.frame(hr_population_pre, hr_mean_pre, hr_sd_pre, hr_achieved, hr_percent)
+
+colnames(hr_trend_pre)[1] <- "Time"
+colnames(hr_trend_pre)[2] <- "Mean"
+colnames(hr_trend_pre)[3] <- "SD"
+colnames(hr_trend_pre)[4] <- "Achieved"
+colnames(hr_trend_pre)[5] <- "Percent Achieved"
+
+
+
+```
+
+
+
+
+```{r echo=FALSE}
+
+hr_time_post <-
+hr_Population_post <- "Matched: Post 2014-2015"
+hr_mean_post <- mean(post_merge$hr.avg.x)
+hr_sd_post <- sd(post_merge$hr.avg.x)
+hr_achieved_1post <- filter(post_merge, hr.avg.x >=4.45)
+hr_achieved_post <- nrow(hr_achieved_1post)
+hr_percent_post1 <- nrow(hr_achieved_1post)/nrow(post_merge)
+hr_percent_post <- round(hr_percent_post1*100,2)
+hr_percent_post <- paste0(hr_percent_post, "%")
+
+hr_trend_post <- data.frame(hr_Population_post, hr_mean_post, hr_sd_post, hr_achieved_post, hr_percent_post)
+
+
+colnames(hr_trend_post)[1] <- "Time"
+colnames(hr_trend_post)[2] <- "Mean"
+colnames(hr_trend_post)[3] <- "SD"
+colnames(hr_trend_post)[4] <- "Achieved"
+colnames(hr_trend_post)[5] <- "Percent Achieved"
+
+
+
+
+
+```
+
+
+
+```{r echo=FALSE}
+hr_Population_non <- "Non-Matched: Pre 2015-2016"
+hr_mean_non <- mean(non_match$hr.avg)
+hr_sd_non <- sd(non_match$hr.avg)
+hr_achieved_1non <- filter(non_match, hr.avg >=4.45)
+hr_achieved_non <- nrow(hr_achieved_1non)
+hr_percent_non1 <- nrow(hr_achieved_1non)/nrow(non_match)
+hr_percent_non <- round(hr_percent_non1*100,2)
+hr_percent_non <- paste0(hr_percent_non, "%")
+
+hr_trend_non <- data.frame(hr_Population_non, hr_mean_non, hr_sd_non, hr_achieved_non, hr_percent_non)
+
+
+
+colnames(hr_trend_non)[1] <- "Time"
+colnames(hr_trend_non)[2] <- "Mean"
+colnames(hr_trend_non)[3] <- "SD"
+colnames(hr_trend_non)[4] <- "Achieved"
+colnames(hr_trend_non)[5] <- "Percent Achieved"
+
+
+
+
+```
+
+```{r echo=FALSE}
+
+population1<- nrow(post_merge)
+
+population2 <- nrow(post_merge)
+
+population3 <- nrow(non_match)
+
+population4 <- data.frame(population1, population2, population3)
+
+
+
+hr_trend_1 <- rbind(hr_trend_post, hr_trend_pre)
+
+hr_trend <- rbind(hr_trend_1, hr_trend_non)
+
+
+
+
+
+
+
+pander(hr_trend)
+
+```
+
+
+
+
+
+
+```{r echo=FALSE, eval=FALSE}
 
 kable(post_merge_hr_pre)
 kable(post_merge_hr_post)
-kable(non_match_hr_pre)
+
 ```
+
+
+
+
+
+
+
+```{r echo= FALSE, eval=FALSE}
+
+hr_outcome_pre_2015 <- with(post_merge,table(hr.avg.y >=4.45))
+
+
+
+pander(hr_outcome_pre_2015)
+
+hr_outcome_post_2014 <- with(post_merge,table(hr.avg.x >=4.45))
+
+pander(hr_outcome_post_2014)
+
+non_match_outcome <-with(non_match,table(hr.avg >=4.45))
+
+pander(non_match_outcome)
+
+
+wilcox.test(post_merge$hr.avg.y, post_merge$hr.avg.x)
+
+wilcox.test(post_merge$hr.avg.y, non_match$hr.avg)
+
+```
+
 
 
 
@@ -276,42 +464,50 @@ kable(non_match_hr_pre)
 ## Academic Engagement
 
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 ae <- function() {
     ae_tbl <-with(outcomes,table(ae.avg >=4.5))
     pander(ae_tbl)
     
 }
 
-```
-
-
-```{r}
 ae()
 ```
 
 
-```{r}
+
+```{r echo = FALSE}
 ae_percent <-function() {
-    ae_tbl <-with(outcomes,table(ae.avg >=4.5))
-    ae_p <-prop.table(ae_tbl)
+    ae_tbl <-filter(outcomes,ae.avg >=4.5)
+    ae_p <-nrow(ae_tbl)/nrow(outcomes)
     ae_p <-round(ae_p*100,2)
-    pander(ae_p)
+    pander(paste(ae_p, "%", sep=""))
+    
 }
 
-```
 
 
-```{r}
-
-ae_percent()
 
 ```
 
 
-### Academic Engagement Outcome Tables
+### Percent of students achieving at a high level: 
 
-```{r}
+Academic Engagement questions gauge tangible behaviors that help students succeed in school.The number of valid survey entries is **`r nrow(outcomes)`** The percent of students achieving the academic achievement at a high skill level is **`r ae_percent()`**. 
+```{r echo = FALSE}
+
+### Prepare data frame for tables
+ae <- select(outcomes, council, ae.avg)
+
+
+```
+
+
+
+
+
+
+```{r echo=FALSE, eval = FALSE}
 ### Prepare data frame for tables
 ae <- select(outcomes, council, ae.avg)
 
@@ -345,41 +541,50 @@ pander(ae_tbl_cp)
 
 ### Academic Engagment Outcome Plots
 
-```{r fig.width=15}
+```{r fig.width=15, echo = FALSE}
 ###Create outcome plot 
 ae_plot <-ggplot(ae, aes(ae.avg >= 4.5)) 
          ae_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Engagement"
                                                                                ) 
-### Create outcome plot by council    
-ae_hist <- ggplot(ae, aes(x=ae.avg))
-        ae_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
 
          
 ```
 
-### Acedimc Engagement Distribution Plots
 
-```{r}
+```{r echo=FALSE, eval= FALSE}
+
+### Create outcome plot by council    
+ae_hist <- ggplot(ae, aes(x=ae.avg))
+        ae_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+```
+
+
+
+### Academic Engagement Distribution Plots
+
+```{r echo = FALSE}
 
 ### Create Histogram of all outcome scores
 ae_hist <- ggplot(ae, aes(ae.avg)) 
-        ae_hist + geom_histogram(fill="blue") + labs(x="All Outcome Scores", title="Post: Academic Engagement")
+        ae_hist + geom_histogram(fill="blue", bins=20) + labs(x="All Outcome Scores", title="Pre: Academic Engagement")
 
 
 ```
 
 
-### Academic Engagement Boxplot
-```{r fig.width=20}
+
+```{r fig.width=20, echo=FALSE, eval=FALSE}
 
 ###Create box plot by council
 ae_box <-ggplot(ae, aes(x=factor(council), ae.avg))
 ae_box + geom_boxplot(fill="blue") + labs(y="All Outcome Scores", title = "Pre: Academic Engagement")
 ```
 
-###  Academic Engagement Descriptive Stats
 
-```{r}
+
+```{r echo = FALSE, eval=FALSE}
 ###Summary stats for academic engagement variable
 ae_desc <- describe(ae$ae.avg)
 
@@ -391,9 +596,213 @@ kable(ae_desc)
 
 
 
+### Academic Engagement Trends from 2013-2015
+
+Pre survey average scores are comparable to last year along with the proportion of students achieving the outcome at a high level. The key for this analysis is the percent of students increasing their outcome score. 
+
+
+```{r echo=FALSE}
+
+
+ae_history <-
+    select(history, Year,population, mean, sd, achieved, outcome.1) 
+
+ae_history <-
+    filter(ae_history, outcome.1 == "Academic Engagement"& Year !="2015")
+
+
+ae_percent_achieved <- ae_history$achieved / ae_history$population
+
+ae_percent_achieved <- round(ae_percent_achieved*100, 2)
+
+ae_percent_achieved <- paste0(ae_percent_achieved, "%")
+
+ae_history <- cbind(ae_history, ae_percent_achieved)
+
+ae_history <-select(ae_history, Year, population, mean, sd, ae_percent_achieved)
+
+colnames(ae_history)[5]<-"percent achieved"
+
+
+ae_Year <- "2015"
+ae_population <- nrow(outcomes)
+ae_mean <- mean(outcomes$ae.avg)
+ae_sd <-sd(outcomes$ae.avg)
+ae_achieved1 <- filter(outcomes, ae.avg >=4.5)
+ae_achieved <- nrow(ae_achieved1)/nrow(outcomes)
+ae_percent1 <- round(ae_achieved*100,2)
+ae_percent <- paste0(ae_percent1, "%")
+
+
+ae_df <- data.frame(ae_Year, ae_population, ae_mean, ae_sd, ae_percent )
+ 
+colnames(ae_df)[1] <-"Year"
+colnames(ae_df)[2] <- "population"
+colnames(ae_df)[3] <- "mean"
+colnames(ae_df)[4] <- "sd"
+colnames(ae_df)[5] <- "percent achieved"
+
+
+ae_history <- rbind(ae_history, ae_df)
+pander(ae_history)
+
+
+
+```
+
+### Academic Engagement Time Series
+
+The table below illustrates that the students who participated in the program last year regressed from the post survey but still outperform students who were not in the program last year in both average scores and proportion of achieving the skill at a high level. However, the difference between the two groups was not statistically significant using a Wilcoxon sign rank test at the .05 level. This means that there is 95 percent certain is that these difference  is not due to chance.
+
+
+The number of matched student is **`r nrow(post_merge)`** and the number of non matched students is   **`r nrow(non_match)`**.
+
+
+
+
+```{r echo=FALSE}
+
+ae_population_pre <- "Matched: Pre 2015-2016"
+ae_mean_pre <- mean(post_merge$ae.avg.y)
+ae_sd_pre <- sd(post_merge$ae.avg.y)
+ae_achieved_1 <- filter(post_merge, ae.avg.y >= 4.5)
+ae_achieved <- nrow(ae_achieved_1)
+ae_percent_1 <- nrow(ae_achieved_1)/nrow(post_merge)
+ae_percent_1 <- round(ae_percent_1*100,2)
+ae_percent <- paste0(ae_percent_1, "%", sep= " ")
+
+
+ae_trend_pre<-data.frame(ae_population_pre, ae_mean_pre, ae_sd_pre, ae_achieved, ae_percent)
+
+
+
+colnames(ae_trend_pre)[1] <- "Population"
+colnames(ae_trend_pre)[2] <- "Mean"
+colnames(ae_trend_pre)[3] <- "SD"
+colnames(ae_trend_pre)[4] <- "Achieved"
+colnames(ae_trend_pre)[5] <- "Percent Achieved"
+
+
+
+
+```
+
+
+
+
+```{r echo=FALSE}
+
+ae_Population_post <- "Matched: Post 2014-2015"
+ae_mean_post <- mean(post_merge$ae.avg.x)
+ae_sd_post <- sd(post_merge$ae.avg.x)
+ae_achieved_1post <- filter(post_merge, ae.avg.x >=4.5)
+ae_achieved_post <- nrow(ae_achieved_1post)
+ae_percent_post1 <- nrow(ae_achieved_1post)/nrow(post_merge)
+ae_percent_post <- round(ae_percent_post1*100,2)
+ae_percent_post <- paste0(ae_percent_post, "%")
+
+ae_trend_post <- data.frame(ae_Population_post, ae_mean_post, ae_sd_post, ae_achieved_post, ae_percent_post)
+
+
+
+colnames(ae_trend_post)[1] <- "Population"
+colnames(ae_trend_post)[2] <- "Mean"
+colnames(ae_trend_post)[3] <- "SD"
+colnames(ae_trend_post)[4] <- "Achieved"
+colnames(ae_trend_post)[5] <- "Percent Achieved"
+
+
+
+```
+
+
+```{r echo=FALSE}
+ae_Population_non <- "Non-Matched: Pre 2015-2016"
+ae_mean_non <- mean(non_match$ae.avg)
+ae_sd_non <- sd(non_match$ae.avg)
+ae_achieved_1non <- filter(non_match, ae.avg >=4.5)
+ae_achieved_non <- nrow(ae_achieved_1non)
+ae_percent_non1 <- nrow(ae_achieved_1non)/nrow(non_match)
+ae_percent_non <- round(ae_percent_non1*100,2)
+ae_percent_non <- paste0(ae_percent_non, "%")
+
+ae_trend_non <- data.frame(ae_Population_non, ae_mean_non, ae_sd_non, ae_achieved_non, ae_percent_non)
+
+
+
+
+colnames(ae_trend_non)[1] <- "Population"
+colnames(ae_trend_non)[2] <- "Mean"
+colnames(ae_trend_non)[3] <- "SD"
+colnames(ae_trend_non)[4] <- "Achieved"
+colnames(ae_trend_non)[5] <- "Percent Achieved"
+
+
+```
+
+
+```{r echo=FALSE}
+
+### Academic Mastery Time Series Data
+
+
+ae_trend_1 <- rbind(ae_trend_post, ae_trend_pre)
+
+ae_trend <- rbind(ae_trend_1, ae_trend_non)
+
+pander(ae_trend)
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+post_merge_ae_pre <- describe(post_merge$ae.avg.y)
+post_merge_ae_post <- describe(post_merge$ae.avg.x)
+
+non_match_ae_pre <-describe(non_match$ae.avg)
+
+
+kable(post_merge_ae_pre)
+kable(post_merge_ae_post)
+kable(non_match_ae_pre)
+
+wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, "less",paired=TRUE)
+
+wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, paired=TRUE)
+
+wilcox.test(post_merge$ae.avg.y, post_merge$ae.avg.x, "greater", paired=TRUE)
+
+
+
+wilcox.test(post_merge$ae.avg.y, non_match$ae.avg, paired = FALSE)
+
+
+
+
+```
+
+
+```{r echo=FALSE, eval=FALSE}
+
+
+ae_outcome_pre <- with(post_merge, table(ae.avg.y >=4.5))
+
+pander(ae_outcome_pre)
+
+ae_outcome_post <- with(post_merge, table(ae.avg.x <=4.5))
+
+pander(ae_outcome_post)
+
+```
+
+
+
+
 ## Academic Mastery
 
-```{r}
+```{r echo = FALSE, eval = FALSE}
 am <- function() {
     am_tbl <-with(outcomes,table(am.avg >=4.8))
     pander(am_tbl)
@@ -405,21 +814,35 @@ am()
 ```
 
 
-```{r}
+```{r echo=FALSE}
 am_percent <-function() {
-    am_table <-with(outcomes,table(am.avg >=4.8))
-    am_p <-prop.table(am_table)
+    am_table <-filter(outcomes,am.avg >=4.8)
+    am_p <-nrow(am_table)/nrow(outcomes)
     am_p <-round(am_p*100,2)
-    pander(am_p)
+    pander(paste(am_p, "%", sep= ""))
 }
-am_percent()
+
 
 ```
 
 
-### Academic Mastery Outcome tables
+### Percent of students achieving at a high level
+The Academic Mastery questions gauge a student's attitude towards school and education.The number of valid survey entries is **`r nrow(outcomes)`**.
+The percent of students achieving this outcome at a high level is **`r am_percent()`**.
 
-```{r}
+
+```{r echo = FALSE}
+
+###Create data fram to set up outcome table
+am <- select(outcomes, council, am.avg)
+
+```
+
+
+
+
+
+```{r echo= FALSE, eval= FALSE}
 
 ###Create data fram to set up outcome table
 am <- select(outcomes, council, am.avg)
@@ -455,16 +878,14 @@ pander(am_cp)
 
 ### Academic Mastery Outcome Plots
 
-```{r fig.width=15}
+```{r fig.width=15, echo = FALSE}
 
 ### Plot outcome results for academic masters
 am_plot <-ggplot(am, aes(am.avg >= 4.8)) 
          am_plot + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Academic Mastery") 
      
          
-## Plot outcome results by council
-am_hist <- ggplot(am, aes(x=hr.avg))
-        hr_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Academic Mastery")
+
 
 ```
 
@@ -472,11 +893,11 @@ am_hist <- ggplot(am, aes(x=hr.avg))
 
 ### Academic Mastery Distribution Plots
 
-```{r}
+```{r echo = FALSE, eval=TRUE}
 
 ### Create histogram from academic mastery scores
 am_hist <- ggplot(am, aes(am.avg)) 
-        am_hist + geom_histogram(fill="blue") + labs(x="All Outcome Scores", title="Pre: Academic Mastery")
+        am_hist + geom_histogram(fill="blue", bins=40) + labs(x="All Outcome Scores", title="Pre: Academic Mastery")
         
 
 
@@ -484,9 +905,9 @@ am_hist <- ggplot(am, aes(am.avg))
 
 
 
-### Acadmeic Mastery Boxplot
 
-```{r fig.width=15}
+
+```{r fig.width=15, echo = FALSE, eval = FALSE}
         
 ### Create box plot of academic master outcome scores. 
 am_box <-ggplot(am, aes(x=factor(council), am.avg))
@@ -496,8 +917,7 @@ am_box + geom_boxplot(fill="blue") + labs(y="All Outcome Scores", title = "Pre: 
 
 
 
-### Academic Mastery Descriptive Stats
-```{r}
+```{r echo = FALSE, eval=FALSE}
 
 ### Create stats summary
 am_s <- describe(am$am.avg)
@@ -506,4 +926,207 @@ am_s <- describe(am$am.avg)
 kable(am_s)
         
 ```
+
+
+### Academic Mastrey Trends from 2013-2015
+
+Pre survey average scores are comparable to last year along with the proportion of students achieving the outcome at a high level. The key for this analysis is the percent of students maintaining at a high level. 
+
+
+
+```{r echo=FALSE}
+
+
+am_history <-
+    select(history, Year,population, mean, sd, achieved, outcome.1) 
+
+am_history <-
+    filter(am_history, outcome.1 == "Academic Mastery"& Year !="2015")
+
+
+am_percent_achieved <- am_history$achieved / am_history$population
+
+am_percent_achieved <- round(am_percent_achieved*100, 2)
+
+am_percent_achieved <- paste0(am_percent_achieved, "%")
+
+am_history <- cbind(am_history, am_percent_achieved)
+
+am_history <- select(am_history, Year, population, mean, sd, am_percent_achieved)
+
+colnames(am_history)[5] <- "percent achieved"
+
+
+
+am_Year <- "2015"
+am_population <- nrow(outcomes)
+am_mean <- mean(outcomes$am.avg)
+am_sd <-sd(outcomes$am.avg)
+am_achieved1 <- filter(outcomes, am.avg >=4.8)
+am_achieved <- nrow(am_achieved1)/nrow(outcomes)
+am_percent1 <- round(am_achieved*100,2)
+am_percent <- paste0(am_percent1, "%")
+
+
+am_df <- data.frame(am_Year, am_population, am_mean, am_sd, am_percent )
+ 
+colnames(am_df)[1] <-"Year"
+colnames(am_df)[2] <- "population"
+colnames(am_df)[3] <- "mean"
+colnames(am_df)[4] <- "sd"
+colnames(am_df)[5] <- "percent achieved"
+
+
+am_history <- rbind(am_history, am_df)
+pander(am_history)
+
+
+
+
+```
+
+
+The table below illustrates that the students who participated in the program last year increased  from the post survey and  outperformed students who were not in the program last year in both average scores and proportion of achieving the skill at a high level. The difference is statistically significant at the .05 level using a Wilcoxon Signed rank test. 
+
+The number of matched student is **`r nrow(post_merge)`** and the number of non matched students is   **`r nrow(non_match)`**.
+
+
+```{r echo=FALSE}
+
+
+
+population_pre <- "Matched: Pre 2015-2016"
+mean_pre <- mean(post_merge$am.avg.y)
+sd_pre <- sd(post_merge$am.avg.y)
+achieved_1 <- filter(post_merge, am.avg.y >= 4.8)
+achieved <- nrow(achieved_1)
+percent_1 <- nrow(achieved_1)/nrow(post_merge)
+percent_1 <- round(percent_1*100,2)
+percent <- paste0(percent_1, "%", sep= " ")
+
+
+am_trend_pre<-data.frame(population_pre, mean_pre, sd_pre, achieved, percent)
+
+
+
+colnames(am_trend_pre)[1] <- "Population"
+colnames(am_trend_pre)[2] <- "Mean"
+colnames(am_trend_pre)[3] <- "SD"
+colnames(am_trend_pre)[4] <- "Achieved"
+colnames(am_trend_pre)[5] <- "Percent Achieved"
+
+
+
+
+```
+
+
+
+
+```{r echo=FALSE}
+
+Population_non <- "Non-Matched: Pre 2015-2016"
+mean_non <- mean(non_match$am.avg)
+sd_non <- sd(non_match$am.avg)
+achieved_1non <- filter(non_match, am.avg >=4.8)
+achieved_non <- nrow(achieved_1non)
+percent_non1 <- nrow(achieved_1non)/nrow(non_match)
+percent_non <- round(percent_non1*100,2)
+percent_non <- paste0(percent_non, "%")
+
+am_trend_non <- data.frame(Population_non, mean_non, sd_non, achieved_non, percent_non)
+
+colnames(am_trend_non)[1] <- "Population"
+colnames(am_trend_non)[2] <- "Mean"
+colnames(am_trend_non)[3] <- "SD"
+colnames(am_trend_non)[4] <- "Achieved"
+colnames(am_trend_non)[5] <- "Percent Achieved"
+
+
+```
+
+
+
+```{r echo=FALSE}
+Population_post <- "Matched: Post 2014-2015"
+mean_post <- mean(post_merge$am.avg.x)
+sd_post <- sd(post_merge$am.avg.x)
+achieved_1post <- filter(post_merge, am.avg.x >=4.8)
+achieved_post <- nrow(achieved_1post)
+percent_post1 <- nrow(achieved_1post)/nrow(post_merge)
+percent_post <- round(percent_post1*100,2)
+percent_post <- paste0(percent_post, "%")
+
+am_trend_post <- data.frame(Population_post, mean_post, sd_post, achieved_post, percent_post)
+
+colnames(am_trend_post)[1] <- "Population"
+colnames(am_trend_post)[2] <- "Mean"
+colnames(am_trend_post)[3] <- "SD"
+colnames(am_trend_post)[4] <- "Achieved"
+colnames(am_trend_post)[5] <- "Percent Achieved"
+
+
+
+
+```
+
+### Academic Mastery Time Series Data
+
+
+```{r echo=FALSE}
+
+am_trend_1 <- rbind(am_trend_post, am_trend_pre)
+
+am_trend <- rbind(am_trend_1, am_trend_non)
+
+pander(am_trend)
+
+```
+
+
+#### Wilcox Test: Compare students in the program Pre and Post Surveys
+
+```{r echo=FALSE, comment=NA}
+post_merge_am_pre <- describe(post_merge$am.avg.y)
+post_merge_am_post <- describe(post_merge$am.avg.x)
+
+#non_match_am_pre <- describe(non_match$am.avg)
+
+#kable(post_merge_am_pre)
+#kable(post_merge_am_post)
+#kable(non_match_am_pre)
+
+
+wilcox.test(post_merge$am.avg.y, post_merge$am.avg.x, paired = TRUE)
+
+
+#wilcox.test(post_merge$am.avg.y, non_match$am.avg, "greater", paired = FALSE)
+
+
+```
+
+
+
+#### Wilcox Test: Compare students in the program last year and those not in the program last year
+```{r echo=FALSE,comment=NA}
+wilcox.test(post_merge$am.avg.y, non_match$am.avg, paired = FALSE)
+
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+am_outcome_pre <-with(post_merge,table(am.avg.y >=4.8))
+
+pander(am_outcome_pre)
+
+am_outcome_post <- with(post_merge,table(am.avg.x >=4.8))
+
+pander(am_outcome_post)
+
+```
+
+
 
