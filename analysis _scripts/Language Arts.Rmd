@@ -1,0 +1,236 @@
+---
+title: "Language Arts"
+author: "Kevin Gilds, MPA"
+date: "May 4, 2016"
+output: html_document
+---
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+library(dplyr)
+library(dplyr)
+library(pander)
+library(ggplot2)
+library (ezknitr)
+
+```
+
+
+
+
+```{r}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+
+q1_langarts <-dbReadTable(getReal_2016db,"Q1_lang")
+
+q2_langarts <-dbReadTable(getReal_2016db, "Q2_lang")
+
+
+```
+
+# Language Arts Grades
+
+
+```{r echo=FALSE}
+
+langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
+
+
+
+langarts_1 <- langarts %>%
+    select(girlCode, council.x, lang_pts, lang_pts2)
+
+langarts_q2q1 <- langarts_1 %>%
+    mutate(pt_diff = lang_pts2 - lang_pts)
+
+
+
+```
+
+
+### Language Arts Grade Change
+
+```{r echo=FALSE, eval=FALSE}
+lang_change <- with(langarts_q2q1, table(pt_diff, lang_pts2))
+
+pander(lang_change)
+
+lang_change_1 <- with(langarts_q2q1, table(lang_pts2 >=2, pt_diff >=0))
+
+pander(lang_change_1)
+
+
+plot(lang_change)
+
+```
+
+### Language Arts Grade: % of Students that increased Grade or maintained a C 
+```{r echo=FALSE}
+lang_success <- function() {
+    lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
+    lang_dat <- nrow(lang_dat)/nrow(langarts_q2q1)
+    lang_dat <- round(lang_dat*100,2)
+    pander(paste0(lang_dat,"%", sep= ""))
+   
+}
+
+
+```
+
+The number of students that could be matched from Quarter 1 to Quarter 2 is **`r nrow(langarts_q2q1)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**
+
+
+### Lang Arts Grade Stats
+```{r echo=FALSE}
+
+
+lang_gpa_diff<-mean(langarts_q2q1$pt_diff)
+
+pander(lang_gpa_diff)
+
+```
+
+
+The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. This is an impressive increase as the average difference is not picking up students who maintain their grades. 
+
+```{r echo=FALSE}
+
+colnames (langarts_q2q1) [2] <- "council"
+colnames (langarts_q2q1) [3] <- "Q1_Grade"
+colnames (langarts_q2q1) [4] <- "Q2_Grade"
+colnames (langarts_q2q1) [5] <- "Grade_Change"
+
+
+
+```
+
+
+
+
+
+### Language Arts Grade Change from Q1 to Q2 
+
+```{r echo=FALSE}
+
+
+#reading_change_plot <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = council)))
+
+#reading_change_plot + geom_count()
+
+
+langarts_change_plot2 <- ggplot(langarts_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+
+langarts_change_plot2 + geom_count()
+
+
+#plot(reading_change, col="Red")
+
+#reading_dat <-filter(reading_q2q1,reading_pts2 >=2, reading_pt_diff >=0)
+
+
+```
+
+
+
+
+```{r echo=FALSE}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+
+```
+
+
+```{r echo=FALSE, eval=TRUE}
+
+q4_lang_2014 <- dbReadTable(getRealdb, "langarts_final_matched")
+
+q2_lang_2016 <-dbReadTable(getReal_2016db, "Q2_lang")
+
+lang <- inner_join(q4_lang_2014, q2_lang_2016, by="girlCode")
+
+
+
+lang$q4Grade <-as.numeric(lang$q4Grade)
+
+mean(lang$q4Grade)
+mean(lang$q4Grade)
+
+mean(lang$lang_pts2)
+
+
+langarts_q4q2 <- lang %>%
+    mutate(pt_diff = lang_pts2 - q4Grade)
+
+langarts_q4q2 <-
+select(langarts_q4q2,girlCode, lang_pts2,q4Grade, pt_diff)
+
+
+langarts_q4q2_test <- distinct(langarts_q4q2, girlCode)
+
+dim(langarts_q4q2_test)
+
+
+```
+
+
+```{r echo=FALSE, eval=TRUE}
+
+lang_success_m <- function() {
+    lang_dat <- filter(langarts_q4q2, lang_pts2 >=2, pt_diff >=0)
+    lang_dat <- nrow(lang_dat)/nrow(langarts_q4q2)
+    lang_dat <- round(lang_dat*100,2)
+    pander(lang_dat)
+}
+
+
+lang_success_m()
+
+```
+
+
+
+```{r echo=FALSE, eval=TRUE}
+m_gpa_lang <- mean(langarts_q4q2$pt_diff)
+
+m_gpa_lang <-pander(m_gpa_lang)
+
+m_gpa_lang
+
+#plot(langarts_q4q2$pt_diff)
+
+#with(langarts_q4q2,table(pt_diff))
+
+#with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
+
+
+
+```
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+
+
+
+colnames (langarts_q4q2) [2] <- "Q1_Grade"
+colnames (langarts_q4q2) [3] <- "Q4_Grade"
+colnames (langarts_q4q2) [4] <- "Grade_Change"
+
+
+
+```
+
+
+
