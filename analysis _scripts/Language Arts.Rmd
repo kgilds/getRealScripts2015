@@ -18,6 +18,7 @@ library(dplyr)
 library(pander)
 library(ggplot2)
 library (ezknitr)
+library(knitr)
 
 ```
 
@@ -41,6 +42,8 @@ q2_langarts <-dbReadTable(getReal_2016db, "Q2_lang")
 
 
 ```{r echo=FALSE}
+
+##join langarts grades q1q2
 
 langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
@@ -150,6 +153,7 @@ getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
 ```
 
+### Trend Data Q4 2015 to Q2 2016
 
 ```{r echo=FALSE, eval=TRUE}
 
@@ -163,22 +167,18 @@ lang <- inner_join(q4_lang_2014, q2_lang_2016, by="girlCode")
 
 lang$q4Grade <-as.numeric(lang$q4Grade)
 
-mean(lang$q4Grade)
-mean(lang$q4Grade)
 
-mean(lang$lang_pts2)
 
 
 langarts_q4q2 <- lang %>%
     mutate(pt_diff = lang_pts2 - q4Grade)
 
 langarts_q4q2 <-
-select(langarts_q4q2,girlCode, lang_pts2,q4Grade, pt_diff)
+select(langarts_q4q2,girlCode, council, lang_pts2,q4Grade, pt_diff)
 
 
 langarts_q4q2_test <- distinct(langarts_q4q2, girlCode)
 
-dim(langarts_q4q2_test)
 
 
 ```
@@ -190,16 +190,36 @@ lang_success_m <- function() {
     lang_dat <- filter(langarts_q4q2, lang_pts2 >=2, pt_diff >=0)
     lang_dat <- nrow(lang_dat)/nrow(langarts_q4q2)
     lang_dat <- round(lang_dat*100,2)
-    pander(lang_dat)
+    pander(paste0(lang_dat, "%", sep=""))
 }
 
 
-lang_success_m()
+
+
+```
+
+
+The number of students that could be matched from Quarter 4 to Quarter 2 is **`r nrow(langarts_q4q2)`**. 
+
+
+```{r echo=FALSE}
+
+langarts_grade_m <- ggplot(langarts_q4q2,(aes(x = lang_pts2, y = council)))
+
+langarts_grade_m + geom_count()
+
 
 ```
 
 
 
+
+The number of studnets that increased their grade or maintained a C is **`r lang_success_m()`**
+
+
+
+
+### Change in Grade from Q4 2015 to Q2 2016
 ```{r echo=FALSE, eval=TRUE}
 m_gpa_lang <- mean(langarts_q4q2$pt_diff)
 
@@ -211,7 +231,7 @@ m_gpa_lang
 
 #with(langarts_q4q2,table(pt_diff))
 
-#with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
+with(langarts_q4q2,table(lang_pts2 >=2, pt_diff >=0))
 
 
 
@@ -219,18 +239,50 @@ m_gpa_lang
 
 
 
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
+
+names(langarts_q4q2)
 
 
-
-
-colnames (langarts_q4q2) [2] <- "Q1_Grade"
-colnames (langarts_q4q2) [3] <- "Q4_Grade"
-colnames (langarts_q4q2) [4] <- "Grade_Change"
+colnames (langarts_q4q2) [3] <- "Q2_Grade"
+colnames (langarts_q4q2) [4] <- "Q4_Grade"
+colnames (langarts_q4q2) [5] <- "Grade_Change"
 
 
 
 ```
 
+```{r}
+
+PlusGrade_m <- langarts_q4q2 %>%
+    filter(Grade_Change >=0)
+
+PlusGrade_tbl_m  <- with(PlusGrade_m, table(Q4_Grade, Grade_Change))
+
+PlusGrade_tbl_m
+
+
+
+
+
+with(langarts_q4q2,table(Q2_Grade, Grade_Change))
+grade_change_tbl <- with(langarts_q4q2,table(Q4_Grade, Grade_Change))
+
+grade_change_tbl <- addmargins(grade_change_tbl)
+
+pander(grade_change_tbl, caption="Q4 Grades and Grade Change")
+
+```
+
+
+
+```{r echo=FALSE}
+
+langarts_change_plot_m <- ggplot(langarts_q4q2,(aes(x = Grade_Change, y = Q4_Grade)))
+
+langarts_change_plot_m + geom_count()
+
+
+```
 
 
