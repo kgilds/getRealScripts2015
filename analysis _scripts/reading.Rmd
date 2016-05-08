@@ -120,11 +120,12 @@ gpa_diff <- mean(reading_q2q1$pt_diff)
 
 ```
 
-The average reading grade difference is **`r pander(gpa_diff)`**. This is impressive increase because many students may maintain their current grade. 
+The reading gpa for students is **`r (gpa_reading_2)`**. The average reading grade difference is **`r pander(gpa_diff)`**. This is impressive increase because many students may maintain their current grade. 
 
 ```{r echo=FALSE}
 ###Change name for plots
 
+names(reading_q2q1)
 
 colnames (reading_q2q1) [2] <- "council"
 colnames (reading_q2q1) [3] <- "Q1_Grade"
@@ -176,6 +177,7 @@ reading_change_plot2 + geom_count()
 ```
 
 
+## Reading Trend Data
 
 
 ```{r}
@@ -205,20 +207,19 @@ q2_reading_2016 <-dbReadTable(getReal_2016db, "Q2_reading")
 
 reading <- inner_join(q4_reading_2014, q2_reading_2016, by="girlCode")
 
-
-
+names(q2_reading_2016)
 
 reading_q4q2 <- reading %>%
-    mutate(pt_diff = reading_pts2 - value)
+    mutate(pt_diff = reading_pts2 - Q4Grade)
 
 reading_q4q2 <- 
-select(reading_q4q2,girlCode, reading_pts2, value, pt_diff)
+select(reading_q4q2,girlCode, reading_pts2, Q4Grade, pt_diff)
 
 
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE,eval=FALSE}
 
 
 
@@ -235,19 +236,20 @@ read_success_m <- function() {
     read_dat <- filter(reading_q4q2, reading_pts2 >=2, pt_diff >=0)
     read_dat <- nrow(read_dat)/nrow(reading_q4q2)
     read_dat <- round(read_dat*100,2)
-    pander(read_dat)
+    pander(paste0(read_dat, "%", sep=""))
 }
 
-read_success_m()
+
 
 
 ```
 
 
+
 ```{r echo=FALSE}
 reading_mean_m<- mean(reading_q4q2$pt_diff)
 
-pander(reading_mean_m)
+
 
 #plot(langarts_q4q2$pt_diff)
 
@@ -259,9 +261,10 @@ pander(reading_mean_m)
 
 ```
 
+The number of students that could be matched from last year is **`r nrow(reading_q4q2)`**. The current reading gpa for students who particpated last year is **`r mean(reading_q4q2$reading_pts2)`**
+The percent of studuents of who increased their grade or maintained their grade is **`r read_success_m()`**. The average difference between Q4 2015 and Q2 is **`r (reading_mean_m)`**.
 
-
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
 
 
 
@@ -275,7 +278,7 @@ colnames (reading_q4q2) [4] <- "Grade_Change"
 ```
 
 
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
 
 ### Reading Grades Plots
 
@@ -293,7 +296,7 @@ colnames (reading_q4q2) [4] <- "Grade_Change"
 ```
 
 
-```{r echo=FALSE, eval=FALSE}
+```{r echo=FALSE}
 
 reading_change_plot_m <- ggplot(reading_q4q2,(aes(x = Grade_Change, y = Q4_Grade)))
 
@@ -302,6 +305,19 @@ reading_change_plot_m + geom_count()
 
 ```
 
+```{r}
+
+non_match <- anti_join(q2_reading_2016, q4_reading_2014, by="girlCode")
+
+dim(non_match)
+
+names(non_match )
+
+non_match_gpa <- mean(non_match$reading_pts2)
+
+non_match_gpa
+
+```
 
 
 
