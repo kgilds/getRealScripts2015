@@ -138,3 +138,47 @@ abs_change_plot_c + geom_count()
 
 ```
 
+### Trend Data
+````{r}
+
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+abs_2015 <- dbReadTable(getRealdb, "absences_final")
+
+
+```
+
+
+```{r}
+# match data
+
+abs_match <- inner_join(q2_absences, abs_2015)
+
+dim(abs_match)
+
+names(abs_match)
+
+
+abs_dif_trend <- abs_match$total_abs_final - abs_match$sum_abs
+
+
+abs_dif_trend
+
+table(abs_dif_trend)
+
+table(abs_dif_trend <=0)
+
+table(abs_dif_trend >0)
+
+mean(abs_dif_trend)
+
+plot(abs_dif_trend)
+abline(h=0, col="red")
+
+```
+
+
+
