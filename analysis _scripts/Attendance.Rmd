@@ -162,23 +162,40 @@ dim(abs_match)
 names(abs_match)
 
 
-abs_dif_trend <- abs_match$total_abs_final - abs_match$sum_abs
+abs_match <- abs_match %>%
+    mutate(abs_match$total_abs_final - abs_match$sum_abs)
 
 
-abs_dif_trend
+colnames(abs_match)[11] <-"abs_match_trend"
 
-table(abs_dif_trend)
+head(abs_match)
 
-table(abs_dif_trend <=0)
 
-table(abs_dif_trend >0)
-
-mean(abs_dif_trend)
-
-plot(abs_dif_trend)
-abline(h=0, col="red")
 
 ```
 
 
+
+
+```{r}
+abs_match_success <- function() {
+    abs_data_m <-filter(abs_match, abs_match_trend <=0)
+    abs_data_1m <- nrow(abs_data_m)/nrow(abs_match)
+    abs_data_percent1 <- round(abs_data_1m*100,2)
+    pander(paste0(abs_data_percent1, "%", sep=""))
+}
+
+abs_match_success()
+
+
+
+```
+
+
+```{r}
+
+plot(abs_match$abs_match_trend)
+abline(h=0, col="red")
+
+```
 
