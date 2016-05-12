@@ -1,0 +1,135 @@
+---
+title: "Suspensions"
+author: "Kevin Gilds, MPA"
+date: "May 8, 2016"
+output: html_document
+---
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+library(dplyr)
+library(dplyr)
+library(pander)
+library(ggplot2)
+library (ezknitr)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+
+q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
+
+q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
+
+
+
+```
+
+
+
+#Suspensions
+ 
+
+```{r echo=FALSE}
+
+suspsensions <- inner_join(q1_suspensions, q2_suspensions, by="girlCode")
+
+
+
+
+suspsensions_1 <- suspsensions %>%
+    select(girlCode, council.y.x, susp_sum.x, susp_sum.y)
+
+suspensions_q2q1 <- suspsensions_1 %>%
+    mutate(susp_diff = susp_sum.y - susp_sum.x)
+
+
+suspensions_q2q1 <- suspensions_q2q1 %>%
+    filter(susp_diff !="NA")
+
+```
+
+### Suspensions: % of students who reduced the number of supsensions or never received a suspsenion. 
+```{r echo=FALSE}
+suspensions_success <- function() {
+    no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0)
+    decrease_suspensions <- filter(suspensions_q2q1, susp_diff <0)
+    total_suspensions <- nrow(no_suspensions) + nrow(decrease_suspensions)
+    total_suspensions <- total_suspensions/nrow(suspensions_q2q1)
+    total_suspensions <- round(total_suspensions*100,2)
+    pander(paste0(total_suspensions, "%", sep= ""))
+}
+
+
+```
+
+The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**
+
+### Suspensions Change: Plot of suspsention changes from Q1 to Q2. 
+
+```{r echo=FALSE}
+
+suspensions_change <- with(suspensions_q2q1,table(susp_diff))
+
+pander(suspensions_change)
+
+susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE))
+
+#suspensions_change_1 <- with(suspensions_q2q1,table(susp_diff < 0))
+
+#pander(suspensions_change_1)
+
+
+#suspensions_change_2 <- with(suspensions_q2q1,table(susp_diff ==0, susp_sum.y==0))
+
+#pander(suspensions_change_2)
+
+
+
+
+#plot(suspensions_change)
+```
+
+The average difference of supsentions between Quarter 1 and Quarter 2 is `r susp_diff`
+
+
+```{r echo=FALSE}
+
+colnames (suspensions_q2q1) [2] <- "Council"
+colnames (suspensions_q2q1) [3] <- "Q1_Suspenions"
+colnames (suspensions_q2q1) [4] <- "Q2_Suspensions"
+colnames (suspensions_q2q1) [5] <- "Suspensions_Change"
+
+```
+
+Suspensions Change Plots from Quarter 1 to Quarter 2. 
+
+The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the veticial axis and the suspensions change is on the bottom axis. The desire is for the cirlces to be on the left.  
+```{r echo=FALSE, warning=FALSE}
+
+suspenesions_change_plot_c <- ggplot(suspensions_q2q1,(aes(x = Suspensions_Change, y = Council)))
+
+suspenesions_change_plot_c + geom_count()
+
+#suspenesions_change_plot2 <- ggplot(suspensions_q2q1,(aes(x = Suspensions_Change, y = Q1_Suspenions)))
+
+#suspenesions_change_plot2 + geom_count()
+
+
+
+
+
+
+```
+
+
+### Trend Data
+
+### Trend Data Q4 2015 to Q2 2016
+
