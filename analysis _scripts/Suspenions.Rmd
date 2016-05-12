@@ -132,4 +132,74 @@ suspenesions_change_plot_c + geom_count()
 ### Trend Data
 
 ### Trend Data Q4 2015 to Q2 2016
+```{r}
+
+## Trend Data
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+suspensions_2015 <- dbReadTable(getRealdb, "matched_suspenions")
+
+
+
+```
+
+```{r}
+
+susp_match <- inner_join(suspensions_q2q1, suspensions_2015, by="girlCode")
+
+
+names(susp_match)
+
+susp_match <- susp_match %>%
+    mutate(final.x + final.y)
+
+names(susp_match)
+
+colnames(susp_match)[16] <-"Q4_2015"
+
+
+susp_match <- susp_match %>%
+    mutate(Q4_2015-Q2_Suspensions)
+
+
+names(susp_match)
+
+colnames(susp_match)[17] <- "susp_trend"
+
+
+susp_match$susp_trend
+
+
+
+```
+
+
+```{r}
+
+susp_success <-function(){
+    susp_data_m <-filter(susp_match, susp_trend <=0)
+    susp_data_1m <- nrow(susp_data_m)/nrow(susp_match)
+    susp_data_percen1 <- round(susp_data_1m*100,2)
+    pander(paste0(susp_data_percen1, "%", sep=""))
+}
+
+
+susp_success()
+
+```
+
+
+
+
+
+```{r}
+
+plot(susp_match$susp_trend)
+abline(h=0, col="red")
+
+```
+
+
 
