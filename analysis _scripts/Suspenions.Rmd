@@ -177,6 +177,19 @@ susp_match$susp_trend
 
 
 ```{r}
+susp_history <- susp_match %>%
+    select(Q1_Suspenions, Q2_Suspensions, Q4_2015)
+
+
+susp_history
+
+plot(susp_history)
+
+```
+
+
+
+```{r}
 
 susp_success <-function(){
     susp_data_m <-filter(susp_match, susp_trend <=0)
