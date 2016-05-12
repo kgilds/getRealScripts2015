@@ -71,7 +71,7 @@ absences_success <- function() {
 
 
 
-absences_success()
+
 ```
 
 The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. 
@@ -142,7 +142,7 @@ abs_change_plot_c + geom_count()
 ```
 
 ### Trend Data
-````{r}
+````{r echo=FALSE, warning=FALSE, message=FALSE}
 
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
@@ -155,14 +155,12 @@ abs_2015 <- dbReadTable(getRealdb, "absences_final")
 ```
 
 
-```{r}
+```{r echo=FALSE, warning=FALSE, message=FALSE}
 # match data
 
 abs_match <- inner_join(q2_absences, abs_2015)
 
-dim(abs_match)
 
-names(abs_match)
 
 
 abs_match <- abs_match %>%
@@ -171,7 +169,6 @@ abs_match <- abs_match %>%
 
 colnames(abs_match)[11] <-"abs_match_trend"
 
-head(abs_match)
 
 
 
@@ -180,7 +177,7 @@ head(abs_match)
 
 
 
-```{r}
+```{r echo=FALSE}
 abs_match_success <- function() {
     abs_data_m <-filter(abs_match, abs_match_trend <=0)
     abs_data_1m <- nrow(abs_data_m)/nrow(abs_match)
@@ -188,17 +185,22 @@ abs_match_success <- function() {
     pander(paste0(abs_data_percent1, "%", sep=""))
 }
 
-abs_match_success()
-
 
 
 ```
 
 
-```{r}
+The number of students that could be matched is **`r nrow(abs_match)`**, and the mean attendance change from Quarter 4 to Quarter 2 is **`r mean(abs_match$abs_match_trend)`**.  The vast majority of students are improving their attendance rates. The mean difference is reflecting three studnes with a high number of abssences. The percent of students who have improved their attendance from Quarter 4 last year is **`r abs_match_success()`**
+
+
+### Plot of Absences Trend
+
+```{r echo=FALSE}
+
 
 plot(abs_match$abs_match_trend)
 abline(h=0, col="red")
+
 
 ```
 
