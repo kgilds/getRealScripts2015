@@ -49,6 +49,9 @@ absences_q2q1 <- absences_1 %>%
 
 
 
+absences_q2q1 <- absences_q2q1 %>%
+    filter(abs_diff != "NA")
+
 
 ```
 
