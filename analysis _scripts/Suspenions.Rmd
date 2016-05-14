@@ -132,7 +132,7 @@ suspenesions_change_plot_c + geom_count()
 ### Trend Data
 
 ### Trend Data Q4 2015 to Q2 2016
-```{r}
+```{r echo=FALSE}
 
 ## Trend Data
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
@@ -145,17 +145,17 @@ suspensions_2015 <- dbReadTable(getRealdb, "matched_suspenions")
 
 ```
 
-```{r}
+```{r echo=FALSE}
 
 susp_match <- inner_join(suspensions_q2q1, suspensions_2015, by="girlCode")
 
 
-names(susp_match)
+
 
 susp_match <- susp_match %>%
     mutate(final.x + final.y)
 
-names(susp_match)
+
 
 colnames(susp_match)[16] <-"Q4_2015"
 
@@ -164,19 +164,15 @@ susp_match <- susp_match %>%
     mutate(Q4_2015-Q2_Suspensions)
 
 
-names(susp_match)
 
 colnames(susp_match)[17] <- "susp_trend"
-
-
-susp_match$susp_trend
 
 
 
 ```
 
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 susp_history <- susp_match %>%
     select(Q1_Suspenions, Q2_Suspensions, Q4_2015)
 
@@ -189,27 +185,41 @@ plot(susp_history)
 
 
 
-```{r}
+```{r echo=FALSE}
 
 susp_success <-function(){
-    susp_data_m <-filter(susp_match, susp_trend <=0)
-    susp_data_1m <- nrow(susp_data_m)/nrow(susp_match)
+    susp_match_no <-filter(susp_match, Q4_2015 == 0, Q2_Suspensions ==0)
+    susp_data_m <-filter(susp_match, susp_trend <0)
+    susp_data_m2 <- nrow(susp_match_no) + nrow(susp_data_m)
+    susp_data_1m <- susp_data_m2/nrow(susp_match)
     susp_data_percen1 <- round(susp_data_1m*100,2)
     pander(paste0(susp_data_percen1, "%", sep=""))
 }
 
-
 susp_success()
+
+```
+
+The number of students that could be matched from Quarter 4, 2015 is **`r nrow(susp_match)`**. The mean difference between Quarter 4 2015 and Quarter 2 2016 is **`r mean(susp_match$susp_trend)`**. The number of students who decreased their number of suspensions from Quarter 4 to Quarter 2 is  **`r susp_success()`**.
+
+
+### Plot of differences in Suspensions by Council
+
+```{r}
+suspenesions_change_plot_m <- ggplot(susp_match,(aes(x = susp_trend, y = Council)))
+
+suspenesions_change_plot_m + geom_count()
+
 
 ```
 
 
 
 
+### Plot of differences in Suspensions by student
+```{r echo=FALSE}
 
-```{r}
-
-plot(susp_match$susp_trend)
+plot(susp_match$susp_trend, ylab="Suspension Difference")
 abline(h=0, col="red")
 
 ```
