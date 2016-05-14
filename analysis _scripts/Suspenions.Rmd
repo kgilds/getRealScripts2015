@@ -72,9 +72,9 @@ suspensions_success <- function() {
 
 ```
 
-The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**
 
-### Suspensions Change: Plot of suspsention changes from Q1 to Q2. 
+
+
 
 ```{r echo=FALSE}
 
@@ -99,7 +99,10 @@ susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE))
 #plot(suspensions_change)
 ```
 
-The average difference of suspensions between Quarter 1 and Quarter 2 is `r susp_diff`
+The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**. The average difference of suspensions between Quarter 1 and Quarter 2 is `r susp_diff`
+
+
+
 
 
 ```{r echo=FALSE}
@@ -111,7 +114,10 @@ colnames (suspensions_q2q1) [5] <- "Suspensions_Change"
 
 ```
 
-Suspensions Change Plots from Quarter 1 to Quarter 2. 
+
+
+
+### Suspensions Change Plots from Quarter 1 to Quarter 2. 
 
 The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the vertical axis and the suspensions change is on the bottom axis. The desire is for the circles to be on the left.  
 ```{r echo=FALSE, warning=FALSE}
@@ -134,7 +140,7 @@ suspenesions_change_plot_c + geom_count()
 
 ### Trend Data
 
-### Trend Data Q4 2015 to Q2 2016
+### Trend Data Q4 2015 to Q2 2016:
 ```{r echo=FALSE}
 
 ## Trend Data
@@ -199,7 +205,7 @@ susp_success <-function(){
     pander(paste0(susp_data_percen1, "%", sep=""))
 }
 
-susp_success()
+
 
 ```
 
