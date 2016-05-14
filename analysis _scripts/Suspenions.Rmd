@@ -33,7 +33,10 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
 
 
-#Suspensions
+#Improvement In School Behavior
+
+## Objective:
+The objective for Improvement in School Behavior is as follows: Objective: 70% of participating students will show improvement in behavior by decreasing their number of suspensions from the baseline grading period to final grading period or not having a suspension during the school year as evidenced from the student's report card/school reports.
  
 
 ```{r echo=FALSE}
@@ -96,7 +99,7 @@ susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE))
 #plot(suspensions_change)
 ```
 
-The average difference of supsentions between Quarter 1 and Quarter 2 is `r susp_diff`
+The average difference of suspensions between Quarter 1 and Quarter 2 is `r susp_diff`
 
 
 ```{r echo=FALSE}
@@ -110,7 +113,7 @@ colnames (suspensions_q2q1) [5] <- "Suspensions_Change"
 
 Suspensions Change Plots from Quarter 1 to Quarter 2. 
 
-The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the veticial axis and the suspensions change is on the bottom axis. The desire is for the cirlces to be on the left.  
+The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the vertical axis and the suspensions change is on the bottom axis. The desire is for the circles to be on the left.  
 ```{r echo=FALSE, warning=FALSE}
 
 suspenesions_change_plot_c <- ggplot(suspensions_q2q1,(aes(x = Suspensions_Change, y = Council)))
@@ -205,7 +208,7 @@ The number of students that could be matched from Quarter 4, 2015 is **`r nrow(s
 
 ### Plot of differences in Suspensions by Council
 
-```{r}
+```{r echo=FALSE}
 suspenesions_change_plot_m <- ggplot(susp_match,(aes(x = susp_trend, y = Council)))
 
 suspenesions_change_plot_m + geom_count()
