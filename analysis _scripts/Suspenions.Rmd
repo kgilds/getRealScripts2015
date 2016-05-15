@@ -99,7 +99,7 @@ susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE))
 #plot(suspensions_change)
 ```
 
-The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**. The average difference of suspensions between Quarter 1 and Quarter 2 is `r susp_diff`
+The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**. The average difference of suspensions between Quarter 1 and Quarter 2 is **`r susp_diff`**
 
 
 
@@ -209,7 +209,7 @@ susp_success <-function(){
 
 ```
 
-The number of students that could be matched from Quarter 4, 2015 is **`r nrow(susp_match)`**. The mean difference between Quarter 4 2015 and Quarter 2 2016 is **`r mean(susp_match$susp_trend)`**. The number of students who decreased their number of suspensions from Quarter 4 to Quarter 2 is  **`r susp_success()`**.
+The number of students that could be matched from Quarter 4, 2015 is **`r nrow(susp_match)`**. The mean difference between Quarter 4 2015 and Quarter 2 2016 is **`r mean(susp_match$susp_trend)`**. The percent of students who decreased their number of suspensions from Quarter 4 to Quarter 2 is or never received a suspension is   **`r susp_success()`**.
 
 
 ### Plot of differences in Suspensions by Council
