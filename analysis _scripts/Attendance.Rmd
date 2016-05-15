@@ -8,22 +8,25 @@ output: html_document
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
-library(sqldf)
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
-getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
-
+#load the libaries
 library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
 library (ezknitr)
+library(sqldf)
 
+### set working directory to find the data
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
+###Read data from database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
-
+##read q1 data from database
 q1_absences <-dbReadTable(getReal_2016db, "Q1_Absences")
+
+##read q2 absences from database
 q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
 
@@ -39,19 +42,21 @@ q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
 ```{r echo=FALSE}
 
+#Merge and find matches between q1 and q2 by girlCode
 absences <- inner_join(q1_absences, q2_absences, by="girlCode")
 
 
-
+##narrow variables of interests
 absences_1 <- absences %>%
     select(girlCode, council.x.x, sum_abs.x, sum_abs.y) 
-    
+ 
+###make caluculated field   
 absences_q2q1 <- absences_1 %>%
     mutate(abs_diff = sum_abs.y - sum_abs.x)
 
 
 
-
+###Ensure there are no cases with NA
 absences_q2q1 <- absences_q2q1 %>%
     filter(abs_diff != "NA")
 
@@ -63,12 +68,12 @@ absences_q2q1 <- absences_q2q1 %>%
 ```{r echo=FALSE}
 
 absences_success <- function() {
-    no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0)
-    decrease_abs <- filter(absences_q2q1, abs_diff<0 )
-    abs_total <- nrow(no_absences) + nrow(decrease_abs)
-    abs_total <- abs_total / nrow(absences_q2q1)
-    abs_total <- round(abs_total*100,2)
-    pander(paste0(abs_total, "%", sep= ""))
+    no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0) #find cases with no absences
+    decrease_abs <- filter(absences_q2q1, abs_diff<0 ) #find students who decreased absences
+    abs_total <- nrow(no_absences) + nrow(decrease_abs) #add positive outcomes no absences, decreased absences
+    abs_total <- abs_total / nrow(absences_q2q1) #divide positive outcomes by total
+    abs_total <- round(abs_total*100,2) #make percent 
+    pander(paste0(abs_total, "%", sep= ""))# make percent pretty with percent sign
     
 }
 
@@ -83,9 +88,9 @@ The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of st
 ### Absences Change
 ```{r echo=FALSE, eval=TRUE}
 
-absences_change <- with(absences_q2q1, table(abs_diff))
+absences_change <- with(absences_q2q1, table(abs_diff))  #make table with absences differnces
 
-pander(absences_change)
+pander(absences_change) #make table pretty
 
 
 
@@ -110,7 +115,7 @@ pander(absences_change)
 
 ```{r echo=FALSE}
 
-abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))
+abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))  #find mean differences
 
 
 ```
@@ -120,21 +125,21 @@ The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_
 
 ```{r echo=FALSE}
 
-colnames (absences_q2q1) [2] <- "Council"
-colnames (absences_q2q1) [3] <- "Q1_Abs"
-colnames (absences_q2q1) [4] <- "Q2_Abs"
-colnames (absences_q2q1) [5] <- "Abs_Change"
+colnames (absences_q2q1) [2] <- "Council"  #chanage name to make pretty for graph
+colnames (absences_q2q1) [3] <- "Q1_Abs"  #change name to make pretty for graph
+colnames (absences_q2q1) [4] <- "Q2_Abs" # change name to make pretty for graph
+colnames (absences_q2q1) [5] <- "Abs_Change" #change name to make pretty for graph
 
 ```
 
-The plot below has the council on the vertical axix and the difference in abesences between Quarter 1 and Quarter 2. For this plot it is good to see the circles on the left to reflect decreases. 
+The plot below has the council on the vertical axis and the difference in absences between Quarter 1 and Quarter 2. For this plot it is good to see the circles on the left to reflect decreases. 
 
 
 ```{r echo=FALSE, warning=FALSE}
 
 abs_change_plot_c <- ggplot(absences_q2q1,(aes(x = Abs_Change, y = Council)))
 
-abs_change_plot_c + geom_count()
+abs_change_plot_c + geom_count()  #plot changes in absences by council
 
 
 
@@ -147,11 +152,13 @@ abs_change_plot_c + geom_count()
 ### Trend Data
 ````{r echo=FALSE, warning=FALSE, message=FALSE}
 
-
+### Change working directory to where database is 
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 
+#connect to database where data is 
 getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
+###pull out absence data from 2015
 abs_2015 <- dbReadTable(getRealdb, "absences_final")
 
 
@@ -161,15 +168,17 @@ abs_2015 <- dbReadTable(getRealdb, "absences_final")
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 # match data
 
+#Merge and find matches
 abs_match <- inner_join(q2_absences, abs_2015)
 
 
 
-
+#Create calculated field to find difference in absences from q4 to q2
 abs_match <- abs_match %>%
     mutate(abs_match$total_abs_final - abs_match$sum_abs)
 
 
+##change column name to give variable name to caluclated field
 colnames(abs_match)[11] <-"abs_match_trend"
 
 
@@ -182,12 +191,12 @@ colnames(abs_match)[11] <-"abs_match_trend"
 
 ```{r echo=FALSE}
 abs_match_success <- function() {
-    abs_data_m_none <- filter(abs_match, sum_abs == 0, total_abs_final ==0)
-    abs_data_m <-filter(abs_match, abs_match_trend <0)
-    abs_data_2m <- nrow(abs_data_m_none) + nrow(abs_data_m)
-    abs_data_1m <- abs_data_2m/nrow(abs_match)
-    abs_data_percent1 <- round(abs_data_1m*100,2)
-    pander(paste0(abs_data_percent1, "%", sep=""))
+    abs_data_m_none <- filter(abs_match, sum_abs == 0, total_abs_final ==0) #find studens with no absence
+    abs_data_m <-filter(abs_match, abs_match_trend <0) #find students who decreased abssences
+    abs_data_2m <- nrow(abs_data_m_none) + nrow(abs_data_m) #add positive outcome together
+    abs_data_1m <- abs_data_2m/nrow(abs_match) #divide postive outcomes by total
+    abs_data_percent1 <- round(abs_data_1m*100,2) #create percent
+    pander(paste0(abs_data_percent1, "%", sep=""))#make pretty and add percent sign
 }
 
 
@@ -195,19 +204,19 @@ abs_match_success <- function() {
 ```
 
 
-The number of students that could be matched is **`r nrow(abs_match)`**, and the mean attendance change from Quarter 4 to Quarter 2 is **`r mean(abs_match$abs_match_trend)`**.  The vast majority of students are improving their attendance rates. The mean difference is reflecting three studnes with a high number of abssences. The percent of students who have improved their attendance from Quarter 4 last year is **`r abs_match_success()`**
+The number of students that could be matched is **`r nrow(abs_match)`**, and the mean attendance change from Quarter 4 to Quarter 2 is **`r mean(abs_match$abs_match_trend)`**.  The vast majority of students are improving their attendance rates. The mean difference is reflecting three students with a high number of absences. The percent of students who have improved their attendance from Quarter 4 last year is **`r abs_match_success()`**
 
 
-### Plot of Absences Trend
+### Plot of Absences Change by Council:
 
 ```{r echo=FALSE}
 
-colnames(abs_match)[1] <- "Council"
-colnames(abs_match)[11]<- "Absences_Change"
+colnames(abs_match)[1] <- "Council" #change name to make pretty for graph
+colnames(abs_match)[11]<- "Absences_Change" #change name to make pretty for graph
 
 absence_change_plot_m <- ggplot(abs_match,(aes(x = Absences_Change, y = Council)))
 
-absence_change_plot_m + geom_count()
+absence_change_plot_m + geom_count()  #display changes in absences by council
 
 
 ```
@@ -216,12 +225,12 @@ absence_change_plot_m + geom_count()
 
 
 
-
+### Plot change in absence by Student: 
 ```{r echo=FALSE}
 
 
 plot(abs_match$Absences_Change, ylab="Difference in Absences", xlab="Matched Students")
-abline(h=0, col="red")
+abline(h=0, col="red") #plot change by student
 
 
 ```
