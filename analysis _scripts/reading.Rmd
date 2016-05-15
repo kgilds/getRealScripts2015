@@ -1,7 +1,7 @@
 ---
 title: "Reading Grade"
 author: "Kevin Gilds, MPA"
-date: "May 7, 2016"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -25,7 +25,7 @@ library(knitr)
 
 
 
-```{r}
+```{r echo=FALSE}
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
@@ -60,7 +60,7 @@ reading_q2q1 <- reading_1 %>%
 
 
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 
 reading_change <- with(reading_q2q1, table(pt_diff, reading_pts2))
 
@@ -125,7 +125,7 @@ The reading gpa for students is **`r (gpa_reading_2)`**. The average reading gra
 ```{r echo=FALSE}
 ###Change name for plots
 
-names(reading_q2q1)
+
 
 colnames (reading_q2q1) [2] <- "council"
 colnames (reading_q2q1) [3] <- "Q1_Grade"
@@ -151,7 +151,7 @@ colnames (reading_q2q1) [5] <- "Grade_Change"
 
 ```
 
-The changes in grades from Q1 to Q2 is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. For example those with an A in Q1 can decrease but not increase. Thus ideally we want to see circles heading to right. 
+The changes in grades from Q1 to Q2 is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. Thus ideally we want to see circles heading to right. However,students with an A in Q1 can decrease but not increase. 
 
 
 ### Reading Grade Change from Q1 to Q2 
@@ -180,7 +180,7 @@ reading_change_plot2 + geom_count()
 ## Reading Trend Data
 
 
-```{r}
+```{r echo=FALSE}
 
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
@@ -207,7 +207,7 @@ q2_reading_2016 <-dbReadTable(getReal_2016db, "Q2_reading")
 
 reading <- inner_join(q4_reading_2014, q2_reading_2016, by="girlCode")
 
-names(q2_reading_2016)
+#names(q2_reading_2016)
 
 reading_q4q2 <- reading %>%
     mutate(pt_diff = reading_pts2 - Q4Grade)
@@ -305,7 +305,7 @@ reading_change_plot_m + geom_count()
 
 ```
 
-```{r}
+```{r echo=FALSE, eval=FALSE}
 
 non_match <- anti_join(q2_reading_2016, q4_reading_2014, by="girlCode")
 
