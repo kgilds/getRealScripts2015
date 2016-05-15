@@ -173,7 +173,7 @@ abs_match <- abs_match %>%
 colnames(abs_match)[11] <-"abs_match_trend"
 
 
-names(abs_match)
+
 
 ```
 
@@ -202,8 +202,25 @@ The number of students that could be matched is **`r nrow(abs_match)`**, and the
 
 ```{r echo=FALSE}
 
+colnames(abs_match)[1] <- "Council"
+colnames(abs_match)[11]<- "Absences_Change"
 
-plot(abs_match$abs_match_trend)
+absence_change_plot_m <- ggplot(abs_match,(aes(x = Absences_Change, y = Council)))
+
+absence_change_plot_m + geom_count()
+
+
+```
+
+
+
+
+
+
+```{r echo=FALSE}
+
+
+plot(abs_match$Absences_Change, ylab="Difference in Absences", xlab="Matched Students")
 abline(h=0, col="red")
 
 
