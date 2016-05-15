@@ -64,7 +64,6 @@ absences_q2q1 <- absences_q2q1 %>%
 ```
 
 
-### Absences Success: % of Students who decreased their absences or had no absences. 
 ```{r echo=FALSE}
 
 absences_success <- function() {
@@ -82,10 +81,24 @@ absences_success <- function() {
 
 ```
 
-The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. 
 
 
-### Absences Change
+
+
+### Absences Success: % of Students who decreased their absences or had no absences. 
+```{r echo=FALSE}
+
+abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))  #find mean differences
+
+
+```
+
+
+
+The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
+
+
+### Absences Change Table
 ```{r echo=FALSE, eval=TRUE}
 
 absences_change <- with(absences_q2q1, table(abs_diff))  #make table with absences differnces
@@ -111,17 +124,8 @@ pander(absences_change) #make table pretty
 
 ```
 
-### Average Change from Quarter 1 to Quarter 2
-
-```{r echo=FALSE}
-
-abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))  #find mean differences
 
 
-```
-
-
-The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
 
 ```{r echo=FALSE}
 
@@ -131,6 +135,8 @@ colnames (absences_q2q1) [4] <- "Q2_Abs" # change name to make pretty for graph
 colnames (absences_q2q1) [5] <- "Abs_Change" #change name to make pretty for graph
 
 ```
+
+### Plot of Change in Absences:
 
 The plot below has the council on the vertical axis and the difference in absences between Quarter 1 and Quarter 2. For this plot it is good to see the circles on the left to reflect decreases. 
 
