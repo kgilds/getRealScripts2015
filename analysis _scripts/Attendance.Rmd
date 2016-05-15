@@ -1,0 +1,140 @@
+---
+title: "Attendance"
+author: "Kevin Gilds, MPA"
+date: "May 8, 2016"
+output: html_document
+---
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+library(sqldf)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+library(dplyr)
+library(dplyr)
+library(pander)
+library(ggplot2)
+library (ezknitr)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+
+q1_absences <-dbReadTable(getReal_2016db, "Q1_Absences")
+q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
+
+
+
+```
+
+
+
+# Absences: 
+
+```{r echo=FALSE}
+
+absences <- inner_join(q1_absences, q2_absences, by="girlCode")
+
+
+
+absences_1 <- absences %>%
+    select(girlCode, council.x.x, sum_abs.x, sum_abs.y) 
+    
+absences_q2q1 <- absences_1 %>%
+    mutate(abs_diff = sum_abs.y - sum_abs.x)
+
+
+
+
+
+```
+
+
+### Absences Success: % of Students who decreased their absences or had no absences. 
+```{r echo=FALSE}
+
+absences_success <- function() {
+    no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0)
+    decrease_abs <- filter(absences_q2q1, abs_diff<0 )
+    abs_total <- nrow(no_absences) + nrow(decrease_abs)
+    abs_total <- abs_total / nrow(absences_q2q1)
+    abs_total <- round(abs_total*100,2)
+    pander(paste0(abs_total, "%", sep= ""))
+    
+}
+
+
+
+absences_success()
+```
+
+The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. 
+
+
+### Absences Change
+```{r echo=FALSE, eval=TRUE}
+
+absences_change <- with(absences_q2q1, table(abs_diff))
+
+pander(absences_change)
+
+
+
+#absences_change_1 <-with(absences_q2q1,table(abs_diff <0))
+
+#absences_change_2 <-with(absences_q2q1,table(abs_diff ==0, sum_abs.y == 0))
+
+#absences_change_3 <-with(absences_q2q1,table(sum_abs.x == 0, sum_abs.y == 0))
+
+#pander(absences_change_2)
+
+#pander(absences_change_3)
+
+
+#pander(absences_change_1)
+
+#plot(absences_change)
+
+```
+
+### Average Change from Quarter 1 to Quarter 2
+
+```{r echo=FALSE}
+
+abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))
+
+
+```
+
+
+The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
+
+```{r echo=FALSE}
+
+colnames (absences_q2q1) [2] <- "Council"
+colnames (absences_q2q1) [3] <- "Q1_Abs"
+colnames (absences_q2q1) [4] <- "Q2_Abs"
+colnames (absences_q2q1) [5] <- "Abs_Change"
+
+```
+
+The plot below has the council on the vertical axix and the difference in abesences between Quarter 1 and Quarter 2. For this plot it is good to see the circles on the left to reflect decreases. 
+
+
+```{r echo=FALSE, warning=FALSE}
+
+abs_change_plot_c <- ggplot(absences_q2q1,(aes(x = Abs_Change, y = Council)))
+
+abs_change_plot_c + geom_count()
+
+
+
+#abs_change_plot2 <- ggplot(absences_q2q1,(aes(x = Abs_Change, y = Q1_Abs)))
+
+#abs_change_plot2 + geom_count()
+
+```
+
