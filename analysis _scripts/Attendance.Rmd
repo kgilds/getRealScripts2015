@@ -34,6 +34,9 @@ q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
 # Absences: 
 
+## objective: 
+60% of participating students will either maintain or improve their attendance rates as demonstrated by their decreased absences from the baseline grading period to the final grading period as evidenced by report cards/school reports.
+
 ```{r echo=FALSE}
 
 absences <- inner_join(q1_absences, q2_absences, by="girlCode")
