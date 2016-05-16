@@ -1,0 +1,26 @@
+---
+title: "Trend Report Addendum"
+author: "Kevin Gilds, MPA"
+date: "May 15, 2016"
+output: html_document
+---
+
+```{r child = 'reading.rmd'}
+
+```
+
+
+```{r child= 'Language Arts.rmd'}
+
+```
+
+
+```{r child= 'Attendance.rmd'}
+
+```
+
+
+```{r child="Suspenions.rmd"}
+
+```
+
