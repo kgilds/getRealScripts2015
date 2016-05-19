@@ -14,13 +14,13 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/April 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-rawdata <- read.csv("girl_survey_04162016.csv", skip=1)
+rawdata <- read.csv("girl_survey_05192016.csv", skip=1)
 dim(rawdata)
 
 ```
