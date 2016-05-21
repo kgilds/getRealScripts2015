@@ -98,7 +98,7 @@ abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))  #find mean differen
 The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
 
 
-### Absences Change Table
+### Absences Change Table:
 ```{r echo=FALSE, eval=TRUE}
 
 absences_change <- with(absences_q2q1, table(abs_diff))  #make table with absences differnces
