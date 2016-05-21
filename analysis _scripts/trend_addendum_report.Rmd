@@ -2,7 +2,7 @@
 title: "Trend Report Addendum"
 author: "Kevin Gilds, MPA"
 date: "May 15, 2016"
-output: html_document
+output: pdf_document
 ---
 
 # Introduction 
@@ -11,14 +11,18 @@ The following academic data reflects slight changes from the May 1st report. The
 
 This report also has trend data from students who particpated in the Get REAL! program last year. The number of students that could be matched is 68 and most have very positive outcomes. Nearly 2/3 have increased grades or maintained a C average in Language Arts. Almost 100% have decreased or reduced suspenions and 81 percent have improved their attendance. 
 
-```{r child = 'reading.rmd'}
-
-```
 
 
 ```{r child= 'Language Arts.rmd'}
 
 ```
+
+
+
+```{r child = 'reading.rmd'}
+
+```
+
 
 
 ```{r child= 'Attendance.rmd'}
