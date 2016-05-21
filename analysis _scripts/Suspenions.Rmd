@@ -59,7 +59,7 @@ suspensions_q2q1 <- suspensions_q2q1 %>%
 
 ```
 
-### Suspensions: % of students who reduced the number of supsensions or never received a suspsenion. 
+### Suspensions: % of students who reduced the number of supsensions or never received a suspsenion
 ```{r echo=FALSE}
 suspensions_success <- function() {
     no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0) ##Filter students without a suspension
@@ -118,7 +118,7 @@ colnames (suspensions_q2q1) [5] <- "Suspensions_Change"#change name of element #
 
 
 
-### Suspensions Change Plots from Quarter 1 to Quarter 2. 
+### Suspensions Change Plots from Quarter 1 to Quarter 2:
 
 The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the vertical axis and the suspensions change is on the bottom axis. The desire is for the circles to be on the left.  
 ```{r echo=FALSE, warning=FALSE}
@@ -139,7 +139,7 @@ suspenesions_change_plot_c + geom_count() #display ggplot of Suspsenion change b
 ```
 
 
-## Trend Data
+## Trend Data:
 
 ### Trend Data Q4 2015 to Q2 2016:
 ```{r echo=FALSE}
@@ -222,7 +222,7 @@ susp_success <-function(){
 The number of students that could be matched from Quarter 4, 2015 is **`r nrow(susp_match)`**. The mean difference between Quarter 4 2015 and Quarter 2 2016 is **`r mean(susp_match$susp_trend)`**. The percent of students who decreased their number of suspensions from Quarter 4 to Quarter 2 is or never received a suspension is   **`r susp_success()`**.
 
 
-### Plot of differences in Suspensions by Council
+### Plot of differences in Suspensions by Council:
 
 ```{r echo=FALSE}
 suspenesions_change_plot_m <- ggplot(susp_match,(aes(x = susp_trend, y = Council)))
@@ -235,7 +235,7 @@ suspenesions_change_plot_m + geom_count() #plots change by council
 
 
 
-### Plot of differences in Suspensions by student
+### Plot of differences in Suspensions by student:
 ```{r echo=FALSE}
 
 plot(susp_match$susp_trend, ylab="Suspension Difference", xlab="Matched Students")
