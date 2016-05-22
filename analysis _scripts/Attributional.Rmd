@@ -1,0 +1,43 @@
+---
+title: "Attributional"
+author: "Kevin Gilds, MPA"
+date: "May 22, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(sqldf)
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(knitr)
+
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+
+attr <-dbReadTable(getReal_2016db, "girl_post")
+
+
+
+
+```
+
+
+```{r}
+
+attr_1 <- select(attr, 46:49)
+
+
+names(attr_1)
+
+str(attr_1)
+
+
+```
+
