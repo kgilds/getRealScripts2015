@@ -35,7 +35,7 @@ q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
 
 
-# Absences: 
+# Improved Attendance: 
 
 ## Objective: 
 *60% of participating students will either maintain or improve their attendance rates as demonstrated by their decreased absences from the baseline grading period to the final grading period as evidenced by report cards/school reports.*
