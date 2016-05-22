@@ -42,7 +42,7 @@ q2_langarts <-dbReadTable(getReal_2016db, "Q2_lang")
 
 ## Objective: 
 
-50% of participating students will improve their reading skills as demonstrated by their Language Arts grade increasing or maintaining a "C" grade from the baseline grading period to the final grading period as evidenced by report cards/school reports.
+*50% of participating students will improve their reading skills as demonstrated by their Language Arts grade increasing or maintaining a "C" grade from the baseline grading period to the final grading period as evidenced by report cards/school reports.*
 
 
 ```{r echo=FALSE}
@@ -122,7 +122,10 @@ colnames (langarts_q2q1) [5] <- "Grade_Change"
 
 
 
-### Language Arts Grade Change from Q1 to Q2: 
+### Grade Change Plot from Q1 to Q2: 
+The changes in grades from Q1 to Q2 is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase. 
+
+
 
 ```{r echo=FALSE}
 
