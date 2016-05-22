@@ -139,7 +139,7 @@ suspenesions_change_plot_c + geom_count() #display ggplot of Suspsenion change b
 ```
 
 
-## Trend Data:
+### Trend Data:
 
 ### Trend Data Q4 2015 to Q2 2016:
 ```{r echo=FALSE}
