@@ -10,7 +10,7 @@ output: html_document
 The following academic data reflects slight increases in percent achievement  from the May 1st report. The changes reflect a change in the number of successful matches, and this impacted the denominator when calculating percent achievement.  
 
 
-This report also has trend data from students who participated in the Get REAL! program last year. The number of students that could be matched is 68 and most have very positive outcomes. Nearly 2/3 have increased grades or maintained a C average in Language Arts. Almost 100% have decreased or reduced suspensions and 81 percent have improved their attendance. 
+This report also has trend data from students who participated in the Get REAL! program last year. The number of students that could be matched is 68 and most have very positive outcomes. Nearly 2/3 have increased grades or maintained at least a  C average in Language Arts. Almost 100% have decreased or reduced suspensions and 81 percent have improved their attendance. 
 
 # Objectives:
 
