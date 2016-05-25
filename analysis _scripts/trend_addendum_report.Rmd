@@ -3,9 +3,9 @@ title: "Trend Report Addendum"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
 output:
-  pdf_document:
-    toc: yes
   html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
