@@ -3,13 +3,13 @@ title: "Trend Report Addendum"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    toc: yes
   pdf_document:
+    toc: yes
+  html_document:
     toc: yes
 ---
 
-# Introduction 
+# Introduction: 
 
 The following report reflects slight increases in percent achievement in academic data from the May 1st submission. The changes reflect a change in the number of successful matches, and this impacted the denominator when calculating percent achievement.  
 
