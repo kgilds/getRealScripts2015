@@ -32,7 +32,7 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
 
 
-#Improvement In School Behavior
+#Improvement In School Behavior:
 
 ## Objective:
 *70% of participating students will show improvement in behavior by decreasing their number of suspensions from the baseline grading period to final grading period or not having a suspension during the school year as evidenced from the student's report card/school reports.*
