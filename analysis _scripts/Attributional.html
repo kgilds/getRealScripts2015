@@ -130,6 +130,208 @@ names(attr_1)</code></pre>
 ##  $ myReadingSkillsImprovedThisYear   : chr  &quot;Strongly Agree&quot; &quot;Strongly Agree&quot; &quot;Agree&quot; &quot;Strongly Agree&quot; ...
 ##  $ EstablishedAPostiveRelationship...: chr  &quot;Strongly Agree&quot; &quot;Strongly Agree&quot; &quot;Agree&quot; &quot;Strongly Agree&quot; ...
 ##  $ ...HelpedMeRecognizeThingsIDoWell : chr  &quot;Strongly Agree&quot; &quot;Strongly Agree&quot; &quot;Strongly Agree&quot; &quot;Strongly Agree&quot; ...</code></pre>
+<pre class="r"><code>attr_1 &lt;- lapply(attr_1, factor, levels=c(&quot;Don't Know/Prefer Not to say&quot;,&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Disagree a little&quot;,&quot;Agree a little&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot; ), ordered=TRUE)
+
+str(attr_1)</code></pre>
+<pre><code>## List of 4
+##  $ ILearnedFromTheBooksWeReadThisYear: Ord.factor w/ 7 levels &quot;Don't Know/Prefer Not to say&quot;&lt;..: 6 5 5 6 6 5 7 5 7 6 ...
+##  $ myReadingSkillsImprovedThisYear   : Ord.factor w/ 7 levels &quot;Don't Know/Prefer Not to say&quot;&lt;..: 7 7 6 7 5 7 7 5 7 6 ...
+##  $ EstablishedAPostiveRelationship...: Ord.factor w/ 7 levels &quot;Don't Know/Prefer Not to say&quot;&lt;..: 7 7 6 7 7 7 7 7 6 5 ...
+##  $ ...HelpedMeRecognizeThingsIDoWell : Ord.factor w/ 7 levels &quot;Don't Know/Prefer Not to say&quot;&lt;..: 7 7 7 7 7 7 7 7 6 5 ...</code></pre>
+<pre class="r"><code>attr_1 &lt;- lapply(attr_1,table)
+
+pander(attr_1)</code></pre>
+<ul>
+<li><p><strong>ILearnedFromTheBooksWeReadThisYear</strong>:</p>
+<table style="width:85%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="43%"></col>
+<col width="27%"></col>
+<col width="13%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Don’t Know/Prefer Not to say</th>
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+<table style="width:85%;">
+<colgroup>
+<col width="27%"></col>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Disagree a little</th>
+<th align="center">Agree a little</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">9</td>
+<td align="center">25</td>
+<td align="center">96</td>
+<td align="center">143</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>myReadingSkillsImprovedThisYear</strong>:</p>
+<table style="width:85%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="43%"></col>
+<col width="27%"></col>
+<col width="13%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Don’t Know/Prefer Not to say</th>
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">3</td>
+</tr>
+</tbody>
+</table>
+<table style="width:85%;">
+<colgroup>
+<col width="27%"></col>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Disagree a little</th>
+<th align="center">Agree a little</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">12</td>
+<td align="center">76</td>
+<td align="center">178</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>EstablishedAPostiveRelationship…</strong>:</p>
+<table style="width:85%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="43%"></col>
+<col width="27%"></col>
+<col width="13%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Don’t Know/Prefer Not to say</th>
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">3</td>
+</tr>
+</tbody>
+</table>
+<table style="width:85%;">
+<colgroup>
+<col width="27%"></col>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Disagree a little</th>
+<th align="center">Agree a little</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">13</td>
+<td align="center">75</td>
+<td align="center">181</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>…HelpedMeRecognizeThingsIDoWell</strong>:</p>
+<table style="width:85%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="43%"></col>
+<col width="27%"></col>
+<col width="13%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Don’t Know/Prefer Not to say</th>
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">2</td>
+</tr>
+</tbody>
+</table>
+<table style="width:85%;">
+<colgroup>
+<col width="27%"></col>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Disagree a little</th>
+<th align="center">Agree a little</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">12</td>
+<td align="center">64</td>
+<td align="center">193</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
 
 
 

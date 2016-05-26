@@ -38,6 +38,16 @@ names(attr_1)
 
 str(attr_1)
 
+attr_1 <- lapply(attr_1, factor, levels=c("Don't Know/Prefer Not to say","Strongly Disagree", "Disagree", "Disagree a little","Agree a little", "Agree", "Strongly Agree" ), ordered=TRUE)
+
+str(attr_1)
+
+attr_1 <- lapply(attr_1,table)
+
+pander(attr_1)
+
+
+
 
 ```
 
