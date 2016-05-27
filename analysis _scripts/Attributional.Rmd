@@ -13,6 +13,8 @@ library(dplyr)
 library(pander)
 library(ggplot2)
 library(knitr)
+library(likert)
+
 
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
@@ -42,11 +44,35 @@ attr_1 <- lapply(attr_1, factor, levels=c("Don't Know/Prefer Not to say","Strong
 
 str(attr_1)
 
-attr_1 <- lapply(attr_1,table)
+class(attr_1)
 
-pander(attr_1)
+attr_tbl <- lapply(attr_1,table)
+
+pander(attr_tbl)
 
 
+
+
+```
+
+
+
+
+
+```{r fig.height=7,fig.width=15, echo=FALSE, warning=FALSE}
+
+attr_1 <-as.data.frame(attr_1)
+
+attr_likert <- likert(attr_1)
+
+
+
+
+
+likert.heat.plot(attr_likert)
+
+
+plot(attr_likert)
 
 
 ```
