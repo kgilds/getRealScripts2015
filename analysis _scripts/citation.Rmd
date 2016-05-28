@@ -5,8 +5,24 @@ date: "May 27, 2016"
 output: html_document
 ---
 
+
 ---
-references:
+reference:
+
+- id: fredricks2001a
+  title: "Measuring Student Engagement in upper Elemantary through High School A Description of 21 Instruments."
+  authors:
+  -family: Fredricks
+    given: Jennifer
+    family: McColskey
+    given: Wendy
+    family: Meli
+    given: Joy
+   publisher: IES: National Center for Education Evaluation and Regional Assistance.
+   issued: 
+   year: 2001
+
+
 - id: fenner2012a
   title: One-click science marketing
   author:
@@ -24,22 +40,7 @@ references:
     year: 2012
     month: 3
 ---
----
-reference:
 
-- id: fredricks2001a
-  title: "Measuring Student Engagement in upper Elemantary through High School A Description of 21 Instruments."
-  authors:
-  -family: Fredricks
-    given: Jennifer
-    family: McColskey
-    given: Wendy
-    family: Meli
-    given: Joy
-   publisher: IES: National Center for Education Evaluation and Regional Assistance.
-   issued: 
-   year: 2001
----
 
 
 @fredricks2001a says blah
@@ -48,4 +49,6 @@ Fredricks, Jennifer, Wendy McColskey, Jane Meli, Joy Mordica, Bianca Montrosse, 
 
 
 
-@fenner2012a says blah.
+
+
+# Reference
