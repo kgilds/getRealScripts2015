@@ -1,0 +1,51 @@
+---
+title: "Citations"
+author: "Kevin Gilds, MPA"
+date: "May 27, 2016"
+output: html_document
+---
+
+---
+references:
+- id: fenner2012a
+  title: One-click science marketing
+  author:
+  - family: Fenner
+    given: Martin
+  container-title: Nature Materials
+  volume: 11
+  URL: 'http://dx.doi.org/10.1038/nmat3283'
+  DOI: 10.1038/nmat3283
+  issue: 4
+  publisher: Nature Publishing Group
+  page: 261-263
+  type: article-journal
+  issued:
+    year: 2012
+    month: 3
+---
+---
+reference:
+
+- id: fredricks2001a
+  title: "Measuring Student Engagement in upper Elemantary through High School A Description of 21 Instruments."
+  authors:
+  -family: Fredricks
+    given: Jennifer
+    family: McColskey
+    given: Wendy
+    family: Meli
+    given: Joy
+   publisher: IES: National Center for Education Evaluation and Regional Assistance.
+   issued: 
+   year: 2001
+---
+
+
+@fredricks2001a says blah
+
+Fredricks, Jennifer, Wendy McColskey, Jane Meli, Joy Mordica, Bianca Montrosse, and Kathleen Mooney. 2001, "Measuring Student Engagement in Upper Elemantary through High School: A Description of 21 Instruments." IES National Center for Education Evaluation and Regional Assistance. 
+
+
+
+@fenner2012a says blah.
