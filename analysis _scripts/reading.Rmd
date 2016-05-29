@@ -14,10 +14,8 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
 library(dplyr)
-library(dplyr)
 library(pander)
 library(ggplot2)
-library (ezknitr)
 library(knitr)
 
 ```
