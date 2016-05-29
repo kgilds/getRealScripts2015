@@ -39,7 +39,10 @@ q2_langarts <-dbReadTable(getReal_2016db, "Q2_lang")
 ```
 
 # Reading Improvement:
-50% of participating students will improve their reading skills as demonstrated by their Language Arts grade increasing or maintaining a "C" grade from the baseline grading period to the final grading period as evidenced by report cards/school reports.
+
+## Objective: 
+
+*50% of participating students will improve their reading skills as demonstrated by their Language Arts grade increasing or maintaining a "C" grade from the baseline grading period to the final grading period as evidenced by report cards/school reports.*
 
 
 ```{r echo=FALSE}
@@ -102,7 +105,7 @@ lang_gpa_diff<-mean(langarts_q2q1$pt_diff)
 
 
 The number of students that could be matched from Quarter 1 to Quarter 2 is **`r nrow(langarts_q2q1)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**.
-The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. This is an impressive increase as the average difference is not picking up students who maintain their grades. 
+The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. 
 
 ```{r echo=FALSE}
 
@@ -119,7 +122,10 @@ colnames (langarts_q2q1) [5] <- "Grade_Change"
 
 
 
-### Language Arts Grade Change from Q1 to Q2 
+### Grade Change Plot from Q1 to Q2: 
+The changes in grades from Q1 to Q2 is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase. 
+
+
 
 ```{r echo=FALSE}
 
@@ -152,7 +158,7 @@ getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
 ```
 
-### Trend Data Q4 2015 to Q2 2016
+### Trend Data Q4 2015 to Q2 2016:
 
 ```{r echo=FALSE, eval=TRUE}
 
@@ -216,7 +222,7 @@ langarts_grade_m + geom_count()
 
 
 
-### Percent of students who increased Language Arts Grade or maintained a C grade. 
+### % of students who increased Language Arts Grade or maintained a C grade:
 ```{r echo=FALSE, eval=TRUE}
 m_gpa_lang <- mean(langarts_q4q2$pt_diff)
 
@@ -235,7 +241,7 @@ m_gpa_lang <-pander(m_gpa_lang)
 ```
 
 The number of students that could be matched from Quarter 4 to Quarter 2 is **`r nrow(langarts_q4q2)`**. 
-The number of studnets that increased their grade or maintained a C is **`r lang_success_m()`**. The mean difference betwween the two quarers is **`r (m_gpa_lang)`**.
+The number of students that increased their grade or maintained a C is **`r lang_success_m()`**. The mean difference between the two quarters is **`r (m_gpa_lang)`**.
 
 
 ```{r echo=FALSE}
