@@ -1,0 +1,136 @@
+---
+title: "Comments"
+author: "Kevin Gilds, MPA"
+date: "May 28, 2016"
+output: html_document
+---
+
+
+```{r}
+library(tidytext)
+library(janeaustenr)
+library(dplyr)
+
+original_books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(linenumber = row_number()) %>%
+  ungroup()
+
+original_books
+
+str(original_books)
+
+tidy_books <- original_books %>%
+  unnest_tokens(word, text)
+
+#data("stop_words")
+#tidy_books <- tidy_books %>%
+ # anti_join(stop_words)
+
+```
+
+
+
+
+
+
+```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(sqldf)
+library(knitr)
+library(tidytext)
+library(gdata)
+library(reshape2)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+post_datgirl <-dbReadTable(getReal_2016db, "girl_post")
+
+names(post_datgirl)
+
+
+comments <- post_datgirl %>%
+    select(24,50)
+
+head(comments)
+
+
+colnames(comments)[2] <-"learned"
+
+comments <- comments %>%
+    mutate(linenumber = row_number () )
+
+head(comments)
+
+str(comments)
+
+tidy_comments <- strsplit(comments$learned, " ")
+
+head(tidy_comments)
+
+str(tidy_comments)
+
+tidy_comments_1<-melt(tidy_comments)
+
+tidy_comments_1 <- as.data.frame(tidy_comments_1, stringsAsFactors=FALSE)
+
+tidy_comments_2 <- select(tidy_comments_1, 1)
+
+head(tidy_comments_1)
+
+names(tidy_comments_1)
+
+class(tidy_comments_1)
+
+str(tidy_comments_1)
+
+#tidy_comments_1 <-as.character(tidy_comments_1$value)
+
+str(tidy_comments_1)
+
+
+
+
+```
+
+
+```{r}
+colnames (tidy_comments_2) [1] <-"word"
+
+str(tidy_comments_2)
+
+tidy_comments_2 <- as.character(tidy_comments_2$word)
+
+str(tidy_comments_2)
+
+class(tidy_comments_2)
+
+tidy_comments_2 <- as.data.frame(tidy_comments_2, stringASFactors=FALSE)
+
+str(tidy_comments_2)
+
+```
+
+
+
+
+```{r}
+
+#data("stop_words")
+#tidy_comments_2 <- tidy_comments_2 %>%
+ #anti_join(stop_words)
+
+tidy_comments_2 %>%
+ count(value, sort = TRUE) 
+
+
+```
+
+
+
