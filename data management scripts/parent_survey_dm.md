@@ -32,9 +32,9 @@ library(dplyr)
 ```
 
 ```r
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016")
 
-parent <- read.csv("parentSurvey03092016.csv", skip=1)
+parent <- read.csv("parent_survey_05302016.csv", skip=1)
 ```
 
 
@@ -107,7 +107,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 483  21
+## [1] 847  21
 ```
 
 
