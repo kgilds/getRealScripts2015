@@ -87,6 +87,38 @@ abline(h=0, col="red")
 
 
 ```{r}
+hr_match <-function(){
+    high <- filter(healthy_prepost, Post >=4.45)
+    increase <-filter(healthy_prepost, Post < 4.45 & hr.diff >0)
+    hr_temp <- nrow(high) + nrow(increase)
+    hr_temp_1 <- hr_temp/nrow(healthy_prepost)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+
+}
+
+hr_match()
+```
+
+
+```{r}
+hr_lowHigh <-function (){
+    low <- filter(healthy_prepost, Pre < 4.45 & Post >=4.45)
+    low_1 <- nrow(low)/nrow(healthy_prepost)
+    hr_low_1 <- round(low_1*100,2)
+    hr_low_1 <- paste0(hr_low_1, "%", sep="")
+    pander(hr_low_1)
+}
+
+hr_lowHigh()
+
+```
+
+
+
+
+```{r}
 
 high <-filter(healthy_prepost, Post >=4.45)
 
