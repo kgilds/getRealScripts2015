@@ -74,16 +74,24 @@ hist(healthy_prepost$hr.diff)
 
 mean(healthy_prepost$hr.diff)
 
+
+hr_achieved <-filter(healthy_prepost, Post >=4.45 )
+
 plot(healthy_prepost$hr.diff)
 abline(h=0, col="red")
 
-plot(healthy_prepost$hr.diff >=4.45)
-abline(h=0, col="red")
+
+
+
+
 
 
 
 
 ```
+
+
+
 
 
 ```{r}
@@ -115,6 +123,13 @@ hr_lowHigh()
 
 ```
 
+The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. 
+
+
+
+
+The number of valid survey entries is **`r nrow(healthy_prepost)`**.
+The percent of students achieving this outcome at a high level is **`r hr_match()`**.
 
 
 
@@ -233,8 +248,6 @@ hr_percent <- function() {
 
 ```
 
-The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. The number of valid survey entries is **`r nrow(pre_outcomes)`**.
-The percent of students achieving this outcome at a high level is **`r hr_percent()`**.
 
 ```{r hr outcome tables, echo=FALSE, eval=FALSE}
 ### create basic outcome table for healty releationship outcome
