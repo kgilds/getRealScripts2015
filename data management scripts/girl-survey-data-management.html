@@ -7,11 +7,11 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-05-19" />
+<meta name="date" content="2016-05-30" />
 
 <title>girlSurvey Data Management</title>
 
@@ -40,25 +40,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 
-
-</head>
-
-<body>
-
 <style type="text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
 h1 {
   font-size: 34px;
 }
@@ -79,6 +61,30 @@ h5 {
 }
 h6 {
   font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -109,9 +115,10 @@ $(document).ready(function () {
 <div class="fluid-row" id="header">
 
 
-<h1 class="title">girlSurvey Data Management</h1>
+
+<h1 class="title toc-ignore">girlSurvey Data Management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-05-19</em></h4>
+<h4 class="date"><em>2016-05-30</em></h4>
 
 </div>
 
@@ -156,9 +163,9 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girl_survey_05192016.csv&quot;, skip=1)
+rawdata &lt;- read.csv(&quot;girl_survey_05312016.csv&quot;, skip=1)
 dim(rawdata)</code></pre>
-<pre><code>## [1] 1281   51</code></pre>
+<pre><code>## [1] 1328   51</code></pre>
 </div>
 <div id="change-column-names-to-make-them-human-readable." class="section level3">
 <h3>Change column names to make them human readable.</h3>
@@ -226,9 +233,9 @@ rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
 
 str(rawdata$girlCode)</code></pre>
-<pre><code>##  chr [1:1281] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:1328] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(rawdata)</code></pre>
-<pre><code>## [1] 1281   51</code></pre>
+<pre><code>## [1] 1328   51</code></pre>
 </div>
 <div id="test-chunk" class="section level3">
 <h3>Test Chunk</h3>
@@ -254,9 +261,9 @@ fin &lt;- subset (rawdata, Finished  == 1)
 
 
 str(fin$girlCode)</code></pre>
-<pre><code>##  chr [1:1272] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:1318] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(fin)</code></pre>
-<pre><code>## [1] 1272   51</code></pre>
+<pre><code>## [1] 1318   51</code></pre>
 </div>
 </div>
 <div id="pre-surveys" class="section level1">
@@ -267,7 +274,7 @@ str(fin$girlCode)</code></pre>
 
 pre &lt;- subset (fin, Time == &quot;Pre&quot;)
 dim(pre)</code></pre>
-<pre><code>## [1] 877  51</code></pre>
+<pre><code>## [1] 878  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-unique-student-codes" class="section level3">
 <h3>Subset Pre Surveys with unique student codes</h3>
@@ -275,7 +282,7 @@ dim(pre)</code></pre>
 preUnique&lt;- pre [!(duplicated(pre$girlCode) | duplicated(pre$girlCode, fromLast = TRUE)), ]
 
 dim(preUnique)</code></pre>
-<pre><code>## [1] 843  51</code></pre>
+<pre><code>## [1] 844  51</code></pre>
 </div>
 <div id="subset-pre-surveys-with-duplicate-student-codes-needs-updated-data" class="section level3">
 <h3>Subset Pre Surveys with duplicate student codes (needs updated data)</h3>
