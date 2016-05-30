@@ -1,0 +1,92 @@
+---
+title: "comments_2"
+author: "Kevin Gilds, MPA"
+date: "May 29, 2016"
+output: html_document
+---
+
+````{r}
+library(tidytext)
+library(janeaustenr)
+library(dplyr)
+
+original_books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(linenumber = row_number()) %>%
+  ungroup()
+
+original_books
+
+str(original_books)
+
+#tidy_books <- original_books %>%
+  #unnest_tokens(word, text)
+
+#data("stop_words")
+#tidy_books <- tidy_books %>%
+ # anti_join(stop_words)
+
+```
+
+
+
+
+```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(sqldf)
+library(knitr)
+library(tidytext)
+library(gdata)
+library(reshape2)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+post_datgirl <-dbReadTable(getReal_2016db, "girl_post")
+
+names(post_datgirl)
+
+
+comments <- post_datgirl %>%
+    select(50)
+
+head(comments)
+
+
+colnames(comments)[1] <-"word"
+
+
+
+head(comments)
+
+
+```
+
+
+```{r}
+#comments_1 <- comments %>%
+  #unnest_tokens(word, text)
+
+
+
+#data("stop_words")
+#comments <- comments %>%
+ #anti_join(stop_words)
+
+#comments %>%
+ #count(value, sort = TRUE) 
+
+
+```
+
+
+
+```
+
+
+
