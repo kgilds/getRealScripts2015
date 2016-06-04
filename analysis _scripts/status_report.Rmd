@@ -28,29 +28,29 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 
 ### Make connection with database
-girl <- dbReadTable(getReal_2016db, "girl_pre")
+pre_girl <- dbReadTable(getReal_2016db, "girl_pre")
 
 ###Select the neeeded data for data entry status update
-girl <- select(girl, council)
+pre_girl <- select(pre_girl, council)
 ###Create and add column for status update
-girl$dataSource <-"student"
-
-### Make connection with database
-parent <-dbReadTable(getReal_2016db,"pre_parent")
-###Select the neeeded data for data entry status update
-parent1 <- select(parent,council)
-###Create and add column for status update
-parent1$dataSource <- "parent"
+pre_girl$dataSource <-"student"
 
 ### Make connection with database
-teacher <-dbReadTable(getReal_2016db, "pre_teacher")
+pre_parent <-dbReadTable(getReal_2016db,"pre_parent")
 ###Select the neeeded data for data entry status update
-teacher1 <-select(teacher,council)
+pre_parent <- select(pre_parent,council)
 ###Create and add column for status update
-teacher1$dataSource <- "teacher"
+pre_parent$dataSource <- "parent"
+
+### Make connection with database
+pre_teacher <-dbReadTable(getReal_2016db, "pre_teacher")
+###Select the neeeded data for data entry status update
+pre_teacher <-select(pre_teacher,council)
+###Create and add column for status update
+pre_teacher$dataSource <- "pre_teacher"
 
 ###Bind girl and parent objects to prepare for status report
-girl_parent <- rbind(girl,parent1)
+girl_parent <- rbind(pre_girl,pre_parent)
 
 ### Make connection with database
 grades_q1 <- dbReadTable(getReal_2016db,"Q1_Absences")
@@ -76,7 +76,7 @@ q2_stats$dataSource <- "Q2"
 
 
 ### Add the teacher to binding for status report
-add_teacher <- rbind(girl_parent, teacher1)
+add_teacher <- rbind(girl_parent, pre_teacher)
 
 
 ###Findal addition to create data frame for status report
