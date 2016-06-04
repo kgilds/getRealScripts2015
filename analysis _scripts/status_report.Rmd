@@ -33,21 +33,21 @@ pre_girl <- dbReadTable(getReal_2016db, "girl_pre")
 ###Select the neeeded data for data entry status update
 pre_girl <- select(pre_girl, council)
 ###Create and add column for status update
-pre_girl$dataSource <-"student"
+pre_girl$dataSource <-"Pre-Student"
 
 ### Make connection with database
 pre_parent <-dbReadTable(getReal_2016db,"pre_parent")
 ###Select the neeeded data for data entry status update
 pre_parent <- select(pre_parent,council)
 ###Create and add column for status update
-pre_parent$dataSource <- "parent"
+pre_parent$dataSource <- "Pre-Parent"
 
 ### Make connection with database
 pre_teacher <-dbReadTable(getReal_2016db, "pre_teacher")
 ###Select the neeeded data for data entry status update
 pre_teacher <-select(pre_teacher,council)
 ###Create and add column for status update
-pre_teacher$dataSource <- "pre_teacher"
+pre_teacher$dataSource <- "Pre Teacher"
 
 ###Bind girl and parent objects to prepare for status report
 girl_parent <- rbind(pre_girl,pre_parent)
@@ -76,13 +76,13 @@ q2_stats$dataSource <- "Q2"
 
 
 ### Add the teacher to binding for status report
-add_teacher <- rbind(girl_parent, pre_teacher)
+survey_status <- rbind(girl_parent, pre_teacher)
 
 
 ###Findal addition to create data frame for status report
-survey_status <- rbind(add_teacher, q1_stats)
 
-survey_status <-rbind(survey_status, q2_stats)
+
+
 
 ### Read the pre girl survey for reference down stream
 girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
