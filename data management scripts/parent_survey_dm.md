@@ -222,7 +222,7 @@ dbWriteTable(conn = getReal_2016db, name = "pre_parent_duplicate", value = paren
 ```
 
 ```r
-dbWriteTable(conn = getReal_2016db, name = "post_teacher", value = parentPostUnique, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "post_parent", value = parentPostUnique, row.names=FALSE, overwrite=TRUE)
 ```
 
 ```
