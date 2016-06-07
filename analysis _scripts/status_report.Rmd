@@ -82,6 +82,28 @@ post_teacher <- post_teacher %>%
     mutate("dataSource"= "Post Teacher")
 
 
+
+##### Geyset counts of Pre and Post Surveys
+girl <- nrow(pre_girl) + nrow(post_girl)
+
+class(girl)
+parent <- nrow(pre_parent) + nrow(post_parent)
+teacher <- nrow(pre_teacher) + nrow(post_teacher)
+
+
+Data_Entry<- c(girl, parent, teacher)
+
+Data_Source <- c("Student", "Parent", "Teacher")
+
+total_survey_count <- data.frame(Data_Source, Data_Entry)
+
+total_survey_count
+
+
+
+
+
+
 ###Bind girl and parent objects to prepare for status report
 girl_parent <- rbind(pre_girl,pre_parent)
 
@@ -120,6 +142,23 @@ colnames (q2_stats) [1] <- "council"
 ### Add a column
 q2_stats$dataSource <- "Q2"
 
+###### Q3
+
+grades_q3 <-dbReadTable(getReal_2016db, "Q3_Absences")
+
+q3_stats <- grades_q3 %>%
+    select(council.x) %>%
+    mutate("dataSource"= "Q3") 
+
+
+colnames (q3_stats) [1] <-"council"
+
+
+#######Bind the grade data
+
+q1_q2 <- rbind(q1_stats, q2_stats)
+
+q1_q3 <-rbind(q1_q2, q3_stats)
 
 
 
@@ -198,11 +237,26 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 ```
 
 
+```{r survey_stats}
 
-```{r echo = FALSE, eval=TRUE}
+survey_status3 <- with(survey_status,table(dataSource))
+
+survey_status3 <- addmargins(survey_status3)
+
+pander(survey_status3)
 
 
-post_teacher
+
+```
+
+
+
+
+
+###Survey Data Entry Status
+```{r council_survey_status, echo = FALSE, eval=TRUE,}
+
+
 
 
 survey_status2 <-with(survey_status,table(council, dataSource))
@@ -215,6 +269,13 @@ pander(survey_status2)
 ```
 
 
+
+```{r}
+grade_data <-with(q1_q3,table(dataSource))
+
+pander(grade_data)
+
+```
 
 
 
