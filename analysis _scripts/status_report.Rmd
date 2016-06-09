@@ -28,29 +28,97 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 
 ### Make connection with database
-girl <- dbReadTable(getReal_2016db, "girl_pre")
+pre_girl <- dbReadTable(getReal_2016db, "girl_pre")
 
 ###Select the neeeded data for data entry status update
-girl <- select(girl, council)
+pre_girl <- select(pre_girl, council)
 ###Create and add column for status update
-girl$dataSource <-"student"
+
+
+
+pre_girl$dataSource <-"Pre-Student"
+
+###Post Girl
+
+post_girl <-dbReadTable(getReal_2016db, "girl_post") #read table
+
+post_girl <- post_girl %>%
+    select(council) %>%  #select variables
+    mutate("dataSource" = "Post Student") #add new column
+
+
 
 ### Make connection with database
-parent <-dbReadTable(getReal_2016db,"pre_parent")
+pre_parent <-dbReadTable(getReal_2016db,"pre_parent")
 ###Select the neeeded data for data entry status update
-parent1 <- select(parent,council)
+pre_parent <- select(pre_parent,council)
 ###Create and add column for status update
-parent1$dataSource <- "parent"
+pre_parent$dataSource <- "Pre-Parent"
+
+
+###Post Parent
+
+post_parent <-dbReadTable(getReal_2016db, "post_parent") #read table 
+
+post_parent <- post_parent %>%
+    select(council) %>%  #select columns
+    mutate("dataSource"= "Post Parent") #add colummns
+
 
 ### Make connection with database
-teacher <-dbReadTable(getReal_2016db, "pre_teacher")
+pre_teacher <-dbReadTable(getReal_2016db, "pre_teacher")
 ###Select the neeeded data for data entry status update
-teacher1 <-select(teacher,council)
+pre_teacher <-select(pre_teacher,council)
 ###Create and add column for status update
-teacher1$dataSource <- "teacher"
+pre_teacher$dataSource <- "Pre Teacher"
+
+
+#Post Teacher
+
+post_teacher <-dbReadTable(getReal_2016db, "post_teacher") #read table from database
+
+post_teacher <- post_teacher %>%
+    select(council) %>%
+    mutate("dataSource"= "Post Teacher")
+
+
+
+##### Geyset counts of Pre and Post Surveys
+girl <- nrow(pre_girl) + nrow(post_girl)
+
+class(girl)
+parent <- nrow(pre_parent) + nrow(post_parent)
+teacher <- nrow(pre_teacher) + nrow(post_teacher)
+
+
+Data_Entry<- c(girl, parent, teacher)
+
+Data_Source <- c("Student", "Parent", "Teacher")
+
+total_survey_count <- data.frame(Data_Source, Data_Entry)
+
+total_survey_count
+
+
+
+
+
 
 ###Bind girl and parent objects to prepare for status report
-girl_parent <- rbind(girl,parent1)
+girl_parent <- rbind(pre_girl,pre_parent)
+
+
+### Add the teacher to binding for status report
+survey_status <- rbind(girl_parent, pre_teacher)
+
+survey_status <- rbind(survey_status, post_girl)
+
+survey_status <- rbind(survey_status, post_parent)
+
+survey_status <- rbind(survey_status, post_teacher)
+
+
+
 
 ### Make connection with database
 grades_q1 <- dbReadTable(getReal_2016db,"Q1_Absences")
@@ -74,15 +142,31 @@ colnames (q2_stats) [1] <- "council"
 ### Add a column
 q2_stats$dataSource <- "Q2"
 
+###### Q3
 
-### Add the teacher to binding for status report
-add_teacher <- rbind(girl_parent, teacher1)
+grades_q3 <-dbReadTable(getReal_2016db, "Q3_Absences")
+
+q3_stats <- grades_q3 %>%
+    select(council.x) %>%
+    mutate("dataSource"= "Q3") 
+
+
+colnames (q3_stats) [1] <-"council"
+
+
+#######Bind the grade data
+
+q1_q2 <- rbind(q1_stats, q2_stats)
+
+q1_q3 <-rbind(q1_q2, q3_stats)
+
+
 
 
 ###Findal addition to create data frame for status report
-survey_status <- rbind(add_teacher, q1_stats)
 
-survey_status <-rbind(survey_status, q2_stats)
+
+
 
 ### Read the pre girl survey for reference down stream
 girl_survey_dupes <-dbReadTable(getReal_2016db, "girl_pre_duplicates")
@@ -153,8 +237,24 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 ```
 
 
+```{r survey_stats}
 
-```{r echo = FALSE, eval=TRUE}
+survey_status3 <- with(survey_status,table(dataSource))
+
+survey_status3 <- addmargins(survey_status3)
+
+pander(survey_status3)
+
+
+
+```
+
+
+
+
+
+###Survey Data Entry Status
+```{r council_survey_status, echo = FALSE, eval=TRUE,}
 
 
 
@@ -169,6 +269,13 @@ pander(survey_status2)
 ```
 
 
+
+```{r}
+grade_data <-with(q1_q3,table(dataSource))
+
+pander(grade_data)
+
+```
 
 
 
