@@ -269,11 +269,27 @@ pander(survey_status2)
 ```
 
 
-
+###Grade Data
 ```{r}
 grade_data <-with(q1_q3,table(dataSource))
 
+grade_data <- addmargins(grade_data)
+
 pander(grade_data)
+
+```
+
+
+### Council Grade Data
+
+```{r}
+
+grade_data_c <-with(q1_q3,table(council, dataSource))
+
+grade_data_c <- addmargins(grade_data_c)
+
+pander(grade_data_c)
+
 
 ```
 

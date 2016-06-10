@@ -125,6 +125,8 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#survey-data-entry-status">Survey Data Entry Status</a></li>
+<li><a href="#grade-data">Grade Data</a></li>
+<li><a href="#council-grade-data">Council Grade Data</a></li>
 <li><a href="#duplicate-date-entry-status">Duplicate Date Entry Status</a></li>
 </ul>
 </div>
@@ -317,11 +319,17 @@ pander(survey_status3)</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="grade-data" class="section level3">
+<h3>Grade Data</h3>
 <pre class="r"><code>grade_data &lt;-with(q1_q3,table(dataSource))
 
+grade_data &lt;- addmargins(grade_data)
+
 pander(grade_data)</code></pre>
-<table style="width:21%;">
+<table style="width:28%;">
 <colgroup>
+<col width="6%"></col>
 <col width="6%"></col>
 <col width="6%"></col>
 <col width="6%"></col>
@@ -331,6 +339,7 @@ pander(grade_data)</code></pre>
 <th align="center">Q1</th>
 <th align="center">Q2</th>
 <th align="center">Q3</th>
+<th align="center">Sum</th>
 </tr>
 </thead>
 <tbody>
@@ -338,6 +347,84 @@ pander(grade_data)</code></pre>
 <td align="center">602</td>
 <td align="center">657</td>
 <td align="center">577</td>
+<td align="center">1836</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="council-grade-data" class="section level3">
+<h3>Council Grade Data</h3>
+<pre class="r"><code>grade_data_c &lt;-with(q1_q3,table(council, dataSource))
+
+grade_data_c &lt;- addmargins(grade_data_c)
+
+pander(grade_data_c)</code></pre>
+<table style="width:65%;">
+<colgroup>
+<col width="37%"></col>
+<col width="6%"></col>
+<col width="6%"></col>
+<col width="6%"></col>
+<col width="6%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Q1</th>
+<th align="center">Q2</th>
+<th align="center">Q3</th>
+<th align="center">Sum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Citrus Council</strong></td>
+<td align="center">44</td>
+<td align="center">60</td>
+<td align="center">44</td>
+<td align="center">148</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Gateway Council</strong></td>
+<td align="center">271</td>
+<td align="center">273</td>
+<td align="center">270</td>
+<td align="center">814</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Panhandle Council</strong></td>
+<td align="center">19</td>
+<td align="center">67</td>
+<td align="center">64</td>
+<td align="center">150</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Southeast Council</strong></td>
+<td align="center">110</td>
+<td align="center">109</td>
+<td align="center">111</td>
+<td align="center">330</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Tropical Council</strong></td>
+<td align="center">11</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">12</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>West Central Council</strong></td>
+<td align="center">147</td>
+<td align="center">148</td>
+<td align="center">87</td>
+<td align="center">382</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Sum</strong></td>
+<td align="center">602</td>
+<td align="center">657</td>
+<td align="center">577</td>
+<td align="center">1836</td>
 </tr>
 </tbody>
 </table>
