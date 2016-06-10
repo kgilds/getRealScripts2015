@@ -11,14 +11,10 @@ output:
 
 
 
-
 ```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
-library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
-library (ezknitr)
-library(formattable)
 library(sqldf)
 library(psych)
 library(knitr)
@@ -46,6 +42,58 @@ history <- dbReadTable(getReal_2016db, "basic_view")
 
 ```
 
+
+
+```{r}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Analyis_data")
+
+getReal_2013 <-dbConnect(SQLite (), dbname="getReal.sqlite")
+
+girl_2013 <- dbReadTable(getReal_2013, "girlSurvey")
+
+outcomes_2013 <- girl_2013 %>%
+    select(girlScoutCouncil, Time, girlCode, hr_avg, am_avg, ae_avg)
+
+
+
+```
+
+
+###Pre 2013
+```{r}
+
+pre_outcomes2013  <- outcomes_2013 %>%
+    filter(Time =="Pre")
+
+
+dim(pre_outcomes2013)
+
+pre_outcomes2013<- pre_outcomes2013 [!(duplicated(pre_outcomes2013$girlCode) | duplicated(pre_outcomes2013$girlCode, fromLast = TRUE)), ]
+
+dim(pre_outcomes2013)
+
+```
+
+
+
+```{r}
+
+post_outcomes2013 <- outcomes_2013 %>%
+    filter(Time =="Post")
+
+
+dim(post_outcomes2013)
+
+post_outcomes2013<- post_outcomes2013 [!(duplicated(post_outcomes2013$girlCode) | duplicated(post_outcomes2013$girlCode, fromLast = TRUE)), ]
+
+
+dim(post_outcomes2013)
+
+
+
+
+```
 
 
 
@@ -105,6 +153,8 @@ hr <- function(){
     
 }
 ```
+
+
 
 
 
