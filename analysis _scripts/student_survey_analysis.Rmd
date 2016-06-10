@@ -96,6 +96,17 @@ dim(post_outcomes2013)
 ```
 
 
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+dbWriteTable(conn = getReal_2016db, name = "girl_pre2013", value = pre_outcomes2013, row.names=FALSE, overwrite=TRUE)
+
+dbWriteTable(conn = getReal_2016db, name = "girl_post2013", value = post_outcomes2013, row.names=FALSE, overwrite=TRUE)
+
+
+```
+
+
 
 ```{r lastyeardata, echo=FALSE}
 

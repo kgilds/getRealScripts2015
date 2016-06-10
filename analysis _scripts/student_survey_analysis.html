@@ -180,6 +180,12 @@ dim(post_outcomes2013)</code></pre>
 
 dim(post_outcomes2013)</code></pre>
 <pre><code>## [1] 590   6</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+
+dbWriteTable(conn = getReal_2016db, name = &quot;girl_pre2013&quot;, value = pre_outcomes2013, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;girl_post2013&quot;, value = post_outcomes2013, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="healthy-releationships" class="section level2">
 <h2>Healthy Releationships</h2>
