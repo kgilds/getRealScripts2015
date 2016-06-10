@@ -35,10 +35,10 @@ q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
 
 
-# Absences: 
+# Improved Attendance: 
 
 ## Objective: 
-60% of participating students will either maintain or improve their attendance rates as demonstrated by their decreased absences from the baseline grading period to the final grading period as evidenced by report cards/school reports.
+*60% of participating students will either maintain or improve their attendance rates as demonstrated by their decreased absences from the baseline grading period to the final grading period as evidenced by report cards/school reports.*
 
 ```{r echo=FALSE}
 
@@ -98,7 +98,7 @@ abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))  #find mean differen
 The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
 
 
-### Absences Change Table
+### Absences Change Table:
 ```{r echo=FALSE, eval=TRUE}
 
 absences_change <- with(absences_q2q1, table(abs_diff))  #make table with absences differnces
@@ -210,7 +210,16 @@ abs_match_success <- function() {
 ```
 
 
-The number of students that could be matched is **`r nrow(abs_match)`**, and the mean attendance change from Quarter 4 to Quarter 2 is **`r mean(abs_match$abs_match_trend)`**.  The vast majority of students are improving their attendance rates. The mean difference is reflecting three students with a high number of absences. The percent of students who have improved their attendance from Quarter 4 last year is **`r abs_match_success()`**
+```{r echo=FALSE}
+abs_match_m<- mean(abs_match$abs_match_trend)
+
+abs_match_m <- round(abs_match_m,2)
+
+```
+
+
+
+The number of students that could be matched is **`r nrow(abs_match)`**, and the mean attendance change from Quarter 4 to Quarter 2 is **`r (abs_match_m)`**.  The vast majority of students are improving their attendance rates. The mean difference is reflecting three students with a high number of absences. The percent of students who have improved their attendance from Quarter 4 last year is **`r abs_match_success()`**
 
 
 ### Plot of Absences Change by Council:

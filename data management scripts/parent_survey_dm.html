@@ -7,11 +7,11 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-04-30" />
+<meta name="date" content="2016-06-04" />
 
 <title>parent data management</title>
 
@@ -40,25 +40,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 
-
-</head>
-
-<body>
-
 <style type="text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
 h1 {
   font-size: 34px;
 }
@@ -79,6 +61,30 @@ h5 {
 }
 h6 {
   font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -109,9 +115,10 @@ $(document).ready(function () {
 <div class="fluid-row" id="header">
 
 
-<h1 class="title">parent data management</h1>
+
+<h1 class="title toc-ignore">parent data management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-04-30</em></h4>
+<h4 class="date"><em>2016-06-04</em></h4>
 
 </div>
 
@@ -149,9 +156,9 @@ $(document).ready(function () {
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016&quot;)
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016&quot;)
 
-parent &lt;- read.csv(&quot;parentSurvey03092016.csv&quot;, skip=1)</code></pre>
+parent &lt;- read.csv(&quot;parent_survey_05302016.csv&quot;, skip=1)</code></pre>
 </div>
 <div id="make-variable-names-easier-to-read" class="section level2">
 <h2><span class="header-section-number">1.2</span> Make variable names easier to read</h2>
@@ -201,7 +208,7 @@ parent$girlCode &lt;- toupper(parent$girlCode)
 
 ##### Elements of the data frame
 dim(parfin)</code></pre>
-<pre><code>## [1] 483  21</code></pre>
+<pre><code>## [1] 847  21</code></pre>
 </div>
 </div>
 <div id="pre-survey" class="section level1">
@@ -251,7 +258,7 @@ dbWriteTable(conn = getReal_2016db, name = &quot;pre_parent&quot;, value = paren
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;pre_parent_duplicate&quot;, value = parent_pre_dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;post_teacher&quot;, value = parentPostUnique, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;post_parent&quot;, value = parentPostUnique, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 </div>
