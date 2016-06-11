@@ -181,6 +181,30 @@ hr_all <-rbind(healthy_prepost, hr_prepost2013)
 
 
 ```{r}
+hr_df <- function (df) {
+    if (df == "healthy_prepost"){
+        dat1 <- healthy_prepost
+} else if (df == "hr_prepost2013")
+        dat1 <-hr_prepost2013
+    high <- filter (dat1, Post >=4.45)
+    increase <-filter(dat1, Post < 4.45 & hr.diff >0)
+    hr_temp <- nrow(high) + nrow(increase)
+    hr_temp_1 <- hr_temp/nrow(dat1)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+
+    
+}
+
+hr_df("healthy_prepost")
+
+
+
+
+
+
+```{r}
 hr_match_test <-function(Year){
     
     if(Year =="M3"){
@@ -200,7 +224,7 @@ hr_match_test <-function(Year){
 
 }
 
-hr_match_test("M1")
+hr_match_test("M3")
 ```
 
 ```

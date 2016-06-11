@@ -232,6 +232,24 @@ names(healthy_prepost)</code></pre>
 names(hr_prepost2013)</code></pre>
 <pre><code>## [1] &quot;Year_Id&quot;  &quot;council&quot;  &quot;girlCode&quot; &quot;Pre&quot;      &quot;Post&quot;     &quot;hr.diff&quot;</code></pre>
 <pre class="r"><code>hr_all &lt;-rbind(healthy_prepost, hr_prepost2013)</code></pre>
+<pre class="r"><code>hr_df &lt;- function (df) {
+    if (df == &quot;healthy_prepost&quot;){
+        dat1 &lt;- healthy_prepost
+} else if (df == &quot;hr_prepost2013&quot;)
+        dat1 &lt;-hr_prepost2013
+    high &lt;- filter (dat1, Post &gt;=4.45)
+    increase &lt;-filter(dat1, Post &lt; 4.45 &amp; hr.diff &gt;0)
+    hr_temp &lt;- nrow(high) + nrow(increase)
+    hr_temp_1 &lt;- hr_temp/nrow(dat1)
+    hr_temp_1 &lt;- round(hr_temp_1*100,2)
+    hr_temp_1 &lt;- paste0(hr_temp_1,&quot;%&quot;, sep=&quot;&quot;)
+    pander(hr_temp_1)
+
+    
+}
+
+hr_df(&quot;healthy_prepost&quot;)</code></pre>
+<p>85.88%</p>
 <pre class="r"><code>hr_match_test &lt;-function(Year){
     
     if(Year ==&quot;M3&quot;){
@@ -251,8 +269,8 @@ names(hr_prepost2013)</code></pre>
 
 }
 
-hr_match_test(&quot;M1&quot;)</code></pre>
-<p>70.29%</p>
+hr_match_test(&quot;M3&quot;)</code></pre>
+<p>85.88%</p>
 <p>```</p>
 <pre class="r"><code>hr_match &lt;-function(){
     high &lt;- filter(healthy_prepost, Post &gt;=4.45)
