@@ -127,7 +127,28 @@ $(document).ready(function () {
 
 getReal_2014db&lt;- dbConnect(SQLite(), dbname=&quot;data_Final_GetReal_2014_2015.sqlite&quot;)
 
-hr_prepost2014 &lt;- dbReadTable(getReal_2014db, &quot;girl_pre_post_matched&quot;)</code></pre>
+hr_prepost2014 &lt;- dbReadTable(getReal_2014db, &quot;girl_pre_post_matched&quot;)
+
+hr_prepost2014 &lt;- hr_prepost2014 %&gt;%
+    select(girlCode, council.x, hr.avg.x, hr.avg.y)
+
+
+names(hr_prepost2014)</code></pre>
+<pre><code>## [1] &quot;girlCode&quot;  &quot;council.x&quot; &quot;hr.avg.x&quot;  &quot;hr.avg.y&quot;</code></pre>
+<pre class="r"><code>colnames (hr_prepost2014) [2] &lt;- &quot;council&quot;
+colnames (hr_prepost2014) [3] &lt;- &quot;Post&quot;
+colnames (hr_prepost2014) [4] &lt;- &quot;Pre&quot;
+
+hr_prepost2014 &lt;- hr_prepost2014 %&gt;%
+    mutate(&quot;hr.diff&quot; = Post -Pre) %&gt;%
+    mutate(&quot;Year_Id&quot; = &quot;M2&quot;)
+
+names(hr_prepost2014)</code></pre>
+<pre><code>## [1] &quot;girlCode&quot; &quot;council&quot;  &quot;Post&quot;     &quot;Pre&quot;      &quot;hr.diff&quot;  &quot;Year_Id&quot;</code></pre>
+<pre class="r"><code>hr_prepost2014 &lt;- hr_prepost2014[, c(6,2,1,3,4,5)]
+
+names(hr_prepost2014)</code></pre>
+<pre><code>## [1] &quot;Year_Id&quot;  &quot;council&quot;  &quot;girlCode&quot; &quot;Post&quot;     &quot;Pre&quot;      &quot;hr.diff&quot;</code></pre>
 <pre class="r"><code>pre_outcomes2013 &lt;- dbReadTable(getReal_2016db, &quot;girl_pre2013&quot;)
 
 post_outcomes2013 &lt;-dbReadTable(getReal_2016db, &quot;girl_post2013&quot;)
