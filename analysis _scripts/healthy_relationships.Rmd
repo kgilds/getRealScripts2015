@@ -44,6 +44,63 @@ history <- dbReadTable(getReal_2016db, "basic_view")
 
 
 ```{r}
+pre_outcomes2013 <- dbReadTable(getReal_2016db, "girl_pre2013")
+
+post_outcomes2013 <-dbReadTable(getReal_2016db, "girl_post2013")
+
+hr_pre2013 <- pre_outcomes2013 %>%
+    select(girlScoutCouncil, girlCode, hr_avg)
+
+
+hr_post2013 <- post_outcomes2013 %>%
+    select(girlScoutCouncil, girlCode, hr_avg)
+
+
+```
+
+
+
+```{r}
+
+hr_prepost2013 <- inner_join(hr_pre2013, hr_post2013, by="girlCode")
+dim(hr_prepost2013)
+
+names(hr_prepost2013)
+
+colnames(hr_prepost2013) [1] <- "council"
+colnames(hr_prepost2013) [3] <- "Pre"
+colnames(hr_prepost2013) [5]<- "Post"
+    
+hr_prepost2013 <- hr_prepost2013 %>%
+    select(council, girlCode, Pre, Post)
+
+hr_prepost2013 <- hr_prepost2013 %>%
+    mutate(Year_Id = "M1")
+
+
+hr_prepost2013 <- hr_prepost2013 %>%
+    mutate(hr.diff = Post- Pre)
+
+```
+
+
+```{r}
+
+fun_test_1 <- with(hr_prepost2013,table(Post >=4.45))
+
+fun_test_1
+
+fun_test_2 <-with(hr_prepost2013,table(Post < 4.45 & hr.diff >0))
+
+fun_test_2
+
+```
+
+
+
+
+
+```{r}
 healthy_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
 dim(healthy_prepost)
@@ -56,10 +113,14 @@ head(healthy_prepost)
 
 names(healthy_prepost)
 
+colnames(healthy_prepost) [2] <- "council"
 colnames(healthy_prepost) [3] <- "Pre"
 colnames(healthy_prepost) [5] <- "Post"
 
 names(healthy_prepost)
+
+healthy_prepost <-healthy_prepost %>%
+    mutate(Year_Id = "M3")
 
 healthy_prepost <- healthy_prepost %>%
     mutate(hr.diff = Post - Pre)
@@ -89,6 +150,62 @@ abline(h=0, col="red")
 
 
 ```
+
+
+
+
+
+
+
+```{r}
+
+names(healthy_prepost)
+
+healthy_prepost <- healthy_prepost %>%
+    select(girlCode, council, Pre, Post,Year_Id, hr.diff)
+
+
+healthy_prepost <- healthy_prepost[,c(5,2, 1,3,4,6)]
+
+names(healthy_prepost)
+
+names(hr_prepost2013)
+
+hr_prepost2013 <- hr_prepost2013[,c(5,1,2,3,4,6)]
+
+names(hr_prepost2013)
+
+hr_all <-rbind(healthy_prepost, hr_prepost2013)
+
+```
+
+
+```{r}
+hr_match_test <-function(Year){
+    
+    if(Year =="M3"){
+        dat <-filter(hr_all, Year_Id =="M3")
+        
+    } else if(Year == "M1")
+        dat <- filter(hr_all, Year_Id =="M1")
+
+    
+    high <- filter(dat, Post >=4.45)
+    increase <-filter(dat, Post < 4.45 & hr.diff >0)
+    hr_temp <- nrow(high) + nrow(increase)
+    hr_temp_1 <- hr_temp/nrow(dat)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+
+}
+
+hr_match_test("M1")
+```
+
+```
+
+
 
 
 
