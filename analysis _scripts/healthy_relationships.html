@@ -123,6 +123,11 @@ $(document).ready(function () {
 </div>
 
 
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data&quot;)
+
+getReal_2014db&lt;- dbConnect(SQLite(), dbname=&quot;data_Final_GetReal_2014_2015.sqlite&quot;)
+
+hr_prepost2014 &lt;- dbReadTable(getReal_2014db, &quot;girl_pre_post_matched&quot;)</code></pre>
 <pre class="r"><code>pre_outcomes2013 &lt;- dbReadTable(getReal_2016db, &quot;girl_pre2013&quot;)
 
 post_outcomes2013 &lt;-dbReadTable(getReal_2016db, &quot;girl_post2013&quot;)

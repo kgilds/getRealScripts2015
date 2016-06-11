@@ -42,8 +42,19 @@ history <- dbReadTable(getReal_2016db, "basic_view")
 ```
 
 
-
 ```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+hr_prepost2014 <- dbReadTable(getReal_2014db, "girl_pre_post_matched")
+
+```
+
+
+
+
+```{r connect_2013_hr_data}
 pre_outcomes2013 <- dbReadTable(getReal_2016db, "girl_pre2013")
 
 post_outcomes2013 <-dbReadTable(getReal_2016db, "girl_post2013")
@@ -60,7 +71,7 @@ hr_post2013 <- post_outcomes2013 %>%
 
 
 
-```{r}
+```{r join_2013_hr_data}
 
 hr_prepost2013 <- inner_join(hr_pre2013, hr_post2013, by="girlCode")
 dim(hr_prepost2013)
