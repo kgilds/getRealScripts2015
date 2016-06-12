@@ -226,7 +226,6 @@ hr_all <-rbind(healthy_prepost, hr_prepost2013)
 
 hr_all <- rbind(hr_all, hr_prepost2014)
 
-table(hr_all$council)
 
 
 
@@ -235,7 +234,6 @@ hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 
 hr_all <- filter(hr_all, council == "Gateway Council")
 
-hr_all
 
 hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
 
@@ -243,7 +241,38 @@ hr_high
 
 hr_high_p <- prop.table(hr_high,1)
 
-hr_high_p
+pander(hr_high_p)
+
+
+hr_increase_df <- filter(hr_all, Post < 4.45)
+
+
+hr_increase <-with(hr_increase_df, table(Year_Id, hr.diff > 0 ))
+
+hr_increase
+
+hr_increase <- prop.table(hr_increase,1)
+
+pander(hr_increase)
+
+
+hr_lowhigh <- filter(hr_all, Pre < 4.45 & Post >=4.45)
+
+nrow(hr_lowhigh)
+
+table(hr_lowhigh$Year_Id)
+
+head(hr_lowhigh)
+
+hr_imrove <- with(hr_lowhigh, table(Year_Id, Post >=4.45))
+
+
+hr_imrove <- prop.table(hr_imrove,1)
+
+pander(hr_imrove)
+
+
+
 
 
 ```

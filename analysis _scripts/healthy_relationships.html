@@ -302,565 +302,16 @@ names(hr_prepost2013)</code></pre>
 
 hr_all &lt;- rbind(hr_all, hr_prepost2014)
 
-table(hr_all$council)</code></pre>
-<pre><code>## 
-##                         Citrus Council 
-##                                     25 
-##                        Gateway Council 
-##                                    420 
-##  Girl Scouts of Gulfcoast Florida Inc. 
-##                                     10 
-## Girl Scouts of Southeast Florida, Inc. 
-##                                     66 
-## Girl Scouts of the Gateway Council Inc 
-##                                    110 
-##    Girl Scouts of West Central Florida 
-##                                     53 
-##                      Panhandle Council 
-##                                     31 
-##                      Southeast Council 
-##                                     78 
-##                       Tropical Council 
-##                                      7 
-##                   West Central Council 
-##                                     95</code></pre>
-<pre class="r"><code>hr_all$council &lt;-sub(&quot;Girl Scouts of the Gateway Council Inc&quot;, &quot;Gateway Council&quot;, fixed=TRUE, hr_all$council)
+
+
+
+
+hr_all$council &lt;-sub(&quot;Girl Scouts of the Gateway Council Inc&quot;, &quot;Gateway Council&quot;, fixed=TRUE, hr_all$council)
 
 hr_all &lt;- filter(hr_all, council == &quot;Gateway Council&quot;)
 
-hr_all</code></pre>
-<pre><code>##     Year_Id         council      girlCode   Pre  Post hr.diff
-## 1        M3 Gateway Council   313DW060502 2.850 4.650   1.800
-## 2        M3 Gateway Council   313GR040203 4.700 5.700   1.000
-## 3        M3 Gateway Council   313JP090103 5.000 6.000   1.000
-## 4        M3 Gateway Council   313JB090402 5.625 5.700   0.075
-## 5        M3 Gateway Council   313JG070402 5.000 5.325   0.325
-## 6        M3 Gateway Council   313JB091302 4.700 5.250   0.550
-## 7        M3 Gateway Council   313JR060502 5.375 5.625   0.250
-## 8        M3 Gateway Council   313AD050602 4.700 6.000   1.300
-## 9        M3 Gateway Council   313BB040203 5.000 5.625   0.625
-## 10       M3 Gateway Council   313CW020602 5.000 5.625   0.625
-## 11       M3 Gateway Council   313SJ060203 5.375 4.525  -0.850
-## 12       M3 Gateway Council   313SD010203 5.625 5.325  -0.300
-## 13       M3 Gateway Council   313TG072302 4.700 5.625   0.925
-## 14       M3 Gateway Council   313AJ092103 3.950 4.200   0.250
-## 15       M3 Gateway Council   313AW110303 3.400 5.125   1.725
-## 16       M3 Gateway Council   313AF040403 3.650 5.700   2.050
-## 17       M3 Gateway Council   313CD122702 4.200 5.325   1.125
-## 18       M3 Gateway Council   313DP021104 1.950 6.000   4.050
-## 19       M3 Gateway Council   313DY100502 6.000 5.325  -0.675
-## 20       M3 Gateway Council   313AL042602 6.000 6.000   0.000
-## 21       M3 Gateway Council 313AJ100704   2.850 4.825   1.975
-## 22       M3 Gateway Council 313BS013101   5.625 5.000  -0.625
-## 23       M3 Gateway Council 313CP050801   5.125 0.900  -4.225
-## 24       M3 Gateway Council 313DG072603   4.825 4.200  -0.625
-## 25       M3 Gateway Council 313DE100602   5.125 3.900  -1.225
-## 26       M3 Gateway Council 313EC081602   4.825 5.625   0.800
-## 27       M3 Gateway Council 313EH121700   6.000 3.550  -2.450
-## 28       M3 Gateway Council 313HR070802   4.825 3.600  -1.225
-## 29       M3 Gateway Council 313KS081404   3.150 4.825   1.675
-## 30       M3 Gateway Council 313LE082703   5.125 6.000   0.875
-## 31       M3 Gateway Council 313MH120302   4.150 5.025   0.875
-## 32       M3 Gateway Council 313MS033102   4.825 4.825   0.000
-## 33       M3 Gateway Council 313NB120901   4.825 5.125   0.300
-## 34       M3 Gateway Council 313TG012003   3.900 6.000   2.100
-## 35       M3 Gateway Council 313SY042303   4.200 4.450   0.250
-## 36       M3 Gateway Council 313AC080304   2.650 4.525   1.875
-## 37       M3 Gateway Council   313AB060404 3.150 4.650   1.500
-## 38       M3 Gateway Council   313AF070302 6.000 5.200  -0.800
-## 39       M3 Gateway Council   313AH090402 5.625 4.950  -0.675
-## 40       M3 Gateway Council   313AP090203 4.450 5.250   0.800
-## 41       M3 Gateway Council   313AR080201 6.000 5.200  -0.800
-## 42       M3 Gateway Council  313DC0614003 4.450 3.950  -0.500
-## 43       M3 Gateway Council   313HW090202 4.450 4.750   0.300
-## 44       M3 Gateway Council   313KJ012003 4.750 5.250   0.500
-## 45       M3 Gateway Council   313KC010603 6.000 4.150  -1.850
-## 46       M3 Gateway Council   313LS090504 3.150 6.000   2.850
-## 47       M3 Gateway Council   313LL121002 3.450 5.200   1.750
-## 48       M3 Gateway Council   313LP081302 4.450 4.150  -0.300
-## 49       M3 Gateway Council   313MG090502 6.000 4.200  -1.800
-## 50       M3 Gateway Council   313MY060702 5.325 6.000   0.675
-## 51       M3 Gateway Council   313RN100203 6.000 4.450  -1.550
-## 52       M3 Gateway Council   313KE011302 5.125 4.950  -0.175
-## 53       M3 Gateway Council   313SR051403 5.625 6.000   0.375
-## 54       M3 Gateway Council   313SW080304 3.700 6.000   2.300
-## 55       M3 Gateway Council   313TR122902 4.075 6.000   1.925
-## 56       M3 Gateway Council   313TW060904 3.450 5.325   1.875
-## 57       M3 Gateway Council   313VJ061503 4.450 5.500   1.050
-## 58       M3 Gateway Council   313ER111602 6.000 4.950  -1.050
-## 59       M3 Gateway Council   313EO080204 4.000 4.950   0.950
-## 60       M3 Gateway Council   313TP102402 4.450 4.325  -0.125
-## 61       M3 Gateway Council   313TG091001 3.150 4.625   1.475
-## 62       M3 Gateway Council   313TC071503 3.150 5.325   2.175
-## 63       M3 Gateway Council   313SH092302 4.825 5.125   0.300
-## 64       M3 Gateway Council   313SW091702 2.850 4.625   1.775
-## 65       M3 Gateway Council   313PM082503 6.000 5.500  -0.500
-## 66       M3 Gateway Council   313NJ122099 6.000 4.825  -1.175
-## 67       M3 Gateway Council   313KG061204 3.400 5.500   2.100
-## 68       M3 Gateway Council   313JD090803 4.450 5.125   0.675
-## 69       M3 Gateway Council   313JT110402 3.700 5.000   1.300
-## 70       M3 Gateway Council   313JR081602 6.000 5.700  -0.300
-## 71       M3 Gateway Council   313KT082103 0.000 5.625   5.625
-## 72       M3 Gateway Council   313JR021003 6.000 4.125  -1.875
-## 73       M3 Gateway Council   313JM040603 3.950 6.000   2.050
-## 74       M3 Gateway Council   313JS103001 6.000 4.500  -1.500
-## 75       M3 Gateway Council   313JD042302 5.325 4.250  -1.075
-## 76       M3 Gateway Council   313HW011803 4.450 6.000   1.550
-## 77       M3 Gateway Council   313SS081403 3.950 4.825   0.875
-## 78       M3 Gateway Council   313SS080202 3.900 5.250   1.350
-## 79       M3 Gateway Council   313AJ111803 4.000 5.325   1.325
-## 80       M3 Gateway Council   313VJ112402 4.450 5.625   1.175
-## 81       M3 Gateway Council   313DF063004 3.700 5.625   1.925
-## 82       M3 Gateway Council   313AB050904 4.500 5.625   1.125
-## 83       M3 Gateway Council   313QB062902 6.000 6.000   0.000
-## 84       M3 Gateway Council   313TA060203 3.650 4.450   0.800
-## 85       M3 Gateway Council   313TA042602 6.000 4.950  -1.050
-## 86       M3 Gateway Council   313RH032805 4.500 4.450  -0.050
-## 87       M3 Gateway Council   313NB041502 4.250 5.625   1.375
-## 88       M3 Gateway Council   313NF070900 5.000 5.125   0.125
-## 89       M3 Gateway Council   313DB013101 5.700 5.625  -0.075
-## 90       M3 Gateway Council   313DJ013001 5.625 5.250  -0.375
-## 91       M3 Gateway Council   313NS050901 6.000 5.325  -0.675
-## 92       M3 Gateway Council   313NH071604 3.750 5.125   1.375
-## 93       M3 Gateway Council   313MD120302 4.500 4.450  -0.050
-## 94       M3 Gateway Council   313MB050801 6.000 5.325  -0.675
-## 95       M3 Gateway Council   313LS021104 4.750 4.450  -0.300
-## 96       M3 Gateway Council   313CD032504 4.500 4.200  -0.300
-## 97       M3 Gateway Council   313CJ081604 2.900 6.000   3.100
-## 98       M3 Gateway Council   313AH072703 4.450 5.625   1.175
-## 99       M3 Gateway Council   313AB112002 4.750 6.000   1.250
-## 100      M3 Gateway Council   313AE070802 6.000 6.000   0.000
-## 101      M3 Gateway Council   313AN122002 5.125 4.825  -0.300
-## 102      M3 Gateway Council   313LG040801 6.000 4.950  -1.050
-## 103      M3 Gateway Council   321JA091201 4.325 4.500   0.175
-## 104      M3 Gateway Council   313LH031502 4.825 5.500   0.675
-## 105      M3 Gateway Council   313KE040805 3.650 5.625   1.975
-## 106      M3 Gateway Council   313KB121202 5.125 3.950  -1.175
-## 107      M3 Gateway Council   313KH032104 3.950 4.250   0.300
-## 108      M3 Gateway Council   313JW081700 6.000 5.325  -0.675
-## 109      M3 Gateway Council   313JG111203 4.450 5.125   0.675
-## 110      M3 Gateway Council   313JS053004 3.650 5.000   1.350
-## 111      M3 Gateway Council   313HH091900 5.500 5.625   0.125
-## 112      M3 Gateway Council   313GT051001 5.625 4.950  -0.675
-## 113      M3 Gateway Council   313GW050404 4.000 4.950   0.950
-## 114      M3 Gateway Council   313DW020202 6.000 5.250  -0.750
-## 115      M3 Gateway Council 313DL091702   4.450 5.325   0.875
-## 116      M3 Gateway Council 313MH120402   5.625 5.625   0.000
-## 117      M3 Gateway Council 313DM081501   6.000 4.650  -1.350
-## 118      M3 Gateway Council 313CB101103   3.150 4.525   1.375
-## 119      M3 Gateway Council 313TA020602   4.450 4.900   0.450
-## 120      M3 Gateway Council 313BN052400   6.000 5.500  -0.500
-## 121      M3 Gateway Council 313AJ041002   5.125 5.700   0.575
-## 122      M3 Gateway Council 313DM081401   6.000 6.000   0.000
-## 123      M3 Gateway Council 313JJ051600   6.000 5.200  -0.800
-## 124      M3 Gateway Council 313HB081401   6.000 6.000   0.000
-## 125      M3 Gateway Council 313AJ111601   6.000 5.025  -0.975
-## 126      M3 Gateway Council 313TW111601   6.000 5.100  -0.900
-## 127      M3 Gateway Council   313SJ092102 4.450 3.900  -0.550
-## 128      M3 Gateway Council   313AJ100301 4.450 6.000   1.550
-## 129      M3 Gateway Council   313AJ061101 6.000 6.000   0.000
-## 130      M3 Gateway Council   313JW081804 4.825 5.500   0.675
-## 131      M3 Gateway Council   313AH082502 4.825 6.000   1.175
-## 132      M3 Gateway Council   313MD050604 4.450 6.000   1.550
-## 133      M3 Gateway Council   313TD073104 4.825 4.825   0.000
-## 134      M3 Gateway Council   313TA120503 3.350 4.450   1.100
-## 135      M3 Gateway Council   313TG041203 4.450 5.125   0.675
-## 136      M3 Gateway Council   313TB112002 4.825 4.825   0.000
-## 137      M3 Gateway Council   313TG053004 3.600 5.125   1.525
-## 138      M3 Gateway Council   313SW013103 4.150 5.125   0.975
-## 139      M3 Gateway Council   313SW021304 3.700 4.450   0.750
-## 140      M3 Gateway Council   313SJ102903 4.150 4.450   0.300
-## 141      M3 Gateway Council   313PK110102 4.450 6.000   1.550
-## 142      M3 Gateway Council   313OF022803 3.400 5.125   1.725
-## 143      M3 Gateway Council   313ND012403 4.825 4.825   0.000
-## 144      M3 Gateway Council   313NM110602 4.825 5.200   0.375
-## 145      M3 Gateway Council   313NW122502 4.825 5.200   0.375
-## 146      M3 Gateway Council   313MS031104 5.125 4.825  -0.300
-## 147      M3 Gateway Council   313MP031502 4.450 6.000   1.550
-## 148      M3 Gateway Council   313MM071604 3.400 5.325   1.925
-## 149      M3 Gateway Council   313LF071302 4.750 4.825   0.075
-## 150      M3 Gateway Council   313KF050203 2.650 5.200   2.550
-## 151      M3 Gateway Council   313JL032903 5.125 4.825  -0.300
-## 152      M3 Gateway Council   313JS091402 4.750 4.825   0.075
-## 153      M3 Gateway Council   313IA091203 1.575 4.825   3.250
-## 154      M3 Gateway Council   313IH091404 0.000 4.825   4.825
-## 155      M3 Gateway Council   313FF120202 4.750 4.825   0.075
-## 156      M3 Gateway Council   313ES060503 4.750 5.625   0.875
-## 157      M3 Gateway Council   313CM120103 1.850 4.150   2.300
-## 158      M3 Gateway Council   313CC032104 2.650 5.125   2.475
-## 159      M3 Gateway Council   313BB032805 3.900 4.150   0.250
-## 160      M3 Gateway Council   313AM030805 4.900 4.825  -0.075
-## 161      M3 Gateway Council   313AE050404 4.200 4.200   0.000
-## 162      M3 Gateway Council   313AM022202 2.600 4.250   1.650
-## 163      M3 Gateway Council   313AJ111203 3.650 4.900   1.250
-## 164      M3 Gateway Council   313AE041502 3.150 5.325   2.175
-## 165      M3 Gateway Council   313AP042602 3.950 5.125   1.175
-## 166      M3 Gateway Council   313AW060203 3.600 5.125   1.525
-## 167      M3 Gateway Council   313AH052504 4.625 4.450  -0.175
-## 168      M3 Gateway Council   313KD041503 4.750 5.250   0.500
-## 169      M3 Gateway Council   313JK122602 3.900 5.625   1.725
-## 170      M3 Gateway Council   313LC041404 3.100 4.450   1.350
-## 171      M3 Gateway Council   313AC020102 4.450 4.750   0.300
-## 172      M3 Gateway Council 313SA080202   3.650 4.825   1.175
-## 173      M3 Gateway Council 313NW110203   3.450 5.325   1.875
-## 174      M3 Gateway Council 313LD102701   6.000 5.200  -0.800
-## 175      M3 Gateway Council 313JR112301   6.000 5.700  -0.300
-## 176      M3 Gateway Council 313JW111002   4.650 5.025   0.375
-## 177      M3 Gateway Council 313JY070403   2.350 5.700   3.350
-## 178      M3 Gateway Council 313BS041502   4.200 5.700   1.500
-## 179      M3 Gateway Council 313JH110902   4.450 5.250   0.800
-## 180      M3 Gateway Council 313JC012502   4.150 5.700   1.550
-## 181      M3 Gateway Council 313JH041802   4.750 4.900   0.150
-## 182      M3 Gateway Council 313IJ090703   3.450 5.325   1.875
-## 183      M3 Gateway Council 313HB022103   4.750 5.625   0.875
-## 184      M3 Gateway Council 313ET110102   4.450 6.000   1.550
-## 185      M3 Gateway Council 313DP102903   3.150 6.000   2.850
-## 186      M3 Gateway Council 313CH080602   4.450 6.000   1.550
-## 187      M3 Gateway Council 313BB032502   5.125 5.325   0.200
-## 188      M3 Gateway Council 313BM102701   6.000 6.000   0.000
-## 189      M3 Gateway Council 313BB082902   3.900 5.025   1.125
-## 190      M3 Gateway Council   313JB090301 6.000 5.700  -0.300
-## 191      M3 Gateway Council   313JB060403 2.900 5.700   2.800
-## 192      M3 Gateway Council   313AJ032101 5.325 6.000   0.675
-## 193      M3 Gateway Council   313EM050301 5.325 5.200  -0.125
-## 194      M3 Gateway Council   313LS120602 4.750 4.200  -0.550
-## 195      M3 Gateway Council   313KM080502 3.650 6.000   2.350
-## 196      M3 Gateway Council   313PS090801 6.000 4.200  -1.800
-## 197      M3 Gateway Council   313KD042102 4.450 5.500   1.050
-## 198      M3 Gateway Council   313JD120102 4.450 4.200  -0.250
-## 199      M3 Gateway Council   313JT110202 4.450 4.450   0.000
-## 200      M3 Gateway Council   313JS100203 3.150 5.700   2.550
-## 201      M3 Gateway Council   313MK050201 5.500 4.750  -0.750
-## 202      M3 Gateway Council   313ZJ050403 3.400 4.200   0.800
-## 203      M3 Gateway Council   313LM010502 4.200 6.000   1.800
-## 204      M3 Gateway Council   313ST020303 3.400 5.125   1.725
-## 205      M1 Gateway Council   313AA072300 2.750 6.000   3.250
-## 206      M1 Gateway Council   313KB062300 5.625 4.700  -0.925
-## 207      M1 Gateway Council   313AB021800 4.500 3.100  -1.400
-## 208      M1 Gateway Council   313TG050300 3.875 3.650  -0.225
-## 209      M1 Gateway Council   313SE040899 4.650 3.600  -1.050
-## 210      M1 Gateway Council   313DG042400 5.325 2.375  -2.950
-## 211      M1 Gateway Council   313KH051200 4.125 5.250   1.125
-## 212      M1 Gateway Council   313JL091000 5.375 5.000  -0.375
-## 213      M1 Gateway Council   313AC052599 5.250 2.750  -2.500
-## 214      M1 Gateway Council   313ET092901 4.025 3.950  -0.075
-## 215      M1 Gateway Council   313AW081001 4.500 4.950   0.450
-## 216      M1 Gateway Council   313HG092101 5.125 3.950  -1.175
-## 217      M1 Gateway Council   313GC052400 3.200 4.750   1.550
-## 218      M1 Gateway Council   313JF110501 4.875 4.450  -0.425
-## 219      M1 Gateway Council   313RB072099 4.875 4.700  -0.175
-## 220      M1 Gateway Council   313SM120301 5.625 4.150  -1.475
-## 221      M1 Gateway Council   313AS100701 5.625 2.075  -3.550
-## 222      M1 Gateway Council   313JT052401 1.775 5.000   3.225
-## 223      M1 Gateway Council   313AE121101 4.700 3.250  -1.450
-## 224      M1 Gateway Council   313TT091801 5.700 3.450  -2.250
-## 225      M1 Gateway Council   313DT121201 5.625 4.400  -1.225
-## 226      M1 Gateway Council   313AE100201 5.375 3.650  -1.725
-## 227      M1 Gateway Council   313JC080202 3.900 4.950   1.050
-## 228      M1 Gateway Council   313SC060702 5.375 4.950  -0.425
-## 229      M1 Gateway Council   313NB072403 3.875 4.150   0.275
-## 230      M1 Gateway Council   313MG070601 5.500 3.250  -2.250
-## 231      M1 Gateway Council   313EE082801 4.200 4.450   0.250
-## 232      M1 Gateway Council   313KJ112700 6.000 4.450  -1.550
-## 233      M1 Gateway Council   313DJ012301 5.125 4.350  -0.775
-## 234      M1 Gateway Council   313AD091501 5.500 4.450  -1.050
-## 235      M1 Gateway Council   313KJ042100 6.000 2.950  -3.050
-## 236      M1 Gateway Council   313LS080701 5.375 5.125  -0.250
-## 237      M1 Gateway Council   313ZJ042501 4.000 4.500   0.500
-## 238      M1 Gateway Council   313AI091299 3.000 4.700   1.700
-## 239      M1 Gateway Council   313CA090101 2.375 4.450   2.075
-## 240      M1 Gateway Council   313JB091302 3.875 5.700   1.825
-## 241      M1 Gateway Council   313LC051801 4.375 5.700   1.325
-## 242      M1 Gateway Council   313BC082900 3.075 6.000   2.925
-## 243      M1 Gateway Council   313TI051701 6.000 4.825  -1.175
-## 244      M1 Gateway Council   313JG121799 4.875 6.000   1.125
-## 245      M1 Gateway Council   313KR021402 3.400 3.275  -0.125
-## 246      M1 Gateway Council   313PC122101 4.375 6.000   1.625
-## 247      M1 Gateway Council   313SP100798 4.500 4.150  -0.350
-## 248      M1 Gateway Council   313ZC123100 5.200 4.450  -0.750
-## 249      M1 Gateway Council   313JG110999 6.000 4.450  -1.550
-## 250      M1 Gateway Council   313SW010199 5.325 3.950  -1.375
-## 251      M1 Gateway Council   313DR062900 3.750 4.150   0.400
-## 252      M1 Gateway Council   313KT031501 5.325 5.400   0.075
-## 253      M1 Gateway Council   313ZD052900 3.450 5.700   2.250
-## 254      M1 Gateway Council   313TM090205 6.000 4.325  -1.675
-## 255      M1 Gateway Council   313AB031400 6.000 2.900  -3.100
-## 256      M1 Gateway Council   313CC071900 6.000 3.725  -2.275
-## 257      M1 Gateway Council   313SM020700 4.000 4.200   0.200
-## 258      M1 Gateway Council   313JG110801 3.875 3.900   0.025
-## 259      M1 Gateway Council   313NB052300 4.500 3.700  -0.800
-## 260      M1 Gateway Council   313AT032901 6.000 4.325  -1.675
-## 261      M1 Gateway Council   313BN010301 6.000 5.125  -0.875
-## 262      M1 Gateway Council   313BM060200 6.000 4.825  -1.175
-## 263      M1 Gateway Council   313MC012202 4.575 3.600  -0.975
-## 264      M1 Gateway Council   313BD020501 4.300 4.450   0.150
-## 265      M1 Gateway Council   313AC112199 5.075 3.400  -1.675
-## 266      M1 Gateway Council   313RB061202 5.250 4.025  -1.225
-## 267      M1 Gateway Council   313SD070400 4.450 5.625   1.175
-## 268      M1 Gateway Council   313AK110800 5.375 3.950  -1.425
-## 269      M1 Gateway Council   313BB111299 5.325 3.600  -1.725
-## 270      M1 Gateway Council   313JJ121498 3.475 3.875   0.400
-## 271      M1 Gateway Council   313DT060100 2.400 5.625   3.225
-## 272      M1 Gateway Council   313BS081799 4.900 5.325   0.425
-## 273      M1 Gateway Council   313SJ031296 4.700 5.625   0.925
-## 274      M1 Gateway Council   313SW012999 6.000 5.325  -0.675
-## 275      M1 Gateway Council   313AJ050302 3.375 5.625   2.250
-## 276      M1 Gateway Council   313NP073101 4.275 5.625   1.350
-## 277      M1 Gateway Council   313AT021099 6.000 5.325  -0.675
-## 278      M1 Gateway Council   313MD070199 4.000 5.625   1.625
-## 279      M1 Gateway Council   313MG110401 4.000 4.950   0.950
-## 280      M1 Gateway Council   313NM031999 6.000 5.625  -0.375
-## 281      M1 Gateway Council   313WL022100 6.000 4.150  -1.850
-## 282      M1 Gateway Council   313RR021299 5.375 4.825  -0.550
-## 283      M1 Gateway Council   313SM011600 6.000 5.625  -0.375
-## 284      M1 Gateway Council   313SM021401 6.000 5.125  -0.875
-## 285      M1 Gateway Council   313RC111900 2.150 5.625   3.475
-## 286      M1 Gateway Council   313JK121599 6.000 5.625  -0.375
-## 287      M1 Gateway Council   313VB082899 3.000 5.325   2.325
-## 288      M1 Gateway Council   313AD071999 6.000 5.625  -0.375
-## 289      M1 Gateway Council   313SM120598 2.350 5.325   2.975
-## 290      M1 Gateway Council   313AH123001 3.875 5.325   1.450
-## 291      M1 Gateway Council   313JT030402 2.450 5.325   2.875
-## 292      M1 Gateway Council   313IS012602 1.675 5.025   3.350
-## 293      M1 Gateway Council   313TS040202 5.700 3.450  -2.250
-## 294      M1 Gateway Council   313TP010902 3.375 5.325   1.950
-## 295      M1 Gateway Council   313RL080201 1.775 4.625   2.850
-## 296      M1 Gateway Council   313KM042401 5.400 4.625  -0.775
-## 297      M1 Gateway Council   313MF021901 5.025 4.325  -0.700
-## 298      M1 Gateway Council   313EB080601 3.875 4.525   0.650
-## 299      M1 Gateway Council   313CC101000 4.500 3.325  -1.175
-## 300      M1 Gateway Council   313CM052700 2.400 4.325   1.925
-## 301      M1 Gateway Council   313DJ032902 3.875 4.625   0.750
-## 302      M1 Gateway Council   313TH092601 5.625 4.825  -0.800
-## 303      M1 Gateway Council   313MS091101 0.000 5.625   5.625
-## 304      M1 Gateway Council   313ST122101 3.875 5.125   1.250
-## 305      M1 Gateway Council   313LK011002 4.500 4.825   0.325
-## 306      M1 Gateway Council   313JH071300 3.000 5.325   2.325
-## 307      M1 Gateway Council   313JW090401 5.625 3.825  -1.800
-## 308      M1 Gateway Council   313AG020102 4.875 5.125   0.250
-## 309      M1 Gateway Council   313HS021502 6.000 4.950  -1.050
-## 310      M1 Gateway Council   313IR102900 4.875 4.950   0.075
-## 311      M1 Gateway Council   313TH070301 5.000 4.625  -0.375
-## 312      M1 Gateway Council   313HB081401 4.500 4.525   0.025
-## 313      M1 Gateway Council   313AJ111601 4.750 4.325  -0.425
-## 314      M1 Gateway Council   313RS080800 5.375 4.825  -0.550
-## 315      M2 Gateway Council   313AG011603 3.175 4.900   1.725
-## 316      M2 Gateway Council   313AH121400 3.300 3.425   0.125
-## 317      M2 Gateway Council   313AS122102 4.450 2.675  -1.775
-## 318      M2 Gateway Council   313CW031803 3.150 4.825   1.675
-## 319      M2 Gateway Council   313CW120502 4.275 2.925  -1.350
-## 320      M2 Gateway Council   313DB011003 4.450 4.900   0.450
-## 321      M2 Gateway Council   313DG030403 3.050 4.200   1.150
-## 322      M2 Gateway Council   313JF040803 2.550 2.675   0.125
-## 323      M2 Gateway Council   313JG121802 4.225 4.150  -0.075
-## 324      M2 Gateway Council   313JG111503 3.950 5.125   1.175
-## 325      M2 Gateway Council   313KJ032403 4.150 3.275  -0.875
-## 326      M2 Gateway Council   313LB060302 2.550 4.825   2.275
-## 327      M2 Gateway Council   313LB040103 4.450 4.825   0.375
-## 328      M2 Gateway Council   313MA032503 4.075 3.725  -0.350
-## 329      M2 Gateway Council   313NC063003 4.150 4.900   0.750
-## 330      M2 Gateway Council   313PB110602 3.950 2.675  -1.275
-## 331      M2 Gateway Council   313SJ040703 3.950 4.150   0.200
-## 332      M2 Gateway Council   313TD091101 5.025 3.425  -1.600
-## 333      M2 Gateway Council   313QG082103 3.075 4.700   1.625
-## 334      M2 Gateway Council   313RJ120403 6.000 4.325  -1.675
-## 335      M2 Gateway Council   313AM012302 1.900 4.900   3.000
-## 336      M2 Gateway Council   313AH042101 0.000 4.575   4.575
-## 337      M2 Gateway Council   313AB052901 1.200 4.775   3.575
-## 338      M2 Gateway Council   313AS052500 2.700 4.450   1.750
-## 339      M2 Gateway Council   313AH020602 0.000 4.950   4.950
-## 340      M2 Gateway Council   313AK032801 1.900 4.450   2.550
-## 341      M2 Gateway Council   313BP041803 3.000 3.425   0.425
-## 342      M2 Gateway Council   313BK121301 0.000 4.575   4.575
-## 343      M2 Gateway Council   313CD111700 3.000 4.175   1.175
-## 344      M2 Gateway Council   313DR090599 2.200 4.750   2.550
-## 345      M2 Gateway Council   313DW110800 2.700 5.125   2.425
-## 346      M2 Gateway Council   313DG040411 3.000 4.450   1.450
-## 347      M2 Gateway Council   313DW072302 3.000 3.725   0.725
-## 348      M2 Gateway Council   313EJ022603 3.000 4.900   1.900
-## 349      M2 Gateway Council   313ES060503 3.000 4.275   1.275
-## 350      M2 Gateway Council   313IK121700 1.500 4.275   2.775
-## 351      M2 Gateway Council   313JZ071601 3.000 4.650   1.650
-## 352      M2 Gateway Council   313JH032000 0.500 5.125   4.625
-## 353      M2 Gateway Council   313JB050899 2.500 4.025   1.525
-## 354      M2 Gateway Council   313KG032502 0.900 4.325   3.425
-## 355      M2 Gateway Council   313LC042403 1.500 5.500   4.000
-## 356      M2 Gateway Council   313NW122502 2.700 4.325   1.625
-## 357      M2 Gateway Council   313NG110299 0.000 5.000   5.000
-## 358      M2 Gateway Council   313ST100501 2.700 4.250   1.550
-## 359      M2 Gateway Council   313SS112600 3.000 5.500   2.500
-## 360      M2 Gateway Council   313SJ091901 2.500 2.650   0.150
-## 361      M2 Gateway Council   313TW111699 3.000 4.825   1.825
-## 362      M2 Gateway Council   313YC052699 3.000 5.500   2.500
-## 363      M2 Gateway Council   313ZH050803 3.000 4.450   1.450
-## 364      M2 Gateway Council   313AS091299 4.325 4.450   0.125
-## 365      M2 Gateway Council   313KS041400 5.625 5.325  -0.300
-## 366      M2 Gateway Council   313AD060701 5.000 4.525  -0.475
-## 367      M2 Gateway Council   313AN060301 3.950 4.825   0.875
-## 368      M2 Gateway Council   313AA091300 3.775 2.800  -0.975
-## 369      M2 Gateway Council   313AB071302 4.200 4.825   0.625
-## 370      M2 Gateway Council   313AJ061101 3.000 3.650   0.650
-## 371      M2 Gateway Council   313AH030201 5.700 4.825  -0.875
-## 372      M2 Gateway Council   313BB052401 4.250 5.125   0.875
-## 373      M2 Gateway Council   313CW010702 4.125 4.825   0.700
-## 374      M2 Gateway Council   313CF080102 4.450 4.050  -0.400
-## 375      M2 Gateway Council   313GR072900 5.625 4.450  -1.175
-## 376      M2 Gateway Council   313HB021802 6.000 4.750  -1.250
-## 377      M2 Gateway Council   313JB051203 4.075 4.150   0.075
-## 378      M2 Gateway Council   313JR090401 4.225 3.700  -0.525
-## 379      M2 Gateway Council   313KC090901 5.625 4.150  -1.475
-## 380      M2 Gateway Council   313KD031003 6.000 3.550  -2.450
-## 381      M2 Gateway Council   313LM110402 5.325 4.950  -0.375
-## 382      M2 Gateway Council   313MB090202 5.625 5.500  -0.125
-## 383      M2 Gateway Council   313MA082702 4.750 3.650  -1.100
-## 384      M2 Gateway Council   313ML121200 5.625 4.200  -1.425
-## 385      M2 Gateway Council   313MB081701 4.950 4.900  -0.050
-## 386      M2 Gateway Council   313NC102501 3.200 3.050  -0.150
-## 387      M2 Gateway Council   313NM031001 5.625 4.450  -1.175
-## 388      M2 Gateway Council   313RB031401 5.325 6.000   0.675
-## 389      M2 Gateway Council   313SP101602 5.700 4.825  -0.875
-## 390      M2 Gateway Council   313SJ092102 5.625 4.200  -1.425
-## 391      M2 Gateway Council   313TM052901 4.875 3.950  -0.925
-## 392      M2 Gateway Council   313TN051302 3.500 4.525   1.025
-## 393      M2 Gateway Council   313JF061000 4.375 2.550  -1.825
-## 394      M2 Gateway Council   313MJ061900 4.750 5.200   0.450
-## 395      M2 Gateway Council   313AM110400 5.700 4.150  -1.550
-## 396      M2 Gateway Council   313RD010801 5.000 3.950  -1.050
-## 397      M2 Gateway Council   313AC013101 6.000 4.400  -1.600
-## 398      M2 Gateway Council   313CS022201 4.200 4.650   0.450
-## 399      M2 Gateway Council   313MC022601 6.000 4.200  -1.800
-## 400      M2 Gateway Council   313TH061001 6.000 4.825  -1.175
-## 401      M2 Gateway Council   313JB071001 5.375 4.500  -0.875
-## 402      M2 Gateway Council   313VO032702 5.700 4.150  -1.550
-## 403      M2 Gateway Council   313QM010201 2.400 5.500   3.100
-## 404      M2 Gateway Council   313AE081501 6.000 4.825  -1.175
-## 405      M2 Gateway Council   313KM042401 2.600 4.325   1.725
-## 406      M2 Gateway Council   313KL121300 3.650 5.125   1.475
-## 407      M2 Gateway Council   313LK101701 3.650 4.900   1.250
-## 408      M2 Gateway Council   313SK122100 3.600 3.650   0.050
-## 409      M2 Gateway Council   313NJ101801 1.675 5.125   3.450
-## 410      M2 Gateway Council   313KR070802 2.650 4.950   2.300
-## 411      M2 Gateway Council   313AR042301 0.875 4.000   3.125
-## 412      M2 Gateway Council   313BM090401 4.950 4.275  -0.675
-## 413      M2 Gateway Council   313AS030402 5.500 5.500   0.000
-## 414      M2 Gateway Council   313TC051401 1.850 5.500   3.650
-## 415      M2 Gateway Council   313UE090701 5.375 4.825  -0.550
-## 416      M2 Gateway Council   313YR030399 4.825 4.700  -0.125
-## 417      M2 Gateway Council   313LY012202 5.700 5.325  -0.375
-## 418      M2 Gateway Council   313CJ032602 4.200 4.400   0.200
-## 419      M2 Gateway Council   313AR011502 3.950 5.200   1.250
-## 420      M2 Gateway Council   313TA041902 5.400 5.625   0.225
-## 421      M2 Gateway Council   313DB010202 5.400 4.325  -1.075
-## 422      M2 Gateway Council   313EC080601 4.025 4.825   0.800
-## 423      M2 Gateway Council   313AB021701 5.700 4.450  -1.250
-## 424      M2 Gateway Council   313JA031802 3.900 3.700  -0.200
-## 425      M2 Gateway Council   313DJ032902 5.625 4.075  -1.550
-## 426      M2 Gateway Council   313AA102900 4.450 5.075   0.625
-## 427      M2 Gateway Council   313AJ032901 5.325 4.275  -1.050
-## 428      M2 Gateway Council   313AH062901 5.025 2.075  -2.950
-## 429      M2 Gateway Council   313AH081301 5.250 4.450  -0.800
-## 430      M2 Gateway Council   313AF101200 5.325 4.400  -0.925
-## 431      M2 Gateway Council   313MF021901 6.000 4.725  -1.275
-## 432      M2 Gateway Council   313LW111401 5.025 4.150  -0.875
-## 433      M2 Gateway Council   313SR030901 5.625 5.000  -0.625
-## 434      M2 Gateway Council   313JW121601 5.250 4.900  -0.350
-## 435      M2 Gateway Council   313JC091901 5.625 4.225  -1.400
-## 436      M2 Gateway Council   313BS092301 4.500 4.450  -0.050
-## 437      M2 Gateway Council   313AC082702 4.125 4.825   0.700
-## 438      M2 Gateway Council   313BP090500 5.625 5.025  -0.600
-## 439      M2 Gateway Council   313KP122701 6.000 4.350  -1.650
-## 440      M2 Gateway Council   313AJ111601 5.625 4.525  -1.100
-## 441      M2 Gateway Council   313DM081401 4.450 4.150  -0.300
-## 442      M2 Gateway Council   313HB081401 5.500 3.650  -1.850
-## 443      M2 Gateway Council   313SA070901 5.075 4.450  -0.625
-## 444      M2 Gateway Council   313TA020602 5.625 4.600  -1.025
-## 445      M2 Gateway Council   313AJ041002 5.000 3.850  -1.150
-## 446      M2 Gateway Council   313JJ051600 3.950 4.450   0.500
-## 447      M2 Gateway Council   313MU040201 3.900 5.000   1.100
-## 448      M2 Gateway Council   313MH120302 5.625 5.025  -0.600
-## 449      M2 Gateway Council   313DL091702 5.325 4.325  -1.000
-## 450      M2 Gateway Council   313JP052700 4.650 4.200  -0.450
-## 451      M2 Gateway Council   313NB071401 4.400 4.575   0.175
-## 452      M2 Gateway Council   313TB112601 4.400 4.900   0.500
-## 453      M2 Gateway Council   313SP100798 4.450 3.425  -1.025
-## 454      M2 Gateway Council   313VT021800 5.000 5.500   0.500
-## 455      M2 Gateway Council   313ZD052900 5.700 4.825  -0.875
-## 456      M2 Gateway Council   313TH022701 5.250 5.125  -0.125
-## 457      M2 Gateway Council   313ST112500 5.700 4.950  -0.750
-## 458      M2 Gateway Council   313AH032200 5.625 4.875  -0.750
-## 459      M2 Gateway Council   313RM061899 4.950 5.125   0.175
-## 460      M2 Gateway Council   313CC120201 5.325 4.825  -0.500
-## 461      M2 Gateway Council   313AC041301 5.700 4.825  -0.875
-## 462      M2 Gateway Council   313GW062801 5.400 5.250  -0.150
-## 463      M2 Gateway Council   313ML051902 5.325 4.950  -0.375
-## 464      M2 Gateway Council   313AH081501 5.375 5.200  -0.175
-## 465      M2 Gateway Council   313JF120401 5.325 6.000   0.675
-## 466      M2 Gateway Council   313JM011700 5.625 6.000   0.375
-## 467      M2 Gateway Council   313CM021699 4.950 4.450  -0.500
-## 468      M2 Gateway Council   313AS060499 5.325 4.825  -0.500
-## 469      M2 Gateway Council   313NS021000 5.325 4.450  -0.875
-## 470      M2 Gateway Council   313AB081698 5.025 5.500   0.475
-## 471      M2 Gateway Council   313CB010400 4.950 5.200   0.250
-## 472      M2 Gateway Council   313TT062399 5.700 4.450  -1.250
-## 473      M2 Gateway Council   313JS091900 5.625 5.125  -0.500
-## 474      M2 Gateway Council   313CG111202 5.325 5.200  -0.125
-## 475      M2 Gateway Council   313RS080800 5.625 4.450  -1.175
-## 476      M2 Gateway Council   313AT040702 5.000 4.450  -0.550
-## 477      M2 Gateway Council   313AT032901 5.250 4.750  -0.500
-## 478      M2 Gateway Council   313DT060100 6.000 4.750  -1.250
-## 479      M2 Gateway Council   313MC012202 5.325 4.450  -0.875
-## 480      M2 Gateway Council   313NB052300 5.500 5.500   0.000
-## 481      M2 Gateway Council   313JG121498 4.450 6.000   1.550
-## 482      M2 Gateway Council   313JG110800 5.500 5.200  -0.300
-## 483      M2 Gateway Council   313WA063001 1.900 5.625   3.725
-## 484      M2 Gateway Council   313GA051207 1.775 4.200   2.425
-## 485      M2 Gateway Council   313FA011102 0.600 5.625   5.025
-## 486      M2 Gateway Council   313PA102701 1.375 4.875   3.500
-## 487      M2 Gateway Council   313LW070300 5.400 4.825  -0.575
-## 488      M2 Gateway Council   313ST060501 4.650 5.325   0.675
-## 489      M2 Gateway Council   313DY041702 5.075 3.900  -1.175
-## 490      M2 Gateway Council   313FS012001 6.000 5.025  -0.975
-## 491      M2 Gateway Council   313KS082899 5.325 4.250  -1.075
-## 492      M2 Gateway Council   313ZD072801 5.400 5.125  -0.275
-## 493      M2 Gateway Council   313GH032502 5.700 4.950  -0.750
-## 494      M2 Gateway Council   313KH102700 5.200 3.950  -1.250
-## 495      M2 Gateway Council   313AH101400 4.450 4.950   0.500
-## 496      M2 Gateway Council   313AG053100 5.700 5.325  -0.375
-## 497      M2 Gateway Council   313JF082700 5.700 3.275  -2.425
-## 498      M2 Gateway Council   313SH012102 0.750 4.950   4.200
-## 499      M2 Gateway Council   313ND040200 6.000 6.000   0.000
-## 500      M2 Gateway Council   313TD101100 4.450 6.000   1.550
-## 501      M2 Gateway Council   313TC102999 5.325 5.025  -0.300
-## 502      M2 Gateway Council   313LC073001 3.050 5.700   2.650
-## 503      M2 Gateway Council   313JC072901 3.900 5.325   1.425
-## 504      M2 Gateway Council   313ZC050201 2.150 6.000   3.850
-## 505      M2 Gateway Council   313BB101599 6.000 5.325  -0.675
-## 506      M2 Gateway Council   313SM052199 4.950 5.250   0.300
-## 507      M2 Gateway Council   313DM121701 3.450 5.250   1.800
-## 508      M2 Gateway Council   313AL092200 4.400 4.450   0.050
-## 509      M2 Gateway Council   313AJ102001 2.850 5.625   2.775
-## 510      M2 Gateway Council   313RS070299 6.000 5.700  -0.300
-## 511      M2 Gateway Council   313MR121600 5.625 4.450  -1.175
-## 512      M2 Gateway Council   313KR052899 3.350 5.075   1.725
-## 513      M2 Gateway Council   313TP072702 5.700 5.325  -0.375
-## 514      M2 Gateway Council   313JM020600 5.250 6.000   0.750
-## 515      M2 Gateway Council   313JW090901 4.700 5.325   0.625
-## 516      M2 Gateway Council   313MW122000 6.000 5.625  -0.375
-## 517      M2 Gateway Council   313OS062701 4.900 4.950   0.050
-## 518      M2 Gateway Council   313KO070202 5.700 5.400  -0.300
-## 519      M2 Gateway Council   313CS061899 5.625 5.700   0.075
-## 520      M2 Gateway Council   313SS091999 6.000 6.000   0.000
-## 521      M2 Gateway Council   313DM111400 4.600 6.000   1.400
-## 522      M2 Gateway Council   313DM110101 6.000 4.950  -1.050
-## 523      M2 Gateway Council   313MM051100 4.950 5.625   0.675
-## 524      M2 Gateway Council   313KB072600 0.975 5.325   4.350
-## 525      M2 Gateway Council   313EB112700 5.325 5.325   0.000
-## 526      M2 Gateway Council   313FB100100 3.600 5.200   1.600
-## 527      M2 Gateway Council   313SW011800 5.325 5.250  -0.075
-## 528      M2 Gateway Council   313DH080600 6.000 6.000   0.000
-## 529      M2 Gateway Council   313EP072800 5.125 5.700   0.575
-## 530      M2 Gateway Council   313BP060302 4.825 3.950  -0.875</code></pre>
-<pre class="r"><code>hr_high &lt;- with(hr_all,table(Year_Id,Post &gt;=4.45))
+
+hr_high &lt;- with(hr_all,table(Year_Id,Post &gt;=4.45))
 
 hr_high</code></pre>
 <pre><code>##        
@@ -870,12 +321,131 @@ hr_high</code></pre>
 ##      M3    25  179</code></pre>
 <pre class="r"><code>hr_high_p &lt;- prop.table(hr_high,1)
 
-hr_high_p</code></pre>
+pander(hr_high_p)</code></pre>
+<table style="width:47%;">
+<colgroup>
+<col width="12%"></col>
+<col width="11%"></col>
+<col width="23%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">0.3727</td>
+<td align="center">0.627272727272727</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">0.3056</td>
+<td align="center">0.694444444444444</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">0.1225</td>
+<td align="center">0.877450980392157</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>hr_increase_df &lt;- filter(hr_all, Post &lt; 4.45)
+
+
+hr_increase &lt;-with(hr_increase_df, table(Year_Id, hr.diff &gt; 0 ))
+
+hr_increase</code></pre>
 <pre><code>##        
-## Year_Id     FALSE      TRUE
-##      M1 0.3727273 0.6272727
-##      M2 0.3055556 0.6944444
-##      M3 0.1225490 0.8774510</code></pre>
+## Year_Id FALSE TRUE
+##      M1    35    6
+##      M2    45   21
+##      M3    19    6</code></pre>
+<pre class="r"><code>hr_increase &lt;- prop.table(hr_increase,1)
+
+pander(hr_increase)</code></pre>
+<table style="width:47%;">
+<colgroup>
+<col width="12%"></col>
+<col width="11%"></col>
+<col width="23%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">0.8537</td>
+<td align="center">0.146341463414634</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">0.6818</td>
+<td align="center">0.318181818181818</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">0.76</td>
+<td align="center">0.24</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>hr_lowhigh &lt;- filter(hr_all, Pre &lt; 4.45 &amp; Post &gt;=4.45)
+
+nrow(hr_lowhigh)</code></pre>
+<pre><code>## [1] 159</code></pre>
+<pre class="r"><code>table(hr_lowhigh$Year_Id)</code></pre>
+<pre><code>## 
+## M1 M2 M3 
+## 33 58 68</code></pre>
+<pre class="r"><code>head(hr_lowhigh)</code></pre>
+<pre><code>##   Year_Id         council      girlCode  Pre  Post hr.diff
+## 1      M3 Gateway Council   313DW060502 2.85 4.650   1.800
+## 2      M3 Gateway Council   313AW110303 3.40 5.125   1.725
+## 3      M3 Gateway Council   313AF040403 3.65 5.700   2.050
+## 4      M3 Gateway Council   313CD122702 4.20 5.325   1.125
+## 5      M3 Gateway Council   313DP021104 1.95 6.000   4.050
+## 6      M3 Gateway Council 313AJ100704   2.85 4.825   1.975</code></pre>
+<pre class="r"><code>hr_imrove &lt;- with(hr_lowhigh, table(Year_Id, Post &gt;=4.45))
+
+
+hr_imrove &lt;- prop.table(hr_imrove,1)
+
+pander(hr_imrove)</code></pre>
+<table style="width:21%;">
+<colgroup>
+<col width="12%"></col>
+<col width="8%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>post &lt;- group_by(hr_all, Year_Id, Post)
 
 post</code></pre>
