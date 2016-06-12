@@ -232,7 +232,7 @@ hr_all <- rbind(hr_all, hr_prepost2014)
 
 hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, hr_all$council)
 
-hr_all <- filter(hr_all, council == "Gateway Council")
+
 
 
 hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
