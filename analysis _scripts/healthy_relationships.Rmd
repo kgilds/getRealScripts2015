@@ -280,8 +280,6 @@ pander(hr_imrove)
 ```{r}
 post <- group_by(hr_all, Year_Id, Post)
 
-post
-
 ```
 
 

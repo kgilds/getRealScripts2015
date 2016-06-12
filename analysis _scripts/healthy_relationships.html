@@ -446,25 +446,7 @@ pander(hr_imrove)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>post &lt;- group_by(hr_all, Year_Id, Post)
-
-post</code></pre>
-<pre><code>## Source: local data frame [530 x 6]
-## Groups: Year_Id, Post [127]
-## 
-##    Year_Id         council    girlCode   Pre  Post hr.diff
-##      (chr)           (chr)       (chr) (dbl) (dbl)   (dbl)
-## 1       M3 Gateway Council 313DW060502 2.850 4.650   1.800
-## 2       M3 Gateway Council 313GR040203 4.700 5.700   1.000
-## 3       M3 Gateway Council 313JP090103 5.000 6.000   1.000
-## 4       M3 Gateway Council 313JB090402 5.625 5.700   0.075
-## 5       M3 Gateway Council 313JG070402 5.000 5.325   0.325
-## 6       M3 Gateway Council 313JB091302 4.700 5.250   0.550
-## 7       M3 Gateway Council 313JR060502 5.375 5.625   0.250
-## 8       M3 Gateway Council 313AD050602 4.700 6.000   1.300
-## 9       M3 Gateway Council 313BB040203 5.000 5.625   0.625
-## 10      M3 Gateway Council 313CW020602 5.000 5.625   0.625
-## ..     ...             ...         ...   ...   ...     ...</code></pre>
+<pre class="r"><code>post &lt;- group_by(hr_all, Year_Id, Post)</code></pre>
 <pre class="r"><code>hr_df &lt;- function (df) {
     if (df == &quot;healthy_prepost&quot;){
         dat1 &lt;- healthy_prepost
