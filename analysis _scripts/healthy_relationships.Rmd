@@ -1,0 +1,879 @@
+---
+title: "healthy_relationships"
+author: "Kevin Gilds, MPA"
+date: "May 28, 2016"
+output: html_document
+---
+
+
+```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(sqldf)
+library(psych)
+library(knitr)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+
+
+```
+
+
+```{r load outcome survesy, echo=FALSE}
+
+### Reade the girl_pre_survey database for analysis. 
+pre_outcomes <- dbReadTable(getReal_2016db, "girl_pre")
+
+post_outcomes <- dbReadTable(getReal_2016db, "girl_post")
+
+post_outcomes <- select(post_outcomes, girlCode, council, hr.avg)
+###Select the variables of interest from the pre_survey
+pre_outcomes <- select(pre_outcomes, girlCode, council, hr.avg)
+
+history <- dbReadTable(getReal_2016db, "basic_view")
+
+
+```
+
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+prepost2014 <- dbReadTable(getReal_2014db, "girl_pre_post_matched")
+
+hr_prepost2014 <- prepost2014 %>%
+    select(girlCode, council.x, hr.avg.x, hr.avg.y)
+
+
+names(hr_prepost2014)
+
+colnames (hr_prepost2014) [2] <- "council"
+colnames (hr_prepost2014) [3] <- "Post"
+colnames (hr_prepost2014) [4] <- "Pre"
+
+hr_prepost2014 <- hr_prepost2014 %>%
+    mutate("hr.diff" = Post -Pre) %>%
+    mutate("Year_Id" = "M2")
+
+names(hr_prepost2014)
+
+hr_prepost2014 <- hr_prepost2014[, c(6,2,1,3,4,5)]
+
+names(hr_prepost2014)
+
+
+
+```
+
+
+
+
+```{r connect_2013_hr_data}
+pre_outcomes2013 <- dbReadTable(getReal_2016db, "girl_pre2013")
+
+post_outcomes2013 <-dbReadTable(getReal_2016db, "girl_post2013")
+
+hr_pre2013 <- pre_outcomes2013 %>%
+    select(girlScoutCouncil, girlCode, hr_avg)
+
+
+hr_post2013 <- post_outcomes2013 %>%
+    select(girlScoutCouncil, girlCode, hr_avg)
+
+
+```
+
+
+
+```{r join_2013_hr_data}
+
+hr_prepost2013 <- inner_join(hr_pre2013, hr_post2013, by="girlCode")
+dim(hr_prepost2013)
+
+names(hr_prepost2013)
+
+colnames(hr_prepost2013) [1] <- "council"
+colnames(hr_prepost2013) [3] <- "Pre"
+colnames(hr_prepost2013) [5]<- "Post"
+    
+hr_prepost2013 <- hr_prepost2013 %>%
+    select(council, girlCode, Pre, Post)
+
+hr_prepost2013 <- hr_prepost2013 %>%
+    mutate(Year_Id = "M1")
+
+
+hr_prepost2013 <- hr_prepost2013 %>%
+    mutate(hr.diff = Post- Pre)
+
+```
+
+
+```{r test_2013}
+
+council <- group_by(hr_prepost2013, council)
+
+council
+
+gateway <-with(council,table(council,Post >=4.45))
+
+gateway
+
+fun_test_1 <- with(hr_prepost2013,table(Post >=4.45))
+
+fun_test_1
+
+fun_test_2 <-with(hr_prepost2013,table(Post < 4.45 & hr.diff >0))
+
+fun_test_2
+
+```
+
+```{r}
+
+fun_test_2014 <-with(hr_prepost2014,table(Post >=4.45))
+
+fun_test_2014
+
+fun_test_2014_i <-with(hr_prepost2014,table(Post <4.45 & hr.diff >0))
+
+fun_test_2014_i
+
+```
+
+
+
+
+```{r}
+healthy_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
+
+dim(healthy_prepost)
+
+
+```
+
+```{r}
+head(healthy_prepost)
+
+names(healthy_prepost)
+
+colnames(healthy_prepost) [2] <- "council"
+colnames(healthy_prepost) [3] <- "Pre"
+colnames(healthy_prepost) [5] <- "Post"
+
+names(healthy_prepost)
+
+healthy_prepost <-healthy_prepost %>%
+    mutate(Year_Id = "M3")
+
+healthy_prepost <- healthy_prepost %>%
+    mutate(hr.diff = Post - Pre)
+
+
+
+str(healthy_prepost)
+
+
+with(healthy_prepost,table(Post >=4.45))
+hist(healthy_prepost$hr.diff)
+
+mean(healthy_prepost$hr.diff)
+
+
+hr_achieved <-filter(healthy_prepost, Post >=4.45 )
+
+plot(healthy_prepost$hr.diff)
+abline(h=0, col="red")
+
+
+
+
+```
+
+
+
+
+
+
+
+```{r}
+
+names(healthy_prepost)
+
+healthy_prepost <- healthy_prepost %>%
+    select(girlCode, council, Pre, Post,Year_Id, hr.diff)
+
+
+healthy_prepost <- healthy_prepost[,c(5,2, 1,3,4,6)]
+
+names(healthy_prepost)
+
+names(hr_prepost2013)
+
+hr_prepost2013 <- hr_prepost2013[,c(5,1,2,3,4,6)]
+
+names(hr_prepost2013)
+
+hr_all <-rbind(healthy_prepost, hr_prepost2013)
+
+hr_all <- rbind(hr_all, hr_prepost2014)
+
+
+
+
+
+hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, hr_all$council)
+
+hr_all <- filter(hr_all, council == "Gateway Council")
+
+
+hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
+
+hr_high
+
+hr_high_p <- prop.table(hr_high,1)
+
+pander(hr_high_p)
+
+
+hr_increase_df <- filter(hr_all, Post < 4.45)
+
+
+hr_increase <-with(hr_increase_df, table(Year_Id, hr.diff > 0 ))
+
+hr_increase
+
+hr_increase <- prop.table(hr_increase,1)
+
+pander(hr_increase)
+
+
+hr_lowhigh <- filter(hr_all, Pre < 4.45 & Post >=4.45)
+
+nrow(hr_lowhigh)
+
+table(hr_lowhigh$Year_Id)
+
+head(hr_lowhigh)
+
+hr_imrove <- with(hr_lowhigh, table(Year_Id, Post >=4.45))
+
+
+hr_imrove <- prop.table(hr_imrove,1)
+
+pander(hr_imrove)
+
+
+
+
+
+```
+
+```{r}
+post <- group_by(hr_all, Year_Id, Post)
+
+```
+
+
+
+
+```{r}
+hr_df <- function (df) {
+    if (df == "healthy_prepost"){
+        dat1 <- healthy_prepost
+} else if (df == "hr_prepost2013"){
+        dat1 <-hr_prepost2013 
+} else (df == "hr_prepost2014")
+            data1 <-hr_prepost2014
+        
+    high <- filter (dat1, Post >=4.45)
+    increase <-filter(dat1, Post < 4.45 & hr.diff >0)
+    hr_temp <- nrow(high) + nrow(increase)
+    hr_temp_1 <- hr_temp/nrow(dat1)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+
+    
+}
+
+hr_df("healthy_prepost")
+
+
+```
+
+
+```{r}
+
+hr_achieved <- function(Year) {
+    
+    if(Year =="M3"){
+        dat <-filter(hr_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(hr_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(hr_all, Year_Id == "M2")
+    }
+    
+    
+    high <- filter(dat, Post >=4.45)
+    hr_temp_1 <- nrow(high)/nrow(dat)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+    
+}
+
+hr_achieved("M1")
+```
+
+
+
+
+
+```{r}
+hr_match_test <-function(Year){
+    
+    if(Year =="M3"){
+        dat <-filter(hr_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(hr_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(hr_all, Year_Id == "M2")
+    }
+    
+    
+    high <- filter(dat, Post >=4.45)
+    increase <-filter(dat, Post < 4.45 & hr.diff >0)
+    hr_temp <- nrow(high) + nrow(increase)
+    hr_temp_1 <- hr_temp/nrow(dat)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+    
+
+}
+
+hr_match_test("M3")
+hr_match_test("M2")
+hr_match_test("M1")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+hr_match <-function(){
+    high <- filter(healthy_prepost, Post >=4.45)
+    increase <-filter(healthy_prepost, Post < 4.45 & hr.diff >0)
+    hr_temp <- nrow(high) + nrow(increase)
+    hr_temp_1 <- hr_temp/nrow(healthy_prepost)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+
+}
+
+hr_match()
+```
+
+
+```{r}
+hr_lowHigh <-function (Year){
+    if(Year =="M3"){
+        dat <-filter(hr_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(hr_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(hr_all, Year_Id == "M2")
+    }
+    
+    
+    low <- filter(dat, Pre < 4.45 & Post >=4.45)
+    low_1 <- nrow(low)/nrow(dat)
+    hr_low_1 <- round(low_1*100,2)
+    hr_low_1 <- paste0(hr_low_1, "%", sep="")
+    pander(hr_low_1)
+}
+
+hr_lowHigh("M1")
+
+```
+
+The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. 
+
+
+
+
+The number of valid survey entries is **`r nrow(healthy_prepost)`**.
+The percent of students achieving this outcome at a high level is **`r hr_match()`**.
+
+
+
+```{r}
+
+high <-filter(healthy_prepost, Post >=4.45)
+
+high <- nrow(high)
+
+
+low_increase <-filter(healthy_prepost, Post < 4.45 & hr.diff >0)
+
+head(low_increase)
+tail(low_increase)
+nrow(low_increase)
+
+low_increase <-nrow(low_increase)
+
+hr_success <- (high + low_increase)/nrow(healthy_prepost)
+
+pander(hr_success)
+
+
+not_pre <-filter(healthy_prepost, Pre <4.45 & Post >=4.45)
+
+not_pre
+
+not_pre <-nrow(not_pre)/nrow(healthy_prepost)
+
+pander(not_pre)
+
+```
+
+
+
+
+
+
+
+
+```{r lastyeardata, echo=FALSE}
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+pre_survey_2014 <- dbReadTable(getRealdb, "pre_girl_survey")
+
+
+post_survey_MY1415 <- dbReadTable(getRealdb, "post_girl_survey")
+
+
+```
+
+
+
+
+
+```{r echo=FALSE}
+
+### Match Pre Surveys
+
+pre_merge <- inner_join (pre_survey_2014, pre_outcomes, by = "girlCode", Copy=FALSE)
+
+
+
+#x=2014, y=2015
+
+
+```
+
+
+
+
+
+```{r echo=FALSE}
+
+post_merge <- inner_join(post_survey_MY1415, pre_outcomes, by = "girlCode", Copy=FALSE)
+
+non_match <- anti_join(pre_outcomes, post_survey_MY1415, by = "girlCode", Copy = FALSE)
+
+
+```
+
+
+
+
+## Healthy Releationships
+
+
+```{r hr_function, echo=FALSE}
+
+hr <- function(){
+    hr_tbl <- with(pre_outcomes,table(hr.avg >=4.45))
+    pander(hr_tbl)
+    
+}
+```
+
+
+
+
+### Percent of students achieving at a high level
+
+
+
+
+```{r hr_percent, echo=FALSE}
+
+hr_percent <- function() {
+    hr_tbl <- filter(pre_outcomes, hr.avg >=4.45)
+    hr_tbl_p <- nrow(hr_tbl) /nrow(pre_outcomes)
+    hr_tbl_p <- round(hr_tbl_p*100,2)
+    pander(paste(hr_tbl_p, "%", sep=""))
+}
+
+
+```
+
+
+```{r hr outcome tables, echo=FALSE, eval=FALSE}
+### create basic outcome table for healty releationship outcome
+
+hr_tbl <- with(pre_outcomes,table(hr.avg >=4.45))
+
+### print in pretty table
+pander(hr_tbl)
+
+### Put percents with outcome table
+hr_tbl_p <- prop.table(hr_tbl)
+
+
+###Print percent table
+pander(hr_tbl_p)
+
+### Basic outcome table for healthy relationships by council
+hr_tbl_c <- with(pre_outcomes, table(council, hr.avg >=4.45))
+
+### print results of outcome table
+pander(hr_tbl_c)
+
+
+####Percent by council
+
+hr_tbl_cp <- prop.table(hr_tbl_c, 1)
+
+### Print by percent
+pander(hr_tbl_cp)
+
+
+```
+
+### Healthy Relationship Outcome Plots
+```{r hr_barchart, fig.width=15, echo=FALSE}
+### Plot outcome results
+hr <- select(pre_outcomes, council, hr.avg)
+ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
+
+
+```
+
+
+
+
+```{r hr_hist2, echo=FALSE, eval=FALSE, message=FALSE}
+
+### Plot outcome results by council    
+hr_hist <- ggplot(hr, aes(x=hr.avg))
+        hr_hist + geom_histogram(fill="blue") +facet_grid(~council) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+```
+
+
+
+
+### Healthy Relationships Outcome Distribution Plots
+```{r hr_hist, echo=FALSE}
+### Histogram to show all the outcome scores
+### Abline for ggplot
+ hr_hist <- ggplot(hr, aes(x=hr.avg)) 
+        hr_hist + geom_histogram(fill="blue", bins=40) + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+
+
+        
+
+```
+
+
+```{r hr_boxplot, echo=FALSE, eval=FALSE}
+
+### Box plot for outcome scores
+        
+hr_box <- ggplot(hr, aes(x=factor(council), hr.avg))
+        hr_box + geom_boxplot(fill="blue") + labs(y=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+
+```
+
+
+
+```{r hr_descrip, echo=FALSE, eval=FALSE}
+## Try x-table, or kable
+
+### Prepare data frame for just looking at hr.avg        
+hr_1 <- select(hr, hr.avg)
+
+### Stat summary of df.
+hr_des <- describe(hr_1)
+
+kable(hr_des)
+        
+```
+
+
+### Pre Survey Healthy Relationship Trends from 2013-2015
+
+Pre survey average scores are down this year along with the proportion of students achieving the outcome at a high level. The key for this analysis is the percent of students increasing their outcome score. 
+
+```{r echo=FALSE}
+
+
+hr_history <-
+    select(history, Year,population, mean, sd, achieved, outcome.1) 
+
+hr_history <-
+    filter(hr_history, outcome.1 == "Healthy Relationships"& Year !="2015")
+
+
+percent_achieved <- hr_history$achieved / hr_history$population
+
+percent_achieved <- round(percent_achieved*100, 2)
+
+percent_achieved <- paste0(percent_achieved, "%")
+
+hr_history <- cbind(hr_history, percent_achieved)
+
+hr_history <- select(hr_history, Year, population, mean, sd, percent_achieved)
+
+colnames(hr_history)[5] <-"percent achieved"
+
+hr_Year <- "2015"
+hr_population <- nrow(pre_outcomes)
+hr_mean <- mean(pre_outcomes$hr.avg)
+hr_sd <-sd(pre_outcomes$hr.avg)
+hr_achieved1 <- filter(pre_outcomes, hr.avg >=4.45)
+hr_achieved <- nrow(hr_achieved1)/nrow(pre_outcomes)
+hr_percent1 <- round(hr_achieved*100,2)
+hr_percent <- paste0(hr_percent1, "%")
+
+
+hr_df <- data.frame(hr_Year, hr_population, hr_mean, hr_sd, hr_percent )
+ 
+colnames(hr_df)[1] <-"Year"
+colnames(hr_df)[2] <- "population"
+colnames(hr_df)[3] <- "mean"
+colnames(hr_df)[4] <- "sd"
+colnames(hr_df)[5] <- "percent achieved"
+
+
+hr_history <- rbind(hr_history, hr_df)
+pander(hr_history)
+
+```
+
+
+
+
+
+ 
+```{r echo=FALSE, eval=FALSE}
+
+post_merge_hr_pre <- mean(post_merge$hr.avg.y)
+
+
+post_merge_hr_post <-mean(post_merge$hr.avg.x)
+
+non_match_hr_pre <- mean(non_match$hr.avg)
+
+
+
+
+
+
+```
+
+
+### Healthy Relationship Time Series
+
+The number of student survey records that could be matched from last year is  **`r nrow(post_merge)`**.
+Last year students who participated for multiple years had higher healthy relationship scores than students who had not participated in the program before. This is not the case this year. 
+
+Healthy Relationship scores regressed from the post survey and students in the program did not score better than students in the program in terms of average scores or proportion of students achieving the skill at a high level. 
+
+
+The number of matched student is **`r nrow(post_merge)`**, and the number of non matched students is   **`r nrow(non_match)`**.
+
+
+
+
+```{r echo=FALSE}
+
+hr_population_pre <- "Matched: Pre 2015-2016"
+hr_mean_pre <- mean(post_merge$hr.avg.y)
+hr_sd_pre <- sd(post_merge$hr.avg.y)
+hr_achieved_1 <- filter(post_merge, hr.avg.y >= 4.45)
+hr_achieved <- nrow(hr_achieved_1)
+hr_percent_1 <- nrow(hr_achieved_1)/nrow(post_merge)
+hr_percent_1 <- round(hr_percent_1*100,2)
+hr_percent <- paste0(hr_percent_1, "%", sep= " ")
+
+
+hr_trend_pre<-data.frame(hr_population_pre, hr_mean_pre, hr_sd_pre, hr_achieved, hr_percent)
+
+colnames(hr_trend_pre)[1] <- "Time"
+colnames(hr_trend_pre)[2] <- "Mean"
+colnames(hr_trend_pre)[3] <- "SD"
+colnames(hr_trend_pre)[4] <- "Achieved"
+colnames(hr_trend_pre)[5] <- "Percent Achieved"
+
+
+
+```
+
+
+
+
+```{r echo=FALSE}
+
+hr_time_post <-
+hr_Population_post <- "Matched: Post 2014-2015"
+hr_mean_post <- mean(post_merge$hr.avg.x)
+hr_sd_post <- sd(post_merge$hr.avg.x)
+hr_achieved_1post <- filter(post_merge, hr.avg.x >=4.45)
+hr_achieved_post <- nrow(hr_achieved_1post)
+hr_percent_post1 <- nrow(hr_achieved_1post)/nrow(post_merge)
+hr_percent_post <- round(hr_percent_post1*100,2)
+hr_percent_post <- paste0(hr_percent_post, "%")
+
+hr_trend_post <- data.frame(hr_Population_post, hr_mean_post, hr_sd_post, hr_achieved_post, hr_percent_post)
+
+
+colnames(hr_trend_post)[1] <- "Time"
+colnames(hr_trend_post)[2] <- "Mean"
+colnames(hr_trend_post)[3] <- "SD"
+colnames(hr_trend_post)[4] <- "Achieved"
+colnames(hr_trend_post)[5] <- "Percent Achieved"
+
+
+
+
+
+```
+
+
+
+```{r echo=FALSE}
+hr_Population_non <- "Non-Matched: Pre 2015-2016"
+hr_mean_non <- mean(non_match$hr.avg)
+hr_sd_non <- sd(non_match$hr.avg)
+hr_achieved_1non <- filter(non_match, hr.avg >=4.45)
+hr_achieved_non <- nrow(hr_achieved_1non)
+hr_percent_non1 <- nrow(hr_achieved_1non)/nrow(non_match)
+hr_percent_non <- round(hr_percent_non1*100,2)
+hr_percent_non <- paste0(hr_percent_non, "%")
+
+hr_trend_non <- data.frame(hr_Population_non, hr_mean_non, hr_sd_non, hr_achieved_non, hr_percent_non)
+
+
+
+colnames(hr_trend_non)[1] <- "Time"
+colnames(hr_trend_non)[2] <- "Mean"
+colnames(hr_trend_non)[3] <- "SD"
+colnames(hr_trend_non)[4] <- "Achieved"
+colnames(hr_trend_non)[5] <- "Percent Achieved"
+
+
+
+
+```
+
+```{r echo=FALSE}
+
+population1<- nrow(post_merge)
+
+population2 <- nrow(post_merge)
+
+population3 <- nrow(non_match)
+
+population4 <- data.frame(population1, population2, population3)
+
+
+
+hr_trend_1 <- rbind(hr_trend_post, hr_trend_pre)
+
+hr_trend <- rbind(hr_trend_1, hr_trend_non)
+
+
+
+
+
+
+
+pander(hr_trend)
+
+```
+
+
+
+
+
+
+```{r echo=FALSE, eval=FALSE}
+
+kable(post_merge_hr_pre)
+kable(post_merge_hr_post)
+
+```
+
+
+
+
+
+
+
+```{r echo= FALSE, eval=FALSE}
+
+hr_outcome_pre_2015 <- with(post_merge,table(hr.avg.y >=4.45))
+
+
+
+pander(hr_outcome_pre_2015)
+
+hr_outcome_post_2014 <- with(post_merge,table(hr.avg.x >=4.45))
+
+pander(hr_outcome_post_2014)
+
+non_match_outcome <-with(non_match,table(hr.avg >=4.45))
+
+pander(non_match_outcome)
+
+
+wilcox.test(post_merge$hr.avg.y, post_merge$hr.avg.x)
+
+wilcox.test(post_merge$hr.avg.y, non_match$hr.avg)
+
+```
+
+
+
+
+
