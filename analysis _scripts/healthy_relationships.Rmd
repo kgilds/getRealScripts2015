@@ -226,7 +226,36 @@ hr_all <-rbind(healthy_prepost, hr_prepost2013)
 
 hr_all <- rbind(hr_all, hr_prepost2014)
 
+table(hr_all$council)
+
+
+
+
+hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, hr_all$council)
+
+hr_all <- filter(hr_all, council == "Gateway Council")
+
+hr_all
+
+hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
+
+hr_high
+
+hr_high_p <- prop.table(hr_high,1)
+
+hr_high_p
+
+
 ```
+
+```{r}
+post <- group_by(hr_all, Year_Id, Post)
+
+post
+
+```
+
+
 
 
 ```{r}
@@ -264,8 +293,9 @@ hr_match_test <-function(Year){
         
     } else if(Year == "M1"){
         dat <- filter(hr_all, Year_Id =="M1")
-    } else  (Year == "M2")
+    } else { (Year == "M2")
     dat <- filter(hr_all, Year_Id == "M2")
+    }
     
     
     high <- filter(dat, Post >=4.45)
@@ -275,13 +305,19 @@ hr_match_test <-function(Year){
     hr_temp_1 <- round(hr_temp_1*100,2)
     hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
     pander(hr_temp_1)
+    pander(hr_temp)
 
 }
 
+hr_match_test("M3")
 hr_match_test("M2")
-```
+hr_match_test("M1")
 
 ```
+
+
+
+
 
 
 
