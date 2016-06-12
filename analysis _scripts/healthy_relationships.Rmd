@@ -284,6 +284,34 @@ hr_df("healthy_prepost")
 ```
 
 
+```{r}
+
+hr_achieved <- function(Year) {
+    
+    if(Year =="M3"){
+        dat <-filter(hr_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(hr_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(hr_all, Year_Id == "M2")
+    }
+    
+    
+    high <- filter(dat, Post >=4.45)
+    hr_temp_1 <- nrow(high)/nrow(dat)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+    
+}
+
+hr_achieved("M1")
+```
+
+
+
+
 
 ```{r}
 hr_match_test <-function(Year){
@@ -305,7 +333,7 @@ hr_match_test <-function(Year){
     hr_temp_1 <- round(hr_temp_1*100,2)
     hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
     pander(hr_temp_1)
-    pander(hr_temp)
+    
 
 }
 
@@ -342,15 +370,25 @@ hr_match()
 
 
 ```{r}
-hr_lowHigh <-function (){
-    low <- filter(healthy_prepost, Pre < 4.45 & Post >=4.45)
-    low_1 <- nrow(low)/nrow(healthy_prepost)
+hr_lowHigh <-function (Year){
+    if(Year =="M3"){
+        dat <-filter(hr_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(hr_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(hr_all, Year_Id == "M2")
+    }
+    
+    
+    low <- filter(dat, Pre < 4.45 & Post >=4.45)
+    low_1 <- nrow(low)/nrow(dat)
     hr_low_1 <- round(low_1*100,2)
     hr_low_1 <- paste0(hr_low_1, "%", sep="")
     pander(hr_low_1)
 }
 
-hr_lowHigh()
+hr_lowHigh("M1")
 
 ```
 

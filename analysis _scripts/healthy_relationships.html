@@ -916,6 +916,28 @@ post</code></pre>
 
 hr_df(&quot;healthy_prepost&quot;)</code></pre>
 <p>85.88%</p>
+<pre class="r"><code>hr_achieved &lt;- function(Year) {
+    
+    if(Year ==&quot;M3&quot;){
+        dat &lt;-filter(hr_all, Year_Id ==&quot;M3&quot;)
+        
+    } else if(Year == &quot;M1&quot;){
+        dat &lt;- filter(hr_all, Year_Id ==&quot;M1&quot;)
+    } else { (Year == &quot;M2&quot;)
+    dat &lt;- filter(hr_all, Year_Id == &quot;M2&quot;)
+    }
+    
+    
+    high &lt;- filter(dat, Post &gt;=4.45)
+    hr_temp_1 &lt;- nrow(high)/nrow(dat)
+    hr_temp_1 &lt;- round(hr_temp_1*100,2)
+    hr_temp_1 &lt;- paste0(hr_temp_1,&quot;%&quot;, sep=&quot;&quot;)
+    pander(hr_temp_1)
+    
+}
+
+hr_achieved(&quot;M1&quot;)</code></pre>
+<p>62.73%</p>
 <pre class="r"><code>hr_match_test &lt;-function(Year){
     
     if(Year ==&quot;M3&quot;){
@@ -935,16 +957,16 @@ hr_df(&quot;healthy_prepost&quot;)</code></pre>
     hr_temp_1 &lt;- round(hr_temp_1*100,2)
     hr_temp_1 &lt;- paste0(hr_temp_1,&quot;%&quot;, sep=&quot;&quot;)
     pander(hr_temp_1)
-    pander(hr_temp)
+    
 
 }
 
 hr_match_test(&quot;M3&quot;)</code></pre>
-<p><em>185</em></p>
+<p>90.69%</p>
 <pre class="r"><code>hr_match_test(&quot;M2&quot;)</code></pre>
-<p><em>171</em></p>
+<p>79.17%</p>
 <pre class="r"><code>hr_match_test(&quot;M1&quot;)</code></pre>
-<p><em>75</em></p>
+<p>68.18%</p>
 <pre class="r"><code>hr_match &lt;-function(){
     high &lt;- filter(healthy_prepost, Post &gt;=4.45)
     increase &lt;-filter(healthy_prepost, Post &lt; 4.45 &amp; hr.diff &gt;0)
@@ -958,16 +980,26 @@ hr_match_test(&quot;M3&quot;)</code></pre>
 
 hr_match()</code></pre>
 <p>85.88%</p>
-<pre class="r"><code>hr_lowHigh &lt;-function (){
-    low &lt;- filter(healthy_prepost, Pre &lt; 4.45 &amp; Post &gt;=4.45)
-    low_1 &lt;- nrow(low)/nrow(healthy_prepost)
+<pre class="r"><code>hr_lowHigh &lt;-function (Year){
+    if(Year ==&quot;M3&quot;){
+        dat &lt;-filter(hr_all, Year_Id ==&quot;M3&quot;)
+        
+    } else if(Year == &quot;M1&quot;){
+        dat &lt;- filter(hr_all, Year_Id ==&quot;M1&quot;)
+    } else { (Year == &quot;M2&quot;)
+    dat &lt;- filter(hr_all, Year_Id == &quot;M2&quot;)
+    }
+    
+    
+    low &lt;- filter(dat, Pre &lt; 4.45 &amp; Post &gt;=4.45)
+    low_1 &lt;- nrow(low)/nrow(dat)
     hr_low_1 &lt;- round(low_1*100,2)
     hr_low_1 &lt;- paste0(hr_low_1, &quot;%&quot;, sep=&quot;&quot;)
     pander(hr_low_1)
 }
 
-hr_lowHigh()</code></pre>
-<p>28.24%</p>
+hr_lowHigh(&quot;M1&quot;)</code></pre>
+<p>30%</p>
 <p>The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills.</p>
 <p>The number of valid survey entries is <strong>255</strong>. The percent of students achieving this outcome at a high level is <strong>85.88%</strong>.</p>
 <pre class="r"><code>high &lt;-filter(healthy_prepost, Post &gt;=4.45)
