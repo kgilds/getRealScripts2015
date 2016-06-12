@@ -47,9 +47,9 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Repor
 
 getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
-hr_prepost2014 <- dbReadTable(getReal_2014db, "girl_pre_post_matched")
+prepost2014 <- dbReadTable(getReal_2014db, "girl_pre_post_matched")
 
-hr_prepost2014 <- hr_prepost2014 %>%
+hr_prepost2014 <- prepost2014 %>%
     select(girlCode, council.x, hr.avg.x, hr.avg.y)
 
 
@@ -118,6 +118,14 @@ hr_prepost2013 <- hr_prepost2013 %>%
 
 
 ```{r test_2013}
+
+council <- group_by(hr_prepost2013, council)
+
+council
+
+gateway <-with(council,table(council,Post >=4.45))
+
+gateway
 
 fun_test_1 <- with(hr_prepost2013,table(Post >=4.45))
 
