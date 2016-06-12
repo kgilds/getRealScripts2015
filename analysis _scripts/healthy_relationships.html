@@ -178,6 +178,35 @@ hr_prepost2013 &lt;- hr_prepost2013 %&gt;%
 
 hr_prepost2013 &lt;- hr_prepost2013 %&gt;%
     mutate(hr.diff = Post- Pre)</code></pre>
+<pre class="r"><code>council &lt;- group_by(hr_prepost2013, council)
+
+council</code></pre>
+<pre><code>## Source: local data frame [239 x 6]
+## Groups: council [4]
+## 
+##                                   council    girlCode   Pre  Post Year_Id
+##                                     (chr)       (chr) (dbl) (dbl)   (chr)
+## 1  Girl Scouts of the Gateway Council Inc 313AA072300 2.750 6.000      M1
+## 2  Girl Scouts of the Gateway Council Inc 313KB062300 5.625 4.700      M1
+## 3  Girl Scouts of the Gateway Council Inc 313AB021800 4.500 3.100      M1
+## 4  Girl Scouts of the Gateway Council Inc 313TG050300 3.875 3.650      M1
+## 5  Girl Scouts of the Gateway Council Inc 313SE040899 4.650 3.600      M1
+## 6  Girl Scouts of the Gateway Council Inc 313DG042400 5.325 2.375      M1
+## 7  Girl Scouts of the Gateway Council Inc 313KH051200 4.125 5.250      M1
+## 8  Girl Scouts of the Gateway Council Inc 313JL091000 5.375 5.000      M1
+## 9  Girl Scouts of the Gateway Council Inc 313AC052599 5.250 2.750      M1
+## 10    Girl Scouts of West Central Florida 320TJ091100 4.250 4.000      M1
+## ..                                    ...         ...   ...   ...     ...
+## Variables not shown: hr.diff (dbl)</code></pre>
+<pre class="r"><code>gateway &lt;-with(council,table(council,Post &gt;=4.45))
+
+gateway</code></pre>
+<pre><code>##                                         
+## council                                  FALSE TRUE
+##   Girl Scouts of Gulfcoast Florida Inc.      3    7
+##   Girl Scouts of Southeast Florida, Inc.    22   44
+##   Girl Scouts of the Gateway Council Inc    41   69
+##   Girl Scouts of West Central Florida       21   32</code></pre>
 <pre class="r"><code>fun_test_1 &lt;- with(hr_prepost2013,table(Post &gt;=4.45))
 
 fun_test_1</code></pre>

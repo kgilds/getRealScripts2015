@@ -119,6 +119,14 @@ hr_prepost2013 <- hr_prepost2013 %>%
 
 ```{r test_2013}
 
+council <- group_by(hr_prepost2013, council)
+
+council
+
+gateway <-with(council,table(council,Post >=4.45))
+
+gateway
+
 fun_test_1 <- with(hr_prepost2013,table(Post >=4.45))
 
 fun_test_1
