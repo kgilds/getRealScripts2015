@@ -124,6 +124,10 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
+<<<<<<< HEAD
+=======
+<li><a href="#pre-2013">Pre 2013</a></li>
+>>>>>>> master
 <li><a href="#healthy-releationships">Healthy Releationships</a><ul>
 <li><a href="#percent-of-students-achieving-at-a-high-level">Percent of students achieving at a high level</a></li>
 <li><a href="#healthy-relationship-outcome-plots">Healthy Relationship Outcome Plots</a></li>
@@ -148,6 +152,47 @@ $(document).ready(function () {
 </ul>
 </div>
 
+<<<<<<< HEAD
+=======
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Analyis_data&quot;)
+
+getReal_2013 &lt;-dbConnect(SQLite (), dbname=&quot;getReal.sqlite&quot;)
+
+girl_2013 &lt;- dbReadTable(getReal_2013, &quot;girlSurvey&quot;)
+
+outcomes_2013 &lt;- girl_2013 %&gt;%
+    select(girlScoutCouncil, Time, girlCode, hr_avg, am_avg, ae_avg)</code></pre>
+<div id="pre-2013" class="section level3">
+<h3>Pre 2013</h3>
+<pre class="r"><code>pre_outcomes2013  &lt;- outcomes_2013 %&gt;%
+    filter(Time ==&quot;Pre&quot;)
+
+
+dim(pre_outcomes2013)</code></pre>
+<pre><code>## [1] 699   6</code></pre>
+<pre class="r"><code>pre_outcomes2013&lt;- pre_outcomes2013 [!(duplicated(pre_outcomes2013$girlCode) | duplicated(pre_outcomes2013$girlCode, fromLast = TRUE)), ]
+
+dim(pre_outcomes2013)</code></pre>
+<pre><code>## [1] 699   6</code></pre>
+<pre class="r"><code>post_outcomes2013 &lt;- outcomes_2013 %&gt;%
+    filter(Time ==&quot;Post&quot;)
+
+
+dim(post_outcomes2013)</code></pre>
+<pre><code>## [1] 590   6</code></pre>
+<pre class="r"><code>post_outcomes2013&lt;- post_outcomes2013 [!(duplicated(post_outcomes2013$girlCode) | duplicated(post_outcomes2013$girlCode, fromLast = TRUE)), ]
+
+
+dim(post_outcomes2013)</code></pre>
+<pre><code>## [1] 590   6</code></pre>
+<pre class="r"><code>setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
+
+dbWriteTable(conn = getReal_2016db, name = &quot;girl_pre2013&quot;, value = pre_outcomes2013, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;girl_post2013&quot;, value = post_outcomes2013, row.names=FALSE, overwrite=TRUE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+>>>>>>> master
 <div id="healthy-releationships" class="section level2">
 <h2>Healthy Releationships</h2>
 <div id="percent-of-students-achieving-at-a-high-level" class="section level3">
