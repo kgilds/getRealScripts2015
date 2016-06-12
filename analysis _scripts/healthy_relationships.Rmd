@@ -117,7 +117,7 @@ hr_prepost2013 <- hr_prepost2013 %>%
 ```
 
 
-```{r}
+```{r test_2013}
 
 fun_test_1 <- with(hr_prepost2013,table(Post >=4.45))
 
@@ -129,6 +129,17 @@ fun_test_2
 
 ```
 
+```{r}
+
+fun_test_2014 <-with(hr_prepost2014,table(Post >=4.45))
+
+fun_test_2014
+
+fun_test_2014_i <-with(hr_prepost2014,table(Post <4.45 & hr.diff >0))
+
+fun_test_2014_i
+
+```
 
 
 
@@ -177,11 +188,6 @@ abline(h=0, col="red")
 
 
 
-
-
-
-
-
 ```
 
 
@@ -210,6 +216,8 @@ names(hr_prepost2013)
 
 hr_all <-rbind(healthy_prepost, hr_prepost2013)
 
+hr_all <- rbind(hr_all, hr_prepost2014)
+
 ```
 
 
@@ -217,8 +225,11 @@ hr_all <-rbind(healthy_prepost, hr_prepost2013)
 hr_df <- function (df) {
     if (df == "healthy_prepost"){
         dat1 <- healthy_prepost
-} else if (df == "hr_prepost2013")
-        dat1 <-hr_prepost2013
+} else if (df == "hr_prepost2013"){
+        dat1 <-hr_prepost2013 
+} else (df == "hr_prepost2014")
+            data1 <-hr_prepost2014
+        
     high <- filter (dat1, Post >=4.45)
     increase <-filter(dat1, Post < 4.45 & hr.diff >0)
     hr_temp <- nrow(high) + nrow(increase)
@@ -233,7 +244,7 @@ hr_df <- function (df) {
 hr_df("healthy_prepost")
 
 
-
+```
 
 
 
@@ -243,9 +254,11 @@ hr_match_test <-function(Year){
     if(Year =="M3"){
         dat <-filter(hr_all, Year_Id =="M3")
         
-    } else if(Year == "M1")
+    } else if(Year == "M1"){
         dat <- filter(hr_all, Year_Id =="M1")
-
+    } else  (Year == "M2")
+    dat <- filter(hr_all, Year_Id == "M2")
+    
     
     high <- filter(dat, Post >=4.45)
     increase <-filter(dat, Post < 4.45 & hr.diff >0)
@@ -257,7 +270,7 @@ hr_match_test <-function(Year){
 
 }
 
-hr_match_test("M3")
+hr_match_test("M2")
 ```
 
 ```
