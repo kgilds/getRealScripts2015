@@ -1,0 +1,394 @@
+---
+title: "academic_engagement"
+author: "Kevin Gilds, MPA"
+date: "June 13, 2016"
+output: html_document
+---
+
+```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(sqldf)
+library(psych)
+library(knitr)
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+
+
+```
+
+
+```{r load outcome survesy, echo=FALSE}
+
+### Reade the girl_pre_survey database for analysis. 
+pre_outcomes <- dbReadTable(getReal_2016db, "girl_pre")
+
+post_outcomes <- dbReadTable(getReal_2016db, "girl_post")
+
+post_outcomes <- select(post_outcomes, girlCode, council, ae.avg)
+###Select the variables of interest from the pre_survey
+pre_outcomes <- select(pre_outcomes, girlCode, council, ae.avg)
+
+history <- dbReadTable(getReal_2016db, "basic_view")
+
+
+```
+
+
+```{r}
+setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
+
+getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
+
+prepost2014 <- dbReadTable(getReal_2014db, "girl_pre_post_matched")
+
+ae_prepost2014 <- prepost2014 %>%
+    select(girlCode, council.x, ae.avg.x, ae.avg.y)
+
+
+names(ae_prepost2014)
+
+colnames (ae_prepost2014) [2] <- "council"
+colnames (ae_prepost2014) [3] <- "Post"
+colnames (ae_prepost2014) [4] <- "Pre"
+
+ae_prepost2014 <- ae_prepost2014 %>%
+    mutate("ae.diff" = Post -Pre) %>%
+    mutate("Year_Id" = "M2")
+
+names(ae_prepost2014)
+
+ae_prepost2014 <- ae_prepost2014[, c(6,2,1,3,4,5)]
+
+names(ae_prepost2014)
+
+
+
+```
+
+
+
+
+```{r connect_2013_hr_data}
+pre_outcomes2013 <- dbReadTable(getReal_2016db, "girl_pre2013")
+
+post_outcomes2013 <-dbReadTable(getReal_2016db, "girl_post2013")
+
+ae_pre2013 <- pre_outcomes2013 %>%
+    select(girlScoutCouncil, girlCode, ae_avg)
+
+
+ae_post2013 <- post_outcomes2013 %>%
+    select(girlScoutCouncil, girlCode, ae_avg)
+
+
+```
+
+
+
+```{r join_2013_hr_data}
+
+ae_prepost2013 <- inner_join(ae_pre2013, ae_post2013, by="girlCode")
+dim(ae_prepost2013)
+
+names(ae_prepost2013)
+
+colnames(ae_prepost2013) [1] <- "council"
+colnames(ae_prepost2013) [3] <- "Pre"
+colnames(ae_prepost2013) [5]<- "Post"
+    
+ae_prepost2013 <- ae_prepost2013 %>%
+    select(council, girlCode, Pre, Post)
+
+ae_prepost2013 <- ae_prepost2013 %>%
+    mutate(Year_Id = "M1")
+
+
+ae_prepost2013 <- ae_prepost2013 %>%
+    mutate(ae.diff = Post- Pre)
+
+```
+
+
+```{r test_2013}
+
+council <- group_by(ae_prepost2013, council)
+
+council
+
+gateway <-with(council,table(council,Post >=4.5))
+
+gateway
+
+fun_test_1 <- with(ae_prepost2013,table(Post >=4.5))
+
+fun_test_1
+
+fun_test_2 <-with(ae_prepost2013,table(Post < 4.5 & ae.diff >0))
+
+fun_test_2
+
+```
+
+```{r}
+
+fun_test_2014 <-with(ae_prepost2014,table(Post >=4.5))
+
+fun_test_2014
+
+fun_test_2014_i <-with(ae_prepost2014,table(Post <4.5 & ae.diff >0))
+
+fun_test_2014_i
+
+```
+
+
+
+
+```{r}
+ae_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
+
+dim(ae_prepost)
+
+
+```
+
+```{r}
+head(ae_prepost)
+
+names(ae_prepost)
+
+colnames(ae_prepost) [2] <- "council"
+colnames(ae_prepost) [3] <- "Pre"
+colnames(ae_prepost) [5] <- "Post"
+
+names(ae_prepost)
+
+ae_prepost <-ae_prepost %>%
+    mutate(Year_Id = "M3")
+
+ae_prepost <- ae_prepost %>%
+    mutate(ae.diff = Post - Pre)
+
+
+
+str(ae_prepost)
+
+
+with(ae_prepost,table(Post >=4.5))
+hist(ae_prepost$ae.diff)
+
+mean(ae_prepost$ae.diff)
+
+
+ae_achieved <-filter(ae_prepost, Post >=4.5 )
+
+plot(ae_prepost$ae.diff)
+abline(h=0, col="red")
+
+
+
+
+```
+
+
+
+
+
+
+
+```{r}
+
+names(ae_prepost)
+
+ae_prepost <- ae_prepost %>%
+    select(girlCode, council, Pre, Post,Year_Id, ae.diff)
+
+
+ae_prepost <- ae_prepost[,c(5,2, 1,3,4,6)]
+
+names(ae_prepost)
+
+names(ae_prepost2013)
+
+ae_prepost2013 <- ae_prepost2013[,c(5,1,2,3,4,6)]
+
+names(ae_prepost2013)
+
+names(ae_prepost2014)
+
+names(ae_prepost)
+
+ae_all <-rbind(ae_prepost, ae_prepost2013)
+
+ae_all <- rbind(ae_all, ae_prepost2014)
+
+
+
+
+
+ae_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, ae_all$council)
+
+
+
+
+ae_high <- with(ae_all,table(Year_Id,Post >=4.5))
+
+ae_high
+
+ae_high_p <- prop.table(ae_high,1)
+
+pander(ae_high_p)
+
+
+ae_increase_df <- filter(ae_all, Post < 4.45)
+
+
+ae_increase <-with(ae_increase_df, table(Year_Id, ae.diff > 0 ))
+
+ae_increase
+
+ae_increase <- prop.table(ae_increase,1)
+
+pander(ae_increase)
+
+
+ae_lowhigh <- filter(ae_all, Pre < 4.5 & Post >=4.5)
+
+nrow(ae_lowhigh)
+
+table(ae_lowhigh$Year_Id)
+
+head(ae_lowhigh)
+
+ae_imrove <- with(ae_lowhigh, table(Year_Id, Post >=4.5))
+
+
+ae_imrove <- prop.table(ae_imrove,1)
+
+pander(ae_imrove)
+
+
+
+
+
+```
+
+```{r}
+post <- group_by(ae_all, Year_Id, Post)
+
+```
+
+
+```{r}
+mean(ae_all$ae.diff)
+plot(ae_all$ae.diff)
+abline(h=0, col="red")
+
+```
+
+
+
+
+
+```{r}
+
+ae_achieved <- function(Year) {
+    
+    if(Year =="M3"){
+        dat <-filter(ae_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(ae_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(ae_all, Year_Id == "M2")
+    }
+    
+    
+    high <- filter(dat, Post >=4.5)
+    hr_temp_1 <- nrow(high)/nrow(dat)
+    hr_temp_1 <- round(hr_temp_1*100,2)
+    hr_temp_1 <- paste0(hr_temp_1,"%", sep="")
+    pander(hr_temp_1)
+    
+}
+
+ae_achieved("M1")
+```
+
+
+
+
+
+```{r}
+ae_match <-function(Year){
+    
+    if(Year =="M3"){
+        dat <-filter(ae_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(ae_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(ae_all, Year_Id == "M2")
+    }
+    
+    
+    high <- filter(dat, Post >=4.5)
+    increase <-filter(dat, Post < 4.5 & ae.diff >0)
+    ae_temp <- nrow(high) + nrow(increase)
+    ae_temp_1 <- ae_temp/nrow(dat)
+    ae_temp_1 <- round(ae_temp_1*100,2)
+    ae_temp_1 <- paste0(ae_temp_1,"%", sep="")
+    pander(ae_temp_1)
+    
+
+}
+
+ae_match("M3")
+ae_match("M2")
+ae_match("M1")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+ae_lowHigh <-function (Year){
+    if(Year =="M3"){
+        dat <-filter(ae_all, Year_Id =="M3")
+        
+    } else if(Year == "M1"){
+        dat <- filter(ae_all, Year_Id =="M1")
+    } else { (Year == "M2")
+    dat <- filter(ae_all, Year_Id == "M2")
+    }
+    
+    
+    low <- filter(dat, Pre < 4.5 & Post >=4.5)
+    low_1 <- nrow(low)/nrow(dat)
+    ae_low_1 <- round(low_1*100,2)
+    ae_low_1 <- paste0(ae_low_1, "%", sep="")
+    pander(ae_low_1)
+}
+
+ae_lowHigh("M1")
+
+```
+
+
