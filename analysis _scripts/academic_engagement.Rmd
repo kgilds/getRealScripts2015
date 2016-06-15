@@ -247,7 +247,7 @@ ae_high_p <- prop.table(ae_high,1)
 pander(ae_high_p)
 
 
-ae_increase_df <- filter(ae_all, Post < 4.45)
+ae_increase_df <- filter(ae_all, Post < 4.5)
 
 
 ae_increase <-with(ae_increase_df, table(Year_Id, ae.diff > 0 ))
@@ -287,6 +287,16 @@ post <- group_by(ae_all, Year_Id, Post)
 
 
 ```{r}
+increase_test <- filter(ae_all, Pre !=6.0 & Post != 6.0)
+
+head(increase_test)
+
+mean(increase_test$ae.diff)
+
+plot(increase_test$ae.diff)
+abline(h=0, col='red')
+
+
 mean(ae_all$ae.diff)
 plot(ae_all$ae.diff)
 abline(h=0, col="red")
