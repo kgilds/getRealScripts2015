@@ -286,7 +286,7 @@ post <- group_by(ae_all, Year_Id, Post)
 ```
 
 
-```{r}
+```{r fig.width=15}
 increase_test <- filter(ae_all, Pre !=6.0 & Post != 6.0)
 
 head(increase_test)
