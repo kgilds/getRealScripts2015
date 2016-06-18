@@ -508,8 +508,12 @@ pander(hr_tbl_cp)
 ```{r  echo=FALSE, message=FALSE}
 
 ### Plot outcome results by council    
-hr_hist <- ggplot(healthy_prepost, aes(x=Pre))
-        hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+pre_hr_hist <- ggplot(healthy_prepost, aes(x=Pre))
+        pre_hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+        
+
+post_hr_hist <- ggplot(healthy_prepost, aes(x=Post))
+        post_hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Post: Healthy Relationships")
 
 ```
 
