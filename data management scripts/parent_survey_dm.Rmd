@@ -19,9 +19,9 @@ output:
 ```{r}
 library(dplyr)
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/March 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016")
 
-parent <- read.csv("parentSurvey03092016.csv", skip=1)
+parent <- read.csv("parent_survey_05302016.csv", skip=1)
 
 
 ```
@@ -189,7 +189,7 @@ dbWriteTable(conn = getReal_2016db, name = "pre_parent", value = parentPreUnique
 dbWriteTable(conn = getReal_2016db, name = "pre_parent_duplicate", value = parent_pre_dupes, row.names=FALSE, overwrite=TRUE)
 
 
-dbWriteTable(conn = getReal_2016db, name = "post_teacher", value = parentPostUnique, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "post_parent", value = parentPostUnique, row.names=FALSE, overwrite=TRUE)
 
 
 
