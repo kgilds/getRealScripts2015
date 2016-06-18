@@ -178,7 +178,7 @@ hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 
 ```
 
-```{r test_tables, echo=FALSE}
+```{r test_tables, echo=FALSE, eval=FALSE}
 
 hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
 
@@ -242,7 +242,6 @@ hr_df <- function (df) {
     
 }
 
-hr_df("healthy_prepost")
 
 
 ```
@@ -334,20 +333,28 @@ hr_lowHigh <-function (Year){
     pander(hr_low_1)
 }
 
-hr_lowHigh("M1")
 
 ```
 
-The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. 
+## Healthy Relationship Outcome 
+
+Relationship skils are a critical component of success in all realms of life. 
+The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. Questions that measure healthy relationships skills include the following:
 
 
+*Healthy Relationship Questions*
+
+1. If I have a serious problem, I have people to talk with.
+2. I let people know if they have hurt my feelings.
+3. I let my friends know when I think they are good at something.
+4. In any relationship - romantic or not - I make it clear when I don't feel comfortable.
 
 
 The number of valid survey entries is **`r nrow(healthy_prepost)`**.
 
 
 
-```{r function_test, echo=FALSE}
+```{r function_test, echo=FALSE, eval=FALSE}
 
 high <-filter(healthy_prepost, Post >=4.45)
 
@@ -496,6 +503,18 @@ pander(hr_tbl_cp)
 ```
 
 ### Healthy Relationship Outcome Plots
+
+
+```{r  echo=FALSE, message=FALSE}
+
+### Plot outcome results by council    
+hr_hist <- ggplot(healthy_prepost, aes(x=Pre))
+        hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+
+```
+
+
+
 ```{r hr_barchart, fig.width=15, echo=FALSE}
 ### Plot outcome results
 hr <- select(pre_outcomes, council, hr.avg)
