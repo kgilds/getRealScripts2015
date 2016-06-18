@@ -33,6 +33,17 @@ attr <-dbReadTable(getReal_2016db, "girl_post")
 
 ```{r}
 
+data(pisaitems)
+
+items28 <- pisaitems[, substr(names(pisaitems), 1, 5) == "ST24Q"]
+head(items28)
+
+```
+
+
+
+```{r}
+
 attr_1 <- select(attr, 46:49)
 
 
@@ -73,6 +84,14 @@ likert.heat.plot(attr_likert)
 
 
 plot(attr_likert)
+
+
+```
+
+
+```{r}
+
+
 
 
 ```
