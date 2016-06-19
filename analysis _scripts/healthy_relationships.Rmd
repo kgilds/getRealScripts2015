@@ -363,7 +363,7 @@ healthy_change <- filter(healthy_prepost, Pre !=6.0 & Post !=6.0)
 mean(healthy_change$hr.diff)
 
 healthy_change_p <- ggplot(healthy_change,(aes(x=hr.diff, y=Pre)))
-healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference")
+healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Healthy Releationship Survey Results")
 
 
 
