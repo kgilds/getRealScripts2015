@@ -13,6 +13,8 @@ library(ggplot2)
 library(sqldf)
 library(psych)
 library(knitr)
+library(gridExtra)
+
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 
@@ -507,15 +509,46 @@ pander(hr_tbl_cp)
 
 ```{r  echo=FALSE, message=FALSE}
 
-### Plot outcome results by council    
-pre_hr_hist <- ggplot(healthy_prepost, aes(x=Pre))
-        pre_hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
+### Plot outcome results by council     
+pre_hr_hist<-ggplot(healthy_prepost, aes(x=Pre))
+     
+pre_hr_hist   + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Pre: Healthy Relationships")
         
 
 post_hr_hist <- ggplot(healthy_prepost, aes(x=Post))
-        post_hr_hist + geom_histogram(fill="blue") + labs(x=" All Outcome Scores", title = "Post: Healthy Relationships")
+
+post_hr_hist + geom_histogram(fill="blue")  + labs(x="All Outcome Scores", title = "Post: Healthy Relationships")
+
+
+grid.arrange(pre_hr_hist, post_hr_hist, ncol=2)
+
 
 ```
+
+
+```{r}
+pre_hr_histq <- qplot(healthy_prepost$Pre, geom="histogram", main= "Pre Survey", xlab="Outcome Scores", color="blue")
+
+post_hr_histq <-qplot(healthy_prepost$Post, geom="histogram", main= "Post Survey", xlab="Outcome Scores", fill="blue")
+
+grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
+
+
+```
+
+
+
+```{r}
+hr_bar_pre <-qplot(healthy_prepost$Pre >=4.45, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
+
+hr_bar_post <-qplot(healthy_prepost$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
+
+grid.arrange(hr_bar_pre, hr_bar_post, ncol=2)
+
+
+```
+
+
 
 
 
