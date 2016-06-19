@@ -352,7 +352,9 @@ The Healthy Relationship questions measures the behaviors and attitudes of the r
 4. In any relationship - romantic or not - I make it clear when I don't feel comfortable.
 
 
-The number of valid survey entries is **`r nrow(healthy_prepost)`**.
+The number of pre and post survey that could be matched is **`r nrow(healthy_prepost)`**.
+The percent of students achieving the health relationship outcome at a high level is **`r hr_sucess("M3")`**
+
 
 
 
@@ -369,6 +371,10 @@ healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xin
 
 ```
 
+```{r}
+wilcox.test(healthy_change$Pre, healthy_change$Post)
+
+```
 
 
 
