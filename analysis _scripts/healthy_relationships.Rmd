@@ -14,6 +14,7 @@ library(sqldf)
 library(psych)
 library(knitr)
 library(gridExtra)
+library(effsize)
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
@@ -376,7 +377,13 @@ healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xin
 ```
 
 ```{r}
-wilcox.test(healthy_change$Pre, healthy_change$Post)
+pander(wilcox.test(healthy_change$Pre, healthy_change$Post))
+
+```
+
+
+```{r}
+cohen.d(healthy_prepost$Post, healthy_prepost$Pre, paired=TRUE)
 
 ```
 
