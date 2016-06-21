@@ -540,7 +540,7 @@ pander(hr_tbl_cp)
 ### Healthy Relationship Outcome Plots
 
 
-```{r  echo=FALSE, message=FALSE, fig.width=15}
+```{r  echo=FALSE, message=FALSE, fig.width=15, eval=FALSE}
 
 ### Plot outcome results by council     
 pre_hr_hist<-ggplot(healthy_prepost, aes(x=Pre))
@@ -560,9 +560,10 @@ grid.arrange(pre_hr_hist, post_hr_hist, ncol=2)
 
 
 ```{r}
-pre_hr_histq <- qplot(healthy_prepost$Pre, geom="histogram", main= "Pre Survey", xlab="Outcome Scores", color="blue")
+pre_hr_histq <- qplot(healthy_prepost$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.45, col="red") 
 
-post_hr_histq <-qplot(healthy_prepost$Post, geom="histogram", main= "Post Survey", xlab="Outcome Scores", fill="blue")
+
+post_hr_histq <-qplot(healthy_prepost$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.45, col="red")
 
 grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
