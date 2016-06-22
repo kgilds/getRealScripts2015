@@ -315,8 +315,6 @@ hr_sucess <-function(Year){
 
 
 
-
-
 ```{r low to high,  echo=FALSE}
 hr_lowHigh <-function (Year){
     if(Year =="M3"){
@@ -339,6 +337,11 @@ hr_lowHigh <-function (Year){
 
 ```
 
+
+
+
+
+
 ## Healthy Relationship Outcome 
 
 Relationship skils are a critical component of success in all realms of life. 
@@ -354,39 +357,44 @@ The Healthy Relationship questions measures the behaviors and attitudes of the r
 
 
 The number of pre and post survey that could be matched is **`r nrow(healthy_prepost)`**.
-The percent of students achieving the health relationship outcome at a high level or increased score is **`r hr_sucess("M3")`**.
-
-The percent of students achieving at a high level is **`r hr_achieved("M#")`**.
-
-The percent of students who wwent from low achievment to hight achieved **`r hr_lowHigh("M3")`**
-
+The number and percent of students achieving the health relationship outcome at a high level or increased score is  **`r hr_sucess("M3")`**,and the percent of students achieving at a high level is **`r hr_achieved("M3")`**. The improvement in outcome scores is graphically represented below. 
 
 
 
 ```{r}
+pre_hr_histq <- qplot(healthy_prepost$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.45, col="red") 
 
+
+post_hr_histq <-qplot(healthy_prepost$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.45, col="red")
+
+grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
+
+
+```
+
+
+
+```{r}
+hr_bar_pre <-qplot(healthy_prepost$Pre >=4.45, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
+
+hr_bar_post <-qplot(healthy_prepost$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
+
+grid.arrange(hr_bar_pre, hr_bar_post, ncol=2)
+
+
+```
+
+```{r}
 healthy_change <- filter(healthy_prepost, Pre !=6.0 & Post !=6.0)
 
-mean(healthy_change$hr.diff)
-
-healthy_change_p <- ggplot(healthy_change,(aes(x=hr.diff, y=Pre)))
-healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Healthy Releationship Survey Results")
-
-
-
-```
-
-```{r}
-pander(wilcox.test(healthy_change$Pre, healthy_change$Post))
 
 ```
 
 
-```{r}
-cohen.d(healthy_prepost$Post, healthy_prepost$Pre, paired=TRUE)
 
-```
+The percent of students who went from low achievment to high achievement **`r hr_lowHigh("M3")`**. The number of students who had the opportunity to improve their healthy relationship outcome score is **`r nrow(healthy_change)`**, and the mean increase in outcome score is **`r mean(healthy_change$hr.diff)`**
 
+The increase in the healthy relationship outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
 
 
 ```{r function_test, echo=FALSE, eval=FALSE}
@@ -394,6 +402,8 @@ cohen.d(healthy_prepost$Post, healthy_prepost$Pre, paired=TRUE)
 high <-filter(healthy_prepost, Post >=4.45)
 
 high <- nrow(high)
+
+high
 
 
 low_increase <-filter(healthy_prepost, Post < 4.45 & hr.diff >0)
@@ -423,6 +433,37 @@ pander(not_pre)
 
 
 
+```{r}
+
+
+mean(healthy_change$hr.diff)
+
+healthy_change_p <- ggplot(healthy_change,(aes(x=hr.diff, y=Pre)))
+healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Healthy Releationship Survey Results")
+
+
+
+```
+
+A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
+
+```{r}
+pander(wilcox.test(healthy_change$Pre, healthy_change$Post))
+
+```
+
+
+```{r}
+cohen.d(healthy_prepost$Post, healthy_prepost$Pre, paired=TRUE)
+
+```
+
+
+
+
+
+
+
 
 
 
@@ -443,7 +484,7 @@ post_survey_MY1415 <- dbReadTable(getRealdb, "post_girl_survey")
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 ### Match Pre Surveys
 
@@ -460,7 +501,7 @@ pre_merge <- inner_join (pre_survey_2014, pre_outcomes, by = "girlCode", Copy=FA
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 post_merge <- inner_join(post_survey_MY1415, pre_outcomes, by = "girlCode", Copy=FALSE)
 
@@ -472,10 +513,10 @@ non_match <- anti_join(pre_outcomes, post_survey_MY1415, by = "girlCode", Copy =
 
 
 
-## Healthy Releationships
 
 
-```{r hr_function, echo=FALSE}
+
+```{r hr_function, echo=FALSE, eval=FALSE}
 
 hr <- function(){
     hr_tbl <- with(pre_outcomes,table(hr.avg >=4.45))
@@ -487,12 +528,10 @@ hr <- function(){
 
 
 
-### Percent of students achieving at a high level
 
 
 
-
-```{r hr_percent, echo=FALSE}
+```{r hr_percent, echo=FALSE, eval=FALSE}
 
 hr_percent <- function() {
     hr_tbl <- filter(pre_outcomes, hr.avg >=4.45)
@@ -537,7 +576,7 @@ pander(hr_tbl_cp)
 
 ```
 
-### Healthy Relationship Outcome Plots
+
 
 
 ```{r  echo=FALSE, message=FALSE, fig.width=15, eval=FALSE}
@@ -559,34 +598,13 @@ grid.arrange(pre_hr_hist, post_hr_hist, ncol=2)
 ```
 
 
-```{r}
-pre_hr_histq <- qplot(healthy_prepost$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.45, col="red") 
-
-
-post_hr_histq <-qplot(healthy_prepost$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.45, col="red")
-
-grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
-
-
-```
-
-
-
-```{r}
-hr_bar_pre <-qplot(healthy_prepost$Pre >=4.45, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
-
-hr_bar_post <-qplot(healthy_prepost$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
-
-grid.arrange(hr_bar_pre, hr_bar_post, ncol=2)
-
-
-```
 
 
 
 
 
-```{r hr_barchart, fig.width=15, echo=FALSE}
+
+```{r hr_barchart, fig.width=15, echo=FALSE, eval=FALSE}
 ### Plot outcome results
 hr <- select(pre_outcomes, council, hr.avg)
 ggplot(hr, aes(hr.avg >=4.45)) + geom_bar(fill="blue", width = .5) + labs(x="Achieving at High Level", title = "Pre: Healthy Relationships")
@@ -608,8 +626,8 @@ hr_hist <- ggplot(hr, aes(x=hr.avg))
 
 
 
-### Healthy Relationships Outcome Distribution Plots
-```{r hr_hist, echo=FALSE}
+### Healthy Relationships Outcome Distribution , Plots
+```{r hr_hist, echo=FALSE, eval=FALSE}
 ### Histogram to show all the outcome scores
 ### Abline for ggplot
  hr_hist <- ggplot(hr, aes(x=hr.avg)) 
@@ -648,11 +666,8 @@ kable(hr_des)
 ```
 
 
-### Pre Survey Healthy Relationship Trends from 2013-2015
 
-Pre survey average scores are down this year along with the proportion of students achieving the outcome at a high level. The key for this analysis is the percent of students increasing their outcome score. 
-
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 
 hr_history <-
@@ -720,20 +735,10 @@ non_match_hr_pre <- mean(non_match$hr.avg)
 ```
 
 
-### Healthy Relationship Time Series
-
-The number of student survey records that could be matched from last year is  **`r nrow(post_merge)`**.
-Last year students who participated for multiple years had higher healthy relationship scores than students who had not participated in the program before. This is not the case this year. 
-
-Healthy Relationship scores regressed from the post survey and students in the program did not score better than students in the program in terms of average scores or proportion of students achieving the skill at a high level. 
-
-
-The number of matched student is **`r nrow(post_merge)`**, and the number of non matched students is   **`r nrow(non_match)`**.
 
 
 
-
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 hr_population_pre <- "Matched: Pre 2015-2016"
 hr_mean_pre <- mean(post_merge$hr.avg.y)
@@ -760,7 +765,7 @@ colnames(hr_trend_pre)[5] <- "Percent Achieved"
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 hr_time_post <-
 hr_Population_post <- "Matched: Post 2014-2015"
@@ -789,7 +794,7 @@ colnames(hr_trend_post)[5] <- "Percent Achieved"
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 hr_Population_non <- "Non-Matched: Pre 2015-2016"
 hr_mean_non <- mean(non_match$hr.avg)
 hr_sd_non <- sd(non_match$hr.avg)
@@ -814,7 +819,7 @@ colnames(hr_trend_non)[5] <- "Percent Achieved"
 
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 population1<- nrow(post_merge)
 
