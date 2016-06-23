@@ -124,6 +124,85 @@ $(document).ready(function () {
 
 
 <p>`</p>
+<table style="width:47%;">
+<colgroup>
+<col width="12%"></col>
+<col width="11%"></col>
+<col width="23%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">0.364</td>
+<td align="center">0.635983263598326</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">0.2818</td>
+<td align="center">0.718204488778055</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">0.2</td>
+<td align="center">0.8</td>
+</tr>
+</tbody>
+</table>
+<table style="width:21%;">
+<colgroup>
+<col width="12%"></col>
+<col width="8%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<pre><code>## [1] 228</code></pre>
+<pre><code>## 
+## M1 M2 M3 
+## 59 97 72</code></pre>
+<table style="width:21%;">
+<colgroup>
+<col width="12%"></col>
+<col width="8%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
 <div id="healthy-relationship-outcome" class="section level2">
 <h2>Healthy Relationship Outcome</h2>
 <p>Relationship skils are a critical component of success in all realms of life. The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. Questions that measure healthy relationships skills include the following:</p>
@@ -134,7 +213,9 @@ $(document).ready(function () {
 <li>I let my friends know when I think they are good at something.</li>
 <li>In any relationship - romantic or not - I make it clear when I don’t feel comfortable.</li>
 </ol>
-<p>The number of pre and post survey that could be matched is <strong>255</strong>. The number and percent of students achieving the health relationship outcome at a high level or increased score is <strong>85.88%</strong>,and the percent of students achieving at a high level is <strong>80%</strong>. The improvement in outcome scores is graphically represented below.</p>
+<p>The number of pre and post survey that could be matched is <strong>255</strong>. The number and percent of students achieving the health relationship outcome at a high level or increased score is <strong>85.88%</strong></p>
+<p>The number of students who achieved at a high level is <strong>204</strong>. The number of studens who did not achieve at high level but increased outcome socre <strong>15</strong></p>
+<p>The percent of students achieving at a high level is <strong>80%</strong>. The improvement in outcome scores is graphically represented below.</p>
 <pre class="r"><code>pre_hr_histq &lt;- qplot(healthy_prepost$Pre, geom=&quot;histogram&quot;, main= &quot;Pre Survey&quot;, bins=40, xlab=&quot;Outcome Scores&quot;, bins=40) + geom_vline(xintercept = 4.45, col=&quot;red&quot;) 
 
 

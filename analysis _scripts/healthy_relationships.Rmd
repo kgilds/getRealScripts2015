@@ -181,25 +181,31 @@ hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 
 ```
 
-```{r test_tables, echo=FALSE, eval=FALSE}
+```{r test_tables, echo=FALSE, eval=TRUE}
+
+hr_high_df <- hr_all %>%
+    filter(Year_Id == "M3" & Post >=4.45)
 
 hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
 
-hr_high
+
 
 hr_high_p <- prop.table(hr_high,1)
 
 pander(hr_high_p)
 
 
-hr_increase_df <- filter(hr_all, Post < 4.45)
+hr_not_achieved <- filter(hr_all, Year_Id == "M3" & Post < 4.45)
 
+#pander(hr_increase_df)
 
-hr_increase <-with(hr_increase_df, table(Year_Id, hr.diff > 0 ))
+hr_increase_df <- filter(hr_not_achieved, Year_Id == "M3" & hr.diff >0)
 
-hr_increase
+hr_increase_tbl <-with(hr_increase_df, table(Year_Id, hr.diff > 0 ))
 
-hr_increase <- prop.table(hr_increase,1)
+#hr_increase
+
+hr_increase <- prop.table(hr_increase_tbl,1)
 
 pander(hr_increase)
 
@@ -210,7 +216,7 @@ nrow(hr_lowhigh)
 
 table(hr_lowhigh$Year_Id)
 
-head(hr_lowhigh)
+#head(hr_lowhigh)
 
 hr_imrove <- with(hr_lowhigh, table(Year_Id, Post >=4.45))
 
@@ -357,7 +363,14 @@ The Healthy Relationship questions measures the behaviors and attitudes of the r
 
 
 The number of pre and post survey that could be matched is **`r nrow(healthy_prepost)`**.
-The number and percent of students achieving the health relationship outcome at a high level or increased score is  **`r hr_sucess("M3")`**,and the percent of students achieving at a high level is **`r hr_achieved("M3")`**. The improvement in outcome scores is graphically represented below. 
+The number and percent of students achieving the health relationship outcome at a high level or increased score is  **`r hr_sucess("M3")`**
+
+The number of students who achieved at a high level is **`r nrow(hr_high_df)`**.
+The number of studens who did not achieve at high level but increased outcome socre **`r nrow(hr_increase_df)`**
+
+The percent of students achieving at a high level is **`r hr_achieved("M3")`**. The improvement in outcome scores is graphically represented below. 
+
+
 
 
 

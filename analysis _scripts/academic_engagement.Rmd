@@ -370,6 +370,8 @@ ae_match("M1")
 
 
 
+The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**.
+The number and percent of students achieeving the health relationship outcome at a high level or increased score is  **`r ae_match("M3")`**,and the percent of students achieving at a high level is **`r ae_achieved("M3")`**.  
 
 
 
