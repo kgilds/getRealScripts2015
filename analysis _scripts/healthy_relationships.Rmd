@@ -376,14 +376,20 @@ The percent of students with a successful outcome is  **`r hr_sucess("M3")`**
 The improvement in outcome scores is graphically represented below. 
 
 
+```{r}
+
+hr_2016 <- hr_all %>%
+    filter(Year_Id =="M3")
+
+```
 
 
 
 ```{r}
-pre_hr_histq <- qplot(healthy_prepost$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.45, col="red") 
+pre_hr_histq <- qplot(hr_2016$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.45, col="red") 
 
 
-post_hr_histq <-qplot(healthy_prepost$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.45, col="red")
+post_hr_histq <-qplot(hr_2016$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.45, col="red")
 
 grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
@@ -393,9 +399,9 @@ grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 The percent of students who achieved the healthy releationship at a high level is **`r hr_achieved("M3")`**. The imrovement is represented graphically below. 
 
 ```{r}
-hr_bar_pre <-qplot(healthy_prepost$Pre >=4.45, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
+hr_bar_pre <-qplot(hr_2016$Pre >=4.45, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
 
-hr_bar_post <-qplot(healthy_prepost$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
+hr_bar_post <-qplot(hr_2016$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
 
 grid.arrange(hr_bar_pre, hr_bar_post, ncol=2)
 
@@ -454,9 +460,9 @@ pander(not_pre)
 ```{r}
 
 
-mean(healthy_change$hr.diff)
 
-healthy_change_p <- ggplot(healthy_change,(aes(x=hr.diff, y=Pre)))
+
+healthy_change_p <- ggplot(hr_2016,(aes(x=hr.diff, y=Pre)))
 healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Healthy Releationship Survey Results")
 
 
@@ -466,13 +472,13 @@ healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xin
 A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
 
 ```{r}
-pander(wilcox.test(healthy_change$Pre, healthy_change$Post))
+pander(wilcox.test(hr_2016$Pre, hr_2016$Post))
 
 ```
 
 
 ```{r}
-cohen.d(healthy_prepost$Post, healthy_prepost$Pre, paired=TRUE)
+cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
 
 ```
 
