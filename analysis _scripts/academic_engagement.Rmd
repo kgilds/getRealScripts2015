@@ -420,3 +420,14 @@ grid.arrange(pre_ae_histq, post_ae_histq, ncol=2)
 
 
 ```
+
+
+```{r}
+ae_bar_pre <-qplot(ae_2016$Pre >=4.5, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
+
+ae_bar_post <-qplot(ae_2016$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
+
+grid.arrange(ae_bar_pre, ae_bar_post, ncol=2)
+
+
+```
