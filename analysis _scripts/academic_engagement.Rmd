@@ -13,6 +13,8 @@ library(sqldf)
 library(psych)
 library(knitr)
 library(gridExtra)
+library(effsize)
+
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
@@ -452,6 +454,12 @@ A wilcox.test was administered on the healthy relationship outcome data and the 
 
 ```{r}
 pander(wilcox.test(ae_2016$Pre, ae_2016$Post))
+
+```
+
+
+```{r}
+cohen.d(ae_2016$Post, ae_2016$Pre, paired=TRUE)
 
 ```
 
