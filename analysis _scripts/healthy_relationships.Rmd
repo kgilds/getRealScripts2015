@@ -363,12 +363,17 @@ The Healthy Relationship questions measures the behaviors and attitudes of the r
 
 
 The number of pre and post survey that could be matched is **`r nrow(healthy_prepost)`**.
-The number and percent of students achieving the health relationship outcome at a high level or increased score is  **`r hr_sucess("M3")`**
 
-The number of students who achieved at a high level is **`r nrow(hr_high_df)`**.
-The number of studens who did not achieve at high level but increased outcome socre **`r nrow(hr_increase_df)`**
+1. The number of students who achieved at a high level is **`r nrow(hr_high_df)`**:
 
-The percent of students achieving at a high level is **`r hr_achieved("M3")`**. The improvement in outcome scores is graphically represented below. 
+2. The number of studens who did not achieve at high level but increased outcome socre **`r nrow(hr_increase_df)`**:
+
+
+
+The percent of students with a successful outcome is  **`r hr_sucess("M3")`**
+
+
+The improvement in outcome scores is graphically represented below. 
 
 
 
@@ -385,7 +390,7 @@ grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
 ```
 
-
+The percent of students who achieved the healthy releationship at a high level is **`r hr_achieved("M3")`**. The imrovement is represented graphically below. 
 
 ```{r}
 hr_bar_pre <-qplot(healthy_prepost$Pre >=4.45, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
