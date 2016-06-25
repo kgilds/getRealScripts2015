@@ -45,7 +45,7 @@ history <- dbReadTable(getReal_2016db, "basic_view")
 ```
 
 
-```{r}
+```{r echo=FALSE}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 
 getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
@@ -56,7 +56,7 @@ ae_prepost2014 <- prepost2014 %>%
     select(girlCode, council.x, ae.avg.x, ae.avg.y)
 
 
-names(ae_prepost2014)
+#names(ae_prepost2014)
 
 colnames (ae_prepost2014) [2] <- "council"
 colnames (ae_prepost2014) [3] <- "Post"
@@ -66,11 +66,11 @@ ae_prepost2014 <- ae_prepost2014 %>%
     mutate("ae.diff" = Post -Pre) %>%
     mutate("Year_Id" = "M2")
 
-names(ae_prepost2014)
+#names(ae_prepost2014)
 
 ae_prepost2014 <- ae_prepost2014[, c(6,2,1,3,4,5)]
 
-names(ae_prepost2014)
+#names(ae_prepost2014)
 
 
 
@@ -79,7 +79,7 @@ names(ae_prepost2014)
 
 
 
-```{r connect_2013_hr_data}
+```{r connect_2013_ae_data, echo=FALSE}
 pre_outcomes2013 <- dbReadTable(getReal_2016db, "girl_pre2013")
 
 post_outcomes2013 <-dbReadTable(getReal_2016db, "girl_post2013")
@@ -96,12 +96,13 @@ ae_post2013 <- post_outcomes2013 %>%
 
 
 
-```{r join_2013_hr_data}
+```{r join_2013_ae_data, echo=FALSE}
 
 ae_prepost2013 <- inner_join(ae_pre2013, ae_post2013, by="girlCode")
-dim(ae_prepost2013)
 
-names(ae_prepost2013)
+#dim(ae_prepost2013)
+
+#names(ae_prepost2013)
 
 colnames(ae_prepost2013) [1] <- "council"
 colnames(ae_prepost2013) [3] <- "Pre"
@@ -120,59 +121,59 @@ ae_prepost2013 <- ae_prepost2013 %>%
 ```
 
 
-```{r test_2013}
+```{r test_2013, echo=FALSE}
 
 council <- group_by(ae_prepost2013, council)
 
-council
+#council
 
 gateway <-with(council,table(council,Post >=4.5))
 
-gateway
+#gateway
 
 fun_test_1 <- with(ae_prepost2013,table(Post >=4.5))
 
-fun_test_1
+#fun_test_1
 
 fun_test_2 <-with(ae_prepost2013,table(Post < 4.5 & ae.diff >0))
 
-fun_test_2
+#fun_test_2
 
 ```
 
-```{r}
+```{r echo=FALSE}
 
 fun_test_2014 <-with(ae_prepost2014,table(Post >=4.5))
 
-fun_test_2014
+#fun_test_2014
 
 fun_test_2014_i <-with(ae_prepost2014,table(Post <4.5 & ae.diff >0))
 
-fun_test_2014_i
+#fun_test_2014_i
 
 ```
 
 
 
 
-```{r}
+```{r echo=FALSE}
 ae_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
-dim(ae_prepost)
+#dim(ae_prepost)
 
 
 ```
 
-```{r}
-head(ae_prepost)
+```{r echo=FALSE}
+#head(ae_prepost)
 
-names(ae_prepost)
+#names(ae_prepost)
 
 colnames(ae_prepost) [2] <- "council"
 colnames(ae_prepost) [3] <- "Pre"
 colnames(ae_prepost) [5] <- "Post"
 
-names(ae_prepost)
+#names(ae_prepost)
 
 ae_prepost <-ae_prepost %>%
     mutate(Year_Id = "M3")
@@ -182,19 +183,19 @@ ae_prepost <- ae_prepost %>%
 
 
 
-str(ae_prepost)
+#str(ae_prepost)
 
 
-with(ae_prepost,table(Post >=4.5))
-hist(ae_prepost$ae.diff)
+#with(ae_prepost,table(Post >=4.5))
+#hist(ae_prepost$ae.diff)
 
-mean(ae_prepost$ae.diff)
+#mean(ae_prepost$ae.diff)
 
 
-ae_achieved <-filter(ae_prepost, Post >=4.5 )
+#ae_achieved <-filter(ae_prepost, Post >=4.5 )
 
-plot(ae_prepost$ae.diff)
-abline(h=0, col="red")
+#plot(ae_prepost$ae.diff)
+#abline(h=0, col="red")
 
 
 
@@ -207,9 +208,9 @@ abline(h=0, col="red")
 
 
 
-```{r}
+```{r echo=FALSE}
 
-names(ae_prepost)
+#names(ae_prepost)
 
 ae_prepost <- ae_prepost %>%
     select(girlCode, council, Pre, Post,Year_Id, ae.diff)
@@ -217,17 +218,17 @@ ae_prepost <- ae_prepost %>%
 
 ae_prepost <- ae_prepost[,c(5,2, 1,3,4,6)]
 
-names(ae_prepost)
+#names(ae_prepost)
 
-names(ae_prepost2013)
+#names(ae_prepost2013)
 
 ae_prepost2013 <- ae_prepost2013[,c(5,1,2,3,4,6)]
 
-names(ae_prepost2013)
+#names(ae_prepost2013)
 
-names(ae_prepost2014)
+#names(ae_prepost2014)
 
-names(ae_prepost)
+#names(ae_prepost)
 
 ae_all <-rbind(ae_prepost, ae_prepost2013)
 
@@ -243,15 +244,15 @@ ae_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 ae_high_df <- ae_all %>%
     filter(Year_Id == "M3" & Post >=4.5)
 
-nrow(ae_high_df)
+#nrow(ae_high_df)
 
 ae_high <- with(ae_all,table(Year_Id,Post >=4.5))
 
-ae_high
+#ae_high
 
 ae_high_p <- prop.table(ae_high,1)
 
-pander(ae_high_p)
+#pander(ae_high_p)
 
 
 ae_increase_df <- filter(ae_all, Year_Id == "M3" & Post < 4.5)
@@ -260,34 +261,34 @@ ae_increase_df <- filter(ae_all, Year_Id == "M3" & Post < 4.5)
 ae_incease_df_i <- ae_increase_df %>%
     filter(ae.diff >0)
 
-nrow(ae_incease_df_i)
+#nrow(ae_incease_df_i)
 
 
 
 
 ae_increase <-with(ae_increase_df, table(Year_Id, ae.diff > 0 ))
 
-ae_increase
+#ae_increase
 
 ae_increase <- prop.table(ae_increase,1)
 
-pander(ae_increase)
+#pander(ae_increase)
 
 
-ae_lowhigh <- filter(ae_all, Pre < 4.5 & Post >=4.5)
+#ae_lowhigh <- filter(ae_all, Pre < 4.5 & Post >=4.5)
 
-nrow(ae_lowhigh)
+#nrow(ae_lowhigh)
 
-table(ae_lowhigh$Year_Id)
+#table(ae_lowhigh$Year_Id)
 
-head(ae_lowhigh)
+#head(ae_lowhigh)
 
-ae_imrove <- with(ae_lowhigh, table(Year_Id, Post >=4.5))
+#ae_imrove <- with(ae_lowhigh, table(Year_Id, Post >=4.5))
 
 
-ae_imrove <- prop.table(ae_imrove,1)
+#ae_imrove <- prop.table(ae_imrove,1)
 
-pander(ae_imrove)
+#pander(ae_imrove)
 
 
 
@@ -298,19 +299,9 @@ pander(ae_imrove)
 
 
 
-```{r fig.width=15}
-increase_test <- filter(ae_all, Pre !=6.0 & Post != 6.0)
-
-head(increase_test)
 
 
-```
-
-
-
-
-
-```{r}
+```{r echo=FALSE}
 
 ae_achieved <- function(Year) {
     
@@ -332,14 +323,14 @@ ae_achieved <- function(Year) {
     
 }
 
-ae_achieved("M1")
+
 ```
 
 
 
 
 
-```{r}
+```{r echo=FALSE}
 ae_match <-function(Year){
     
     if(Year =="M3"){
@@ -363,9 +354,6 @@ ae_match <-function(Year){
 
 }
 
-ae_match("M3")
-ae_match("M2")
-ae_match("M1")
 
 ```
 
@@ -373,7 +361,7 @@ ae_match("M1")
 
 
 
-```{r}
+```{r echo=FALSE}
 ae_lowHigh <-function (Year){
     if(Year =="M3"){
         dat <-filter(ae_all, Year_Id =="M3")
@@ -392,17 +380,24 @@ ae_lowHigh <-function (Year){
     pander(ae_low_1)
 }
 
-ae_lowHigh("M1")
+
 
 ```
 
 
 
 The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**.
-The number and percent of students achieeving the health relationship outcome at a high level or increased score is  **`r ae_match("M3")`**,
+
+1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(ae_high_df)`**
+
+2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(ae_increase_df)`**
 
 
-and the percent of students achieving at a high level is **`r ae_achieved("M3")`**.  
+The percent of students with a successful outcome is **`r ae_match("M3")`**
+
+
+The improvement in outcome scores is graphically represented below. 
+
 
 ```{r}
 
@@ -413,10 +408,10 @@ ae_2016 <- ae_all %>%
 
 
 ```{r}
-pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.5, col="red") 
+pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.5, col="red") 
 
 
-post_ae_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.5, col="red")
+post_ae_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.5, col="red")
 
 grid.arrange(pre_ae_histq, post_ae_histq, ncol=2)
 
@@ -434,6 +429,20 @@ grid.arrange(ae_bar_pre, ae_bar_post, ncol=2)
 
 ```
 
+```{r}
+ae_change <- ae_2016 %>%
+    filter(Pre !=6.0 & Post !=6.0)
+
+
+```
+
+
+
+The percent of students who went from low achievement to hig achievement is **`r ae_lowHigh("M3")`** 
+The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(ae_change)`**, and the mean increase in outcome score is **`r mean(ae_change$ae.diff)`**
+
+
+The increase in the healthy relationship outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
 
 
 ```{r}
