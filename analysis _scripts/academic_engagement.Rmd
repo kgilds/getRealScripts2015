@@ -431,3 +431,28 @@ grid.arrange(ae_bar_pre, ae_bar_post, ncol=2)
 
 
 ```
+
+
+
+```{r}
+
+ae_change <- ae_2016 %>%
+    filter(Pre !=6.0 & Post !=6.0)
+
+
+mean(ae_change$ae.diff)
+
+ae_change_p <- ggplot(ae_change,(aes(x=ae.diff, y=Pre)))
+ae_change_p + geom_count() + geom_hline(yintercept = 4.5) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Academic Engagement Survey Results")
+
+```
+
+
+A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
+
+```{r}
+pander(wilcox.test(ae_2016$Pre, ae_2016$Post))
+
+```
+
+
