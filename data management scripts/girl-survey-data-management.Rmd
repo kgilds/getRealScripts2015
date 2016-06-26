@@ -14,20 +14,14 @@ output:
 
 ```{r}
 ########################Set Working Directories##################
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016")
 
 library(dplyr)
 
 
 ###########################Read Data#############################################
-
-rawdata <- read.csv("girl_survey_06262016.csv", skip=1)
-
-rawdata <- rawdata[-(2),]
-
+rawdata <- read.csv("girl_survey_05312016.csv", skip=1)
 dim(rawdata)
-
-names(rawdata)
 
 ```
 
@@ -37,51 +31,51 @@ names(rawdata)
 
 ########################### Change Column Name #################################
 
-colnames (rawdata)[7] <- "hr.sum"
-colnames (rawdata)[8] <- "hr.avg"
-colnames (rawdata)[9] <- "hr.stddev"
-colnames (rawdata)[10] <- "hr.disqualify.sum"
-colnames (rawdata)[11]<- "hr.disqualify.avg"
-colnames (rawdata)[12]<- "hr.disqualify.std"
-colnames (rawdata)[13] <- "ae.sum"
-colnames (rawdata)[14] <- "ae.avg"
-colnames (rawdata)[15] <- "ae.stddev"
-colnames (rawdata)[16] <- "am.sum"
-colnames (rawdata)[17] <- "am.avg"
-colnames (rawdata)[18] <- "am.stddev"
-colnames (rawdata)[19] <- "ae.disqualify.sum"
-colnames (rawdata)[20] <- "ae.disqualify.avg"
-colnames (rawdata)[21] <- "ae.disqualify.std"
-colnames (rawdata)[22] <- "am.disqualify.sum"
-colnames (rawdata)[23] <- "am.disqualify.avg"
-colnames (rawdata)[24] <- "am.disqualify.std"
-colnames (rawdata)[25] <- "council"
-colnames (rawdata)[26] <- "girlCode"
-colnames (rawdata)[27] <- "school"
-colnames (rawdata)[28] <- "grade"
-colnames (rawdata)[29] <- "Time"
-colnames (rawdata)[30] <- "inProgramLastYear"
-colnames (rawdata)[31] <- "iamMotivatedToGraduateHighSchool"
-colnames (rawdata)[32] <- "iReadBooksforFun"
-colnames (rawdata)[33] <- "ireallyLikeWhoIam..."
-colnames (rawdata)[34] <- "..ImproveMySkilsThisYear"
-colnames (rawdata)[35] <- "...UnderstandMyClassWork"
-colnames (rawdata)[36] <-  "learningatSchoolIsImportantToMe"
-colnames (rawdata)[37] <- "oneOfMyGoalsIstoLearn..."
-colnames (rawdata)[38] <- "...WillHelpMeLaterInLife"
-colnames (rawdata)[39] <- "ifIHaveASeriousProblem..."
-colnames (rawdata)[40] <- "inAnyRelationshipOrNotIMakeItClear"
-colnames (rawdata)[41] <- "iTalkWithMyTeachersBeforeOrAfter..."
-colnames (rawdata)[42] <- "iHandinMyAssignmentsOnTime"
-colnames (rawdata)[43] <- "iFinishMyHomeworkEvenIfItisBoring"
-colnames (rawdata)[44] <- "ifICantUnderstandMySchoolatFirstI..."
-colnames (rawdata)[45] <- "iLetPeopleKnowIfTheyHurtMyFeelings"
-colnames (rawdata)[46] <- "iLetMyFriendsKnowWhenIThinkTheyAreGoodAtSomething"
-colnames (rawdata)[47] <- "ILearnedFromTheBooksWeReadThisYear"
-colnames (rawdata)[48] <- "myReadingSkillsImprovedThisYear"
-colnames (rawdata)[49] <- "EstablishedAPostiveRelationship..."
-colnames (rawdata)[50] <- "...HelpedMeRecognizeThingsIDoWell"
-colnames (rawdata)[51] <- "whatDidYouLearnThisYear. "
+colnames (rawdata)[6] <- "hr.sum"
+colnames (rawdata)[7] <- "hr.avg"
+colnames (rawdata)[8] <- "hr.stddev"
+colnames (rawdata)[9] <- "hr.disqualify.sum"
+colnames (rawdata)[10]<- "hr.disqualify.avg"
+colnames (rawdata)[11]<- "hr.disqualify.std"
+colnames (rawdata)[12] <- "ae.sum"
+colnames (rawdata)[13] <- "ae.avg"
+colnames (rawdata)[14] <- "ae.stddev"
+colnames (rawdata)[15] <- "am.sum"
+colnames (rawdata)[16] <- "am.avg"
+colnames (rawdata)[17] <- "am.stddev"
+colnames (rawdata)[18] <- "ae.disqualify.sum"
+colnames (rawdata)[19] <- "ae.disqualify.avg"
+colnames (rawdata)[20] <- "ae.disqualify.std"
+colnames (rawdata)[21] <- "am.disqualify.sum"
+colnames (rawdata)[22] <- "am.disqualify.avg"
+colnames (rawdata)[23] <- "am.disqualify.std"
+colnames (rawdata)[24] <- "council"
+colnames (rawdata)[25] <- "girlCode"
+colnames (rawdata)[26] <- "school"
+colnames (rawdata)[27] <- "grade"
+colnames (rawdata)[28] <- "Time"
+colnames (rawdata)[29] <- "inProgramLastYear"
+colnames (rawdata)[30] <- "iamMotivatedToGraduateHighSchool"
+colnames (rawdata)[31] <- "iReadBooksforFun"
+colnames (rawdata)[32] <- "ireallyLikeWhoIam..."
+colnames (rawdata)[33] <- "..ImproveMySkilsThisYear"
+colnames (rawdata)[34] <- "...UnderstandMyClassWork"
+colnames (rawdata)[35] <-  "learningatSchoolIsImportantToMe"
+colnames (rawdata)[36] <- "oneOfMyGoalsIstoLearn..."
+colnames (rawdata)[37] <- "...WillHelpMeLaterInLife"
+colnames (rawdata)[38] <- "ifIHaveASeriousProblem..."
+colnames (rawdata)[39] <- "inAnyRelationshipOrNotIMakeItClear"
+colnames (rawdata)[40] <- "iTalkWithMyTeachersBeforeOrAfter..."
+colnames (rawdata)[41] <- "iHandinMyAssignmentsOnTime"
+colnames (rawdata)[42] <- "iFinishMyHomeworkEvenIfItisBoring"
+colnames (rawdata)[43] <- "ifICantUnderstandMySchoolatFirstI..."
+colnames (rawdata)[44] <- "iLetPeopleKnowIfTheyHurtMyFeelings"
+colnames (rawdata)[45] <- "iLetMyFriendsKnowWhenIThinkTheyAreGoodAtSomething"
+colnames (rawdata)[46] <- "ILearnedFromTheBooksWeReadThisYear"
+colnames (rawdata)[47] <- "myReadingSkillsImprovedThisYear"
+colnames (rawdata)[48] <- "EstablishedAPostiveRelationship..."
+colnames (rawdata)[49] <- "...HelpedMeRecognizeThingsIDoWell"
+colnames (rawdata)[50] <- "whatDidYouLearnThisYear. "
 
 
 ```
