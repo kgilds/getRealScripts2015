@@ -11,6 +11,8 @@ library(ggplot2)
 library(sqldf)
 library(psych)
 library(knitr)
+library(gridExtra)
+library(effsize)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 
@@ -458,7 +460,7 @@ The number of pre and post survey that could be matched is **`r nrow(am_prepost)
 The percent of students with a successful outcome is **`r am_match("M3")`**
 
 ```{r}
-am_all <- am_all %>%
+am_2016 <- am_all %>%
     filter(Year_Id == "M3")
 
 ```
@@ -467,10 +469,10 @@ am_all <- am_all %>%
 
 
 ```{r}
-pre_am_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.8, col="red") 
+pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.8, col="red") 
 
 
-post_am_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.8, col="red")
+post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.8, col="red")
 
 grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 
