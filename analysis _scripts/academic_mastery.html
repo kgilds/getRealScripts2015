@@ -452,6 +452,147 @@ pander(am_imrove)</code></pre>
 </tr>
 </tbody>
 </table>
+<div id="tables" class="section level1">
+<h1>Tables</h1>
+<pre class="r"><code>am_high_df &lt;- am_all %&gt;%
+    filter(Year_Id == &quot;M3&quot; &amp; Post &gt;=4.8)
+
+nrow(am_high_df)</code></pre>
+<pre><code>## [1] 212</code></pre>
+<pre class="r"><code>am_high &lt;- with(am_all,table(Year_Id,Post &gt;=4.8))
+
+am_high</code></pre>
+<pre><code>##        
+## Year_Id FALSE TRUE
+##      M1    51  188
+##      M2   114  287
+##      M3    43  212</code></pre>
+<pre class="r"><code>am_high_p &lt;- prop.table(am_high,1)
+
+pander(am_high_p)</code></pre>
+<table style="width:47%;">
+<colgroup>
+<col width="12%"></col>
+<col width="11%"></col>
+<col width="23%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">0.2134</td>
+<td align="center">0.786610878661088</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">0.2843</td>
+<td align="center">0.71571072319202</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">0.1686</td>
+<td align="center">0.831372549019608</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>am_increase_df &lt;- filter(am_all, Year_Id == &quot;M3&quot; &amp; Post &lt; 4.8)
+
+am_increase_df &lt;- am_increase_df %&gt;%
+    filter(am.diff &gt;0)
+
+am_increase_df</code></pre>
+<pre><code>##    Year_Id          council      girlCode  Pre Post am.diff
+## 1       M3  Gateway Council 313CP050801   4.32 4.56    0.24
+## 2       M3  Gateway Council 313KS081404   3.36 4.32    0.96
+## 3       M3  Gateway Council 313TG012003   3.60 3.84    0.24
+## 4       M3  Gateway Council 313SY042303   4.08 4.32    0.24
+## 5       M3  Gateway Council 313AC080304   1.92 4.56    2.64
+## 6       M3  Gateway Council 313CB101103   3.60 4.56    0.96
+## 7       M3  Gateway Council   313CM120103 2.40 4.56    2.16
+## 8       M3  Gateway Council   313AM022202 3.36 4.32    0.96
+## 9       M3  Gateway Council 313JY070403   3.60 4.56    0.96
+## 10      M3 Tropical Council   319JR092803 0.00 0.48    0.48</code></pre>
+<pre class="r"><code>am_increase &lt;-with(am_increase_df, table(Year_Id, am.diff &gt; 0 ))
+
+am_increase</code></pre>
+<pre><code>##        
+## Year_Id TRUE
+##      M3   10</code></pre>
+<pre class="r"><code>am_increase &lt;- prop.table(am_increase,1)
+
+pander(am_increase)</code></pre>
+<table style="width:21%;">
+<colgroup>
+<col width="12%"></col>
+<col width="8%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>am_lowhigh &lt;- filter(am_all, Pre &lt; 4.8 &amp; Post &gt;=4.8)
+
+nrow(am_lowhigh)</code></pre>
+<pre><code>## [1] 152</code></pre>
+<pre class="r"><code>table(am_lowhigh$Year_Id)</code></pre>
+<pre><code>## 
+## M1 M2 M3 
+## 21 59 72</code></pre>
+<pre class="r"><code>head(am_lowhigh)</code></pre>
+<pre><code>##   Year_Id         council    girlCode  Pre Post am.diff
+## 1      M3 Gateway Council 313DW060502 4.08 5.28    1.20
+## 2      M3 Gateway Council 313JB090402 4.56 5.52    0.96
+## 3      M3 Gateway Council 313JG070402 4.56 5.52    0.96
+## 4      M3 Gateway Council 313JB091302 4.32 6.00    1.68
+## 5      M3 Gateway Council 313JR060502 4.56 5.52    0.96
+## 6      M3 Gateway Council 313AD050602 4.56 6.00    1.44</code></pre>
+<pre class="r"><code>am_imrove &lt;- with(am_lowhigh, table(Year_Id, Post &gt;=4.8))
+
+
+am_imrove &lt;- prop.table(am_imrove,1)
+
+pander(am_imrove)</code></pre>
+<table style="width:21%;">
+<colgroup>
+<col width="12%"></col>
+<col width="8%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>M1</strong></td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>M2</strong></td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>M3</strong></td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>mean(am_all$am.diff)</code></pre>
 <pre><code>## [1] -0.06435754</code></pre>
 <pre class="r"><code>plot(am_all$am.diff)
@@ -534,6 +675,7 @@ am_lowHigh(&quot;M1&quot;)</code></pre>
 <li><p>The number of students who did not achieve outcome at high level but increased their outcome score is</p></li>
 </ol>
 <p>The improvement in outcome scores is graphically represented below.</p>
+</div>
 
 
 

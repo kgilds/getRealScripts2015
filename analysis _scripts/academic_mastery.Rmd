@@ -281,6 +281,60 @@ pander(am_imrove)
 
 ```
 
+#Tables
+
+```{r}
+am_high_df <- am_all %>%
+    filter(Year_Id == "M3" & Post >=4.8)
+
+nrow(am_high_df)
+
+am_high <- with(am_all,table(Year_Id,Post >=4.8))
+
+am_high
+
+am_high_p <- prop.table(am_high,1)
+
+pander(am_high_p)
+
+
+am_increase_df <- filter(am_all, Year_Id == "M3" & Post < 4.8)
+
+am_increase_df <- am_increase_df %>%
+    filter(am.diff >0)
+
+am_increase_df
+
+
+am_increase <-with(am_increase_df, table(Year_Id, am.diff > 0 ))
+
+am_increase
+
+am_increase <- prop.table(am_increase,1)
+
+pander(am_increase)
+
+
+am_lowhigh <- filter(am_all, Pre < 4.8 & Post >=4.8)
+
+nrow(am_lowhigh)
+
+table(am_lowhigh$Year_Id)
+
+head(am_lowhigh)
+
+am_imrove <- with(am_lowhigh, table(Year_Id, Post >=4.8))
+
+
+am_imrove <- prop.table(am_imrove,1)
+
+pander(am_imrove)
+
+
+
+
+
+```
 
 
 
