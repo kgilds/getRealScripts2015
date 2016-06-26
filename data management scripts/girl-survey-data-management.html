@@ -365,7 +365,10 @@ post &lt;-subset (fin, Time == &quot;Post&quot;)</code></pre>
 <h3>Find unique student codes from post surveys</h3>
 <pre class="r"><code>##########################Subset Unique Post Values####################
 
-postUnique&lt;- post [!(duplicated(post$girlCode) | duplicated(post$girlCode, fromLast = TRUE)), ]</code></pre>
+postUnique&lt;- post [!(duplicated(post$girlCode) | duplicated(post$girlCode, fromLast = TRUE)), ]
+
+dim(postUnique)</code></pre>
+<pre><code>## [1] 334  51</code></pre>
 </div>
 <div id="find-duplicate-student-codes-from-post-surveys" class="section level3">
 <h3>Find duplicate student codes from post surveys</h3>

@@ -213,7 +213,7 @@ post <-subset (fin, Time == "Post")
 
 postUnique<- post [!(duplicated(post$girlCode) | duplicated(post$girlCode, fromLast = TRUE)), ]
 
-
+dim(postUnique)
 ```
 
 
