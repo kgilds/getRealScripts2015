@@ -494,3 +494,28 @@ grid.arrange(am_bar_pre, am_bar_post, ncol=2)
 
 ```
 
+
+```{r}
+
+am_change <- am_2016 %>%
+    filter(Pre !=6.0 & Post !=6.0)
+
+
+```
+
+
+The percent of students who went from low achievement to hig achievement is **`r am_lowHigh("M3")`** 
+The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(am_change)`**, and the mean increase in outcome score is **`r mean(am_change$am.diff)`**
+
+
+
+```{r}
+am_change_p <- ggplot(am_change,(aes(x=am.diff, y=Pre)))
+am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Academic Mastery Survey Results")
+
+
+```
+
+
+
+
