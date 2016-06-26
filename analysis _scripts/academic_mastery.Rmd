@@ -469,10 +469,10 @@ am_2016 <- am_all %>%
 
 
 ```{r}
-pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.8, col="red") 
+pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores") + geom_vline(xintercept = 4.8, col="red") 
 
 
-post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.8, col="red")
+post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,60)) + geom_vline(xintercept = 4.8, col="red")
 
 grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 
@@ -484,4 +484,13 @@ grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 The improvement in outcome scores is graphically represented below. 
 
 
+```{r}
+am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
+
+am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
+
+grid.arrange(am_bar_pre, am_bar_post, ncol=2)
+
+
+```
 

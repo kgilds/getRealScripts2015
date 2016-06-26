@@ -408,10 +408,10 @@ ae_2016 <- ae_all %>%
 
 
 ```{r}
-pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", ) + geom_vline(xintercept = 4.8, col="red") 
+pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores" ) + geom_vline(xintercept = 4.5, col="red") 
 
 
-post_ae_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,50)) + geom_vline(xintercept = 4.8, col="red")
+post_ae_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,50)) + geom_vline(xintercept = 4.5, col="red")
 
 grid.arrange(pre_ae_histq, post_ae_histq, ncol=2)
 
