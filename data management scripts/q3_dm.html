@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-05-30" />
+<meta name="date" content="2016-06-26" />
 
 <title>Q3grades_dm</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Q3grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-05-30</em></h4>
+<h4 class="date"><em>2016-06-26</em></h4>
 
 </div>
 
@@ -143,10 +143,63 @@ library(sqldf)</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>### Locate file to read from
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016&quot;)
 
 ### read the data into R
-grades &lt;- read.csv('q3_grades_05302016.csv', skip = 1, na.strings=&quot;&quot;)</code></pre>
+grades &lt;- read.csv('grades_q3_06262016.csv', skip = 1, na.strings=&quot;&quot;)
+
+names(grades)</code></pre>
+<pre><code>##  [1] &quot;ResponseID&quot;                                                                                                                                                                    
+##  [2] &quot;ResponseSet&quot;                                                                                                                                                                   
+##  [3] &quot;StartDate&quot;                                                                                                                                                                     
+##  [4] &quot;EndDate&quot;                                                                                                                                                                       
+##  [5] &quot;Finished&quot;                                                                                                                                                                      
+##  [6] &quot;You.are.entering.academic.data.for.Quarter.3&quot;                                                                                                                                  
+##  [7] &quot;Girl.Scout.Council.Entering.the.Data.&quot;                                                                                                                                         
+##  [8] &quot;Girl.Code.&quot;                                                                                                                                                                    
+##  [9] &quot;School.Name.&quot;                                                                                                                                                                  
+## [10] &quot;Date.Girl.Enrolled.in.the.Get.REAL..Program.&quot;                                                                                                                                  
+## [11] &quot;You.are.entering.data.for.Student.Â...q...QID1.ChoiceTextEntryValue..who.attends.Â....&quot;                                                                                        
+## [12] &quot;Absences..Quarter.3..span.style..font.size.13px....strong.Unexcused.absences..strong...span.&quot;                                                                                  
+## [13] &quot;Absences..Quarter.3..strong.Excused.absences..strong.&quot;                                                                                                                         
+## [14] &quot;Behavior..Quarter.3..span.style..font.size.13px....strong.In.School.Suspensions..strong...span.&quot;                                                                               
+## [15] &quot;Behavior..Quarter.3..span.style..font.size.13px....strong.Out.of.School.Suspensions..strong...span.&quot;                                                                           
+## [16] &quot;Did.the.student.get.expelled.during.Quarter.3.&quot;                                                                                                                                
+## [17] &quot;Reading.and.Language.Arts.Courses.from.the.Florida.Course.Code.Directory.haveÂ..been.listed.in.the...&quot;                                                                         
+## [18] &quot;You.are.entering.data.forÂ...q...QID1.ChoiceTextEntryValue..who.attends.Â....&quot;                                                                                                 
+## [19] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.INTENS.READ..MC...strong...span..Quarter.3&quot;       
+## [20] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..strong..span.style..font.size.13px...M.J.INT.READ..amp..CAR.P..span...strong..Quarter.3&quot;   
+## [21] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.1..strong...span..Quarter.3&quot;                 
+## [22] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.1..ADV..strong...span..Quarter.3&quot;            
+## [23] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.2..strong...span..Quarter.3&quot;                 
+## [24] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ.2..ADV..strong...span..Quarter.3&quot;            
+## [25] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..strong..span.style..font.size.13px...M.J.READ.3..span...strong..Quarter.3&quot;                 
+## [26] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.READ3..ADV..strong...span..Quarter.3&quot;             
+## [27] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.M.J.DE.LA.ESOL.READ..strong...span..Quarter.3&quot;        
+## [28] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.Enter.1.course..if.required..strong...span..Quarter.3&quot;
+## [29] &quot;The.following.is.a.Â.list.of.standard.Middle.School.Reading.Courses.for.Grades.6.8..span.style..font.size.13px....strong.Enter.1.course..if.required..strong...span..TEXT&quot;     
+## [30] &quot;You.are.entering.data.forÂ...q...QID1.ChoiceTextEntryValue..who.attends.Â.....1&quot;                                                                                               
+## [31] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.1.ESOL..strong...span..Quarter.3&quot;                    
+## [32] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.2.ESOL..span...strong..Quarter.3&quot;                    
+## [33] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.3.ESOL..strong...span..Quarter.3&quot;                    
+## [34] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.DEVELOPMENTAL..LANG.ARTS.ESOL..strong...span..Quarter.3&quot;       
+## [35] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.1..span...strong..Quarter.3&quot;                         
+## [36] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.1..ADV..span...strong..Quarter.3&quot;                    
+## [37] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.2..span...strong..Quarter.3&quot;                         
+## [38] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.2..ADV..strong...span..Quarter.3&quot;                    
+## [39] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.3..strong...span..Quarter.3&quot;                         
+## [40] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.LANG.ARTS.3..ADV..strong...span..Quarter.3&quot;                    
+## [41] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.ENG.2.CAMB.SEC.2..strong...span..Quarter.3&quot;                    
+## [42] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.IB.LANG...LIT.1..strong...span..Quarter.3&quot;                     
+## [43] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.ENG.1.CAMB.SEC.1..strong...span..Quarter.3&quot;                    
+## [44] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong.M.J.IB.LANG...LIT.3..strong..Quarter.3&quot;                                                          
+## [45] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong.M.J.IB.LANG...LIT.2..strong..Quarter.3&quot;                                                          
+## [46] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong.M.J.ENG.3.CAMB.SEC.3...strong..Quarter.3&quot;                                                        
+## [47] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...span.style..font.size.13px....strong.M.J.INTENS.LANG.ARTS..strong...span..Quarter.3&quot;                    
+## [48] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...Enter.1.course..if.required..span...strong..Quarter.3&quot;             
+## [49] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...Enter.1.course..if.required..span...strong..TEXT&quot;                  
+## [50] &quot;The.following.is.a.list.of.Middle.School.Language.Â.Arts.Â.Courses.Â...strong..span.style..font.size.13px...M.J.LANG.ARTS.TRAN..span...strong..Quarter.3&quot;                      
+## [51] &quot;X&quot;</code></pre>
 <pre class="r"><code>### Demo Variables
 colnames (grades) [7] &lt;- &quot;council&quot;
 colnames (grades) [8] &lt;- &quot;girlCode&quot;
@@ -210,7 +263,7 @@ colnames (grades) [50] &lt;- &quot;mjLangTran&quot;</code></pre>
 gradesq3 &lt;- filter(grades, Finished == 1)
 
 dim(gradesq3)</code></pre>
-<pre><code>## [1] 607  51</code></pre>
+<pre><code>## [1] 608  51</code></pre>
 <pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
 gradesq3$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, gradesq3$council)
 
@@ -236,14 +289,14 @@ gradesq3$girlCode &lt;- as.character(gradesq3$girlCode)</code></pre>
 <pre class="r"><code>gradesUnique_test &lt;- distinct(gradesq3)
 
 dim(gradesUnique_test)</code></pre>
-<pre><code>## [1] 607  51</code></pre>
+<pre><code>## [1] 608  51</code></pre>
 <pre class="r"><code>##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
 gradesUnique &lt;- gradesq3 [!(duplicated(gradesq3$girlCode) | duplicated(gradesq3$girlCode, fromLast = TRUE)), ]
 
 dim(gradesUnique)</code></pre>
-<pre><code>## [1] 577  51</code></pre>
+<pre><code>## [1] 578  51</code></pre>
 <pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q3Dupes &lt;-duplicated(gradesq3$girlCode) | duplicated(gradesq3$girlCode, fromLast=TRUE)
@@ -589,7 +642,7 @@ susp_total_tbl</code></pre>
 expelled &lt;- select(gradesUnique, 7,8,16)
 
 dim(expelled)</code></pre>
-<pre><code>## [1] 577   3</code></pre>
+<pre><code>## [1] 578   3</code></pre>
 <pre class="r"><code>head(expelled)</code></pre>
 <pre><code>##          council    girlCode expelled
 ## 3 Citrus Council 312SC061204       No
@@ -612,7 +665,7 @@ expelled_tbl</code></pre>
 <pre class="r"><code>abs_susp &lt;- full_join(total_abs, susp_total)</code></pre>
 <pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
 <pre class="r"><code>dim(abs_susp)</code></pre>
-<pre><code>## [1] 577   9</code></pre>
+<pre><code>## [1] 578   9</code></pre>
 <pre class="r"><code>behavior_data &lt;- full_join(abs_susp, expelled)</code></pre>
 <pre><code>## Joining by: &quot;girlCode&quot;</code></pre>
 <pre class="r"><code>behavior_data &lt;- select(behavior_data,council.x, girlCode, sum_abs, susp_sum, expelled)
@@ -676,7 +729,7 @@ head(lang_read)</code></pre>
 <pre class="r"><code>academic_data &lt;- full_join(lang_read, behavior_data, by=&quot;girlCode&quot;)
 
 dim(academic_data)</code></pre>
-<pre><code>## [1] 577  12</code></pre>
+<pre><code>## [1] 578  12</code></pre>
 <pre class="r"><code>head(academic_data)</code></pre>
 <pre><code>##        council.x    girlCode     langCourses langGrade lang_pts
 ## 1 Citrus Council 312BA070703 mjLangArts2ESOL         B        3
