@@ -234,7 +234,10 @@ am_all <- rbind(am_all, am_prepost2014)
 am_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, am_all$council)
 
 
+am_high_df <- am_all %>%
+    filter(Year_Id == "M3" & Post >=4.8)
 
+nrow(am_high_df)
 
 am_high <- with(am_all,table(Year_Id,Post >=4.8))
 
@@ -278,10 +281,7 @@ pander(am_imrove)
 
 ```
 
-```{r}
-post <- group_by(am_all, Year_Id, Post)
 
-```
 
 
 ```{r}
@@ -388,3 +388,19 @@ am_lowHigh <-function (Year){
 am_lowHigh("M1")
 
 ```
+
+
+
+The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**.
+
+1. The number of students achieving the academic engagment outcome at a high level is **`r n
+
+2. The number of students who did not achieve outcome at high level but increased their outcome score is 
+
+
+
+
+The improvement in outcome scores is graphically represented below. 
+
+
+

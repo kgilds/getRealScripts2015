@@ -312,9 +312,12 @@ am_all &lt;- rbind(am_all, am_prepost2014)
 am_all$council &lt;-sub(&quot;Girl Scouts of the Gateway Council Inc&quot;, &quot;Gateway Council&quot;, fixed=TRUE, am_all$council)
 
 
+am_high_df &lt;- am_all %&gt;%
+    filter(Year_Id == &quot;M3&quot; &amp; Post &gt;=4.8)
 
-
-am_high &lt;- with(am_all,table(Year_Id,Post &gt;=4.8))
+nrow(am_high_df)</code></pre>
+<pre><code>## [1] 212</code></pre>
+<pre class="r"><code>am_high &lt;- with(am_all,table(Year_Id,Post &gt;=4.8))
 
 am_high</code></pre>
 <pre><code>##        
@@ -449,7 +452,6 @@ pander(am_imrove)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>post &lt;- group_by(am_all, Year_Id, Post)</code></pre>
 <pre class="r"><code>mean(am_all$am.diff)</code></pre>
 <pre><code>## [1] -0.06435754</code></pre>
 <pre class="r"><code>plot(am_all$am.diff)
@@ -526,6 +528,12 @@ am_match(&quot;M3&quot;)</code></pre>
 
 am_lowHigh(&quot;M1&quot;)</code></pre>
 <p>7.53%</p>
+<p>The number of pre and post survey that could be matched is <strong>255</strong>.</p>
+<ol style="list-style-type: decimal">
+<li><p>The number of students achieving the academic engagment outcome at a high level is **`r n</p></li>
+<li><p>The number of students who did not achieve outcome at high level but increased their outcome score is</p></li>
+</ol>
+<p>The improvement in outcome scores is graphically represented below.</p>
 
 
 
