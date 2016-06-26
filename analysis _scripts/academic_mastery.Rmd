@@ -317,6 +317,9 @@ pander(am_increase)
 
 am_lowhigh <- filter(am_all, Pre < 4.8 & Post >=4.8)
 
+am_lowhigh <- am_lowhigh %>%
+    filter(Year_Id == "M3")
+
 nrow(am_lowhigh)
 
 table(am_lowhigh$Year_Id)
@@ -447,10 +450,32 @@ am_lowHigh("M1")
 
 The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**.
 
-1. The number of students achieving the academic engagment outcome at a high level is **`r n
+1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(am_high_df)`**
 
-2. The number of students who did not achieve outcome at high level but increased their outcome score is 
+2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(am_increase_df)`** 
 
+
+The percent of students with a successful outcome is **`r am_match("M3")`**
+
+```{r}
+am_all <- am_all %>%
+    filter(Year_Id == "M3")
+
+```
+
+
+
+
+```{r}
+pre_am_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", bins=40) + geom_vline(xintercept = 4.8, col="red") 
+
+
+post_am_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.8, col="red")
+
+grid.arrange(pre_am_histq, post_am_histq, ncol=2)
+
+
+```
 
 
 

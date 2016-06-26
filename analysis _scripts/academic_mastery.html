@@ -547,12 +547,15 @@ pander(am_increase)</code></pre>
 </table>
 <pre class="r"><code>am_lowhigh &lt;- filter(am_all, Pre &lt; 4.8 &amp; Post &gt;=4.8)
 
+am_lowhigh &lt;- am_lowhigh %&gt;%
+    filter(Year_Id == &quot;M3&quot;)
+
 nrow(am_lowhigh)</code></pre>
-<pre><code>## [1] 152</code></pre>
+<pre><code>## [1] 72</code></pre>
 <pre class="r"><code>table(am_lowhigh$Year_Id)</code></pre>
 <pre><code>## 
-## M1 M2 M3 
-## 21 59 72</code></pre>
+## M3 
+## 72</code></pre>
 <pre class="r"><code>head(am_lowhigh)</code></pre>
 <pre><code>##   Year_Id         council    girlCode  Pre Post am.diff
 ## 1      M3 Gateway Council 313DW060502 4.08 5.28    1.20
@@ -579,14 +582,6 @@ pander(am_imrove)</code></pre>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="center"><strong>M1</strong></td>
-<td align="center">1</td>
-</tr>
-<tr class="even">
-<td align="center"><strong>M2</strong></td>
-<td align="center">1</td>
-</tr>
 <tr class="odd">
 <td align="center"><strong>M3</strong></td>
 <td align="center">1</td>
@@ -671,9 +666,10 @@ am_lowHigh(&quot;M1&quot;)</code></pre>
 <p>7.53%</p>
 <p>The number of pre and post survey that could be matched is <strong>255</strong>.</p>
 <ol style="list-style-type: decimal">
-<li><p>The number of students achieving the academic engagment outcome at a high level is **`r n</p></li>
-<li><p>The number of students who did not achieve outcome at high level but increased their outcome score is</p></li>
+<li><p>The number of students achieving the academic engagment outcome at a high level is <strong>212</strong></p></li>
+<li><p>The number of students who did not achieve outcome at high level but increased their outcome score is <strong>10</strong></p></li>
 </ol>
+<p>The percent of students with a successful outcome is <strong>87.06%</strong></p>
 <p>The improvement in outcome scores is graphically represented below.</p>
 </div>
 
