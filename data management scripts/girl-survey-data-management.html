@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-05-30" />
+<meta name="date" content="2016-06-26" />
 
 <title>girlSurvey Data Management</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">girlSurvey Data Management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-05-30</em></h4>
+<h4 class="date"><em>2016-06-26</em></h4>
 
 </div>
 
@@ -151,7 +151,7 @@ $(document).ready(function () {
 <div id="set-working-directory-library-and-read-raw-data-needs-updated-data" class="section level3">
 <h3>Set working directory, library, and read raw data (needs updated data)</h3>
 <pre class="r"><code>########################Set Working Directories##################
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016&quot;)
 
 library(dplyr)</code></pre>
 <pre><code>## 
@@ -163,9 +163,9 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girl_survey_05312016.csv&quot;, skip=1)
+rawdata &lt;- read.csv(&quot;girl_survey_06262016.csv&quot;, skip=1)
 dim(rawdata)</code></pre>
-<pre><code>## [1] 1328   51</code></pre>
+<pre><code>## [1] 1352   51</code></pre>
 </div>
 <div id="change-column-names-to-make-them-human-readable." class="section level3">
 <h3>Change column names to make them human readable.</h3>
@@ -233,9 +233,9 @@ rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
 
 str(rawdata$girlCode)</code></pre>
-<pre><code>##  chr [1:1328] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:1352] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(rawdata)</code></pre>
-<pre><code>## [1] 1328   51</code></pre>
+<pre><code>## [1] 1352   51</code></pre>
 </div>
 <div id="test-chunk" class="section level3">
 <h3>Test Chunk</h3>
@@ -261,9 +261,9 @@ fin &lt;- subset (rawdata, Finished  == 1)
 
 
 str(fin$girlCode)</code></pre>
-<pre><code>##  chr [1:1318] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:1341] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(fin)</code></pre>
-<pre><code>## [1] 1318   51</code></pre>
+<pre><code>## [1] 1341   51</code></pre>
 </div>
 </div>
 <div id="pre-surveys" class="section level1">
@@ -312,7 +312,7 @@ post &lt;-subset (fin, Time == &quot;Post&quot;)</code></pre>
 postUnique&lt;- post [!(duplicated(post$girlCode) | duplicated(post$girlCode, fromLast = TRUE)), ]
 
 dim(postUnique)</code></pre>
-<pre><code>## [1] 334  51</code></pre>
+<pre><code>## [1] 346  51</code></pre>
 </div>
 <div id="find-duplicate-student-codes-from-post-surveys" class="section level3">
 <h3>Find duplicate student codes from post surveys</h3>

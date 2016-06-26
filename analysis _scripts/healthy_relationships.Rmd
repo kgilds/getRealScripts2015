@@ -126,12 +126,13 @@ hr_prepost2013 <- hr_prepost2013 %>%
 
 healthy_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
+head(healthy_prepost)
 
 colnames(healthy_prepost) [2] <- "council"
 colnames(healthy_prepost) [3] <- "Pre"
 colnames(healthy_prepost) [5] <- "Post"
 
-
+str(healthy_prepost)
 
 healthy_prepost <-healthy_prepost %>%
     mutate(Year_Id = "M3")
