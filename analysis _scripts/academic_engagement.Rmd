@@ -468,7 +468,7 @@ pander(wilcox.test(ae_2016$Pre, ae_2016$Post))
 
 
 ```{r}
-cohen.d(ae_2016$Post, ae_2016$Pre, paired=TRUE)
+cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 ```
 
