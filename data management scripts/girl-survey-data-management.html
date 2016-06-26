@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-05-30" />
+<meta name="date" content="2016-06-26" />
 
 <title>girlSurvey Data Management</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">girlSurvey Data Management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-05-30</em></h4>
+<h4 class="date"><em>2016-06-26</em></h4>
 
 </div>
 
@@ -151,7 +151,7 @@ $(document).ready(function () {
 <div id="set-working-directory-library-and-read-raw-data-needs-updated-data" class="section level3">
 <h3>Set working directory, library, and read raw data (needs updated data)</h3>
 <pre class="r"><code>########################Set Working Directories##################
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/May 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016&quot;)
 
 library(dplyr)</code></pre>
 <pre><code>## 
@@ -163,59 +163,115 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>###########################Read Data#############################################
-rawdata &lt;- read.csv(&quot;girl_survey_05312016.csv&quot;, skip=1)
+
+rawdata &lt;- read.csv(&quot;girl_survey_06262016.csv&quot;, skip=1)
+
+rawdata &lt;- rawdata[-(2),]
+
 dim(rawdata)</code></pre>
-<pre><code>## [1] 1328   51</code></pre>
+<pre><code>## [1] 1352   51</code></pre>
+<pre class="r"><code>names(rawdata)</code></pre>
+<pre><code>##  [1] &quot;ResponseID&quot;                                                                                                                                                                                  
+##  [2] &quot;ResponseSet&quot;                                                                                                                                                                                 
+##  [3] &quot;StartDate&quot;                                                                                                                                                                                   
+##  [4] &quot;EndDate&quot;                                                                                                                                                                                     
+##  [5] &quot;Finished&quot;                                                                                                                                                                                    
+##  [6] &quot;Status&quot;                                                                                                                                                                                      
+##  [7] &quot;Outcome.6..Healthy.Relationships.sum&quot;                                                                                                                                                        
+##  [8] &quot;Outcome.6..Healthy.Relationships.weightedAvg&quot;                                                                                                                                                
+##  [9] &quot;Outcome.6..Healthy.Relationships.weightedStdDev&quot;                                                                                                                                             
+## [10] &quot;Disqualify.Outcome.6.sum&quot;                                                                                                                                                                    
+## [11] &quot;Disqualify.Outcome.6.weightedAvg&quot;                                                                                                                                                            
+## [12] &quot;Disqualify.Outcome.6.weightedStdDev&quot;                                                                                                                                                         
+## [13] &quot;Academic.Engagement.sum&quot;                                                                                                                                                                     
+## [14] &quot;Academic.Engagement.weightedAvg&quot;                                                                                                                                                             
+## [15] &quot;Academic.Engagement.weightedStdDev&quot;                                                                                                                                                          
+## [16] &quot;Academic.Mastery.sum&quot;                                                                                                                                                                        
+## [17] &quot;Academic.Mastery.weightedAvg&quot;                                                                                                                                                                
+## [18] &quot;Academic.Mastery.weightedStdDev&quot;                                                                                                                                                             
+## [19] &quot;Academic.Engagement.Disqualify.sum&quot;                                                                                                                                                          
+## [20] &quot;Academic.Engagement.Disqualify.weightedAvg&quot;                                                                                                                                                  
+## [21] &quot;Academic.Engagement.Disqualify.weightedStdDev&quot;                                                                                                                                               
+## [22] &quot;Disqualify.Academic.Mastery.sum&quot;                                                                                                                                                             
+## [23] &quot;Disqualify.Academic.Mastery.weightedAvg&quot;                                                                                                                                                     
+## [24] &quot;Disqualify.Academic.Mastery.weightedStdDev&quot;                                                                                                                                                  
+## [25] &quot;Girl.Scout.Council&quot;                                                                                                                                                                          
+## [26] &quot;Girl.Code&quot;                                                                                                                                                                                   
+## [27] &quot;School.Name&quot;                                                                                                                                                                                 
+## [28] &quot;Grade&quot;                                                                                                                                                                                       
+## [29] &quot;Pre.Post&quot;                                                                                                                                                                                    
+## [30] &quot;Did.you.participate.in.the.Get.REAL..program.last.year.&quot;                                                                                                                                     
+## [31] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..I.am.motivated.to.graduate.high.school.&quot;                                                         
+## [32] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..I.read.books.for.fun.&quot;                                                                           
+## [33] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..I.really.like.who.I.am.no.matter.what.other.people.think.&quot;                                       
+## [34] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..Itâ..s.important.to.me.that.I.improve.my.skills.this.year.in.school.&quot;                            
+## [35] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..Itâ..s.important.to.me.that.I.really.understand.my.class.work.&quot;                                  
+## [36] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..Learning.at.school.is.important.to.me.&quot;                                                          
+## [37] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..One.of.my.goals.in.school.is.to.learn.as.much.as.I.can.&quot;                                         
+## [38] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..The.things.I.am.learning.in.school.will.help.me.later.in.life.&quot;                                  
+## [39] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..If.I.have.a.serious.problem..I.have.a.friend.or.a.trusted.adult.I.can.talk.to.about.it.&quot;         
+## [40] &quot;In.any.relationship...romantic.or.not...I.make.it.clear.when.I.am.not.comfortable.with.something.&quot;                                                                                           
+## [41] &quot;How.often.would.you.say.that.the.following.statements.are.true.Â..Please.check.1.box.per.statementÂ..I.talk.with.my.teachers.before.or.after.school..or.during.lunch.about.my.assignments.&quot;  
+## [42] &quot;How.often.would.you.say.that.the.following.statements.are.true.Â..Please.check.1.box.per.statementÂ..I.hand.in.my.assignments.on.time.&quot;                                                      
+## [43] &quot;How.often.would.you.say.that.the.following.statements.are.true.Â..Please.check.1.box.per.statementÂ..I.finish.my.homework.even.if.it.is.boring.&quot;                                             
+## [44] &quot;How.often.would.you.say.that.the.following.statements.are.true.Â..Please.check.1.box.per.statementÂ..If.I.canâ..t.understand.my.schoolwork.at.first..I.keep.trying.until.I.do.understand.it.&quot;
+## [45] &quot;How.often.would.you.say.that.the.following.statements.are.true.Â..Please.check.1.box.per.statementÂ..I.let.people.know.if.they.have.hurt.my.feelings.&quot;                                       
+## [46] &quot;How.often.would.you.say.that.the.following.statements.are.true.Â..Please.check.1.box.per.statementÂ..I.let.my.friends.know.when.I.think.they.are.good.at.something.&quot;                         
+## [47] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..I.learned.from.the.books.we.read.this.year.&quot;                                                     
+## [48] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..My.reading.skills.improved.because.of.my.participation.in.the.Get.Real.Program.&quot;                 
+## [49] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..I.established.a.positive.relationship.with.my.mentor.in.the..Get.Real.program.&quot;                  
+## [50] &quot;How.much.do.you.agree.or.disagree.with.each.statement...Please.check.1.box.per.statement.Â..The.Get.Real.Program.helped.me.recognize.the.things.I.am.capable.of.doing.well.&quot;                 
+## [51] &quot;Please.tell.us.what.you.learned.from.participating.in.the.Get.Real.Program.this.year..Â..Â.&quot;</code></pre>
 </div>
 <div id="change-column-names-to-make-them-human-readable." class="section level3">
 <h3>Change column names to make them human readable.</h3>
 <pre class="r"><code>########################### Change Column Name #################################
 
-colnames (rawdata)[6] &lt;- &quot;hr.sum&quot;
-colnames (rawdata)[7] &lt;- &quot;hr.avg&quot;
-colnames (rawdata)[8] &lt;- &quot;hr.stddev&quot;
-colnames (rawdata)[9] &lt;- &quot;hr.disqualify.sum&quot;
-colnames (rawdata)[10]&lt;- &quot;hr.disqualify.avg&quot;
-colnames (rawdata)[11]&lt;- &quot;hr.disqualify.std&quot;
-colnames (rawdata)[12] &lt;- &quot;ae.sum&quot;
-colnames (rawdata)[13] &lt;- &quot;ae.avg&quot;
-colnames (rawdata)[14] &lt;- &quot;ae.stddev&quot;
-colnames (rawdata)[15] &lt;- &quot;am.sum&quot;
-colnames (rawdata)[16] &lt;- &quot;am.avg&quot;
-colnames (rawdata)[17] &lt;- &quot;am.stddev&quot;
-colnames (rawdata)[18] &lt;- &quot;ae.disqualify.sum&quot;
-colnames (rawdata)[19] &lt;- &quot;ae.disqualify.avg&quot;
-colnames (rawdata)[20] &lt;- &quot;ae.disqualify.std&quot;
-colnames (rawdata)[21] &lt;- &quot;am.disqualify.sum&quot;
-colnames (rawdata)[22] &lt;- &quot;am.disqualify.avg&quot;
-colnames (rawdata)[23] &lt;- &quot;am.disqualify.std&quot;
-colnames (rawdata)[24] &lt;- &quot;council&quot;
-colnames (rawdata)[25] &lt;- &quot;girlCode&quot;
-colnames (rawdata)[26] &lt;- &quot;school&quot;
-colnames (rawdata)[27] &lt;- &quot;grade&quot;
-colnames (rawdata)[28] &lt;- &quot;Time&quot;
-colnames (rawdata)[29] &lt;- &quot;inProgramLastYear&quot;
-colnames (rawdata)[30] &lt;- &quot;iamMotivatedToGraduateHighSchool&quot;
-colnames (rawdata)[31] &lt;- &quot;iReadBooksforFun&quot;
-colnames (rawdata)[32] &lt;- &quot;ireallyLikeWhoIam...&quot;
-colnames (rawdata)[33] &lt;- &quot;..ImproveMySkilsThisYear&quot;
-colnames (rawdata)[34] &lt;- &quot;...UnderstandMyClassWork&quot;
-colnames (rawdata)[35] &lt;-  &quot;learningatSchoolIsImportantToMe&quot;
-colnames (rawdata)[36] &lt;- &quot;oneOfMyGoalsIstoLearn...&quot;
-colnames (rawdata)[37] &lt;- &quot;...WillHelpMeLaterInLife&quot;
-colnames (rawdata)[38] &lt;- &quot;ifIHaveASeriousProblem...&quot;
-colnames (rawdata)[39] &lt;- &quot;inAnyRelationshipOrNotIMakeItClear&quot;
-colnames (rawdata)[40] &lt;- &quot;iTalkWithMyTeachersBeforeOrAfter...&quot;
-colnames (rawdata)[41] &lt;- &quot;iHandinMyAssignmentsOnTime&quot;
-colnames (rawdata)[42] &lt;- &quot;iFinishMyHomeworkEvenIfItisBoring&quot;
-colnames (rawdata)[43] &lt;- &quot;ifICantUnderstandMySchoolatFirstI...&quot;
-colnames (rawdata)[44] &lt;- &quot;iLetPeopleKnowIfTheyHurtMyFeelings&quot;
-colnames (rawdata)[45] &lt;- &quot;iLetMyFriendsKnowWhenIThinkTheyAreGoodAtSomething&quot;
-colnames (rawdata)[46] &lt;- &quot;ILearnedFromTheBooksWeReadThisYear&quot;
-colnames (rawdata)[47] &lt;- &quot;myReadingSkillsImprovedThisYear&quot;
-colnames (rawdata)[48] &lt;- &quot;EstablishedAPostiveRelationship...&quot;
-colnames (rawdata)[49] &lt;- &quot;...HelpedMeRecognizeThingsIDoWell&quot;
-colnames (rawdata)[50] &lt;- &quot;whatDidYouLearnThisYear. &quot;</code></pre>
+colnames (rawdata)[7] &lt;- &quot;hr.sum&quot;
+colnames (rawdata)[8] &lt;- &quot;hr.avg&quot;
+colnames (rawdata)[9] &lt;- &quot;hr.stddev&quot;
+colnames (rawdata)[10] &lt;- &quot;hr.disqualify.sum&quot;
+colnames (rawdata)[11]&lt;- &quot;hr.disqualify.avg&quot;
+colnames (rawdata)[12]&lt;- &quot;hr.disqualify.std&quot;
+colnames (rawdata)[13] &lt;- &quot;ae.sum&quot;
+colnames (rawdata)[14] &lt;- &quot;ae.avg&quot;
+colnames (rawdata)[15] &lt;- &quot;ae.stddev&quot;
+colnames (rawdata)[16] &lt;- &quot;am.sum&quot;
+colnames (rawdata)[17] &lt;- &quot;am.avg&quot;
+colnames (rawdata)[18] &lt;- &quot;am.stddev&quot;
+colnames (rawdata)[19] &lt;- &quot;ae.disqualify.sum&quot;
+colnames (rawdata)[20] &lt;- &quot;ae.disqualify.avg&quot;
+colnames (rawdata)[21] &lt;- &quot;ae.disqualify.std&quot;
+colnames (rawdata)[22] &lt;- &quot;am.disqualify.sum&quot;
+colnames (rawdata)[23] &lt;- &quot;am.disqualify.avg&quot;
+colnames (rawdata)[24] &lt;- &quot;am.disqualify.std&quot;
+colnames (rawdata)[25] &lt;- &quot;council&quot;
+colnames (rawdata)[26] &lt;- &quot;girlCode&quot;
+colnames (rawdata)[27] &lt;- &quot;school&quot;
+colnames (rawdata)[28] &lt;- &quot;grade&quot;
+colnames (rawdata)[29] &lt;- &quot;Time&quot;
+colnames (rawdata)[30] &lt;- &quot;inProgramLastYear&quot;
+colnames (rawdata)[31] &lt;- &quot;iamMotivatedToGraduateHighSchool&quot;
+colnames (rawdata)[32] &lt;- &quot;iReadBooksforFun&quot;
+colnames (rawdata)[33] &lt;- &quot;ireallyLikeWhoIam...&quot;
+colnames (rawdata)[34] &lt;- &quot;..ImproveMySkilsThisYear&quot;
+colnames (rawdata)[35] &lt;- &quot;...UnderstandMyClassWork&quot;
+colnames (rawdata)[36] &lt;-  &quot;learningatSchoolIsImportantToMe&quot;
+colnames (rawdata)[37] &lt;- &quot;oneOfMyGoalsIstoLearn...&quot;
+colnames (rawdata)[38] &lt;- &quot;...WillHelpMeLaterInLife&quot;
+colnames (rawdata)[39] &lt;- &quot;ifIHaveASeriousProblem...&quot;
+colnames (rawdata)[40] &lt;- &quot;inAnyRelationshipOrNotIMakeItClear&quot;
+colnames (rawdata)[41] &lt;- &quot;iTalkWithMyTeachersBeforeOrAfter...&quot;
+colnames (rawdata)[42] &lt;- &quot;iHandinMyAssignmentsOnTime&quot;
+colnames (rawdata)[43] &lt;- &quot;iFinishMyHomeworkEvenIfItisBoring&quot;
+colnames (rawdata)[44] &lt;- &quot;ifICantUnderstandMySchoolatFirstI...&quot;
+colnames (rawdata)[45] &lt;- &quot;iLetPeopleKnowIfTheyHurtMyFeelings&quot;
+colnames (rawdata)[46] &lt;- &quot;iLetMyFriendsKnowWhenIThinkTheyAreGoodAtSomething&quot;
+colnames (rawdata)[47] &lt;- &quot;ILearnedFromTheBooksWeReadThisYear&quot;
+colnames (rawdata)[48] &lt;- &quot;myReadingSkillsImprovedThisYear&quot;
+colnames (rawdata)[49] &lt;- &quot;EstablishedAPostiveRelationship...&quot;
+colnames (rawdata)[50] &lt;- &quot;...HelpedMeRecognizeThingsIDoWell&quot;
+colnames (rawdata)[51] &lt;- &quot;whatDidYouLearnThisYear. &quot;</code></pre>
 </div>
 <div id="make-student-code-as-class-character-and-make-all-codes-upper-case." class="section level3">
 <h3>Make Student Code as class character and make all codes upper case.</h3>
@@ -233,9 +289,9 @@ rawdata$girlCode &lt;- toupper(rawdata$girlCode)
 
 
 str(rawdata$girlCode)</code></pre>
-<pre><code>##  chr [1:1328] &quot;TEST&quot; &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:1352] &quot;{'IMPORTID': 'QID1-TEXT'}&quot; &quot;312AR090501&quot; ...</code></pre>
 <pre class="r"><code>dim(rawdata)</code></pre>
-<pre><code>## [1] 1328   51</code></pre>
+<pre><code>## [1] 1352   51</code></pre>
 </div>
 <div id="test-chunk" class="section level3">
 <h3>Test Chunk</h3>
@@ -261,9 +317,9 @@ fin &lt;- subset (rawdata, Finished  == 1)
 
 
 str(fin$girlCode)</code></pre>
-<pre><code>##  chr [1:1318] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
+<pre><code>##  chr [1:1341] &quot;312AR090501&quot; &quot;312GB022203&quot; &quot;312PM110402&quot; ...</code></pre>
 <pre class="r"><code>dim(fin)</code></pre>
-<pre><code>## [1] 1318   51</code></pre>
+<pre><code>## [1] 1341   51</code></pre>
 </div>
 </div>
 <div id="pre-surveys" class="section level1">
