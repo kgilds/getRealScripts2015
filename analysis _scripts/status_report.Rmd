@@ -3,11 +3,13 @@ title: "Status Report"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
 output:
-  html_document:
-    toc: yes
   pdf_document:
     toc: yes
+  html_document:
+    toc: yes
 ---
+Data entry status as of 06/26/2016. 
+
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 library(sqldf)
@@ -86,7 +88,7 @@ post_teacher <- post_teacher %>%
 ##### Geyset counts of Pre and Post Surveys
 girl <- nrow(pre_girl) + nrow(post_girl)
 
-class(girl)
+#class(girl)
 parent <- nrow(pre_parent) + nrow(post_parent)
 teacher <- nrow(pre_teacher) + nrow(post_teacher)
 
@@ -97,7 +99,7 @@ Data_Source <- c("Student", "Parent", "Teacher")
 
 total_survey_count <- data.frame(Data_Source, Data_Entry)
 
-total_survey_count
+#total_survey_count
 
 
 
@@ -237,13 +239,13 @@ academic_data <- dbReadTable(getReal_2016db, "academic_data")
 ```
 
 
-```{r survey_stats}
+```{r survey_stats, echo=FALSE}
 
 survey_status3 <- with(survey_status,table(dataSource))
 
 survey_status3 <- addmargins(survey_status3)
 
-pander(survey_status3)
+#pander(survey_status3)
 
 
 
@@ -270,7 +272,7 @@ pander(survey_status2)
 
 
 ###Grade Data
-```{r}
+```{r echo=FALSE}
 grade_data <-with(q1_q3,table(dataSource))
 
 grade_data <- addmargins(grade_data)
@@ -282,7 +284,7 @@ pander(grade_data)
 
 ### Council Grade Data
 
-```{r}
+```{r echo=FALSE}
 
 grade_data_c <-with(q1_q3,table(council, dataSource))
 
@@ -296,9 +298,7 @@ pander(grade_data_c)
 
 
 
-
-# Duplicate Date Entry Status
-```{r echo= FALSE}
+```{r echo= FALSE, eval=FALSE}
 duplicates <- rbind(survey_duplicates, grades_dupes)
 
 duplicates <- with(duplicates, table(council, dataSource))
