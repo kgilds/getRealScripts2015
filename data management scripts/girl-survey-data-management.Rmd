@@ -23,6 +23,7 @@ library(dplyr)
 rawdata <- read.csv("girl_survey_06262016.csv", skip=1)
 dim(rawdata)
 
+
 ```
 
 
