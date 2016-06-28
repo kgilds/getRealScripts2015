@@ -1,0 +1,45 @@
+---
+title: "GSWCF"
+author: "Kevin Gilds, MPA"
+date: "June 27, 2016"
+output: word_document
+---
+
+```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(sqldf)
+library(psych)
+library(knitr)
+library(gridExtra)
+library(effsize)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+
+### Make connection with database
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+
+
+
+```
+
+
+
+```{r}
+pre_outcomes <- dbReadTable(getReal_2016db, "girl_pre")
+
+gswcf <- pre_outcomes %>%
+    filter(council =="West Central Council")
+
+
+
+gswcf_tbl <-with(gswcf, table(school))
+
+pander(gswcf_tbl)
+
+
+```
+
