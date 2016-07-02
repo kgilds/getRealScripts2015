@@ -195,9 +195,9 @@ names(q4_grades)
 ################Finished Data Entry####################################33
 
 ### Eliminate uncompleted data entry
-gradesq2 <- filter(q2_grades, Finished == 1)
+gradesq4 <- filter(q4_grades, Finished == 1)
 
-
+names(q4_grades)
 ```
 
 
@@ -206,29 +206,21 @@ gradesq2 <- filter(q2_grades, Finished == 1)
 
 
 ### Change council names to be consistent wiht how they displayed with the surveys
-gradesq2$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, gradesq2$council)
+gradesq4$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, gradesq4$council)
 
-gradesq2$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, gradesq2$council)
+gradesq4$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, gradesq4$council)
 
-gradesq2$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, gradesq2$council)
+gradesq4$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, gradesq4$council)
 
-gradesq2$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, gradesq2$council)
+gradesq4$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, gradesq4$council)
 
-gradesq2$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, gradesq2$council)
+gradesq4$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, gradesq4$council)
 
-gradesq2$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, gradesq2$council)
-
-
-
-```
+gradesq4$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, gradesq4$council)
 
 
 
 ```
-
-
-
-
 
 
 
@@ -238,13 +230,13 @@ gradesq2$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council
 #######################Fix Factors ###################################
 
 ### Make all girCode to upper case for matching
-gradesq2$girlCode <- toupper(gradesq2$girlCode)
+gradesq4$girlCode <- toupper(gradesq4$girlCode)
 
 ### Make sure R does not make this a factor variable
-gradesq2$council <- as.character(gradesq2$council)
+gradesq4$council <- as.character(gradesq4$council)
 
 ### Make sure R does not make this a factor variable 
-gradesq2$girlCode <- as.character(gradesq2$girlCode)
+gradesq4$girlCode <- as.character(gradesq4$girlCode)
 
 
 
@@ -257,9 +249,9 @@ gradesq2$girlCode <- as.character(gradesq2$girlCode)
 ##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
-q2_gradesUnique <- gradesq2 [!(duplicated(gradesq2$girlCode) | duplicated(gradesq2$girlCode, fromLast = TRUE)), ]
+q4_gradesUnique <- gradesq4 [!(duplicated(gradesq4$girlCode) | duplicated(gradesq2$girlCode, fromLast = TRUE)), ]
 
-dim(q2_gradesUnique)
+dim(q4_gradesUnique)
 
 
 
@@ -270,13 +262,13 @@ dim(q2_gradesUnique)
 
 ##############################Subset Duplicate Values##################
 ### find the duplicates
-q2Dupes <-duplicated(gradesq2$girlCode) | duplicated(gradesq2$girlCode, fromLast=TRUE)
+q4Dupes <-duplicated(gradesq4$girlCode) | duplicated(gradesq4$girlCode, fromLast=TRUE)
 
 ### Subset the duplicates
-q2Dupes <-gradesq2[q2Dupes, ]
+q4Dupes <-gradesq4[q4Dupes, ]
 
 
-dim(q2Dupes)
+dim(q4Dupes)
 
 
 
@@ -288,17 +280,17 @@ dim(q2Dupes)
 ```{r}
 
 ### Change council names to be consistent wiht how they displayed with the surveys
-q2_gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, q2_gradesUnique$council)
+q4_gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, q4_gradesUnique$council)
 
-q2_gradesUnique$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, q2_gradesUnique$council)
+q4_gradesUnique$council <-sub("Girl Scouts of Citrus Council", "Citrus Council", fixed=TRUE, q4_gradesUnique$council)
 
-q2_gradesUnique$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, q2_gradesUnique$council)
+q4_gradesUnique$council <-sub("Girl Scouts of Southeast Florida", "Southeast Council", fixed=TRUE, q4_gradesUnique$council)
 
-q2_gradesUnique$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, q2_gradesUnique$council)
+q4_gradesUnique$council <-sub("Girl Scout Council of Tropical Florida", "Tropical Council", fixed = TRUE, q4_gradesUnique$council)
 
-q2_gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, q2_gradesUnique$council)
+q4_gradesUnique$council <-sub("Girl Scouts of West Central Florida", "West Central Council", fixed = TRUE, q4_gradesUnique$council)
 
-q2_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, q2_gradesUnique$council)
+q4_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council", fixed = TRUE, q4_gradesUnique$council)
 
 
 
@@ -313,62 +305,61 @@ q2_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle 
 ###############Reading Clean Up###############################################################
 
 ### Select data of interest
-q2Reading <- select(q2_gradesUnique, 7,8, 19:38)
+q4Reading <- select(q4_gradesUnique, 7,8, 20:39)
 
 
 
 
 ### Put the data in the shape you want it. 
-mq2Reading <- melt(q2Reading, id.vars=c("girlCode", "council"))
+mq4Reading <- melt(q2Reading, id.vars=c("girlCode", "council"))
 
 
 ####################change column names
-colnames (mq2Reading) [4] <-"readingGrade"
-colnames (mq2Reading) [3] <- "readingCourses"
+colnames (mq4Reading) [4] <-"readingGrade"
+colnames (mq4Reading) [3] <- "readingCourses"
 
 
 ### Omit the blanks 
-mq2Reading <-na.omit(mq2Reading)
+mq4Reading <-na.omit(mq2Reading)
 
 
 
 
 ####Adjust Grades with a plus sign and fix spacing issues
 
-mq2Reading$readingGrade <-sub("B+", "B", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("B+", "B", fixed=TRUE, mq4Reading$readingGrade)
 
-mq2Reading$readingGrade <-sub("C+", "C", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("C+", "C", fixed=TRUE, mq4Reading$readingGrade)
 
-mq2Reading$readingGrade <-sub("D+", "D", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("D+", "D", fixed=TRUE, mq4Reading$readingGrade)
 
-mq2Reading$readingGrade <-sub("C ", "C", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("C ", "C", fixed=TRUE, mq4Reading$readingGrade)
 
-mq2Reading$readingGrade <-sub("c ", "C", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("c ", "C", fixed=TRUE, mq4Reading$readingGrade)
 
-mq2Reading$readingGrade <-sub("0", "F", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("0", "F", fixed=TRUE, mq4Reading$readingGrade)
 
-mq2Reading$readingGrade <-sub("3", "B", fixed=TRUE, mq2Reading$readingGrade)
+mq4Reading$readingGrade <-sub("3", "B", fixed=TRUE, mq4Reading$readingGrade)
 
 
 
 ###Change grades to all upper case to match
-mq2Reading$readingGrade <- toupper(mq2Reading$readingGrade)
+mq4Reading$readingGrade <- toupper(mq4Reading$readingGrade)
 
 ###change reading grade to factor 
-mq2Reading$readingGrade <-as.factor(mq2Reading$readingGrade)
+mq4Reading$readingGrade <-as.factor(mq4Reading$readingGrade)
 
-summary(mq2Reading$readingGrade)
-
+summary(mq4Reading$readingGrade)
 
 ### Create table to sneak peak at the data.    
-table(mq2Reading$readingCourses,mq2Reading$readingGrade)
+table(mq4Reading$readingCourses,mq4Reading$readingGrade)
 
-with(mq2Reading, table(council,readingGrade))
+with(mq4Reading, table(council,readingGrade))
 
 ### Check the levels
-levels(mq2Reading$readingGrade)
+levels(mq4Reading$readingGrade)
 
-names(mq2Reading)
+names(mq4Reading)
 
 
 ```
