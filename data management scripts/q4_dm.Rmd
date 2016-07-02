@@ -139,8 +139,8 @@ colnames (q4_grades) [58] <- "mjLangArts3_quarter"
 colnames (q4_grades) [59] <- "mjLangArts3_semester"
 
 
-colnames (q2_grades) [60] <- "mjLangArts3Adv_quarter"
-colnames (q2_grades) [61] <- "mjLangArts3Adv_semester"
+colnames (q4_grades) [60] <- "mjLangArts3Adv_quarter"
+colnames (q4_grades) [61] <- "mjLangArts3Adv_semester"
 
 
 
@@ -249,7 +249,7 @@ gradesq4$girlCode <- as.character(gradesq4$girlCode)
 ##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
-q4_gradesUnique <- gradesq4 [!(duplicated(gradesq4$girlCode) | duplicated(gradesq2$girlCode, fromLast = TRUE)), ]
+q4_gradesUnique <- gradesq4 [!(duplicated(gradesq4$girlCode) | duplicated(gradesq4$girlCode, fromLast = TRUE)), ]
 
 dim(q4_gradesUnique)
 
@@ -311,7 +311,7 @@ q4Reading <- select(q4_gradesUnique, 7,8, 20:39)
 
 
 ### Put the data in the shape you want it. 
-mq4Reading <- melt(q2Reading, id.vars=c("girlCode", "council"))
+mq4Reading <- melt(q4Reading, id.vars=c("girlCode", "council"))
 
 
 ####################change column names
@@ -320,7 +320,7 @@ colnames (mq4Reading) [3] <- "readingCourses"
 
 
 ### Omit the blanks 
-mq4Reading <-na.omit(mq2Reading)
+mq4Reading <-na.omit(mq4Reading)
 
 
 
@@ -369,9 +369,13 @@ names(mq4Reading)
 
 ```{r}
 
-q2free_read <- select(q2_gradesUnique, 7,8, 37:38)
+q4free_read <- select(q4_gradesUnique, 7,8, 38:39)
 
-names(q2free_read)
+names(q4free_read)
+
+table(q4free_read$readFree1_quarter)
+
+table(q4free_read$readFree2_semester)
 
 
 ```
@@ -381,19 +385,19 @@ names(q2free_read)
 ```{r}
 
 ### Find the unique girlCodes with just one grade 
-mq2_read_ok <- mq2Reading [!(duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast = TRUE)), ]
+mq4_read_ok <- mq4Reading [!(duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast = TRUE)), ]
 
-dim(mq2Reading)
+dim(mq4Reading)
 
 ##############################Subset Duplicate Values##################
 ### find the duplicates
-q2reading_dupes <-duplicated(mq2Reading$girlCode) | duplicated(mq2Reading$girlCode, fromLast=TRUE)
+q4reading_dupes <-duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast=TRUE)
 
 ### Subset the duplicates
-q2reading_dupes <- mq2Reading[q2reading_dupes, ]
+q4reading_dupes <- mq4Reading[q4reading_dupes, ]
 
 
-dim(q2reading_dupes)
+dim(q4reading_dupes)
 
 
 ```
@@ -404,12 +408,12 @@ dim(q2reading_dupes)
 ```{r}
 
 
-read_quarter <- q2reading_dupes[grep("_quarter", q2reading_dupes$readingCourses, ignore.case = TRUE),]
+read_quarter <- q4reading_dupes[grep("_quarter", q4reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_quarter)
 head(read_quarter)
 
-read_semester <- q2reading_dupes[grep("_semester", q2reading_dupes$readingCourses, ignore.case = TRUE),]
+read_semester <- q4reading_dupes[grep("_semester", q4reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_semester)
 head(read_semester)
@@ -459,9 +463,9 @@ extra_quarters
 ### Bind the semester grade back in 
 ```{r}
 
-mq2_read_1 <- rbind(mq2_read_ok, read_semester)
+mq4_read_1 <- rbind(mq4_read_ok, read_semester)
 
-dim(mq2_read_1)
+dim(mq4_read_1)
 
 
 
@@ -472,7 +476,7 @@ dim(mq2_read_1)
 
 reading_pts2 <- numeric(0)
 
-for(i in mq2_read_1$readingGrade){
+for(i in mq4_read_1$readingGrade){
    
      reading_pts2 <- c(reading_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
     
@@ -481,9 +485,9 @@ for(i in mq2_read_1$readingGrade){
     
 }
 
-dim(mq2_read_1)
+dim(mq4_read_1)
 
-mq2_read_1 <-cbind(mq2_read_1, reading_pts2)
+mq4_read_1 <-cbind(mq4_read_1, reading_pts2)
 
 
 
@@ -495,11 +499,11 @@ mq2_read_1 <-cbind(mq2_read_1, reading_pts2)
 
 colnames(extra_quarters) [5] <- "reading_pts2"
 
-mq2_read_all <- rbind(mq2_read_1, extra_quarters)
+mq4_read_all <- rbind(mq4_read_1, extra_quarters)
 
-dim(mq2_read_all)
+dim(mq4_read_all)
 
-head(mq2_read_all)
+head(mq4_read_all)
 
 ```
 
@@ -512,56 +516,56 @@ head(mq2_read_all)
 ```{r}
 
 ### Select the data of interest
-q2LangArts <- select(q2_gradesUnique, 7,8, 41:79 )
+q4LangArts <- select(q4_gradesUnique, 7,8, 42:80 )
 
 
 ### Put the data in the shape I want it in
-mq2_lang <- melt(q2LangArts, id.vars=c("girlCode", "council"))
+mq4_lang <- melt(q4LangArts, id.vars=c("girlCode", "council"))
 
 
 
 ####################change column names
-colnames (mq2_lang) [4] <-"langGrade"
-colnames (mq2_lang) [3] <- "langCourses"
+colnames (mq4_lang) [4] <-"langGrade"
+colnames (mq4_lang) [3] <- "langCourses"
 
 
 ### Get rid of blanks
-mq2_lang <- na.omit(mq2_lang)
+mq4_lang <- na.omit(mq4_lang)
 
 
 ###Change grades to all upper case to match
-mq2_lang$langGrade <- toupper(mq2_lang$langGrade)
+mq4_lang$langGrade <- toupper(mq4_lang$langGrade)
 
 ###change reading grade to factor 
-mq2_lang$langGrade <-as.factor(mq2_lang$langGrade)
+mq4_lang$langGrade <-as.factor(mq4_lang$langGrade)
 
 ####Adjust Grades with a plus sign and fix spacing issues
 
-mq2_lang$langGrade <-sub("B+", "B", fixed=TRUE, mq2_lang$langGrade)
+mq4_lang$langGrade <-sub("B+", "B", fixed=TRUE, mq4_lang$langGrade)
 
-mq2_lang$langGrade <-sub("C+", "C", fixed=TRUE, mq2_lang$langGrade)
+mq4_lang$langGrade <-sub("C+", "C", fixed=TRUE, mq4_lang$langGrade)
 
-mq2_lang$langGrade <-sub("A ", "A", fixed=TRUE, mq2_lang$langGrade)
+mq4_lang$langGrade <-sub("A ", "A", fixed=TRUE, mq4_lang$langGrade)
 
-mq2_lang$langGrade <-sub("2", "B", fixed=TRUE, mq2_lang$langGrade)
+mq4_lang$langGrade <-sub("2", "B", fixed=TRUE, mq4_lang$langGrade)
 
-mq2_lang$langGrade <-sub("D+", "D", fixed=TRUE, mq2_lang$langGrade)
+mq4_lang$langGrade <-sub("D+", "D", fixed=TRUE, mq4_lang$langGrade)
 
-mq2_lang$langGrade <-sub("I", "F", fixed=TRUE, mq2_lang$langGrade)
+mq4_lang$langGrade <-sub("I", "F", fixed=TRUE, mq4_lang$langGrade)
 
 
 
 #TESt  for bad date entry in grades
-table(mq2_lang$langGrade)
+table(mq4_lang$langGrade)
 
 
 
 
 ##Test for free data entry
-grep("freeLang1_quarter", mq2_lang$langCourses, ignore.case=TRUE)
-grep("freelang_semester", mq2_lang$langCourses, ignore.case=TRUE)
+grep("freeLang1_quarter", mq4_lang$langCourses, ignore.case=TRUE)
+grep("freelang_semester", mq4_lang$langCourses, ignore.case=TRUE)
 ##Test with code that I know works!
-grep("mjIntensLangArts_quarter", mq2_lang$langCourses, ignore.case=TRUE)
+grep("mjIntensLangArts_quarter", mq4_lang$langCourses, ignore.case=TRUE)
 
 
 
@@ -573,12 +577,12 @@ grep("mjIntensLangArts_quarter", mq2_lang$langCourses, ignore.case=TRUE)
 ```{r}
 
 ### Review Free Text Entry
-q2_free_lang <- select(q2_gradesUnique, 7,8, 75:76)
+q4_free_lang <- select(q4_gradesUnique, 7,8, 76:78)
 
 
 ### Test to determine if there is any data in those columns
-table(q2_free_lang$free_lang1_quarter)
-table(q2_free_lang$free_lang2_semester)
+table(q4_free_lang$free_lang1_quarter)
+table(q4_free_lang$free_lang2_semester)
 
 ```
 
@@ -590,22 +594,22 @@ table(q2_free_lang$free_lang2_semester)
 ##################Duplicates#########################################
 
 ### Find the unique girlCodes with just one grade 
-mq2_lang_ok <- mq2_lang [!(duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast = TRUE)), ]
+mq4_lang_ok <- mq4_lang [!(duplicated(mq4_lang$girlCode) | duplicated(mq4_lang$girlCode, fromLast = TRUE)), ]
 
-dim(mq2_lang_ok)
+dim(mq4_lang_ok)
 
 
 ### Find the girl codes with multiple grades
 
 ##############################Subset Duplicate Values##################
 ### find the duplicates
-q2lang_dupes <-duplicated(mq2_lang$girlCode) | duplicated(mq2_lang$girlCode, fromLast=TRUE)
+q4lang_dupes <-duplicated(mq4_lang$girlCode) | duplicated(mq4_lang$girlCode, fromLast=TRUE)
 
 ### Subset the duplicates
-q2lang_dupes <- mq2_lang[q2lang_dupes, ]
+q4lang_dupes <- mq4_lang[q4lang_dupes, ]
 
 
-dim(q2lang_dupes)
+dim(q4lang_dupes)
 
 
 ```
@@ -613,7 +617,7 @@ dim(q2lang_dupes)
 ### Find and subset the Semester Grades in duplicate version 
 
 ```{r}
-semester <- q2lang_dupes[grep("_semester", q2lang_dupes$langCourses, ignore.case = TRUE),]
+semester <- q4lang_dupes[grep("_semester", q4lang_dupes$langCourses, ignore.case = TRUE),]
 
 dim(semester)
 
@@ -624,11 +628,11 @@ head(semester)
 ### Bind the Language Arts Courses together
 
 ```{r}
-mq2_lang_all <- rbind(mq2_lang_ok, semester)
+mq4_lang_all <- rbind(mq4_lang_ok, semester)
 
 
 
-dim(mq2_lang_all)
+dim(mq4_lang_all)
 
 ```
 
@@ -638,7 +642,7 @@ dim(mq2_lang_all)
 
 lang_pts2 <- numeric(0)
 
-for(i in mq2_lang_all$langGrade){
+for(i in mq4_lang_all$langGrade){
    
      lang_pts2<- c(lang_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
     
@@ -647,9 +651,9 @@ for(i in mq2_lang_all$langGrade){
     
 }
 
-mq2_lang_all <- cbind(mq2_lang_all, lang_pts2)
+mq4_lang_all <- cbind(mq4_lang_all, lang_pts2)
 
-head(mq2_lang_all)
+head(mq4_lang_all)
 
 ```
 
@@ -660,14 +664,14 @@ head(mq2_lang_all)
 ```{r}
 
 ### Select the data of interest
-q2_unexcused <- select(q2_gradesUnique,7,8, 12)
+q4_unexcused <- select(q4_gradesUnique,7,8, 12)
 
 
 ### Create table to view the summary
-q2_unexcused_tbl <- table(q2_unexcused$unexcusedAbs)
+q4_unexcused_tbl <- table(q4_unexcused$unexcusedAbs)
 
 ### Print the table
-q2_unexcused_tbl
+q4_unexcused_tbl
 
 ```
 
@@ -675,14 +679,14 @@ q2_unexcused_tbl
 
 ```{r}
 ### Select the data of interest
-q2_excused <- select(q2_gradesUnique, 7, 8, 13)
+q4_excused <- select(q4_gradesUnique, 7, 8, 13)
 
 
 ### Create table to view the data
-q2_excused_tbl <- with(q2_excused,table(excusedAbs))
+q4_excused_tbl <- with(q4_excused,table(excusedAbs))
 
 ### View the output
-q2_excused_tbl
+q4_excused_tbl
 
 ```
 
@@ -693,17 +697,17 @@ q2_excused_tbl
 
 
 #### Merge unexcused and excused objects
-q2_total_abs <- inner_join(q2_unexcused, q2_excused, by = "girlCode", Copy=FALSE)
+q4_total_abs <- inner_join(q4_unexcused, q4_excused, by = "girlCode", Copy=FALSE)
 
 
 ### Sum up the two columns to get a total 
-q2_total_abs$sum_abs <-q2_total_abs$unexcusedAbs + q2_total_abs$excusedAbs
+q4_total_abs$sum_abs <-q4_total_abs$unexcusedAbs + q4_total_abs$excusedAbs
 
 ### Create table to view the data
-q2_total_abs_tbl <- with(q2_total_abs, table(sum_abs))
+q4_total_abs_tbl <- with(q4_total_abs, table(sum_abs))
 
 ### See the table output
-q2_total_abs_tbl
+q4_total_abs_tbl
 
 ```
 
@@ -715,14 +719,14 @@ q2_total_abs_tbl
 ```{r}
 
 ### Look at data of interest
-q2_in_school <- select(q2_gradesUnique, 7, 8, 14)
+q4_in_school <- select(q4_gradesUnique, 7, 8, 14)
 
 
 ### Create table to look at data
-q2_in_school_tbl <- with(q2_in_school, table(inSchoolSusp))
+q4_in_school_tbl <- with(q4_in_school, table(inSchoolSusp))
 
 ### View table
-q2_in_school_tbl
+q4_in_school_tbl
 
 
 ```
@@ -731,30 +735,29 @@ q2_in_school_tbl
 
 ```{r}
 
-q2_out_school <- select(q2_gradesUnique, 7, 8, 15)
+q4_out_school <- select(q4_gradesUnique, 7, 8, 15)
 
-q2_out_school_tbl <- with(q2_out_school, table(outofSchoolSusp))
+q4_out_school_tbl <- with(q4_out_school, table(outofSchoolSusp))
 
-q2_out_school_tbl
+q4_out_school_tbl
 
 ```
 
 
 # Total suspensions
-
 ```{r}
 
-q2_susp_total <- inner_join(q2_in_school, q2_out_school, by = "girlCode", copy=FALSE)
+q4_susp_total <- inner_join(q4_in_school, q4_out_school, by = "girlCode", copy=FALSE)
 
-head(q2_susp_total)
+head(q4_susp_total)
 
-q2_susp_total$susp_sum <- q2_in_school$inSchoolSusp + q2_out_school$outofSchoolSusp
+q4_susp_total$susp_sum <- q4_in_school$inSchoolSusp + q4_out_school$outofSchoolSusp
 
-head(q2_susp_total)
+head(q4_susp_total)
 
-q2_susp_total_tbl <- with(q2_susp_total,table(susp_sum))
+q4_susp_total_tbl <- with(q4_susp_total,table(susp_sum))
 
-q2_susp_total_tbl
+q4_susp_total_tbl
 
 
 
@@ -766,19 +769,39 @@ q2_susp_total_tbl
 ```{r}
 
 ### Select the variable of interest
-q2_expelled <- select(q2_gradesUnique, 7,8,16)
+q4_expelled <- select(q4_gradesUnique, 7,8,16)
 
-dim(q2_expelled)
+dim(q4_expelled)
 
-head(q2_expelled)
+head(q4_expelled)
 
 ### Create table to view the summary
-q2_expelled_tbl <-with(q2_expelled,table(expelled))
+q4_expelled_tbl <-with(q4_expelled,table(expelled))
 
 ### Print the table
-q2_expelled_tbl
+q4_expelled_tbl
 
 ```
+
+Promoted
+```{r}
+
+### Select the variable of interest
+q4_promoted <- select(q4_gradesUnique, 7,8,17)
+
+dim(q4_promoted)
+
+head(q4_promoted)
+
+### Create table to view the summary
+q4_promoted_tbl <-with(q4_promoted,table(promoted))
+
+### Print the table
+q4_promoted_tbl
+
+```
+
+
 
 
 # Prepare data for database
@@ -787,12 +810,12 @@ q2_expelled_tbl
 
 ```{r}
 
-abs_susp <- full_join(q2_total_abs, q2_susp_total)
+abs_susp <- full_join(q4_total_abs, q4_susp_total)
 
 dim(abs_susp)
 
 
-behavior_data <- full_join(abs_susp, q2_expelled)
+behavior_data <- full_join(abs_susp, q4_expelled)
 
 
 behavior_data <- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
@@ -817,17 +840,17 @@ head(behavior_data)
 
 ```{r}
 
-q2_lang_read <- full_join(mq2_lang_all, mq2_read_all)
-dim(q2_lang_read)
+q4_lang_read <- full_join(mq4_lang_all, mq4_read_all)
+dim(q4_lang_read)
 
-head(q2_lang_read)
+head(q4_lang_read)
 
-q2_lang_read <- select(q2_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
+q4_lang_read <- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
 
 
-colnames (q2_lang_read) [1] <- "council"
+colnames (q4_lang_read) [1] <- "council"
 
-head(q2_lang_read)
+head(q4_lang_read)
 
 
 
@@ -836,18 +859,18 @@ head(q2_lang_read)
 ### Merge all
 ```{r}
 
-q2_academic_data <- full_join(q2_lang_read, behavior_data, by="girlCode")
+q4_academic_data <- full_join(q4_lang_read, behavior_data, by="girlCode")
 
-dim(q2_academic_data)
+dim(q4_academic_data)
 
-head(q2_academic_data)
+head(q4_academic_data)
 
-q2_academic_data <- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
+q4_academic_data <- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
 
-colnames (q2_academic_data) [1] <- "council"
+colnames (q4_academic_data) [1] <- "council"
 
 
-head(q2_academic_data)
+head(q4_academic_data)
 ```
 
 
@@ -862,28 +885,28 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
-dbWriteTable(conn =getReal_2016db, name = "Q2_academic_data", value = q2_academic_data, row.names = FALSE, overwrite = TRUE)
+dbWriteTable(conn =getReal_2016db, name = "Q4_academic_data", value = q4_academic_data, row.names = FALSE, overwrite = TRUE)
 
 
 
-dbWriteTable(conn = getReal_2016db, name = "Q2_duplicates", value = q2Dupes, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "Q4_duplicates", value = q4Dupes, row.names=FALSE, overwrite=TRUE)
 
 
 ### Write Q1 Expelled data to sqlite database
-dbWriteTable(conn = getReal_2016db, name = "Q2_expelled", value = q2_expelled, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "Q4_expelled", value = q4_expelled, row.names=FALSE, overwrite=TRUE)
 
 
 ### Write Q1 Suspsenion data to sqlite database
-dbWriteTable(conn = getReal_2016db, name = "Q2_Suspensions", value = q2_susp_total, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "Q4_Suspensions", value = q4_susp_total, row.names=FALSE, overwrite=TRUE)
 
 ### Write Q1 Absences to sqlite datase
-dbWriteTable(conn = getReal_2016db, name = "Q2_Absences", value = q2_total_abs, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "Q4_Absences", value = q4_total_abs, row.names=FALSE, overwrite=TRUE)
 
 ### Write Q1 Lang Arts grade to sqlite database
-dbWriteTable(conn = getReal_2016db, name = "Q2_lang", value = mq2_lang_all, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "Q4_lang", value = mq4_lang_all, row.names=FALSE, overwrite=TRUE)
 
 ### Write Q1 Reading grades to sqlite database
-dbWriteTable(conn = getReal_2016db, name = "Q2_reading", value = mq2_read_all, row.names=FALSE, overwrite=TRUE)
+dbWriteTable(conn = getReal_2016db, name = "Q4_reading", value = mq4_read_all, row.names=FALSE, overwrite=TRUE)
 
 ```
 
