@@ -13,6 +13,7 @@ library(psych)
 library(knitr)
 library(gridExtra)
 library(effsize)
+library(likert)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 
@@ -547,7 +548,77 @@ Survey results from teachers and parents also provide evidence that the Get REAL
 Parent Survey
 Question: She has a good attitude about school.Teacher Survey
 
+```{r}
+pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
+
+post_parent <- dbReadTable(getReal_2016db, "post_parent")
+
+```
+
+
+
+```{r fig.height=5, fig.width=10}
+
+pre_parent_tbl <- pre_parent %>%
+    select(12 )
+
+pre_parent_tbl$goodAttitudeAboutSchool <- factor(pre_parent_tbl$goodAttitudeAboutSchool, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+pre_parent_tbl <- likert(pre_parent_tbl)
+
+summary(pre_parent_tbl)
+
+
+post_parent_tbl <- post_parent %>%
+    select(12)
+
+post_parent_tbl$goodAttitudeAboutSchool <- factor(post_parent_tbl$goodAttitudeAboutSchool, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+post_parent_tbl <- likert(post_parent_tbl)
+
+summary(post_parent_tbl)
+
+
+```
+
+Pre Survey
+```{r}
+likert.heat.plot(pre_parent_tbl)
+
+```
+
+
+Post Survey
+```{r}
+
+likert.heat.plot(post_parent_tbl)
+```
+
+
+
 Teacher Survey
 Question: She has a Good Attitude About School
+
+```{r}
+post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
+
+post_teacher_tbl <- post_teacher %>%
+    select(12)
+
+post_teacher_tbl$goodAttitude <- factor(post_teacher_tbl$goodAttitude, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+post_teacher_tbl <- likert(post_teacher_tbl)
+
+summary(post_teacher_tbl)
+
+```
+
+```{r}
+
+likert.heat.plot(post_teacher_tbl)
+
+```
 
 
