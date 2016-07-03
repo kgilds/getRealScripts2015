@@ -1,0 +1,25 @@
+---
+title: "Intro_report"
+author: "Kevin Gilds, MPA"
+date: "July 2, 2016"
+output: html_document
+---
+
+# Introduction
+The Get REAL! program is a statewide mentoring program facilitated by six Girl Scout Councils in Florida. The goal of the Get REAL! program is to help at-risk middle school girls achieve academic success by connecting them to caring mentors in the community. Girl Scout facilitators and mentors deliver the Get REAL! program which includes a literacy component, character building, educational enhancement experience, and community service.
+The purpose of this report is to measure the program against the established set of performance measures to ensure program quality. Evidence obtained from the program both quantitative and qualitative provide strong confidence that the Get REAL! program is meeting program objectives and providing value to students. 
+
+## Program Operation
+Each Girl Scout Council collaborates with the school officials to identify girls that would benefit from the Get REAL! program. Referrals come to the Get REAL! staff from school personnel and appropriate referrals for Get REAL! are at-risk girls based on (but not limited to) one or more of the following criteria:
+
+* Enrolled in the 6th to 8th grade
+
+* Are one or more grade levels behind in school;
+
+* Who scored at Level l or Level II in FCAT reading;
+
+* Have high absenteeism, or high disciplinary referrals;
+
+* Struggling socially/family problems.
+
+Student recruitment activities included meeting with school officials, word of mouth recruitment, announcement at school assemblies, visiting after-school programs. The enrollment goal of the Get REAL! program was to serve  students by the end of the 4th Quarter.  The Girl Scouts Councils reached or did not reach their goal by serving .  Student enrollment data by Girl Scout Council are as follows:
