@@ -92,6 +92,7 @@ colnames (q4_grades) [37] <- "mjDelaESOLRead_semester"
 
 colnames (q4_grades) [38] <- "readFree1_quarter"
 colnames (q4_grades) [39] <- "readFree2_semester"
+colnames (q4_grades) [40] <- "reading_course"
 
 
 ### Lang Arts Courses
