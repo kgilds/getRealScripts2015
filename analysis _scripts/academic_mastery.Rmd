@@ -448,6 +448,18 @@ am_lowHigh <-function (Year){
 
 
 
+# Academic Mastery
+
+The Academic Mastery questions gauge a student's attitude towards school and education. Questions that measure Academic Mastery include the following.
+
+* It's important to me that I improve my skills this year in school
+* It's important to me that I really understand my class work
+* Learning at school is important to me
+* One of my goals in school is to learn as much as I can
+* The things I am learning in school will help me later in life
+
+
+
 The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**.
 
 1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(am_high_df)`**
@@ -527,4 +539,15 @@ pander(wilcox.test(am_2016$Pre, am_2016$Post))
 cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 
 ```
+
+## Cross Validation of Academic Mastery
+
+Survey results from teachers and parents also provide evidence that the Get REAL! program helps students formulate better attitude toward school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
+
+Parent Survey
+Question: She has a good attitude about school.Teacher Survey
+
+Teacher Survey
+Question: She has a Good Attitude About School
+
 
