@@ -384,6 +384,13 @@ ae_lowHigh <-function (Year){
 
 ```
 
+# Academic Engagement
+Academic Engagement questions gauge tangible behaviors that help students succeed in school. Questions that measure Academic Engagement include the following.
+Number	Question
+1.	I talk with my teachers before or after school, or during lunch about my assignments.
+2.	I hand in my assignments on time
+3.	I finish my homework even if it is boring
+4.	If I can't understand my schoolwork at first, I keep trying until I do understand it.
 
 
 The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**.
@@ -405,6 +412,10 @@ ae_2016 <- ae_all %>%
     filter(Year_Id == "M3")
 
 ```
+
+
+
+
 
 
 ```{r}
@@ -436,13 +447,12 @@ ae_change <- ae_2016 %>%
 
 ```
 
-
-
 The percent of students who went from low achievement to hig achievement is **`r ae_lowHigh("M3")`** 
 The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(ae_change)`**, and the mean increase in outcome score is **`r mean(ae_change$ae.diff)`**
 
 
-The increase in the healthy relationship outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
+The increase in the academic engagement outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
+
 
 
 ```{r}
