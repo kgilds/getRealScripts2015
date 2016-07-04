@@ -452,7 +452,7 @@ extra_quarters <-with(extra_quarters, aggregate(reading_pts_ex,list(girlCode=gir
 extra_quarters
 
 
-colnames(extra_quarters) [5] <- "readingPts"
+colnames(extra_quarters) [5] <- "readingPts4"
 
 head(extra_quarters)
 
@@ -475,20 +475,20 @@ dim(mq4_read_1)
 ### Reading Grade Points
 ```{r}
 
-reading_pts2 <- numeric(0)
+reading_pts4 <- numeric(0)  #assign variable
 
-for(i in mq4_read_1$readingGrade){
+for(i in mq4_read_1$readingGrade){ #loop through grades
    
-     reading_pts2 <- c(reading_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+     reading_pts4 <- c(reading_pts4,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0)) #assign values base on grades
     
-     reading_pts2
+     reading_pts4
 
     
 }
 
 dim(mq4_read_1)
 
-mq4_read_1 <-cbind(mq4_read_1, reading_pts2)
+mq4_read_1 <-cbind(mq4_read_1, reading_pts4) #bind data back in 
 
 
 
@@ -498,7 +498,7 @@ mq4_read_1 <-cbind(mq4_read_1, reading_pts2)
 ### Merge all the reading sets
 ```{r}
 
-colnames(extra_quarters) [5] <- "reading_pts2"
+colnames(extra_quarters) [5] <- "reading_pts4"
 
 mq4_read_all <- rbind(mq4_read_1, extra_quarters)
 
@@ -641,20 +641,20 @@ dim(mq4_lang_all)
 ## Calculate Grade Points Language Arts Courses
 ```{r}
 
-lang_pts2 <- numeric(0)
+lang_pts4 <- numeric(0)  #assign a variable
 
-for(i in mq4_lang_all$langGrade){
+for(i in mq4_lang_all$langGrade){ #run throught all teh grades
    
-     lang_pts2<- c(lang_pts2,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+     lang_pts4<- c(lang_pts4,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0)) # assign numeric points to grades
     
-     lang_pts2
+     lang_pts4
 
     
 }
 
-mq4_lang_all <- cbind(mq4_lang_all, lang_pts2)
+mq4_lang_all <- cbind(mq4_lang_all, lang_pts4) #bind return value with df. 
 
-head(mq4_lang_all)
+head(mq4_lang_all) #review
 
 ```
 
@@ -846,7 +846,7 @@ dim(q4_lang_read)
 
 head(q4_lang_read)
 
-q4_lang_read <- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
+q4_lang_read <- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts4, readingCourses, readingGrade,reading_pts4)
 
 
 colnames (q4_lang_read) [1] <- "council"
@@ -866,7 +866,7 @@ dim(q4_academic_data)
 
 head(q4_academic_data)
 
-q4_academic_data <- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
+q4_academic_data <- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts4, readingCourses,readingGrade, reading_pts4,total_absences, total_suspensions, expelled)
 
 colnames (q4_academic_data) [1] <- "council"
 

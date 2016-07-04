@@ -820,7 +820,7 @@ extra_quarters</code></pre>
 ## 2 320RK110200 West Central Council ReadingCourseAvg            B 3
 ## 3 320HS082803 West Central Council ReadingCourseAvg            C 2
 ## 4 320RK110200 West Central Council ReadingCourseAvg            C 2</code></pre>
-<pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;readingPts&quot;
+<pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;readingPts4&quot;
 
 head(extra_quarters)</code></pre>
 <pre><code>##      girlCode              council   readingCourses readingGrade
@@ -828,22 +828,22 @@ head(extra_quarters)</code></pre>
 ## 2 320RK110200 West Central Council ReadingCourseAvg            B
 ## 3 320HS082803 West Central Council ReadingCourseAvg            C
 ## 4 320RK110200 West Central Council ReadingCourseAvg            C
-##   readingPts
-## 1          3
-## 2          3
-## 3          2
-## 4          2</code></pre>
+##   readingPts4
+## 1           3
+## 2           3
+## 3           2
+## 4           2</code></pre>
 <pre class="r"><code>extra_quarters</code></pre>
 <pre><code>##      girlCode              council   readingCourses readingGrade
 ## 1 320HS082803 West Central Council ReadingCourseAvg            B
 ## 2 320RK110200 West Central Council ReadingCourseAvg            B
 ## 3 320HS082803 West Central Council ReadingCourseAvg            C
 ## 4 320RK110200 West Central Council ReadingCourseAvg            C
-##   readingPts
-## 1          3
-## 2          3
-## 3          2
-## 4          2</code></pre>
+##   readingPts4
+## 1           3
+## 2           3
+## 3           2
+## 4           2</code></pre>
 </div>
 <div id="bind-the-semester-grade-back-in" class="section level3">
 <h3>Bind the semester grade back in</h3>
@@ -854,24 +854,24 @@ dim(mq4_read_1)</code></pre>
 </div>
 <div id="reading-grade-points" class="section level3">
 <h3>Reading Grade Points</h3>
-<pre class="r"><code>reading_pts2 &lt;- numeric(0)
+<pre class="r"><code>reading_pts4 &lt;- numeric(0)  #assign variable
 
-for(i in mq4_read_1$readingGrade){
+for(i in mq4_read_1$readingGrade){ #loop through grades
    
-     reading_pts2 &lt;- c(reading_pts2,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0))
+     reading_pts4 &lt;- c(reading_pts4,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0)) #assign values base on grades
     
-     reading_pts2
+     reading_pts4
 
     
 }
 
 dim(mq4_read_1)</code></pre>
 <pre><code>## [1] 191   4</code></pre>
-<pre class="r"><code>mq4_read_1 &lt;-cbind(mq4_read_1, reading_pts2)</code></pre>
+<pre class="r"><code>mq4_read_1 &lt;-cbind(mq4_read_1, reading_pts4) #bind data back in </code></pre>
 </div>
 <div id="merge-all-the-reading-sets" class="section level3">
 <h3>Merge all the reading sets</h3>
-<pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;reading_pts2&quot;
+<pre class="r"><code>colnames(extra_quarters) [5] &lt;- &quot;reading_pts4&quot;
 
 mq4_read_all &lt;- rbind(mq4_read_1, extra_quarters)
 
@@ -885,7 +885,7 @@ dim(mq4_read_all)</code></pre>
 ## 245 320SB100701 West Central Council mjIntensRead_quarter            C
 ## 247 320KC051702 West Central Council mjIntensRead_quarter            B
 ## 248 320GD120203 West Central Council mjIntensRead_quarter            C
-##     reading_pts2
+##     reading_pts4
 ## 241            2
 ## 242            2
 ## 244            3
@@ -1009,20 +1009,20 @@ dim(mq4_lang_all)</code></pre>
 </div>
 <div id="calculate-grade-points-language-arts-courses" class="section level2">
 <h2>Calculate Grade Points Language Arts Courses</h2>
-<pre class="r"><code>lang_pts2 &lt;- numeric(0)
+<pre class="r"><code>lang_pts4 &lt;- numeric(0)  #assign a variable
 
-for(i in mq4_lang_all$langGrade){
+for(i in mq4_lang_all$langGrade){ #run throught all teh grades
    
-     lang_pts2&lt;- c(lang_pts2,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0))
+     lang_pts4&lt;- c(lang_pts4,switch(i, &quot;A&quot; =4, &quot;B&quot;=3, &quot;C&quot;=2, &quot;D&quot;=1, &quot;F&quot;=0, &quot;I&quot;=0)) # assign numeric points to grades
     
-     lang_pts2
+     lang_pts4
 
     
 }
 
-mq4_lang_all &lt;- cbind(mq4_lang_all, lang_pts2)
+mq4_lang_all &lt;- cbind(mq4_lang_all, lang_pts4) #bind return value with df. 
 
-head(mq4_lang_all)</code></pre>
+head(mq4_lang_all) #review</code></pre>
 <pre><code>##         girlCode              council         langCourses langGrade
 ## 3184 320GD120203 West Central Council mjLangArts1_quarter         C
 ## 3189 320CF032904 West Central Council mjLangArts1_quarter         B
@@ -1030,7 +1030,7 @@ head(mq4_lang_all)</code></pre>
 ## 3286 320TM060203 West Central Council mjLangArts1_quarter         A
 ## 3291 320NR030504 West Central Council mjLangArts1_quarter         F
 ## 3301 320AW050904 West Central Council mjLangArts1_quarter         C
-##      lang_pts2
+##      lang_pts4
 ## 3184         2
 ## 3189         3
 ## 3190         2
@@ -1241,34 +1241,34 @@ head(behavior_data)</code></pre>
 <pre class="r"><code>dim(q4_lang_read)</code></pre>
 <pre><code>## [1] 369   8</code></pre>
 <pre class="r"><code>head(q4_lang_read)</code></pre>
-<pre><code>##      girlCode              council         langCourses langGrade lang_pts2
+<pre><code>##      girlCode              council         langCourses langGrade lang_pts4
 ## 1 320GD120203 West Central Council mjLangArts1_quarter         C         2
 ## 2 320CF032904 West Central Council mjLangArts1_quarter         B         3
 ## 3 320KF052703 West Central Council mjLangArts1_quarter         C         2
 ## 4 320TM060203 West Central Council mjLangArts1_quarter         A         4
 ## 5 320NR030504 West Central Council mjLangArts1_quarter         F         0
 ## 6 320AW050904 West Central Council mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts2
+##         readingCourses readingGrade reading_pts4
 ## 1 mjIntensRead_quarter            C            2
 ## 2   mjRead1Adv_quarter            B            3
 ## 3 mjIntensRead_quarter            B            3
 ## 4 mjIntensRead_quarter            C            2
 ## 5 mjIntensRead_quarter            F            0
 ## 6 mjIntensRead_quarter            A            4</code></pre>
-<pre class="r"><code>q4_lang_read &lt;- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
+<pre class="r"><code>q4_lang_read &lt;- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts4, readingCourses, readingGrade,reading_pts4)
 
 
 colnames (q4_lang_read) [1] &lt;- &quot;council&quot;
 
 head(q4_lang_read)</code></pre>
-<pre><code>##                council    girlCode         langCourses langGrade lang_pts2
+<pre><code>##                council    girlCode         langCourses langGrade lang_pts4
 ## 1 West Central Council 320GD120203 mjLangArts1_quarter         C         2
 ## 2 West Central Council 320CF032904 mjLangArts1_quarter         B         3
 ## 3 West Central Council 320KF052703 mjLangArts1_quarter         C         2
 ## 4 West Central Council 320TM060203 mjLangArts1_quarter         A         4
 ## 5 West Central Council 320NR030504 mjLangArts1_quarter         F         0
 ## 6 West Central Council 320AW050904 mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts2
+##         readingCourses readingGrade reading_pts4
 ## 1 mjIntensRead_quarter            C            2
 ## 2   mjRead1Adv_quarter            B            3
 ## 3 mjIntensRead_quarter            B            3
@@ -1283,14 +1283,14 @@ head(q4_lang_read)</code></pre>
 dim(q4_academic_data)</code></pre>
 <pre><code>## [1] 369  12</code></pre>
 <pre class="r"><code>head(q4_academic_data)</code></pre>
-<pre><code>##              council.x    girlCode         langCourses langGrade lang_pts2
+<pre><code>##              council.x    girlCode         langCourses langGrade lang_pts4
 ## 1 West Central Council 320GD120203 mjLangArts1_quarter         C         2
 ## 2 West Central Council 320CF032904 mjLangArts1_quarter         B         3
 ## 3 West Central Council 320KF052703 mjLangArts1_quarter         C         2
 ## 4 West Central Council 320TM060203 mjLangArts1_quarter         A         4
 ## 5 West Central Council 320NR030504 mjLangArts1_quarter         F         0
 ## 6 West Central Council 320AW050904 mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts2            council.y
+##         readingCourses readingGrade reading_pts4            council.y
 ## 1 mjIntensRead_quarter            C            2 West Central Council
 ## 2   mjRead1Adv_quarter            B            3 West Central Council
 ## 3 mjIntensRead_quarter            B            3 West Central Council
@@ -1304,20 +1304,20 @@ dim(q4_academic_data)</code></pre>
 ## 4              0                 0       No
 ## 5              0                 0       No
 ## 6              0                 0       No</code></pre>
-<pre class="r"><code>q4_academic_data &lt;- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
+<pre class="r"><code>q4_academic_data &lt;- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts4, readingCourses,readingGrade, reading_pts4,total_absences, total_suspensions, expelled)
 
 colnames (q4_academic_data) [1] &lt;- &quot;council&quot;
 
 
 head(q4_academic_data)</code></pre>
-<pre><code>##                council    girlCode         langCourses langGrade lang_pts2
+<pre><code>##                council    girlCode         langCourses langGrade lang_pts4
 ## 1 West Central Council 320GD120203 mjLangArts1_quarter         C         2
 ## 2 West Central Council 320CF032904 mjLangArts1_quarter         B         3
 ## 3 West Central Council 320KF052703 mjLangArts1_quarter         C         2
 ## 4 West Central Council 320TM060203 mjLangArts1_quarter         A         4
 ## 5 West Central Council 320NR030504 mjLangArts1_quarter         F         0
 ## 6 West Central Council 320AW050904 mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts2 total_absences
+##         readingCourses readingGrade reading_pts4 total_absences
 ## 1 mjIntensRead_quarter            C            2              0
 ## 2   mjRead1Adv_quarter            B            3              0
 ## 3 mjIntensRead_quarter            B            3              0
