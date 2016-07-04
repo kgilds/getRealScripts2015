@@ -17,7 +17,6 @@ library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
-library (ezknitr)
 library(knitr)
 
 ```
@@ -35,6 +34,12 @@ q1_langarts <-dbReadTable(getReal_2016db,"Q1_lang")
 
 q2_langarts <-dbReadTable(getReal_2016db, "Q2_lang")
 
+q3_langarts <- dbReadTable(getReal_2016db, "Q3_lang")
+
+q4_langarts <- dbReadTable(getReal_2016db, "Q4_lang")
+
+dim(q4_langarts)
+
 
 ```
 
@@ -46,6 +51,22 @@ q2_langarts <-dbReadTable(getReal_2016db, "Q2_lang")
 
 
 ```{r echo=FALSE}
+
+
+### join lang arts grad  q1q4
+
+langarts_q4_q1 <- inner_join(q4_langarts, q1_langarts, by="girlCode")
+
+dim(langarts_q4_q1)
+
+missing_q4_q1 <- anti_join(q4_langarts, q1_langarts, by= "girlCode")
+
+langarts_q4_q2 <- inner_join(missing_q4_q1, q2_langarts, by="girlCode")
+
+dim(langarts_q4_q2)
+
+
+dim(missing_q4_q1)
 
 ##join langarts grades q1q2
 
