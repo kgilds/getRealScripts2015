@@ -178,6 +178,20 @@ lang_maintain()
 
 
 
+```{r}
+lang_increase <- function() {
+    lang_increase_dat <- filter(langarts2016, baseline <= 1)
+    lang_increase_num <- nrow(lang_increase_dat) / nrow(langarts2016)
+    lang_increase_per <- round(lang_increase_num*100,2)
+    pander(paste0(lang_increase_per, "%", sep=""))
+    
+    }
+lang_increase()
+```
+
+
+
+
 ```{r echo=FALSE}
 
 
