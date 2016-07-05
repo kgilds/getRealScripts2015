@@ -59,9 +59,9 @@ langarts_q4_q1 <- inner_join(q4_langarts, q1_langarts, by="girlCode")
 
 dim(langarts_q4_q1)
 
-missing_q4_q1 <- anti_join(q4_langarts, q1_langarts, by= "girlCode")
+missing_q4_q1 <- anti_join(q4_langarts, q1_langarts, by= "girlCode") #subset those without a match
 
-langarts_q4_q2 <- inner_join(missing_q4_q1, q2_langarts, by="girlCode")
+langarts_q4_q2 <- inner_join(missing_q4_q1, q2_langarts, by="girlCode") #try to join unmatched with q2 to q4. 
 
 dim(langarts_q4_q2)
 
@@ -74,12 +74,63 @@ langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
 
 
-langarts_1 <- langarts %>%
-    select(girlCode, council.x, lang_pts, lang_pts2)
 
-langarts_q2q1 <- langarts_1 %>%
-    mutate(pt_diff = lang_pts2 - lang_pts)
 
+names(langarts_q4_q1)
+
+
+```
+
+
+
+```{r}
+langarts_q4_q1 <- langarts_q4_q1 %>%
+    select(girlCode, council.x, lang_pts, lang_pts4) #select relevant variables
+
+langarts_q4_q2 <- langarts_q4_q2 %>%
+    select(girlCode, council.x, lang_pts2, lang_pts4) #select relevant variables
+
+
+colnames(langarts_q4_q1) [2] <- "council"
+colnames(langarts_q4_q1) [3] <- "baseline"
+colnames(langarts_q4_q1) [4] <-"final"
+
+
+
+langarts_q4_q1 <- langarts_q4_q1 %>%
+    mutate("Time" = "Q1Q4") #add variable time
+
+langarts_q4_q2 <- langarts_q4_q2 %>%
+    mutate("Time" = "Q2Q4") #add variable time
+
+colnames(langarts_q4_q2) [2] <- "council"
+colnames(langarts_q4_q2) [3] <- "baseline"
+colnames(langarts_q4_q2) [4] <-"final"
+
+
+
+
+```
+
+
+#bind
+```{r}
+
+langarts2016 <- rbind(langarts_q4_q1, langarts_q4_q2)
+
+dim(langarts2016)
+
+```
+
+
+
+
+```{r}
+langarts2016 <- langarts2016 %>%
+    select(girlCode, council, baseline, final, Time)
+
+langarts2016 <- langarts2016 %>%
+    mutate(pt_diff = final - baseline)
 
 
 ```
@@ -87,12 +138,13 @@ langarts_q2q1 <- langarts_1 %>%
 
 
 
-```{r echo=FALSE, eval=FALSE}
-lang_change <- with(langarts_q2q1, table(pt_diff, lang_pts2))
+
+```{r echo=TRUE, eval=TRUE}
+lang_change <- with(langarts2016, table(pt_diff, final))
 
 pander(lang_change)
 
-lang_change_1 <- with(langarts_q2q1, table(lang_pts2 >=2, pt_diff >=0))
+lang_change_1 <- with(langarts2016, table(final >=2, pt_diff >=0))
 
 pander(lang_change_1)
 
@@ -104,8 +156,8 @@ plot(lang_change)
 ### Language Arts Grade: % of Students that increased Grade or maintained a C 
 ```{r echo=FALSE}
 lang_success <- function() {
-    lang_dat <- filter(langarts_q2q1, lang_pts2 >=2, pt_diff >=0)
-    lang_dat <- nrow(lang_dat)/nrow(langarts_q2q1)
+    lang_dat <- filter(langarts2016, final >=2, pt_diff >=0)
+    lang_dat <- nrow(lang_dat)/nrow(langarts2016)
     lang_dat <- round(lang_dat*100,2)
     pander(paste0(lang_dat,"%", sep= ""))
    
@@ -118,22 +170,22 @@ lang_success <- function() {
 ```{r echo=FALSE}
 
 
-lang_gpa_diff<-mean(langarts_q2q1$pt_diff)
+lang_gpa_diff<-mean(langarts2016$pt_diff)
 
 #pander(lang_gpa_diff)
 
 ```
 
 
-The number of students that could be matched from Quarter 1 to Quarter 2 is **`r nrow(langarts_q2q1)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**.
+The number of students that could be matched from Quarter 1 to Quarter 2 is **`r nrow(langarts2016)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**.
 The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. 
 
 ```{r echo=FALSE}
 
-colnames (langarts_q2q1) [2] <- "council"
-colnames (langarts_q2q1) [3] <- "Q1_Grade"
-colnames (langarts_q2q1) [4] <- "Q2_Grade"
-colnames (langarts_q2q1) [5] <- "Grade_Change"
+
+names(langarts2016)
+
+colnames (langarts2016) [6] <- "Grade_Change"
 
 
 
@@ -143,8 +195,8 @@ colnames (langarts_q2q1) [5] <- "Grade_Change"
 
 
 
-### Grade Change Plot from Q1 to Q2: 
-The changes in grades from Q1 to Q2 is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase. 
+### Grade Change Plot from baseline to final: 
+The changes in grades from baseline to final is represented below. The vertical axis represents baseline grades and the bottom axis the change from the baseline. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase. 
 
 
 
@@ -156,7 +208,7 @@ The changes in grades from Q1 to Q2 is represented below. The vertical axis repr
 #reading_change_plot + geom_count()
 
 
-langarts_change_plot2 <- ggplot(langarts_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+langarts_change_plot2 <- ggplot(langarts2016,(aes(x = Grade_Change, y = baseline)))
 
 langarts_change_plot2 + geom_count()
 
