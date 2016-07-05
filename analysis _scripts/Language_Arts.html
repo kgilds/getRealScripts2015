@@ -332,14 +332,14 @@ lang_maintain()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>lang_increase &lt;- function() {
-    lang_increase_dat &lt;- filter(langarts2016, baseline &lt;= 1)
+    lang_increase_dat &lt;- filter(langarts2016, baseline &lt;= 1 &amp; final &gt;=2)
     lang_increase_num &lt;- nrow(lang_increase_dat) / nrow(langarts2016)
     lang_increase_per &lt;- round(lang_increase_num*100,2)
     pander(paste0(lang_increase_per, &quot;%&quot;, sep=&quot;&quot;))
     
     }
 lang_increase()</code></pre>
-<p>23.68%</p>
+<p>22.28%</p>
 <p>The number of students that could be matched from Quarter 1 to Qua is <strong>359</strong>, and the percent of students that increased their grade or maintained a C is <strong>85.79%</strong>. The mean difference between grades is Q1 to Q2 is <strong><em>0.4401</em></strong>.</p>
 <pre><code>## [1] &quot;girlCode&quot; &quot;council&quot;  &quot;baseline&quot; &quot;final&quot;    &quot;Time&quot;     &quot;pt_diff&quot;</code></pre>
 </div>
