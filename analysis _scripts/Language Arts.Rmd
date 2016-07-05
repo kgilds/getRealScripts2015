@@ -167,6 +167,17 @@ lang_success <- function() {
 ```
 
 
+```{r}
+lang_maintain <-function() {
+    lang_grade <- with(langarts2016, table(final, pt_diff ==0))
+    pander(lang_grade)
+}
+
+lang_maintain()
+```
+
+
+
 ```{r echo=FALSE}
 
 
@@ -177,7 +188,7 @@ lang_gpa_diff<-mean(langarts2016$pt_diff)
 ```
 
 
-The number of students that could be matched from Quarter 1 to Quarter 2 is **`r nrow(langarts2016)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**.
+The number of students that could be matched from Quarter 1 to Qua is **`r nrow(langarts2016)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**.
 The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. 
 
 ```{r echo=FALSE}
