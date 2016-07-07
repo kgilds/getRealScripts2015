@@ -166,6 +166,16 @@ lang_success <- function() {
 
 ```
 
+```{r}
+
+lang_test <- filter(langarts2016, final >=2, pt_diff >=0)
+
+lang_test
+
+```
+
+
+
 
 ```{r}
 lang_maintain <-function() {
@@ -190,6 +200,30 @@ lang_increase()
 ```
 
 
+```{r}
+lang_gradeincrease <- filter(langarts2016, final >=2 & pt_diff >=1)
+
+head(lang_gradeincrease)
+
+tail(lang_gradeincrease)
+
+
+
+```
+
+
+```{r}
+lang_grademaintain <- filter(langarts2016, final >= 2 & pt_diff ==0)
+
+dim(lang_grademaintain)
+
+head(lang_grademaintain)
+
+tail(lang_grademaintain)
+
+```
+
+
 
 
 ```{r echo=FALSE}
@@ -201,9 +235,35 @@ lang_gpa_diff<-mean(langarts2016$pt_diff)
 
 ```
 
+```{r}
+fail_topass <- filter(langarts2016,baseline < 2 & final >=2 )
 
-The number of students that could be matched from Quarter 1 to Qua is **`r nrow(langarts2016)`**, and the percent of students that increased their grade or maintained a C  is **`r lang_success ()`**.
-The mean difference between grades is Q1 to Q2 is **`r pander(lang_gpa_diff)`**. 
+fail_topass
+
+```
+
+
+
+The number of students that could be matched from baseline to final is **`r nrow(langarts2016)`**
+
+
+Success is defined by students who increased their grade and finished with a C or higher and students who maintained a grade. A student who improves from a F to D is not considered a success for the purpose of this analysis. Students who went from a A to B is not considered a success for this analysis.
+
+The percent of students with the successful outcome is  **`r lang_success ()`**.
+
+1. The number of students who increased their Language Arts Grade with a final grade of at least a C is: 
+**`r nrow(lang_gradeincrease)`**
+
+2. The number of students who maintained  their baseline grade with at least a C: **`r nrow(lang_grademaintain)`**
+
+
+3. The percent of students who had a failing grade at basline and finished with a passing final grade is **`r lang_increase ()`**
+
+
+
+
+
+The mean difference betwween baseline grades and final grade **`r pander(lang_gpa_diff)`**. 
 
 ```{r echo=FALSE}
 
