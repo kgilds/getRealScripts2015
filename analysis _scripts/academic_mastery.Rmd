@@ -560,31 +560,52 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 ```{r fig.height=5, fig.width=10}
 
 pre_parent_tbl <- pre_parent %>%
-    select(12 )
+    select(7, 12 )
 
 pre_parent_tbl$goodAttitudeAboutSchool <- factor(pre_parent_tbl$goodAttitudeAboutSchool, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-pre_parent_tbl <- likert(pre_parent_tbl)
 
-summary(pre_parent_tbl)
+
+
+
+#pre_parent_tbl <- likert(pre_parent_tbl)
+
+#summary(pre_parent_tbl)
+
+
 
 
 post_parent_tbl <- post_parent %>%
-    select(12)
+    select(7,12)
 
 post_parent_tbl$goodAttitudeAboutSchool <- factor(post_parent_tbl$goodAttitudeAboutSchool, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
-post_parent_tbl <- likert(post_parent_tbl)
 
-summary(post_parent_tbl)
+parent_test <- rbind(pre_parent_tbl, post_parent_tbl)
+
+head(parent_test)
+
+128g <- likert(parent_test, grouping = parent_test$Time)
+
+
+
+summary(128g)
+
+
+
+#post_parent_tbl <- likert(post_parent_tbl)
+
+#summary(post_parent_tbl)
+
+
 
 
 ```
 
 Pre Survey
 ```{r fig.height=7, fig.width=12}
-likert.heat.plot(pre_parent_tbl)
+#likert.heat.plot(pre_parent_tbl)
 
 ```
 
@@ -592,7 +613,7 @@ likert.heat.plot(pre_parent_tbl)
 Post Survey
 ```{r fig.height=7, fig.width=12}
 
-likert.heat.plot(post_parent_tbl)
+#likert.heat.plot(post_parent_tbl)
 ```
 
 
