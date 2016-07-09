@@ -15,7 +15,7 @@ library(psych)
 library(knitr)
 library(gridExtra)
 library(effsize)
-
+library(likert)
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 
@@ -485,6 +485,70 @@ cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
 
 
 
+## Cross Validation of Healthy Relationship Skills
+
+Survey results from teachers and parents also provide evidence that the Get REAL! program helps students increase their relationship skills. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
+
+Parent Survey
+Question: She 
+
+```{r}
+pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
+
+post_parent <- dbReadTable(getReal_2016db, "post_parent")
+
+```
+
+
+Pre Parent Survey
+
+
+```{r}
+
+pre_parent_hr1 <- pre_parent %>%
+    select(14)
+
+names(pre_parent_hr1)
+
+pre_parent_hr1$positiveRelationships <- factor(pre_parent_hr1$positiveRelationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+head(pre_parent_hr1)
+
+pre_parent_hr1 <<- likert(pre_parent_hr1)
+
+summary(pre_parent_hr1)
+
+
+```
+
+
+
+## Post Parent  Survey
+
+```{r fig.width=12}
+
+colnames(post_parent) [18] <-"relationsclassmates"
+
+
+post_parent_hr1 <- post_parent %>%
+    select(14,18)
+
+
+names(post_parent_hr1)
+
+post_parent_hr1$positiveRelationships <- factor(post_parent_hr1$positiveRelationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_parent_hr1$relationsclassmates <- factor(post_parent_hr1$relationsclassmates, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+head(post_parent_hr1)
+
+post_parent_hr1 <<- likert(post_parent_hr1)
+
+summary(post_parent_hr1)
+
+plot(post_parent_hr1, type="heat")
+
+```
 
 
 
