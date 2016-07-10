@@ -555,23 +555,28 @@ plot(post_parent_tbl, type="heat") + ggtitle("Question:She works on her homework
 #Teacher Survey
 
 Teacher Survey
-Question: She completes the homework given to her.
+Question 5: She positively participates in class
+Question 6: She completes the homework given to her.
 
 ```{r fig.height=2, fig.width=15}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
-colnames(post_teacher)[15] <- "hmwrk_super"
+
+names(post_teacher)
+
+colnames(post_teacher)[15] <- "Q6"
+colnames(post_teacher)[14] <- "Q5"
 
 
 
 post_teacher_tbl <- post_teacher %>%
-    select(15)
+    select(14,15)
 
 
 
-post_teacher_tbl$hmwrk_super <- factor(post_teacher_tbl$hmwrk_super, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+post_teacher_tbl$Q5 <- factor(post_teacher_tbl$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-
+post_teacher_tbl$Q6 <- factor(post_teacher_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 
@@ -579,14 +584,14 @@ post_teacher_tbl$hmwrk_super <- factor(post_teacher_tbl$hmwrk_super, levels=c("S
 
 
 
-```{r fig.height=7, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 
 summary(post_teacher_tbl)
 
 
-plot(post_teacher_tbl, type="heat") + ggtitle("Question: She completes the homework given to her") + theme_dark ()
+plot(post_teacher_tbl, type="heat") + ggtitle("Academic Engagment") + theme_dark ()
 
 
 
