@@ -514,13 +514,13 @@ pre_parent_tbl$hmwrk_super <- factor(pre_parent_tbl$hmwrk_super, levels=c("Stron
 ```
 
 
-```{r fig.height=5, fig.width=12}
+```{r fig.height=2, fig.width=12}
 
 pre_parent_tbl <- likert(pre_parent_tbl)
 
 summary(pre_parent_tbl)
 
-plot(pre_parent_tbl, type="heat")
+plot(pre_parent_tbl, type="heat") +ggtitle("Question: She works on her homework at home without supervision.")
 
 ```
 
@@ -537,13 +537,52 @@ post_parent_tbl$hmwrk_super <- factor(post_parent_tbl$hmwrk_super, levels=c("Str
 ```
 
 
-```{r}
+```{r fig.height=2, fig.width=12}
 
 post_parent_tbl <- likert(post_parent_tbl)
 
 summary(post_parent_tbl)
 
-plot(post_parent_tbl, type="heat")
+plot(post_parent_tbl, type="heat") + ggtitle("Question:She works on her homework at home without supervision.")
+
+```
+
+
+#Teacher Survey
+
+Teacher Survey
+Question: She completes the homework given to her.
+
+```{r fig.height=2, fig.width=15}
+post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
+
+colnames(post_teacher)[15] <- "hmwrk_super"
+
+
+
+post_teacher_tbl <- post_teacher %>%
+    select(15)
+
+
+
+post_teacher_tbl$hmwrk_super <- factor(post_teacher_tbl$hmwrk_super, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+
+
+
+```
+
+
+
+```{r fig.height=4, fig.width=15}
+
+post_teacher_tbl <- likert(post_teacher_tbl)
+
+summary(post_teacher_tbl)
+
+post_teacher<-plot(post_teacher_tbl, type="heat") + ggtitle("Question: She completes the homework given to her") + theme_dark ()
+
 
 ```
 
