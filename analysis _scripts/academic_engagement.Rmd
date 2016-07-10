@@ -5,6 +5,10 @@ date: "June 13, 2016"
 output: html_document
 ---
 
+
+
+
+
 ```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(pander)
@@ -575,13 +579,16 @@ post_teacher_tbl$hmwrk_super <- factor(post_teacher_tbl$hmwrk_super, levels=c("S
 
 
 
-```{r fig.height=4, fig.width=15}
+```{r fig.height=7, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 
 summary(post_teacher_tbl)
 
-post_teacher<-plot(post_teacher_tbl, type="heat") + ggtitle("Question: She completes the homework given to her") + theme_dark ()
+
+plot(post_teacher_tbl, type="heat") + ggtitle("Question: She completes the homework given to her") + theme_dark ()
+
+
 
 
 ```

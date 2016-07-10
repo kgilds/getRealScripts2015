@@ -490,7 +490,7 @@ cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students increase their relationship skills. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
 Parent Survey
-Question: She 
+Question 1: She develops positive relationships with her classmates.
 
 ```{r}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
@@ -503,14 +503,20 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 Pre Parent Survey
 
 
+
+
 ```{r}
+
+
 
 pre_parent_hr1 <- pre_parent %>%
     select(14)
 
+colnames(pre_parent_hr1) [1] <- "Q5"
+
 names(pre_parent_hr1)
 
-pre_parent_hr1$positiveRelationships <- factor(pre_parent_hr1$positiveRelationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_parent_hr1$Q5 <- factor(pre_parent_hr1$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 head(pre_parent_hr1)
 
@@ -518,6 +524,7 @@ pre_parent_hr1 <<- likert(pre_parent_hr1)
 
 summary(pre_parent_hr1)
 
+plot(pre_parent_hr1, type="heat") + ggtitle("Healthy Relationships")
 
 ```
 
@@ -525,20 +532,28 @@ summary(pre_parent_hr1)
 
 ## Post Parent  Survey
 
+Question 5: She develops positive relationships with her classmates
+
+Question 9: The Get REAL! program helped my daughter establish positive relationships with her classmates
+
 ```{r fig.width=12}
 
-colnames(post_parent) [18] <-"relationsclassmates"
+colnames(post_parent) [14] <-"Q5"
+colnames(post_parent) [19] <-"Q9"
 
 
 post_parent_hr1 <- post_parent %>%
-    select(14,18)
+    select(14, 19)
 
 
 names(post_parent_hr1)
 
-post_parent_hr1$positiveRelationships <- factor(post_parent_hr1$positiveRelationships, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+post_parent_hr1$Q5 <- factor(post_parent_hr1$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-post_parent_hr1$relationsclassmates <- factor(post_parent_hr1$relationsclassmates, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+post_parent_hr1$Q9 <- factor(post_parent_hr1$Q9, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+
 
 head(post_parent_hr1)
 
@@ -546,7 +561,7 @@ post_parent_hr1 <<- likert(post_parent_hr1)
 
 summary(post_parent_hr1)
 
-plot(post_parent_hr1, type="heat")
+plot(post_parent_hr1, type="heat") +ggtitle("Healthy Relationships")
 
 ```
 
@@ -554,61 +569,39 @@ plot(post_parent_hr1, type="heat")
 # Teacher Post Survey
 
 Teacher Survey
-Question: 
+
+Question 1: She has developed positive relationships with her classmates
+
+Question 2: The Get REAL! program helped her develop positive relationships with classmates.
 
 ```{r fig.width=12}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
-colnames(post_teacher) [19] <-"build_relations"
-colnames(post_teacher) [16] <- "positive_relations"
+colnames(post_teacher) [16] <- "Q1"
+colnames(post_teacher) [19] <- "Q2"
 
 post_teacher_tbl <- post_teacher %>%
     select(16, 19)
 
 names(post_teacher_tbl)
 
-post_teacher_tbl$build_relations <- factor(post_teacher_tbl$build_relations, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-post_teacher_tbl$positive_relations <- factor(post_teacher$positive_relations, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_teacher_tbl$Q1 <- factor(post_teacher$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_teacher_tbl$Q2 <- factor(post_teacher$Q2, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
 
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 
 summary(post_teacher_tbl)
 
-plot(post_teacher_tbl, type="heat")
+plot(post_teacher_tbl, type="heat") + ggtitle("Healthy Relationships")
 ```
 
 
-# Girl Survey Attributional
 
-```{r}
-
-attr_hr <- dbReadTable(getReal_2016db, "girl_post")
-
-colnames(attr_hr)[48] <- "student_relations"
-
-
-ncol(attr_hr)
-
-attr_hr <- attr_hr %>%
-    select(48)
-
-
-```
-
-```{r fig.height=5, fig.width=12}
-
-attr_hr$student_relations <- factor(attr_hr$student_relations, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-attr_hr <- likert(attr_hr)
-
-summary(attr_hr)
-
-plot(attr_hr, type="heat") + ggtitle("The Get Real Program Has")
-
-
-```
 
 
 
