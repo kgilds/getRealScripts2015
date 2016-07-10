@@ -14,6 +14,7 @@ library(psych)
 library(knitr)
 library(gridExtra)
 library(effsize)
+library(likert)
 
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
@@ -482,4 +483,44 @@ cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 ```
 
+## Cross Validation of Academic Engagment
+
+Survey results from teachers and parents also provide evidence that the Get REAL! program helps students learn tangible tools to help them succeed in school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
+
+Parent Survey
+Question: 
+
+```{r}
+pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
+
+post_parent <- dbReadTable(getReal_2016db, "post_parent")
+
+```
+
+# Pre Survey
+```{r}
+
+colnames(pre_parent)[15] <- "hmwrk_super"
+
+pre_parent_tbl <- pre_parent %>%
+    select(15)
+
+names(pre_parent_tbl)
+
+pre_parent_tbl$hmwrk_super <- factor(pre_parent_tbl$hmwrk_super, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+
+```
+
+
+```{r}
+
+pre_parent_tbl <- likert(pre_parent_tbl)
+
+summary(pre_parent_tbl)
+
+plot(pre_parent_tbl, type="heat")
+
+```
 
