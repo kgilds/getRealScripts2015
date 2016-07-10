@@ -491,8 +491,9 @@ cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students learn tangible tools to help them succeed in school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
-Parent Survey
-Question: 
+Parent Survey:
+
+Question: She works on her homework at home without supervision
 
 ```{r}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
@@ -504,50 +505,50 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 # Pre Survey
 ```{r}
 
-colnames(pre_parent)[15] <- "hmwrk_super"
+colnames(pre_parent)[15] <- "Q5"
 
 pre_parent_tbl <- pre_parent %>%
     select(15)
 
 names(pre_parent_tbl)
 
-pre_parent_tbl$hmwrk_super <- factor(pre_parent_tbl$hmwrk_super, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_parent_tbl$Q5 <- factor(pre_parent_tbl$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 
 ```
 
 
-```{r fig.height=2, fig.width=12}
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
 
 pre_parent_tbl <- likert(pre_parent_tbl)
 
 summary(pre_parent_tbl)
 
-plot(pre_parent_tbl, type="heat") +ggtitle("Question: She works on her homework at home without supervision.")
+plot(pre_parent_tbl, type="heat") +ggtitle("Parent Pre Survey Question 5") + theme_dark ()
 
 ```
 
 
 ```{r}
-colnames(post_parent)[15] <- "hmwrk_super"
+colnames(post_parent)[15] <- "Q6"
 
 post_parent_tbl <- post_parent %>%
     select(15)
 
-post_parent_tbl$hmwrk_super <- factor(post_parent_tbl$hmwrk_super, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+post_parent_tbl$Q6 <- factor(post_parent_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 ```
 
 
-```{r fig.height=2, fig.width=12}
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
 
 post_parent_tbl <- likert(post_parent_tbl)
 
 summary(post_parent_tbl)
 
-plot(post_parent_tbl, type="heat") + ggtitle("Question:She works on her homework at home without supervision.")
+plot(post_parent_tbl, type="heat") + ggtitle("Post Survey Question 6") + theme_dark ()
 
 ```
 
@@ -562,7 +563,7 @@ Question 6: She completes the homework given to her.
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 
-names(post_teacher)
+#names(post_teacher) checked 
 
 colnames(post_teacher)[15] <- "Q6"
 colnames(post_teacher)[14] <- "Q5"
@@ -591,7 +592,7 @@ post_teacher_tbl <- likert(post_teacher_tbl)
 summary(post_teacher_tbl)
 
 
-plot(post_teacher_tbl, type="heat") + ggtitle("Academic Engagment") + theme_dark ()
+plot(post_teacher_tbl, type="heat") + ggtitle("Teacher Post Survey Question 5 & 6") + theme_dark ()
 
 
 
