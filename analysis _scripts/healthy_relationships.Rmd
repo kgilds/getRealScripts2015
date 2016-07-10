@@ -551,10 +551,69 @@ plot(post_parent_hr1, type="heat")
 ```
 
 
+# Teacher Post Survey
+
+Teacher Survey
+Question: 
+
+```{r fig.width=12}
+post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
+
+colnames(post_teacher) [19] <-"build_relations"
+colnames(post_teacher) [16] <- "positive_relations"
+
+post_teacher_tbl <- post_teacher %>%
+    select(16, 19)
+
+names(post_teacher_tbl)
+
+post_teacher_tbl$build_relations <- factor(post_teacher_tbl$build_relations, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_teacher_tbl$positive_relations <- factor(post_teacher$positive_relations, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+post_teacher_tbl <- likert(post_teacher_tbl)
+
+summary(post_teacher_tbl)
+
+plot(post_teacher_tbl, type="heat")
+```
+
+
+# Girl Survey Attributional
+
+```{r}
+
+attr_hr <- dbReadTable(getReal_2016db, "girl_post")
+
+colnames(attr_hr)[48] <- "student_relations"
+
+
+ncol(attr_hr)
+
+attr_hr <- attr_hr %>%
+    select(48)
+
+
+```
+
+```{r fig.height=5, fig.width=12}
+
+attr_hr$student_relations <- factor(attr_hr$student_relations, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+attr_hr <- likert(attr_hr)
+
+summary(attr_hr)
+
+plot(attr_hr, type="heat") + ggtitle("The Get Real Program Has")
+
+
+```
 
 
 
 
+# Trend Data
 
 ```{r lastyeardata, echo=FALSE}
 
