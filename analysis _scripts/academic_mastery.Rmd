@@ -546,8 +546,8 @@ cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students formulate better attitude toward school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
 Parent Survey
-Question: She has a good attitude about school.Teacher Survey
-
+Question 1: She is motivated to graduate high school
+Question 3: She has a Good Attitude About School
 ```{r}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
@@ -595,11 +595,19 @@ summary(pre_parent_tbl)
 
 
 ```{r}
+
+colnames(post_parent) [10] <- "Q1"
+
+colnames(post_parent) [12] <- "Q3"
+
 post_parent_tbl <- post_parent %>%
-    select(12)
+    select(10,12)
 
-post_parent_tbl$goodAttitudeAboutSchool <- factor(post_parent_tbl$goodAttitudeAboutSchool, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
+
+post_parent_tbl$Q1 <- factor(post_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_parent_tbl$Q3 <- factor(post_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 
@@ -616,36 +624,42 @@ summary(post_parent_tbl)
 
 
 Pre Survey
-```{r fig.height=7, fig.width=12}
-likert.heat.plot(pre_parent_tbl)
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
+likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
 ```
 
 
 Post Survey
-```{r fig.height=7, fig.width=12}
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
 
-likert.heat.plot(post_parent_tbl)
+likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Question 3") + theme_dark()
 ```
 
 
 
 Teacher Survey
-Question: She has a Good Attitude About School
+Question 1: She is motivated to graduate high school
+Question 3: She has a Good Attitude About School
 
 ```{r}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
+colnames(post_teacher) [10] <- "Q1"
+colnames(post_teacher) [12] <- "Q3"
+
 post_teacher_tbl <- post_teacher %>%
-    select(12)
+    select(10, 12)
 
 
 
 
 
 
-post_teacher_tbl$goodAttitude <- factor(post_teacher_tbl$goodAttitude, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+post_teacher_tbl$Q1 <- factor(post_teacher_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
+
+post_teacher_tbl$Q3 <- factor(post_teacher_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 
@@ -656,9 +670,9 @@ summary(post_teacher_tbl)
 
 ```
 
-```{r fig.height=3, fig.width=12}
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
 
-likert.heat.plot(post_teacher_tbl) 
+plot(post_teacher_tbl, type="heat") +ggtitle("Post Teacher Survey Question 1 & Question 3") + theme_dark()
 
 
 
