@@ -514,13 +514,36 @@ pre_parent_tbl$hmwrk_super <- factor(pre_parent_tbl$hmwrk_super, levels=c("Stron
 ```
 
 
-```{r}
+```{r fig.height=5, fig.width=12}
 
 pre_parent_tbl <- likert(pre_parent_tbl)
 
 summary(pre_parent_tbl)
 
 plot(pre_parent_tbl, type="heat")
+
+```
+
+
+```{r}
+colnames(post_parent)[15] <- "hmwrk_super"
+
+post_parent_tbl <- post_parent %>%
+    select(15)
+
+post_parent_tbl$hmwrk_super <- factor(post_parent_tbl$hmwrk_super, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+```
+
+
+```{r}
+
+post_parent_tbl <- likert(post_parent_tbl)
+
+summary(post_parent_tbl)
+
+plot(post_parent_tbl, type="heat")
 
 ```
 
