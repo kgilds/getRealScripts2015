@@ -564,11 +564,13 @@ post_parent_hr1$Q5 <- factor(post_parent_hr1$Q5, levels=c("Strongly Disagree", "
 post_parent_hr1$Q9 <- factor(post_parent_hr1$Q9, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
-post_parent_tbl_5 <- table(post_parent_hr1$Q5)
+post_parent_tbl_5 <- table(post_parent_hr1$Q5) #test Q5
 
 pander(post_parent_tbl_5)
 
-post_parent_tbl_9 <- table(post_parent_hr1$Q9)
+post_parent_tbl_9 <- table(post_parent_hr1$Q9) #test Q9
+
+pander(post_parent_tbl_9)
 
 
 
@@ -610,6 +612,16 @@ names(post_teacher_tbl)
 post_teacher_tbl$Q7 <- factor(post_teacher$Q7, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 post_teacher_tbl$Q10 <- factor(post_teacher$Q10, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+post_teacher_tbl_q7 <- table(post_teacher_tbl$Q7)
+
+pander(post_teacher_tbl_q7)  #test teacher post q7
+
+
+post_teacher_tbl_q10 <- table(post_teacher_tbl$Q10)
+
+pander(post_teacher_tbl_q7) #test teacher post q10
 
 
 

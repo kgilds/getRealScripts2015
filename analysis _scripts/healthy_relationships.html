@@ -436,7 +436,7 @@ names(post_parent_hr1)</code></pre>
 post_parent_hr1$Q9 &lt;- factor(post_parent_hr1$Q9, levels=c(&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Slightly Disagree&quot;, &quot;Neither Agree/Disagree&quot;, &quot;Slightly Agree&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot;),ordered = TRUE)
 
 
-post_parent_tbl_5 &lt;- table(post_parent_hr1$Q5)
+post_parent_tbl_5 &lt;- table(post_parent_hr1$Q5) #test Q5
 
 pander(post_parent_tbl_5)</code></pre>
 <table>
@@ -485,12 +485,56 @@ pander(post_parent_tbl_5)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>post_parent_tbl_9 &lt;- table(post_parent_hr1$Q9)
+<pre class="r"><code>post_parent_tbl_9 &lt;- table(post_parent_hr1$Q9) #test Q9
 
-
-
-
-head(post_parent_hr1)</code></pre>
+pander(post_parent_tbl_9)</code></pre>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="26%"></col>
+<col width="14%"></col>
+<col width="26%"></col>
+<col width="32%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+<th align="center">Slightly Disagree</th>
+<th align="center">Neither Agree/Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<table style="width:57%;">
+<colgroup>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Slightly Agree</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">58</td>
+<td align="center">179</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>head(post_parent_hr1)</code></pre>
 <pre><code>##                       Q5             Q9
 ## 1               Disagree       Disagree
 ## 2 Neither Agree/Disagree           &lt;NA&gt;
@@ -550,8 +594,105 @@ names(post_teacher_tbl)</code></pre>
 post_teacher_tbl$Q10 &lt;- factor(post_teacher$Q10, levels=c(&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Slightly Disagree&quot;, &quot;Neither Agree/Disagree&quot;, &quot;Slightly Agree&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot;),ordered = TRUE)
 
 
+post_teacher_tbl_q7 &lt;- table(post_teacher_tbl$Q7)
 
-post_teacher_tbl &lt;- likert(post_teacher_tbl)
+pander(post_teacher_tbl_q7)  #test teacher post q7</code></pre>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="26%"></col>
+<col width="14%"></col>
+<col width="26%"></col>
+<col width="32%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+<th align="center">Slightly Disagree</th>
+<th align="center">Neither Agree/Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table style="width:57%;">
+<colgroup>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Slightly Agree</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">172</td>
+<td align="center">207</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>post_teacher_tbl_q10 &lt;- table(post_teacher_tbl$Q10)
+
+pander(post_teacher_tbl_q7) #test teacher post q10</code></pre>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="26%"></col>
+<col width="14%"></col>
+<col width="26%"></col>
+<col width="32%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+<th align="center">Slightly Disagree</th>
+<th align="center">Neither Agree/Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table style="width:57%;">
+<colgroup>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Slightly Agree</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">172</td>
+<td align="center">207</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>post_teacher_tbl &lt;- likert(post_teacher_tbl)
 
 summary(post_teacher_tbl)</code></pre>
 <pre><code>##   Item low neutral high     mean        sd
