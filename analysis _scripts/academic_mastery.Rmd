@@ -576,7 +576,19 @@ pre_parent_tbl$Q1 <- factor(pre_parent_tbl$Q1, levels=c("Strongly Disagree", "Di
 pre_parent_tbl$Q3 <- factor(pre_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
+pre_parent_q1 <-table(pre_parent_tbl$Q1) #make table to test
 
+pander(pre_parent_q1) #print results of test nicely
+
+
+
+pre_parent_q3 <-table(pre_parent_tbl$Q3) #make tabl to test result
+
+
+pander(pre_parent_q3) #print result of test nicely
+
+
+nrow(pre_parent_tbl) #determine total number of observations to verify percents in likert tables 
 
 
 
@@ -610,11 +622,20 @@ post_parent_tbl$Q1 <- factor(post_parent_tbl$Q1, levels=c("Strongly Disagree", "
 post_parent_tbl$Q3 <- factor(post_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
+post_parent_test_q1 <-table(post_parent_tbl$Q1) #make table to test
+
+pander(post_parent_test_q1) #show result of test
 
 
-post_parent_tbl <- likert(post_parent_tbl)
+post_parent_test_q3 <-table(post_parent_tbl$Q3) #make table to test 
 
-summary(post_parent_tbl)
+pander(post_parent_test_q3)  # show results of test
+
+nrow(post_parent_tbl) #check to determine total to make divisible. 
+
+post_parent_tbl <- likert(post_parent_tbl) #make into liker table
+
+summary(post_parent_tbl)  #make summary of likert items
 
 
 ```
@@ -660,6 +681,20 @@ post_teacher_tbl$Q1 <- factor(post_teacher_tbl$Q1, levels=c("Strongly Disagree",
 
 
 post_teacher_tbl$Q3 <- factor(post_teacher_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+post_teacher_q1 <- table(post_teacher_tbl$Q1) #make table to test results
+
+pander(post_teacher_q1) #prints results of test
+
+
+
+post_teacher_q3 <- table(post_teacher_tbl$Q3) #make table to test 
+
+pander(post_teacher_q3) #prints tests nicely
+
+
+nrow(post_teacher_tbl) #total observations
 
 
 
