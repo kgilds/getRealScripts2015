@@ -522,9 +522,9 @@ head(pre_parent_hr1)
 
 
 
-pre_parent_tbl <- table(pre_parent_hr1) #test
+pre_parent_tbl <- table(pre_parent_hr1) #test q5 
 
-dim(pre_parent_hr1) #test
+nrow(pre_parent_hr1) #test to figure how total with testing %s
 
 
 pander(pre_parent_tbl) 
@@ -570,7 +570,10 @@ pander(post_parent_tbl_5)
 
 post_parent_tbl_9 <- table(post_parent_hr1$Q9) #test Q9
 
-pander(post_parent_tbl_9)
+pander(post_parent_tbl_9) #return value of test #9
+
+
+nrow(post_parent_hr1) #number of rows to help with testing %s
 
 
 
@@ -623,7 +626,7 @@ post_teacher_tbl_q10 <- table(post_teacher_tbl$Q10)
 
 pander(post_teacher_tbl_q7) #test teacher post q10
 
-
+nrow(post_teacher_tbl) #check to determine number of rows; what to divide to get %
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 

@@ -336,10 +336,10 @@ head(pre_parent_hr1)</code></pre>
 ## 4 Neither Agree/Disagree
 ## 5 Neither Agree/Disagree
 ## 6 Neither Agree/Disagree</code></pre>
-<pre class="r"><code>pre_parent_tbl &lt;- table(pre_parent_hr1) #test
+<pre class="r"><code>pre_parent_tbl &lt;- table(pre_parent_hr1) #test q5 
 
-dim(pre_parent_hr1) #test</code></pre>
-<pre><code>## [1] 466   1</code></pre>
+nrow(pre_parent_hr1) #test to figure how total with testing %s</code></pre>
+<pre><code>## [1] 466</code></pre>
 <pre class="r"><code>pander(pre_parent_tbl) </code></pre>
 <table>
 <caption>Table continues below</caption>
@@ -487,7 +487,7 @@ pander(post_parent_tbl_5)</code></pre>
 </table>
 <pre class="r"><code>post_parent_tbl_9 &lt;- table(post_parent_hr1$Q9) #test Q9
 
-pander(post_parent_tbl_9)</code></pre>
+pander(post_parent_tbl_9) #return value of test #9</code></pre>
 <table>
 <caption>Table continues below</caption>
 <colgroup>
@@ -534,6 +534,8 @@ pander(post_parent_tbl_9)</code></pre>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>nrow(post_parent_hr1) #number of rows to help with testing %s</code></pre>
+<pre><code>## [1] 244</code></pre>
 <pre class="r"><code>head(post_parent_hr1)</code></pre>
 <pre><code>##                       Q5             Q9
 ## 1               Disagree       Disagree
@@ -692,6 +694,8 @@ pander(post_teacher_tbl_q7) #test teacher post q10</code></pre>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>nrow(post_teacher_tbl) #check to determine number of rows; what to divide to get %</code></pre>
+<pre><code>## [1] 398</code></pre>
 <pre class="r"><code>post_teacher_tbl &lt;- likert(post_teacher_tbl)
 
 summary(post_teacher_tbl)</code></pre>
