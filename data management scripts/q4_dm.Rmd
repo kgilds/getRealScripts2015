@@ -297,6 +297,21 @@ q4_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle 
 
 ```
 
+```{r}
+
+q4free_read <- select(q4_gradesUnique, 7,8, 38:40)
+
+na.omit(q4free_read$semester)
+
+
+table(q4free_read$reading_course)
+
+table(q4free_read$readFree1_quarter, q4free_read$reading_course)
+
+table(q4free_read$readFree2_semester, q4free_read$reading_course)
+
+
+```
 
 
 
@@ -306,9 +321,10 @@ q4_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle 
 ###############Reading Clean Up###############################################################
 
 ### Select data of interest
-q4Reading <- select(q4_gradesUnique, 7,8, 20:39)
+q4Reading <- select(q4_gradesUnique, 7,8, 20:40)
 
 
+names(q4Reading)
 
 
 ### Put the data in the shape you want it. 
@@ -370,9 +386,13 @@ names(mq4Reading)
 
 ```{r}
 
-q4free_read <- select(q4_gradesUnique, 7,8, 38:39)
+q4free_read <- select(q4_gradesUnique, 7,8, 38:40)
 
-names(q4free_read)
+
+
+
+
+table(q4free_read$reading_course)
 
 table(q4free_read$readFree1_quarter)
 

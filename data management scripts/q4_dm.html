@@ -628,18 +628,61 @@ q4_gradesUnique$council &lt;-sub(&quot;Girl Scout Council of Tropical Florida&qu
 q4_gradesUnique$council &lt;-sub(&quot;Girl Scouts of West Central Florida&quot;, &quot;West Central Council&quot;, fixed = TRUE, q4_gradesUnique$council)
 
 q4_gradesUnique$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;, &quot;Panhandle Council&quot;, fixed = TRUE, q4_gradesUnique$council)</code></pre>
+<pre class="r"><code>q4free_read &lt;- select(q4_gradesUnique, 7,8, 38:40)
+
+na.omit(q4free_read$semester)</code></pre>
+<pre><code>## Warning in is.na(object): is.na() applied to non-(list or vector) of type
+## 'NULL'</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>table(q4free_read$reading_course)</code></pre>
+<pre><code>## 
+##      M/J CRIT THINK M/J INENS READ (MC) 
+##                  13                   2</code></pre>
+<pre class="r"><code>table(q4free_read$readFree1_quarter, q4free_read$reading_course)</code></pre>
+<pre><code>##    
+##     M/J CRIT THINK M/J INENS READ (MC)
+##   A              7                   0
+##   B              6                   1
+##   C              0                   1</code></pre>
+<pre class="r"><code>table(q4free_read$readFree2_semester, q4free_read$reading_course)</code></pre>
+<pre><code>##    
+##     M/J CRIT THINK M/J INENS READ (MC)
+##   A             10                   0
+##   B              3                   0</code></pre>
 </div>
 <div id="reading-grades-sectionsplit-and-clean-up" class="section level1">
 <h1>Reading Grades Section–Split and Clean up</h1>
 <pre class="r"><code>###############Reading Clean Up###############################################################
 
 ### Select data of interest
-q4Reading &lt;- select(q4_gradesUnique, 7,8, 20:39)
+q4Reading &lt;- select(q4_gradesUnique, 7,8, 20:40)
 
 
-
-
-### Put the data in the shape you want it. 
+names(q4Reading)</code></pre>
+<pre><code>##  [1] &quot;council&quot;                            
+##  [2] &quot;girlCode&quot;                           
+##  [3] &quot;mjIntensRead_quarter&quot;               
+##  [4] &quot;mjIntensRead_semester&quot;              
+##  [5] &quot;mjIntenseReadCareerPlaning_quarter&quot; 
+##  [6] &quot;mjIntenseReadCareerPlaning_semester&quot;
+##  [7] &quot;mjRead1_quarter&quot;                    
+##  [8] &quot;mjRead1_semester&quot;                   
+##  [9] &quot;mjRead1Adv_quarter&quot;                 
+## [10] &quot;mjRead1Adv_semester&quot;                
+## [11] &quot;mjRead2_quarter&quot;                    
+## [12] &quot;mjRead2_semester&quot;                   
+## [13] &quot;mjRead2Adv_quarter&quot;                 
+## [14] &quot;mjRead2Adv_semester&quot;                
+## [15] &quot;mjRead3_quarter&quot;                    
+## [16] &quot;mjRead3_semester&quot;                   
+## [17] &quot;mjRead3Adv_quarter&quot;                 
+## [18] &quot;mjRead3Adv_semester&quot;                
+## [19] &quot;mjDelaESOLRead_quarter&quot;             
+## [20] &quot;mjDelaESOLRead_semester&quot;            
+## [21] &quot;readFree1_quarter&quot;                  
+## [22] &quot;readFree2_semester&quot;                 
+## [23] &quot;reading_course&quot;</code></pre>
+<pre class="r"><code>### Put the data in the shape you want it. 
 mq4Reading &lt;- melt(q4Reading, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
 <pre><code>## Warning: attributes are not identical across measure variables; they will
 ## be dropped</code></pre>
@@ -679,50 +722,90 @@ mq4Reading$readingGrade &lt;- toupper(mq4Reading$readingGrade)
 mq4Reading$readingGrade &lt;-as.factor(mq4Reading$readingGrade)
 
 summary(mq4Reading$readingGrade)</code></pre>
-<pre><code>##   A   B   C   D   F 
-##  59 177  93   8  10</code></pre>
+<pre><code>##                   A                   B                   C 
+##                  59                 177                  93 
+##                   D                   F      M/J CRIT THINK 
+##                   8                  10                  13 
+## M/J INENS READ (MC) 
+##                   2</code></pre>
 <pre class="r"><code>### Create table to sneak peak at the data.    
 table(mq4Reading$readingCourses,mq4Reading$readingGrade)</code></pre>
 <pre><code>##                                      
-##                                        A  B  C  D  F
-##   mjIntensRead_quarter                 9 16 10  2  5
-##   mjIntensRead_semester                0  2  9  3  1
-##   mjIntenseReadCareerPlaning_quarter   0  0  1  0  0
-##   mjIntenseReadCareerPlaning_semester  0  0  1  0  0
-##   mjRead1_quarter                     13 63 11  0  0
-##   mjRead1_semester                     3 52 32  0  0
-##   mjRead1Adv_quarter                   0  1  0  0  0
-##   mjRead1Adv_semester                  0  0  0  0  0
-##   mjRead2_quarter                      2  9  3  0  0
-##   mjRead2_semester                     1  6  7  0  0
-##   mjRead2Adv_quarter                   8  3  4  2  1
-##   mjRead2Adv_semester                  2  1  4  0  2
-##   mjRead3_quarter                      1  7  0  1  0
-##   mjRead3_semester                     0  3  6  0  0
-##   mjRead3Adv_quarter                   2  2  3  0  1
-##   mjRead3Adv_semester                  1  2  1  0  0
-##   mjDelaESOLRead_quarter               0  0  0  0  0
-##   mjDelaESOLRead_semester              0  0  0  0  0
-##   readFree1_quarter                    7  7  1  0  0
-##   readFree2_semester                  10  3  0  0  0</code></pre>
+##                                        A  B  C  D  F M/J CRIT THINK
+##   mjIntensRead_quarter                 9 16 10  2  5              0
+##   mjIntensRead_semester                0  2  9  3  1              0
+##   mjIntenseReadCareerPlaning_quarter   0  0  1  0  0              0
+##   mjIntenseReadCareerPlaning_semester  0  0  1  0  0              0
+##   mjRead1_quarter                     13 63 11  0  0              0
+##   mjRead1_semester                     3 52 32  0  0              0
+##   mjRead1Adv_quarter                   0  1  0  0  0              0
+##   mjRead1Adv_semester                  0  0  0  0  0              0
+##   mjRead2_quarter                      2  9  3  0  0              0
+##   mjRead2_semester                     1  6  7  0  0              0
+##   mjRead2Adv_quarter                   8  3  4  2  1              0
+##   mjRead2Adv_semester                  2  1  4  0  2              0
+##   mjRead3_quarter                      1  7  0  1  0              0
+##   mjRead3_semester                     0  3  6  0  0              0
+##   mjRead3Adv_quarter                   2  2  3  0  1              0
+##   mjRead3Adv_semester                  1  2  1  0  0              0
+##   mjDelaESOLRead_quarter               0  0  0  0  0              0
+##   mjDelaESOLRead_semester              0  0  0  0  0              0
+##   readFree1_quarter                    7  7  1  0  0              0
+##   readFree2_semester                  10  3  0  0  0              0
+##   reading_course                       0  0  0  0  0             13
+##                                      
+##                                       M/J INENS READ (MC)
+##   mjIntensRead_quarter                                  0
+##   mjIntensRead_semester                                 0
+##   mjIntenseReadCareerPlaning_quarter                    0
+##   mjIntenseReadCareerPlaning_semester                   0
+##   mjRead1_quarter                                       0
+##   mjRead1_semester                                      0
+##   mjRead1Adv_quarter                                    0
+##   mjRead1Adv_semester                                   0
+##   mjRead2_quarter                                       0
+##   mjRead2_semester                                      0
+##   mjRead2Adv_quarter                                    0
+##   mjRead2Adv_semester                                   0
+##   mjRead3_quarter                                       0
+##   mjRead3_semester                                      0
+##   mjRead3Adv_quarter                                    0
+##   mjRead3Adv_semester                                   0
+##   mjDelaESOLRead_quarter                                0
+##   mjDelaESOLRead_semester                               0
+##   readFree1_quarter                                     0
+##   readFree2_semester                                    0
+##   reading_course                                        2</code></pre>
 <pre class="r"><code>with(mq4Reading, table(council,readingGrade))</code></pre>
 <pre><code>##                       readingGrade
-## council                  A   B   C   D   F
-##   Citrus Council         0   4   7   1   0
-##   Gateway Council       20 139  55   0   0
-##   West Central Council  39  34  31   7  10</code></pre>
+## council                  A   B   C   D   F M/J CRIT THINK
+##   Citrus Council         0   4   7   1   0              0
+##   Gateway Council       20 139  55   0   0              0
+##   West Central Council  39  34  31   7  10             13
+##                       readingGrade
+## council                M/J INENS READ (MC)
+##   Citrus Council                         0
+##   Gateway Council                        0
+##   West Central Council                   2</code></pre>
 <pre class="r"><code>### Check the levels
 levels(mq4Reading$readingGrade)</code></pre>
-<pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
+<pre><code>## [1] &quot;A&quot;                   &quot;B&quot;                   &quot;C&quot;                  
+## [4] &quot;D&quot;                   &quot;F&quot;                   &quot;M/J CRIT THINK&quot;     
+## [7] &quot;M/J INENS READ (MC)&quot;</code></pre>
 <pre class="r"><code>names(mq4Reading)</code></pre>
 <pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
 <div id="check-for-read-free-data-entry" class="section level2">
 <h2>Check for Read Free Data Entry</h2>
-<pre class="r"><code>q4free_read &lt;- select(q4_gradesUnique, 7,8, 38:39)
+<pre class="r"><code>q4free_read &lt;- select(q4_gradesUnique, 7,8, 38:40)
 
-names(q4free_read)</code></pre>
-<pre><code>## [1] &quot;council&quot;            &quot;girlCode&quot;           &quot;readFree1_quarter&quot; 
-## [4] &quot;readFree2_semester&quot;</code></pre>
+
+
+
+
+table(q4free_read$reading_course)</code></pre>
+<pre><code>## 
+##      M/J CRIT THINK M/J INENS READ (MC) 
+##                  13                   2</code></pre>
 <pre class="r"><code>table(q4free_read$readFree1_quarter)</code></pre>
 <pre><code>## 
 ## A B C 
@@ -738,7 +821,7 @@ names(q4free_read)</code></pre>
 mq4_read_ok &lt;- mq4Reading [!(duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast = TRUE)), ]
 
 dim(mq4Reading)</code></pre>
-<pre><code>## [1] 347   4</code></pre>
+<pre><code>## [1] 362   4</code></pre>
 <pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q4reading_dupes &lt;-duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast=TRUE)
@@ -748,7 +831,7 @@ q4reading_dupes &lt;- mq4Reading[q4reading_dupes, ]
 
 
 dim(q4reading_dupes)</code></pre>
-<pre><code>## [1] 308   4</code></pre>
+<pre><code>## [1] 323   4</code></pre>
 <div id="find-and-subset-the-semester-grades" class="section level3">
 <h3>Find and subset the Semester Grades</h3>
 <pre class="r"><code>read_quarter &lt;- q4reading_dupes[grep(&quot;_quarter&quot;, q4reading_dupes$readingCourses, ignore.case = TRUE),]
