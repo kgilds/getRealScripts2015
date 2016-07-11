@@ -210,9 +210,60 @@ post_parent &lt;- dbReadTable(getReal_2016db, &quot;post_parent&quot;)</code></p
 pre_parent_tbl &lt;- pre_parent %&gt;%
     select(15)
 
-names(pre_parent_tbl)</code></pre>
-<pre><code>## [1] &quot;Q5&quot;</code></pre>
-<pre class="r"><code>pre_parent_tbl$Q5 &lt;- factor(pre_parent_tbl$Q5, levels=c(&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Slightly Disagree&quot;, &quot;Neither Agree/Disagree&quot;, &quot;Slightly Agree&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot;),ordered = TRUE)</code></pre>
+#names(pre_parent_tbl)
+
+pre_parent_tbl$Q5 &lt;- factor(pre_parent_tbl$Q5, levels=c(&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Slightly Disagree&quot;, &quot;Neither Agree/Disagree&quot;, &quot;Slightly Agree&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot;),ordered = TRUE)</code></pre>
+<pre class="r"><code>pre_parent_test &lt;- table(pre_parent_tbl) #make tbl for testing
+
+nrow(pre_parent_tbl)</code></pre>
+<pre><code>## [1] 466</code></pre>
+<pre class="r"><code>pander(pre_parent_test)  #test pre parent</code></pre>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="26%"></col>
+<col width="14%"></col>
+<col width="26%"></col>
+<col width="32%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+<th align="center">Slightly Disagree</th>
+<th align="center">Neither Agree/Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">40</td>
+</tr>
+</tbody>
+</table>
+<table style="width:57%;">
+<colgroup>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Slightly Agree</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">35</td>
+<td align="center">73</td>
+<td align="center">309</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>pre_parent_tbl &lt;- likert(pre_parent_tbl)
 
 summary(pre_parent_tbl)</code></pre>
@@ -226,6 +277,57 @@ post_parent_tbl &lt;- post_parent %&gt;%
     select(15)
 
 post_parent_tbl$Q6 &lt;- factor(post_parent_tbl$Q6, levels=c(&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Slightly Disagree&quot;, &quot;Neither Agree/Disagree&quot;, &quot;Slightly Agree&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot;),ordered = TRUE)</code></pre>
+<pre class="r"><code>post_parent_test &lt;- table(post_parent_tbl) #make tbl to check results of likert
+
+pander(post_parent_test) #print result of table nicely</code></pre>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="26%"></col>
+<col width="14%"></col>
+<col width="26%"></col>
+<col width="32%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+<th align="center">Slightly Disagree</th>
+<th align="center">Neither Agree/Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table style="width:57%;">
+<colgroup>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Slightly Agree</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6</td>
+<td align="center">74</td>
+<td align="center">160</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>nrow(post_parent_tbl) #count number of observations</code></pre>
+<pre><code>## [1] 244</code></pre>
 <pre class="r"><code>post_parent_tbl &lt;- likert(post_parent_tbl)
 
 summary(post_parent_tbl)</code></pre>

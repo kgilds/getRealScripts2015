@@ -510,7 +510,7 @@ colnames(pre_parent)[15] <- "Q5"
 pre_parent_tbl <- pre_parent %>%
     select(15)
 
-names(pre_parent_tbl)
+#names(pre_parent_tbl)
 
 pre_parent_tbl$Q5 <- factor(pre_parent_tbl$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
@@ -520,6 +520,12 @@ pre_parent_tbl$Q5 <- factor(pre_parent_tbl$Q5, levels=c("Strongly Disagree", "Di
 
 
 ```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+
+pre_parent_test <- table(pre_parent_tbl) #make tbl for testing
+
+nrow(pre_parent_tbl)
+
+pander(pre_parent_test)  #test pre parent
 
 pre_parent_tbl <- likert(pre_parent_tbl)
 
@@ -543,6 +549,12 @@ post_parent_tbl$Q6 <- factor(post_parent_tbl$Q6, levels=c("Strongly Disagree", "
 
 
 ```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+
+post_parent_test <- table(post_parent_tbl) #make tbl to check results of likert
+
+pander(post_parent_test) #print result of table nicely
+
+nrow(post_parent_tbl) #count number of observations
 
 post_parent_tbl <- likert(post_parent_tbl)
 
