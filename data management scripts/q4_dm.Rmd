@@ -9,7 +9,7 @@ output: html_document
 
 ## Import Libaries needed. 
 
-```{r}
+```{r "q4_loadlibaries"}
 
 #### Load the Libraries
 library(dplyr)
@@ -32,7 +32,7 @@ names(q4_grades)
 ```
 
 ## Make columna names easier to read
-```{r}
+```{r "q4_changcolnames"}
 
 ### Demo Variables
 colnames (q4_grades) [7] <- "council"
@@ -192,7 +192,7 @@ names(q4_grades)
 ```
 
 ## Subset completed data entry
-```{r}
+```{r "q4_completed"}
 ################Finished Data Entry####################################33
 
 ### Eliminate uncompleted data entry
@@ -202,7 +202,7 @@ names(q4_grades)
 ```
 
 
-```{r}
+```{r "q4councilname"}
 ## Update council variable names to match other data sources
 
 
@@ -226,7 +226,7 @@ gradesq4$council <-sub("Girl Scout Council of the Panhandle", "Panhandle Council
 
 
 ## Update factors
-```{r}
+```{r"q4factors"}
 
 #######################Fix Factors ###################################
 
@@ -246,7 +246,7 @@ gradesq4$girlCode <- as.character(gradesq4$girlCode)
 
 
 ## Deal with duplicates
-```{r}
+```{r "q4_duplicates1"} 
 ##################Duplicates#########################################
 
 ### Find the unique girlCodes and subset them
@@ -258,7 +258,7 @@ dim(q4_gradesUnique)
 
 ```
 ### Subset duplicate values
-```{r}
+```{r "q4_duplicates"}
 
 
 ##############################Subset Duplicate Values##################
@@ -278,7 +278,7 @@ dim(q4Dupes)
 
 
 ## Update council variable names to match other data sources
-```{r}
+```{r "q4_councilnames"}
 
 ### Change council names to be consistent wiht how they displayed with the surveys
 q4_gradesUnique$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, q4_gradesUnique$council)
@@ -297,18 +297,35 @@ q4_gradesUnique$council <-sub("Girl Scout Council of the Panhandle", "Panhandle 
 
 ```
 
-```{r}
+```{r "q4_freeread"}
 
 q4free_read <- select(q4_gradesUnique, 7,8, 38:40)
 
-na.omit(q4free_read$semester)
+
+q4free_readtst <- q4free_read[grep("read", q4free_read$reading_course, ignore.case = TRUE),]
+#q4free_read1 <-subset(q4free_read, grepl("read", q4free_read$reading_course))
+
+dim(q4free_readtst)
+
+q4free_readtst
+
+grep("read", ignore.case=TRUE, q4free_read$reading_course)
 
 
-table(q4free_read$reading_course)
+q4free_read1 <-slice(q4free_read, 276)
 
-table(q4free_read$readFree1_quarter, q4free_read$reading_course)
+q4free_read2 <-slice(q4free_read, 361)
 
-table(q4free_read$readFree2_semester, q4free_read$reading_course)
+
+head(q4free_read1)
+head(q4free_read2)
+
+dim(q4free_read1)
+
+q4free_read <- rbind(q4free_read1, q4free_read2)
+
+head(q4free_read)
+
 
 
 ```
@@ -317,11 +334,11 @@ table(q4free_read$readFree2_semester, q4free_read$reading_course)
 
 
 # Reading Grades Section--Split and Clean up
-```{r}
+```{r "q4_readingmanagement"}
 ###############Reading Clean Up###############################################################
 
 ### Select data of interest
-q4Reading <- select(q4_gradesUnique, 7,8, 20:40)
+q4Reading <- select(q4_gradesUnique, 7,8, 20:37)
 
 
 names(q4Reading)
@@ -378,32 +395,18 @@ levels(mq4Reading$readingGrade)
 
 names(mq4Reading)
 
+dim(mq4Reading)
 
+test_mq4Reading<-distinct(mq4Reading, girlCode)
+
+dim(test_mq4Reading)
 ```
 
 
-## Check for Read Free Data Entry
-
-```{r}
-
-q4free_read <- select(q4_gradesUnique, 7,8, 38:40)
-
-
-
-
-
-table(q4free_read$reading_course)
-
-table(q4free_read$readFree1_quarter)
-
-table(q4free_read$readFree2_semester)
-
-
-```
 
 ## Check for duplicate reading grades(Quarter and Semester Grades)
 
-```{r}
+```{r "q4_dupes_read"}
 
 ### Find the unique girlCodes with just one grade 
 mq4_read_ok <- mq4Reading [!(duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast = TRUE)), ]
@@ -420,13 +423,14 @@ q4reading_dupes <- mq4Reading[q4reading_dupes, ]
 
 dim(q4reading_dupes)
 
+head(q4reading_dupes)
 
 ```
 
 
 ### Find and subset the Semester Grades 
 
-```{r}
+```{r "problem_chunk"}
 
 
 read_quarter <- q4reading_dupes[grep("_quarter", q4reading_dupes$readingCourses, ignore.case = TRUE),]
@@ -445,38 +449,38 @@ head(read_semester)
 ### Anti Join to find extra grades--Cases where the student is in more than one reading course
 ```{r}
 
-extra_quarters <- anti_join(read_quarter, read_semester, by="girlCode")
+#extra_quarters <- anti_join(read_quarter, read_semester, by="girlCode")
 
-extra_quarters
+#extra_quarters
 
-reading_pts_ex <- numeric(0)
+#reading_pts_ex <- numeric(0)
 
-for(i in extra_quarters$readingGrade){
+#for(i in extra_quarters$readingGrade){
    
-     reading_pts_ex <- c(reading_pts_ex,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
+     #reading_pts_ex <- c(reading_pts_ex,switch(i, "A" =4, "B"=3, "C"=2, "D"=1, "F"=0, "I"=0))
     
-     reading_pts_ex
+     #reading_pts_ex
 
     
-}
+#}
 
-extra_quarters$readingCourses <- "ReadingCourseAvg"
+#extra_quarters$readingCourses <- "ReadingCourseAvg"
 
-extra_quarters <- cbind(extra_quarters, reading_pts_ex)
+#extra_quarters <- cbind(extra_quarters, reading_pts_ex)
 
-head(extra_quarters)
-
-
-extra_quarters <-with(extra_quarters, aggregate(reading_pts_ex,list(girlCode=girlCode, council=council, readingCourses=readingCourses, readingGrade=readingGrade),mean))
-
-extra_quarters
+#head(extra_quarters)
 
 
-colnames(extra_quarters) [5] <- "readingPts4"
+#extra_quarters <-with(extra_quarters, aggregate(reading_pts_ex,list(girlCode=girlCode, council=council, readingCourses=readingCourses, readingGrade=readingGrade),mean))
 
-head(extra_quarters)
+#extra_quarters
 
-extra_quarters
+
+#colnames(extra_quarters) [5] <- "readingPts4"
+
+#head(extra_quarters)
+
+#extra_quarters
 
 ```
 
@@ -508,7 +512,7 @@ for(i in mq4_read_1$readingGrade){ #loop through grades
 
 dim(mq4_read_1)
 
-mq4_read_1 <-cbind(mq4_read_1, reading_pts4) #bind data back in 
+mq4_read_all <-cbind(mq4_read_1, reading_pts4) #bind data back in 
 
 
 
@@ -518,13 +522,13 @@ mq4_read_1 <-cbind(mq4_read_1, reading_pts4) #bind data back in
 ### Merge all the reading sets
 ```{r}
 
-colnames(extra_quarters) [5] <- "reading_pts4"
+#colnames(extra_quarters) [5] <- "reading_pts4"
 
-mq4_read_all <- rbind(mq4_read_1, extra_quarters)
+#mq4_read_all <- rbind(mq4_read_1, extra_quarters)
 
-dim(mq4_read_all)
+#dim(mq4_read_all)
 
-head(mq4_read_all)
+#head(mq4_read_all)
 
 ```
 
@@ -537,7 +541,7 @@ head(mq4_read_all)
 ```{r}
 
 ### Select the data of interest
-q4LangArts <- select(q4_gradesUnique, 7,8, 42:80 )
+q4LangArts <- select(q4_gradesUnique, 7,8, 42:75,79,80 )
 
 
 ### Put the data in the shape I want it in
@@ -600,8 +604,11 @@ grep("mjIntensLangArts_quarter", mq4_lang$langCourses, ignore.case=TRUE)
 ### Review Free Text Entry
 q4_free_lang <- select(q4_gradesUnique, 7,8, 76:78)
 
+q4_free_lang_test <- q4_free_lang[grep("lang", q4_free_lang$course_text, ignore.case = TRUE),]
 
-### Test to determine if there is any data in those columns
+q4_free_lang_test
+#
+## Test to determine if there is any data in those columns
 table(q4_free_lang$free_lang1_quarter)
 table(q4_free_lang$free_lang2_semester)
 
