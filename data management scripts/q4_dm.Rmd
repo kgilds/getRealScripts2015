@@ -624,8 +624,9 @@ table(q4_free_lang$free_lang2_semester)
 ### Find the unique girlCodes with just one grade 
 mq4_lang_ok <- mq4_lang [!(duplicated(mq4_lang$girlCode) | duplicated(mq4_lang$girlCode, fromLast = TRUE)), ]
 
-dim(mq4_lang_ok)
+mq4_lang_ok
 
+head(mq4_lang_ok)
 
 ### Find the girl codes with multiple grades
 
@@ -659,6 +660,9 @@ head(semester)
 mq4_lang_all <- rbind(mq4_lang_ok, semester)
 
 
+dim(mq4_lang_all)
+
+distinct(mq4_lang_all, girlCode)
 
 dim(mq4_lang_all)
 

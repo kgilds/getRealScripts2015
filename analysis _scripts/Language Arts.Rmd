@@ -120,6 +120,10 @@ langarts2016 <- rbind(langarts_q4_q1, langarts_q4_q2)
 
 dim(langarts2016)
 
+langarts2016_test <-distinct(langarts2016, girlCode)
+
+dim(langarts2016_test)
+
 ```
 
 

@@ -165,6 +165,10 @@ colnames(langarts_q4_q2) [4] &lt;-&quot;final&quot;</code></pre>
 
 dim(langarts2016)</code></pre>
 <pre><code>## [1] 359   5</code></pre>
+<pre class="r"><code>langarts2016_test &lt;-distinct(langarts2016, girlCode)
+
+dim(langarts2016_test)</code></pre>
+<pre><code>## [1] 358   5</code></pre>
 <pre class="r"><code>langarts2016 &lt;- langarts2016 %&gt;%
     select(girlCode, council, baseline, final, Time)
 
