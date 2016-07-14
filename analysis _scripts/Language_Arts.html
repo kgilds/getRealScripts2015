@@ -169,11 +169,383 @@ dim(langarts2016)</code></pre>
 
 dim(langarts2016_test)</code></pre>
 <pre><code>## [1] 358   5</code></pre>
+<pre class="r"><code>head(langarts2016_test)</code></pre>
+<pre><code>##      girlCode              council baseline final Time
+## 1 320GD120203 West Central Council        3     2 Q1Q4
+## 2 320CF032904 West Central Council        2     3 Q1Q4
+## 3 320KF052703 West Central Council        2     2 Q1Q4
+## 4 320TM060203 West Central Council        1     4 Q1Q4
+## 5 320NR030504 West Central Council        3     0 Q1Q4
+## 6 320AW050904 West Central Council        4     2 Q1Q4</code></pre>
+<pre class="r"><code>#langarts2016_test&lt;-aggregate(~girlCode, langarts2016_test, mean)
+
+#langarts2016_test</code></pre>
 <pre class="r"><code>langarts2016 &lt;- langarts2016 %&gt;%
     select(girlCode, council, baseline, final, Time)
 
 langarts2016 &lt;- langarts2016 %&gt;%
     mutate(pt_diff = final - baseline)</code></pre>
+<pre class="r"><code>langarts2016</code></pre>
+<pre><code>##        girlCode              council baseline final Time pt_diff
+## 1   320GD120203 West Central Council        3     2 Q1Q4      -1
+## 2   320CF032904 West Central Council        2     3 Q1Q4       1
+## 3   320KF052703 West Central Council        2     2 Q1Q4       0
+## 4   320TM060203 West Central Council        1     4 Q1Q4       3
+## 5   320NR030504 West Central Council        3     0 Q1Q4      -3
+## 6   320AW050904 West Central Council        4     2 Q1Q4      -2
+## 7   320SA122401 West Central Council        3     4 Q1Q4       1
+## 8   320SB100701 West Central Council        4     2 Q1Q4      -2
+## 9   320RD020603 West Central Council        4     3 Q1Q4      -1
+## 10  320SE081902 West Central Council        1     3 Q1Q4       2
+## 11  320DH042501 West Central Council        4     4 Q1Q4       0
+## 12  320II081302 West Central Council        4     4 Q1Q4       0
+## 13  320BR031803 West Central Council        2     4 Q1Q4       2
+## 14  320BR031803 West Central Council        2     4 Q1Q4       2
+## 15  320ER121001 West Central Council        3     2 Q1Q4      -1
+## 16  320LS111202 West Central Council        3     4 Q1Q4       1
+## 17  320HS082803 West Central Council        2     1 Q1Q4      -1
+## 18  320LS042403 West Central Council        4     3 Q1Q4      -1
+## 19  320AB022203 West Central Council        3     3 Q1Q4       0
+## 20  320TD060303 West Central Council        4     4 Q1Q4       0
+## 21  320AR100902 West Central Council        4     2 Q1Q4      -2
+## 22  320JS020802 West Central Council        2     3 Q1Q4       1
+## 23  320CT030303 West Central Council        4     3 Q1Q4      -1
+## 24  320AW122102 West Central Council        2     3 Q1Q4       1
+## 25  320AB101201 West Central Council        3     3 Q1Q4       0
+## 26  320CD090201 West Central Council        2     3 Q1Q4       1
+## 27  320RH050902 West Central Council        4     3 Q1Q4      -1
+## 28  320KH061601 West Central Council        4     4 Q1Q4       0
+## 29  320RK110200 West Central Council        2     3 Q1Q4       1
+## 30  320CM051801 West Central Council        4     3 Q1Q4      -1
+## 31  320JB110501 West Central Council        2     3 Q1Q4       1
+## 32  320AG091201 West Central Council        4     4 Q1Q4       0
+## 33  320SJ052502 West Central Council        3     2 Q1Q4      -1
+## 34  312BJ021603       Citrus Council        4     4 Q1Q4       0
+## 35  312MJ092702       Citrus Council        3     2 Q1Q4      -1
+## 36  313AW060203      Gateway Council        2     3 Q1Q4       1
+## 37  313AP042602      Gateway Council        1     2 Q1Q4       1
+## 38  313AE041502      Gateway Council        2     3 Q1Q4       1
+## 39  313AJ111203      Gateway Council        3     3 Q1Q4       0
+## 40  313AM022202      Gateway Council        0     2 Q1Q4       2
+## 41  313AE050404      Gateway Council        3     3 Q1Q4       0
+## 42  313AM030805      Gateway Council        2     2 Q1Q4       0
+## 43  313BB032805      Gateway Council        2     2 Q1Q4       0
+## 44  313CC032104      Gateway Council        2     3 Q1Q4       1
+## 45  313CM120103      Gateway Council        2     3 Q1Q4       1
+## 46  313IH091404      Gateway Council        2     2 Q1Q4       0
+## 47  313IA091203      Gateway Council        3     3 Q1Q4       0
+## 48  313MM071604      Gateway Council        1     2 Q1Q4       1
+## 49  313MS031104      Gateway Council        3     3 Q1Q4       0
+## 50  313SJ102903      Gateway Council        0     2 Q1Q4       2
+## 51  313SW021304      Gateway Council        1     3 Q1Q4       2
+## 52  313TG053004      Gateway Council        4     3 Q1Q4      -1
+## 53  313TG041203      Gateway Council        3     3 Q1Q4       0
+## 54  313TA120503      Gateway Council        3     3 Q1Q4       0
+## 55  313TD073104      Gateway Council        2     3 Q1Q4       1
+## 56  313YJ031404      Gateway Council        1     2 Q1Q4       1
+## 57  313PW072304      Gateway Council        3     3 Q1Q4       0
+## 58  313MA082702      Gateway Council        1     2 Q1Q4       1
+## 59  313AA041803      Gateway Council        1     2 Q1Q4       1
+## 60  313AB050904      Gateway Council        3     3 Q1Q4       0
+## 61  313AJ111803      Gateway Council        3     2 Q1Q4      -1
+## 62  313CJ081604      Gateway Council        4     3 Q1Q4      -1
+## 63  313CD032504      Gateway Council        1     3 Q1Q4       2
+## 64  313DF063004      Gateway Council        3     3 Q1Q4       0
+## 65  313DM031404      Gateway Council        3     3 Q1Q4       0
+## 66  313GW050404      Gateway Council        1     2 Q1Q4       1
+## 67  313JH050703      Gateway Council        3     3 Q1Q4       0
+## 68  313KH032104      Gateway Council        2     3 Q1Q4       1
+## 69  313KE040805      Gateway Council        1     2 Q1Q4       1
+## 70  313LS021104      Gateway Council        2     3 Q1Q4       1
+## 71  313NH071604      Gateway Council        1     3 Q1Q4       2
+## 72  313RH032805      Gateway Council        2     3 Q1Q4       1
+## 73  313TA060203      Gateway Council        2     3 Q1Q4       1
+## 74  313AC103103      Gateway Council        4     2 Q1Q4      -2
+## 75  313AN121503      Gateway Council        2     3 Q1Q4       1
+## 76  313AB062704      Gateway Council        1     2 Q1Q4       1
+## 77  313BM050404      Gateway Council        2     3 Q1Q4       1
+## 78  313BC040204      Gateway Council        3     3 Q1Q4       0
+## 79  313DP021104      Gateway Council        3     3 Q1Q4       0
+## 80  313EO080204      Gateway Council        1     3 Q1Q4       2
+## 81  313JC121003      Gateway Council        2     3 Q1Q4       1
+## 82  313JM072404      Gateway Council        3     2 Q1Q4      -1
+## 83  313JT110402      Gateway Council        2     2 Q1Q4       0
+## 84  313KM011503      Gateway Council        2     3 Q1Q4       1
+## 85  313KG061204      Gateway Council        2     3 Q1Q4       1
+## 86  313KT082103      Gateway Council        3     3 Q1Q4       0
+## 87  313KA090203      Gateway Council        3     3 Q1Q4       0
+## 88  313LF022804      Gateway Council        2     3 Q1Q4       1
+## 89  313MA090303      Gateway Council        1     3 Q1Q4       2
+## 90  313SS111303      Gateway Council        1     3 Q1Q4       2
+## 91  313SF120603      Gateway Council        2     3 Q1Q4       1
+## 92  313SW091702      Gateway Council        1     2 Q1Q4       1
+## 93  313SW083004      Gateway Council        1     3 Q1Q4       2
+## 94  313TC071503      Gateway Council        2     2 Q1Q4       0
+## 95  313TG091001      Gateway Council        2     2 Q1Q4       0
+## 96  313TS010303      Gateway Council        0     3 Q1Q4       3
+## 97  313AJ100704      Gateway Council        2     3 Q1Q4       1
+## 98  313KS081404      Gateway Council        1     3 Q1Q4       2
+## 99  313AC080304      Gateway Council        3     2 Q1Q4      -1
+## 100 313DP102903      Gateway Council        1     2 Q1Q4       1
+## 101 313IJ090703      Gateway Council        3     3 Q1Q4       0
+## 102 313JD052803      Gateway Council        0     2 Q1Q4       2
+## 103 313JY070403      Gateway Council        0     1 Q1Q4       1
+## 104 313NW110203      Gateway Council        3     4 Q1Q4       1
+## 105 313AH052504      Gateway Council        2     3 Q1Q4       1
+## 106 313LC041404      Gateway Council        1     3 Q1Q4       2
+## 107 313ST020303      Gateway Council        0     3 Q1Q4       3
+## 108 313JS100203      Gateway Council        1     2 Q1Q4       1
+## 109 313MN060203      Gateway Council        2     2 Q1Q4       0
+## 110 313JB060403      Gateway Council        1     2 Q1Q4       1
+## 111 313JW081804      Gateway Council        1     3 Q1Q4       2
+## 112 313MD050604      Gateway Council        2     2 Q1Q4       0
+## 113 313AH082204      Gateway Council        4     3 Q1Q4      -1
+## 114 313LS090504      Gateway Council        2     2 Q1Q4       0
+## 115 313LL121002      Gateway Council        1     2 Q1Q4       1
+## 116 313RN100203      Gateway Council        3     3 Q1Q4       0
+## 117 313RE011302      Gateway Council        3     3 Q1Q4       0
+## 118 313SR051403      Gateway Council        2     4 Q1Q4       2
+## 119 313SW080304      Gateway Council        3     3 Q1Q4       0
+## 120 313TW060904      Gateway Council        3     3 Q1Q4       0
+## 121 313TH082203      Gateway Council        1     3 Q1Q4       2
+## 122 320AT101602 West Central Council        1     1 Q1Q4       0
+## 123 320AM072903 West Central Council        3     2 Q1Q4      -1
+## 124 320AP030203 West Central Council        0     0 Q1Q4       0
+## 125 320DL112002 West Central Council        4     3 Q1Q4      -1
+## 126 313ES060503      Gateway Council        2     3 Q1Q4       1
+## 127 313JS091402      Gateway Council        4     3 Q1Q4      -1
+## 128 313JL032903      Gateway Council        3     3 Q1Q4       0
+## 129 313MP031502      Gateway Council        2     3 Q1Q4       1
+## 130 313NW122502      Gateway Council        1     2 Q1Q4       1
+## 131 313NM110602      Gateway Council        1     2 Q1Q4       1
+## 132 313ND012403      Gateway Council        2     2 Q1Q4       0
+## 133 313PK110102      Gateway Council        2     2 Q1Q4       0
+## 134 320JM102701 West Central Council        2     1 Q1Q4      -1
+## 135 320RM080702 West Central Council        2     2 Q1Q4       0
+## 136 320TF073003 West Central Council        3     2 Q1Q4      -1
+## 137 313SW013103      Gateway Council        3     3 Q1Q4       0
+## 138 313TB112002      Gateway Council        2     3 Q1Q4       1
+## 139 313MG102902      Gateway Council        2     3 Q1Q4       1
+## 140 313GR040203      Gateway Council        2     3 Q1Q4       1
+## 141 313JP090103      Gateway Council        0     2 Q1Q4       2
+## 142 313BB040203      Gateway Council        3     3 Q1Q4       0
+## 143 313SJ060203      Gateway Council        2     2 Q1Q4       0
+## 144 313MB090202      Gateway Council        1     2 Q1Q4       1
+## 145 313SD010203      Gateway Council        2     3 Q1Q4       1
+## 146 313SS101702      Gateway Council        2     2 Q1Q4       0
+## 147 313ST122101      Gateway Council        0     2 Q1Q4       2
+## 148 313LJ090102      Gateway Council        3     3 Q1Q4       0
+## 149 313BB052401      Gateway Council        3     3 Q1Q4       0
+## 150 313SL102501      Gateway Council        2     3 Q1Q4       1
+## 151 313SJ092102      Gateway Council        2     3 Q1Q4       1
+## 152 313LM110402      Gateway Council        1     2 Q1Q4       1
+## 153 313SP101602      Gateway Council        3     3 Q1Q4       0
+## 154 313AN122002      Gateway Council        3     3 Q1Q4       0
+## 155 313AH072703      Gateway Council        2     3 Q1Q4       1
+## 156 313DM020603      Gateway Council        4     4 Q1Q4       0
+## 157 313KD091402      Gateway Council        3     3 Q1Q4       0
+## 158 313KB121202      Gateway Council        3     3 Q1Q4       0
+## 159 313LH031502      Gateway Council        2     3 Q1Q4       1
+## 160 313MD120302      Gateway Council        1     2 Q1Q4       1
+## 161 313HW011803      Gateway Council        1     3 Q1Q4       2
+## 162 313NF070900      Gateway Council        2     3 Q1Q4       1
+## 163 313NB041502      Gateway Council        2     2 Q1Q4       0
+## 164 313SS081403      Gateway Council        2     3 Q1Q4       1
+## 165 313SS080202      Gateway Council        1     3 Q1Q4       2
+## 166 313VJ112402      Gateway Council        2     3 Q1Q4       1
+## 167 313AC082303      Gateway Council        2     3 Q1Q4       1
+## 168 313AF040403      Gateway Council        3     4 Q1Q4       1
+## 169 313CD122702      Gateway Council        2     2 Q1Q4       0
+## 170 313DJ031804      Gateway Council        1     3 Q1Q4       2
+## 171 313EG050502      Gateway Council        2     2 Q1Q4       0
+## 172 313ER122203      Gateway Council        2     2 Q1Q4       0
+## 173 313JL110304      Gateway Council        2     2 Q1Q4       0
+## 174 313JM040603      Gateway Council        2     3 Q1Q4       1
+## 175 313JB122201      Gateway Council        1     3 Q1Q4       2
+## 176 313JD090803      Gateway Council        0     2 Q1Q4       2
+## 177 313JP011003      Gateway Council        1     2 Q1Q4       1
+## 178 313SH092302      Gateway Council        2     2 Q1Q4       0
+## 179 313TP102402      Gateway Council        3     2 Q1Q4      -1
+## 180 313DG072603      Gateway Council        3     3 Q1Q4       0
+## 181 313DE100602      Gateway Council        3     2 Q1Q4      -1
+## 182 313EC081602      Gateway Council        4     4 Q1Q4       0
+## 183 313KH120302      Gateway Council        3     3 Q1Q4       0
+## 184 313LE082703      Gateway Council        2     3 Q1Q4       1
+## 185 313MH120302      Gateway Council        1     3 Q1Q4       2
+## 186 313NB120901      Gateway Council        1     2 Q1Q4       1
+## 187 313TG012003      Gateway Council        2     3 Q1Q4       1
+## 188 313SY042303      Gateway Council        3     3 Q1Q4       0
+## 189 313AJ041002      Gateway Council        2     3 Q1Q4       1
+## 190 313TA020602      Gateway Council        3     3 Q1Q4       0
+## 191 313CB101103      Gateway Council        2     3 Q1Q4       1
+## 192 313MH120402      Gateway Council        3     2 Q1Q4      -1
+## 193 313DL091702      Gateway Council        3     3 Q1Q4       0
+## 194 312PM110402       Citrus Council        2     3 Q1Q4       1
+## 195 312CM100602       Citrus Council        4     3 Q1Q4      -1
+## 196 312GB022203       Citrus Council        3     3 Q1Q4       0
+## 197 313BB082902      Gateway Council        1     2 Q1Q4       1
+## 198 313BB032502      Gateway Council        3     3 Q1Q4       0
+## 199 313CH080602      Gateway Council        0     2 Q1Q4       2
+## 200 313ET110102      Gateway Council        2     2 Q1Q4       0
+## 201 313HB022103      Gateway Council        1     3 Q1Q4       2
+## 202 313JH041802      Gateway Council        1     2 Q1Q4       1
+## 203 313JC012502      Gateway Council        0     2 Q1Q4       2
+## 204 313JH110902      Gateway Council        3     3 Q1Q4       0
+## 205 313BS041502      Gateway Council        2     2 Q1Q4       0
+## 206 313JW111002      Gateway Council        1     2 Q1Q4       1
+## 207 313SA080202      Gateway Council        2     2 Q1Q4       0
+## 208 313KD041503      Gateway Council        1     3 Q1Q4       2
+## 209 313JK122602      Gateway Council        0     2 Q1Q4       2
+## 210 313LM010502      Gateway Council        0     2 Q1Q4       2
+## 211 313ZJ050403      Gateway Council        0     2 Q1Q4       2
+## 212 313JT110202      Gateway Council        1     2 Q1Q4       1
+## 213 313JD120102      Gateway Council        2     3 Q1Q4       1
+## 214 313KD042102      Gateway Council        3     3 Q1Q4       0
+## 215 313KM080502      Gateway Council        2     2 Q1Q4       0
+## 216 313AH082502      Gateway Council        4     4 Q1Q4       0
+## 217 313AV040903      Gateway Council        3     3 Q1Q4       0
+## 218 313AP090203      Gateway Council        2     3 Q1Q4       1
+## 219 313DC061403      Gateway Council        3     3 Q1Q4       0
+## 220 313HW090202      Gateway Council        2     3 Q1Q4       1
+## 221 313KJ012003      Gateway Council        2     2 Q1Q4       0
+## 222 313LP081302      Gateway Council        2     3 Q1Q4       1
+## 223 313TR122902      Gateway Council        2     3 Q1Q4       1
+## 224 313VJ061503      Gateway Council        3     3 Q1Q4       0
+## 225 320AB061103 West Central Council        4     4 Q1Q4       0
+## 226 320BR072103 West Central Council        3     4 Q1Q4       1
+## 227 320DM041603 West Central Council        4     3 Q1Q4      -1
+## 228 320IW012403 West Central Council        4     4 Q1Q4       0
+## 229 320IR061103 West Central Council        4     4 Q1Q4       0
+## 230 313FF120202      Gateway Council        3     2 Q1Q4      -1
+## 231 313LF071302      Gateway Council        4     3 Q1Q4      -1
+## 232 320KW122401 West Central Council        4     4 Q1Q4       0
+## 233 320KG080703 West Central Council        1     2 Q1Q4       1
+## 234 320MB030803 West Central Council        1     2 Q1Q4       1
+## 235 313RL062003      Gateway Council        4     3 Q1Q4      -1
+## 236 313AJ100301      Gateway Council        3     3 Q1Q4       0
+## 237 312FS020503       Citrus Council        4     4 Q1Q4       0
+## 238 313MY060702      Gateway Council        4     4 Q1Q4       0
+## 239 313KC111302      Gateway Council        3     3 Q1Q4       0
+## 240 313DW060502      Gateway Council        3     3 Q1Q4       0
+## 241 313HB060202      Gateway Council        1     3 Q1Q4       2
+## 242 313JB091302      Gateway Council        3     2 Q1Q4      -1
+## 243 313JR060502      Gateway Council        1     3 Q1Q4       2
+## 244 313AK052902      Gateway Council        2     3 Q1Q4       1
+## 245 313CW020602      Gateway Council        3     2 Q1Q4      -1
+## 246 313CF080102      Gateway Council        2     3 Q1Q4       1
+## 247 313TG072302      Gateway Council        2     2 Q1Q4       0
+## 248 313MM110400      Gateway Council        2     2 Q1Q4       0
+## 249 313YJ062501      Gateway Council        1     2 Q1Q4       1
+## 250 313RL060201      Gateway Council        2     2 Q1Q4       0
+## 251 313AJ061101      Gateway Council        3     3 Q1Q4       0
+## 252 313AN060301      Gateway Council        4     3 Q1Q4      -1
+## 253 313RB031401      Gateway Council        2     2 Q1Q4       0
+## 254 313AB071302      Gateway Council        1     2 Q1Q4       1
+## 255 313BC082900      Gateway Council        3     3 Q1Q4       0
+## 256 313SS080601      Gateway Council        2     3 Q1Q4       1
+## 257 313TR060701      Gateway Council        2     3 Q1Q4       1
+## 258 313NM092901      Gateway Council        4     4 Q1Q4       0
+## 259 313AA091300      Gateway Council        3     3 Q1Q4       0
+## 260 313AE070802      Gateway Council        2     2 Q1Q4       0
+## 261 313BH042702      Gateway Council        1     2 Q1Q4       1
+## 262 313DJ013001      Gateway Council        1     2 Q1Q4       1
+## 263 313DB013101      Gateway Council        1     2 Q1Q4       1
+## 264 313DL122400      Gateway Council        2     2 Q1Q4       0
+## 265 313DW020202      Gateway Council        1     3 Q1Q4       2
+## 266 313GT051001      Gateway Council        3     3 Q1Q4       0
+## 267 313HH091900      Gateway Council        3     3 Q1Q4       0
+## 268 313JW081700      Gateway Council        2     2 Q1Q4       0
+## 269 313LG040801      Gateway Council        2     3 Q1Q4       1
+## 270 313MB050801      Gateway Council        2     4 Q1Q4       2
+## 271 313NS050901      Gateway Council        0     2 Q1Q4       2
+## 272 313QB062902      Gateway Council        3     3 Q1Q4       0
+## 273 313SS102000      Gateway Council        2     3 Q1Q4       1
+## 274 313TA042602      Gateway Council        1     3 Q1Q4       2
+## 275 320AB041702 West Central Council        3     3 Q1Q4       0
+## 276 320HP121201 West Central Council        2     3 Q1Q4       1
+## 277 320IL010602 West Central Council        3     3 Q1Q4       0
+## 278 320AF092500 West Central Council        2     2 Q1Q4       0
+## 279 320SC121301 West Central Council        3     4 Q1Q4       1
+## 280 320SN020402 West Central Council        2     3 Q1Q4       1
+## 281 313DY100502      Gateway Council        3     3 Q1Q4       0
+## 282 313ER111602      Gateway Council        2     3 Q1Q4       1
+## 283 313JD042302      Gateway Council        2     3 Q1Q4       1
+## 284 313JS103001      Gateway Council        1     2 Q1Q4       1
+## 285 313JR021003      Gateway Council        2     3 Q1Q4       1
+## 286 313JR081602      Gateway Council        2     2 Q1Q4       0
+## 287 313PM082503      Gateway Council        1     2 Q1Q4       1
+## 288 313AL042602      Gateway Council        2     3 Q1Q4       1
+## 289 313BS033102      Gateway Council        1     2 Q1Q4       1
+## 290 313BS013101      Gateway Council        2     2 Q1Q4       0
+## 291 313CP050801      Gateway Council        2     2 Q1Q4       0
+## 292 313EH121700      Gateway Council        4     4 Q1Q4       0
+## 293 313HR070802      Gateway Council        4     3 Q1Q4      -1
+## 294 313MS033102      Gateway Council        2     3 Q1Q4       1
+## 295 313TW111601      Gateway Council        1     3 Q1Q4       2
+## 296 313AJ111601      Gateway Council        3     3 Q1Q4       0
+## 297 313HB081401      Gateway Council        3     3 Q1Q4       0
+## 298 313JJ051600      Gateway Council        2     3 Q1Q4       1
+## 299 313BN052400      Gateway Council        2     2 Q1Q4       0
+## 300 313DM081501      Gateway Council        1     2 Q1Q4       1
+## 301 312KN121401       Citrus Council        3     3 Q1Q4       0
+## 302 312DJ101301       Citrus Council        3     3 Q1Q4       0
+## 303 312JF031602       Citrus Council        4     4 Q1Q4       0
+## 304 313BM102701      Gateway Council        2     3 Q1Q4       1
+## 305 313JR112301      Gateway Council        1     2 Q1Q4       1
+## 306 313LD102701      Gateway Council        2     3 Q1Q4       1
+## 307 313AJ120702      Gateway Council        1     2 Q1Q4       1
+## 308 313AC020102      Gateway Council        3     3 Q1Q4       0
+## 309 313MK050201      Gateway Council        1     2 Q1Q4       1
+## 310 313OM070501      Gateway Council        2     2 Q1Q4       0
+## 311 313PS090801      Gateway Council        3     3 Q1Q4       0
+## 312 313EM050301      Gateway Council        0     2 Q1Q4       2
+## 313 313AJ032101      Gateway Council        0     2 Q1Q4       2
+## 314 313JB090301      Gateway Council        2     2 Q1Q4       0
+## 315 313AF070302      Gateway Council        3     3 Q1Q4       0
+## 316 313AH090402      Gateway Council        3     3 Q1Q4       0
+## 317 313AR080201      Gateway Council        3     3 Q1Q4       0
+## 318 313KC010603      Gateway Council        2     3 Q1Q4       1
+## 319 313MG090502      Gateway Council        3     3 Q1Q4       0
+## 320 313JB090402      Gateway Council        4     3 Q1Q4      -1
+## 321 313JG070402      Gateway Council        4     3 Q1Q4      -1
+## 322 313AD050602      Gateway Council        3     3 Q1Q4       0
+## 323 313MD100300      Gateway Council        3     3 Q1Q4       0
+## 324 320AF050702 West Central Council        4     4 Q1Q4       0
+## 325 320AW063002 West Central Council        3     4 Q1Q4       1
+## 326 320GE021302 West Central Council        4     4 Q1Q4       0
+## 327 320JR062102 West Central Council        2     3 Q1Q4       1
+## 328 320KC050902 West Central Council        4     4 Q1Q4       0
+## 329 320KA081802 West Central Council        4     4 Q1Q4       0
+## 330 320MH081602 West Central Council        3     3 Q1Q4       0
+## 331 320MB011702 West Central Council        4     4 Q1Q4       0
+## 332 320SS110101 West Central Council        4     4 Q1Q4       0
+## 333 320SB093001 West Central Council        4     4 Q1Q4       0
+## 334 320YC042602 West Central Council        3     3 Q1Q4       0
+## 335 320ZP050602 West Central Council        2     3 Q1Q4       1
+## 336 312JS013102       Citrus Council        3     3 Q1Q4       0
+## 337 312JV032902       Citrus Council        2     2 Q1Q4       0
+## 338 313AG040602      Gateway Council        4     3 Q1Q4      -1
+## 339 313KF050203      Gateway Council        3     2 Q1Q4      -1
+## 340 313OF022803      Gateway Council        0     2 Q1Q4       2
+## 341 312AA071702       Citrus Council        2     2 Q2Q4       0
+## 342 312AM062102       Citrus Council        4     3 Q2Q4      -1
+## 343 312BA070703       Citrus Council        4     4 Q2Q4       0
+## 344 313AB060404      Gateway Council        2     2 Q2Q4       0
+## 345 313AB112002      Gateway Council        3     3 Q2Q4       0
+## 346 313DM081401      Gateway Council        2     2 Q2Q4       0
+## 347 313JG111203      Gateway Council        2     2 Q2Q4       0
+## 348 313JP070503      Gateway Council        2     3 Q2Q4       1
+## 349 320AS081902 West Central Council        3     2 Q2Q4      -1
+## 350 320CM120402 West Central Council        0     0 Q2Q4       0
+## 351 320DJ061302 West Central Council        2     1 Q2Q4      -1
+## 352 320DW031301 West Central Council        2     3 Q2Q4       1
+## 353 320JO122602 West Central Council        2     2 Q2Q4       0
+## 354 320KP110300 West Central Council        4     4 Q2Q4       0
+## 355 320NM101302 West Central Council        3     2 Q2Q4      -1
+## 356 320NR060503 West Central Council        1     0 Q2Q4      -1
+## 357 320SL061102 West Central Council        3     3 Q2Q4       0
+## 358 320TB053002 West Central Council        3     3 Q2Q4       0
+## 359 320TM121202 West Central Council        2     2 Q2Q4       0</code></pre>
 <pre class="r"><code>lang_change &lt;- with(langarts2016, table(pt_diff, final))
 
 pander(lang_change)</code></pre>

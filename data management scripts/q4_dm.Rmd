@@ -666,6 +666,9 @@ distinct(mq4_lang_all, girlCode)
 
 dim(mq4_lang_all)
 
+
+
+
 ```
 
 
@@ -689,6 +692,14 @@ head(mq4_lang_all) #review
 
 ```
 
+```{r}
+
+aggregate(lang_pts4~girlCode+council+langCourses , mq4_lang_all, mean)
+
+test_dupes <- duplicated(mq4_lang_all)
+
+test_dupes
+```
 
 
 # Unexcused Absences

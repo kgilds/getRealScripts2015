@@ -124,6 +124,12 @@ langarts2016_test <-distinct(langarts2016, girlCode)
 
 dim(langarts2016_test)
 
+head(langarts2016_test)
+#langarts2016_test<-aggregate(~girlCode, langarts2016_test, mean)
+
+#langarts2016_test
+
+
 ```
 
 
@@ -139,6 +145,12 @@ langarts2016 <- langarts2016 %>%
 
 ```
 
+
+
+```{r}
+langarts2016
+
+```
 
 
 
