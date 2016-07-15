@@ -290,6 +290,9 @@ mq1Reading <- cbind(mq1Reading, reading_pts)
 
 
 
+
+
+
 #### Language Arts Courses
 
 ```{r}
@@ -373,6 +376,19 @@ for(i in mq1_lang$langGrade){
 
 mq1_lang <- cbind(mq1_lang, lang_pts)
 
+dim(mq1_lang)
+
+```
+
+
+```{r}
+mq1_lang_1 <- aggregate(lang_pts~girlCode+council , mq1_lang, mean)
+
+mq1_lang_1 <- filter(mq1_lang_1, girlCode == "320BR031803")
+
+mq1_lang_1
+
+dim(mq1_lang_1)
 ```
 
 
