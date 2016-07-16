@@ -11,7 +11,6 @@ library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
-library (ezknitr)
 library(sqldf)
 
 ###Set directory to find data 
@@ -26,6 +25,9 @@ q1_suspensions <- dbReadTable(getReal_2016db, "Q1_Suspensions")
 ### Read q2 suspension data base and assign to variable
 q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 
+q3_suspensions <-dbReadTable(getReal_2016db, "Q3_Suspensions")
+
+q4_suspensions <-dbReadTable(getReal_2016db, "Q4_Suspensions")
 
 
 ```
@@ -41,31 +43,102 @@ q2_suspensions <-dbReadTable(getReal_2016db, "Q2_Suspensions")
 ```{r echo=FALSE}
 
 ### Merge q1 and q2 suspension data by girlCode
-suspsensions <- inner_join(q1_suspensions, q2_suspensions, by="girlCode")
+susp_q1q4 <- inner_join(q1_suspensions, q4_suspensions, by="girlCode")
 
+head(susp_q1q4)
 
+missing_q1q4 <- anti_join(q4_suspensions, q1_suspensions, by="girlCode")
 
-### Narrow variables of interest
-suspsensions_1 <- suspsensions %>%
-    select(girlCode, council.y.x, susp_sum.x, susp_sum.y)
+head(missing_q1q4)
 
-### Make calculated field from q2 and q1 
-suspensions_q2q1 <- suspsensions_1 %>%
-    mutate(susp_diff = susp_sum.y - susp_sum.x)
+susp_q2q4 <- inner_join(missing_q1q4, q4_suspensions, by="girlCode")
 
-### Get rid of can cases that have a NA value
-suspensions_q2q1 <- suspensions_q2q1 %>%
-    filter(susp_diff !="NA")
+head(susp_q1q4)
+
+dim(susp_q2q4)
+
+names(susp_q1q4)
+names(susp_q2q4)
 
 ```
+
+
+```{r}
+susp_q1q4 <-susp_q1q4 %>%
+    select(1,2, 6, 11)
+
+names(susp_q1q4)
+
+colnames(susp_q1q4) [1] <- "council"
+colnames(susp_q1q4) [3]<- "baseline"
+colnames(susp_q1q4) [4]<- "final"
+
+susp_q1q4 <- susp_q1q4 %>%
+    mutate("Time" = "Q1Q4")
+
+```
+
+
+
+```{r}
+susp_q2q4 <-susp_q2q4 %>%
+    select(1,2, 6, 11)
+
+names(susp_q2q4)
+
+colnames(susp_q2q4) [1] <- "council"
+colnames(susp_q2q4) [3]<- "baseline"
+colnames(susp_q2q4) [4]<- "final"
+
+susp_q2q4 <- susp_q2q4 %>%
+    mutate("Time" = "Q2Q4")
+
+head(susp_q2q4)
+
+dim(susp_q2q4)
+
+names(susp_q2q4)
+names(susp_q1q4)
+
+```
+
+
+```{r}
+
+susp_2016 <- rbind(susp_q1q4, susp_q2q4)
+
+dim(susp_2016)
+
+```
+
+```{r}
+###make caluculated field   
+susp_2016 <- susp_2016 %>%
+    mutate(susp_diff = final - baseline)
+
+##Ensure there are no cases with NA
+susp_2016 <- susp_2016 %>%
+    filter(susp_diff != "NA")
+
+
+head(susp_2016)
+```
+
+
+
+
+
+
+
+
 
 ### Suspensions: % of students who reduced the number of supsensions or never received a suspsenion
 ```{r echo=FALSE}
 suspensions_success <- function() {
-    no_suspensions <- filter(suspensions_q2q1, susp_sum.x == 0, susp_sum.y == 0) ##Filter students without a suspension
-    decrease_suspensions <- filter(suspensions_q2q1, susp_diff <0) ##Filter students who decreased their suspensions
+    no_suspensions <- filter(susp_2016, baseline == 0, final == 0) ##Filter students without a suspension
+    decrease_suspensions <- filter(susp_2016, susp_diff <0) ##Filter students who decreased their suspensions
     total_suspensions <- nrow(no_suspensions) + nrow(decrease_suspensions) # add no suspensions and decreased students together for positive outcome
-    total_suspensions <- total_suspensions/nrow(suspensions_q2q1) # divide positive outcome students from total students
+    total_suspensions <- total_suspensions/nrow(susp_2016) # divide positive outcome students from total students
     total_suspensions <- round(total_suspensions*100,2) #make into percentage
     pander(paste0(total_suspensions, "%", sep= "")) # add in percent sign
 }
@@ -79,11 +152,11 @@ suspensions_success <- function() {
 
 ```{r echo=FALSE}
 
-suspensions_change <- with(suspensions_q2q1,table(susp_diff)) ###Make a table showing all outcomes
+suspensions_change <- with(susp_2016,table(susp_diff)) ###Make a table showing all outcomes
 
 pander(suspensions_change) ### display pretty table
 
-susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE)) ##obtain mean difference
+susp_diff<- pander(mean(susp_2016$susp_diff, na.rm=TRUE)) ##obtain mean difference
 
 #suspensions_change_1 <- with(suspensions_q2q1,table(susp_diff < 0))
 
@@ -100,7 +173,7 @@ susp_diff<- pander(mean(suspensions_q2q1$susp_diff, na.rm=TRUE)) ##obtain mean d
 #plot(suspensions_change)
 ```
 
-The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**. The average difference of suspensions between Quarter 1 and Quarter 2 is **`r susp_diff`**
+The number of the valid entries is **`r nrow(susp_2016)`**, and the percent of students who have decreased their suspensions or did not have any suspensions is **`r suspensions_success()`**. The average difference of suspensions between Quarter 1 and Quarter 2 is **`r susp_diff`**
 
 
 
@@ -108,10 +181,10 @@ The number of the valid entries is **`r nrow(suspensions_q2q1)`**, and the perce
 
 ```{r echo=FALSE}
 
-colnames (suspensions_q2q1) [2] <- "Council"  #change element #1 name to make a pretty graph
-colnames (suspensions_q2q1) [3] <- "Q1_Suspenions"#change element #2 to make a pretty graph
-colnames (suspensions_q2q1) [4] <- "Q2_Suspensions"#change element #3 to make a pretty graph
-colnames (suspensions_q2q1) [5] <- "Suspensions_Change"#change name of element #5 to make a pretty graph
+colnames (susp_2016) [1] <- "Council"  #change element #1 name to make a pretty graph
+colnames (susp_2016) [3] <- "basline"#change element #2 to make a pretty graph
+colnames (susp_2016) [4] <- "final"#change element #3 to make a pretty graph
+colnames (susp_2016) [6] <- "Suspensions_Change"#change name of element #5 to make a pretty graph
 
 ```
 
@@ -123,7 +196,7 @@ colnames (suspensions_q2q1) [5] <- "Suspensions_Change"#change name of element #
 The plot below reflects that their has been an increase in suspensions from  Quarter 1 to  Quarter 2. The council is on the vertical axis and the suspensions change is on the bottom axis. The desire is for the circles to be on the left.  
 ```{r echo=FALSE, warning=FALSE}
 
-suspenesions_change_plot_c <- ggplot(suspensions_q2q1,(aes(x = Suspensions_Change, y = Council)))
+suspenesions_change_plot_c <- ggplot(susp_2016,(aes(x = Suspensions_Change, y = Council)))
 
 suspenesions_change_plot_c + geom_count() #display ggplot of Suspsenion change by Council 
 
@@ -142,7 +215,7 @@ suspenesions_change_plot_c + geom_count() #display ggplot of Suspsenion change b
 ### Trend Data:
 
 ### Trend Data Q4 2015 to Q2 2016:
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 ## Trend Data
 
@@ -159,7 +232,7 @@ suspensions_2015 <- dbReadTable(getRealdb, "matched_suspenions")
 
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 
 ###Merge and find matches from q4 2015 to q2 2015
@@ -219,7 +292,7 @@ susp_success <-function(){
 
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 susp_match_m <- mean(susp_match$susp_trend)
 
@@ -229,12 +302,12 @@ susp_match_m <- round(susp_match_m,2)
 
 
 
-The number of students that could be matched from Quarter 4, 2015 is **`r nrow(susp_match)`**. The mean difference between Quarter 4 2015 and Quarter 2 2016 is **`r (susp_match_m) `**. The percent of students who decreased their number of suspensions from Quarter 4 to Quarter 2 or never received a suspension is   **`r susp_success()`**.
+
 
 
 ### Plot of differences in Suspensions by Council:
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 suspenesions_change_plot_m <- ggplot(susp_match,(aes(x = susp_trend, y = Council)))
 
 suspenesions_change_plot_m + geom_count() #plots change by council
@@ -246,7 +319,7 @@ suspenesions_change_plot_m + geom_count() #plots change by council
 
 
 ### Plot of differences in Suspensions by student:
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 plot(susp_match$susp_trend, ylab="Suspension Difference", xlab="Matched Students")
 abline(h=0, col="red") #plots changes by student observation
