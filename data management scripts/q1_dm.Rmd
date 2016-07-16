@@ -382,7 +382,7 @@ dim(mq1_lang)
 
 
 ```{r}
-mq1_lang_1 <- aggregate(lang_pts~girlCode+council , mq1_lang, mean)
+mq1_lang_1 <- aggregate(lang_pts~girlCode+council, mq1_lang, mean)
 
 mq1_lang_1 <- filter(mq1_lang_1, girlCode == "320BR031803")
 

@@ -496,9 +496,9 @@ The improvement in outcome scores is graphically represented below.
 
 
 ```{r}
-am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
+am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
 
-am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
+am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", ylim=c(0,300), main="Post Survey Results", xlab="Achievment at High Level")
 
 grid.arrange(am_bar_pre, am_bar_post, ncol=2)
 

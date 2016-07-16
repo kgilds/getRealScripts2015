@@ -19,9 +19,9 @@ output:
 ```{r}
 library(dplyr)
 
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/July 2016")
 
-parent <- read.csv("parent_survey_06262016.csv", skip=1)
+parent <- read.csv("parent_survey_07152016.csv", skip=1)
 
 
 ```
