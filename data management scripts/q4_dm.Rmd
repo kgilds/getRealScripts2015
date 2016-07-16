@@ -746,11 +746,21 @@ q4_total_abs <- inner_join(q4_unexcused, q4_excused, by = "girlCode", Copy=FALSE
 ### Sum up the two columns to get a total 
 q4_total_abs$sum_abs <-q4_total_abs$unexcusedAbs + q4_total_abs$excusedAbs
 
+
+colnames(q4_total_abs) [3] <- "q4_Unexcused" #change names for more readable variables downstreatm 
+colnames(q4_total_abs) [5] <- "q4_Excused"
+colnames(q4_total_abs) [6] <- "q4_Total_Abs"
+
+
+
+head(q4_total_abs)
+
+
 ### Create table to view the data
-q4_total_abs_tbl <- with(q4_total_abs, table(sum_abs))
+#q4_total_abs_tbl <- with(q4_total_abs, table(sum_abs))
 
 ### See the table output
-q4_total_abs_tbl
+#q4_total_abs_tbl
 
 ```
 
@@ -798,9 +808,13 @@ q4_susp_total$susp_sum <- q4_in_school$inSchoolSusp + q4_out_school$outofSchoolS
 
 head(q4_susp_total)
 
-q4_susp_total_tbl <- with(q4_susp_total,table(susp_sum))
+colnames(q4_susp_total) [3] <- "q4_InSchoool"
+colnames(q4_susp_total) [5] <- "q4_OutSchool"
+colnames(q4_susp_total) [6] <- "q4_Total"
 
-q4_susp_total_tbl
+#q4_susp_total_tbl <- with(q4_susp_total,table(susp_sum))
+
+#q4_susp_total_tbl
 
 
 
@@ -851,7 +865,7 @@ q4_promoted_tbl
 
 ## Merge Behavior Data
 
-```{r}
+```{r eval=FALSE}
 
 abs_susp <- full_join(q4_total_abs, q4_susp_total)
 
@@ -881,7 +895,7 @@ head(behavior_data)
 
 ### Merge Grade Data
 
-```{r}
+```{r eval=FALSE}
 
 q4_lang_read <- full_join(mq4_lang_all, mq4_read_all)
 dim(q4_lang_read)
@@ -900,7 +914,7 @@ head(q4_lang_read)
 ```
 
 ### Merge all
-```{r}
+```{r eval=FALSE}
 
 q4_academic_data <- full_join(q4_lang_read, behavior_data, by="girlCode")
 
@@ -928,7 +942,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
-dbWriteTable(conn =getReal_2016db, name = "Q4_academic_data", value = q4_academic_data, row.names = FALSE, overwrite = TRUE)
+#dbWriteTable(conn =getReal_2016db, name = "Q4_academic_data", value = q4_academic_data, row.names = FALSE, overwrite = TRUE)
 
 
 

@@ -1919,14 +1919,33 @@ q4_total_abs &lt;- inner_join(q4_unexcused, q4_excused, by = &quot;girlCode&quot
 ### Sum up the two columns to get a total 
 q4_total_abs$sum_abs &lt;-q4_total_abs$unexcusedAbs + q4_total_abs$excusedAbs
 
-### Create table to view the data
-q4_total_abs_tbl &lt;- with(q4_total_abs, table(sum_abs))
+
+colnames(q4_total_abs) [3] &lt;- &quot;q4_Unexcused&quot; #change names for more readable variables downstreatm 
+colnames(q4_total_abs) [5] &lt;- &quot;q4_Excused&quot;
+colnames(q4_total_abs) [6] &lt;- &quot;q4_Total_Abs&quot;
+
+
+
+head(q4_total_abs)</code></pre>
+<pre><code>##              council.x    girlCode q4_Unexcused            council.y
+## 1 West Central Council 320AT101602            0 West Central Council
+## 2 West Central Council 320AM072903            0 West Central Council
+## 3 West Central Council 320AP030203            0 West Central Council
+## 4 West Central Council 320AB061103            0 West Central Council
+## 5 West Central Council 320BR072103            0 West Central Council
+## 6 West Central Council 320CM120402            0 West Central Council
+##   q4_Excused q4_Total_Abs
+## 1          0            0
+## 2          0            0
+## 3          0            0
+## 4          0            0
+## 5          0            0
+## 6          0            0</code></pre>
+<pre class="r"><code>### Create table to view the data
+#q4_total_abs_tbl &lt;- with(q4_total_abs, table(sum_abs))
 
 ### See the table output
-q4_total_abs_tbl</code></pre>
-<pre><code>## sum_abs
-##   0   1   2   3   4   5   6 
-## 263  18  36  30  15   4   1</code></pre>
+#q4_total_abs_tbl</code></pre>
 </div>
 <div id="in-school-suspensions" class="section level1">
 <h1>In School Suspensions</h1>
@@ -1990,12 +2009,13 @@ head(q4_susp_total)</code></pre>
 ## 4               0        0
 ## 5               0        0
 ## 6               0        0</code></pre>
-<pre class="r"><code>q4_susp_total_tbl &lt;- with(q4_susp_total,table(susp_sum))
+<pre class="r"><code>colnames(q4_susp_total) [3] &lt;- &quot;q4_InSchoool&quot;
+colnames(q4_susp_total) [5] &lt;- &quot;q4_OutSchool&quot;
+colnames(q4_susp_total) [6] &lt;- &quot;q4_Total&quot;
 
-q4_susp_total_tbl</code></pre>
-<pre><code>## susp_sum
-##   0   1   2   3 
-## 359   2   3   1</code></pre>
+#q4_susp_total_tbl &lt;- with(q4_susp_total,table(susp_sum))
+
+#q4_susp_total_tbl</code></pre>
 </div>
 <div id="expelled" class="section level1">
 <h1>Expelled</h1>
@@ -2047,13 +2067,15 @@ q4_promoted_tbl</code></pre>
 <h1>Prepare data for database</h1>
 <div id="merge-behavior-data" class="section level2">
 <h2>Merge Behavior Data</h2>
-<pre class="r"><code>abs_susp &lt;- full_join(q4_total_abs, q4_susp_total)</code></pre>
-<pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
-<pre class="r"><code>dim(abs_susp)</code></pre>
-<pre><code>## [1] 367   9</code></pre>
-<pre class="r"><code>behavior_data &lt;- full_join(abs_susp, q4_expelled)</code></pre>
-<pre><code>## Joining by: &quot;girlCode&quot;</code></pre>
-<pre class="r"><code>behavior_data &lt;- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
+<pre class="r"><code>abs_susp &lt;- full_join(q4_total_abs, q4_susp_total)
+
+dim(abs_susp)
+
+
+behavior_data &lt;- full_join(abs_susp, q4_expelled)
+
+
+behavior_data &lt;- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
 
 colnames (behavior_data) [1] &lt;- &quot;council&quot;
 colnames (behavior_data) [3] &lt;- &quot;total_absences&quot;
@@ -2061,117 +2083,34 @@ colnames (behavior_data) [4] &lt;- &quot;total_suspensions&quot;
 
 
 head(behavior_data)</code></pre>
-<pre><code>##                council    girlCode total_absences total_suspensions
-## 1 West Central Council 320AT101602              0                NA
-## 2 West Central Council 320AM072903              0                 0
-## 3 West Central Council 320AP030203              0                 0
-## 4 West Central Council 320AB061103              0                 0
-## 5 West Central Council 320BR072103              0                 0
-## 6 West Central Council 320CM120402              0                 0
-##   expelled
-## 1       No
-## 2       No
-## 3       No
-## 4       No
-## 5       No
-## 6       No</code></pre>
 <div id="merge-grade-data" class="section level3">
 <h3>Merge Grade Data</h3>
-<pre class="r"><code>q4_lang_read &lt;- full_join(mq4_lang_all, mq4_read_all)</code></pre>
-<pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
-<pre class="r"><code>dim(q4_lang_read)</code></pre>
-<pre><code>## [1] 367   8</code></pre>
-<pre class="r"><code>head(q4_lang_read)</code></pre>
-<pre><code>##      girlCode              council         langCourses langGrade lang_pts4
-## 1 320GD120203 West Central Council mjLangArts1_quarter         C         2
-## 2 320CF032904 West Central Council mjLangArts1_quarter         B         3
-## 3 320KF052703 West Central Council mjLangArts1_quarter         C         2
-## 4 320TM060203 West Central Council mjLangArts1_quarter         A         4
-## 5 320NR030504 West Central Council mjLangArts1_quarter         F         0
-## 6 320AW050904 West Central Council mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts4
-## 1 mjIntensRead_quarter            C            2
-## 2   mjRead1Adv_quarter            B            3
-## 3 mjIntensRead_quarter            B            3
-## 4 mjIntensRead_quarter            C            2
-## 5 mjIntensRead_quarter            F            0
-## 6 mjIntensRead_quarter            A            4</code></pre>
-<pre class="r"><code>q4_lang_read &lt;- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts4, readingCourses, readingGrade,reading_pts4)
+<pre class="r"><code>q4_lang_read &lt;- full_join(mq4_lang_all, mq4_read_all)
+dim(q4_lang_read)
+
+head(q4_lang_read)
+
+q4_lang_read &lt;- select(q4_lang_read, council, girlCode, langCourses, langGrade, lang_pts4, readingCourses, readingGrade,reading_pts4)
 
 
 colnames (q4_lang_read) [1] &lt;- &quot;council&quot;
 
 head(q4_lang_read)</code></pre>
-<pre><code>##                council    girlCode         langCourses langGrade lang_pts4
-## 1 West Central Council 320GD120203 mjLangArts1_quarter         C         2
-## 2 West Central Council 320CF032904 mjLangArts1_quarter         B         3
-## 3 West Central Council 320KF052703 mjLangArts1_quarter         C         2
-## 4 West Central Council 320TM060203 mjLangArts1_quarter         A         4
-## 5 West Central Council 320NR030504 mjLangArts1_quarter         F         0
-## 6 West Central Council 320AW050904 mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts4
-## 1 mjIntensRead_quarter            C            2
-## 2   mjRead1Adv_quarter            B            3
-## 3 mjIntensRead_quarter            B            3
-## 4 mjIntensRead_quarter            C            2
-## 5 mjIntensRead_quarter            F            0
-## 6 mjIntensRead_quarter            A            4</code></pre>
 </div>
 <div id="merge-all" class="section level3">
 <h3>Merge all</h3>
 <pre class="r"><code>q4_academic_data &lt;- full_join(q4_lang_read, behavior_data, by=&quot;girlCode&quot;)
 
-dim(q4_academic_data)</code></pre>
-<pre><code>## [1] 367  12</code></pre>
-<pre class="r"><code>head(q4_academic_data)</code></pre>
-<pre><code>##              council.x    girlCode         langCourses langGrade lang_pts4
-## 1 West Central Council 320GD120203 mjLangArts1_quarter         C         2
-## 2 West Central Council 320CF032904 mjLangArts1_quarter         B         3
-## 3 West Central Council 320KF052703 mjLangArts1_quarter         C         2
-## 4 West Central Council 320TM060203 mjLangArts1_quarter         A         4
-## 5 West Central Council 320NR030504 mjLangArts1_quarter         F         0
-## 6 West Central Council 320AW050904 mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts4            council.y
-## 1 mjIntensRead_quarter            C            2 West Central Council
-## 2   mjRead1Adv_quarter            B            3 West Central Council
-## 3 mjIntensRead_quarter            B            3 West Central Council
-## 4 mjIntensRead_quarter            C            2 West Central Council
-## 5 mjIntensRead_quarter            F            0 West Central Council
-## 6 mjIntensRead_quarter            A            4 West Central Council
-##   total_absences total_suspensions expelled
-## 1              0                 0       No
-## 2              0                 0       No
-## 3              0                 0       No
-## 4              0                 0       No
-## 5              0                 0       No
-## 6              0                 0       No</code></pre>
-<pre class="r"><code>q4_academic_data &lt;- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts4, readingCourses,readingGrade, reading_pts4,total_absences, total_suspensions, expelled)
+dim(q4_academic_data)
+
+head(q4_academic_data)
+
+q4_academic_data &lt;- select(q4_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts4, readingCourses,readingGrade, reading_pts4,total_absences, total_suspensions, expelled)
 
 colnames (q4_academic_data) [1] &lt;- &quot;council&quot;
 
 
 head(q4_academic_data)</code></pre>
-<pre><code>##                council    girlCode         langCourses langGrade lang_pts4
-## 1 West Central Council 320GD120203 mjLangArts1_quarter         C         2
-## 2 West Central Council 320CF032904 mjLangArts1_quarter         B         3
-## 3 West Central Council 320KF052703 mjLangArts1_quarter         C         2
-## 4 West Central Council 320TM060203 mjLangArts1_quarter         A         4
-## 5 West Central Council 320NR030504 mjLangArts1_quarter         F         0
-## 6 West Central Council 320AW050904 mjLangArts1_quarter         C         2
-##         readingCourses readingGrade reading_pts4 total_absences
-## 1 mjIntensRead_quarter            C            2              0
-## 2   mjRead1Adv_quarter            B            3              0
-## 3 mjIntensRead_quarter            B            3              0
-## 4 mjIntensRead_quarter            C            2              0
-## 5 mjIntensRead_quarter            F            0              0
-## 6 mjIntensRead_quarter            A            4              0
-##   total_suspensions expelled
-## 1                 0       No
-## 2                 0       No
-## 3                 0       No
-## 4                 0       No
-## 5                 0       No
-## 6                 0       No</code></pre>
 </div>
 </div>
 </div>
@@ -2183,9 +2122,11 @@ setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)
 
-dbWriteTable(conn =getReal_2016db, name = &quot;Q4_academic_data&quot;, value = q4_academic_data, row.names = FALSE, overwrite = TRUE)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;Q4_duplicates&quot;, value = q4Dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
+#dbWriteTable(conn =getReal_2016db, name = &quot;Q4_academic_data&quot;, value = q4_academic_data, row.names = FALSE, overwrite = TRUE)
+
+
+
+dbWriteTable(conn = getReal_2016db, name = &quot;Q4_duplicates&quot;, value = q4Dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>### Write Q1 Expelled data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = &quot;Q4_expelled&quot;, value = q4_expelled, row.names=FALSE, overwrite=TRUE)</code></pre>
