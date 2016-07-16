@@ -14,7 +14,6 @@ library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
-library (ezknitr)
 library(sqldf)
 
 ### set working directory to find the data
@@ -29,6 +28,10 @@ q1_absences <-dbReadTable(getReal_2016db, "Q1_Absences")
 ##read q2 absences from database
 q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
+q3_absences <-dbReadTable(getReal_2016db, "Q3_Absences")
+
+
+q4_absences <-dbReadTable(getReal_2016db, "Q4_Absences")
 
 
 ```
@@ -42,35 +45,108 @@ q2_absences <-dbReadTable(getReal_2016db, "Q2_Absences")
 
 ```{r echo=FALSE}
 
-#Merge and find matches between q1 and q2 by girlCode
-absences <- inner_join(q1_absences, q2_absences, by="girlCode")
+#Merge and find matches between q1 and q4 by girlCode
+absences_q4q1 <- inner_join(q4_absences, q1_absences, by="girlCode")
 
+dim(absences_q4q1)
 
-##narrow variables of interests
-absences_1 <- absences %>%
-    select(girlCode, council.x.x, sum_abs.x, sum_abs.y) 
- 
-###make caluculated field   
-absences_q2q1 <- absences_1 %>%
-    mutate(abs_diff = sum_abs.y - sum_abs.x)
+head(absences_q4q1)
 
+missing_q4q1 <- anti_join(q4_absences, q1_absences, by="girlCode")
 
+head(missing_q4q1)
 
-###Ensure there are no cases with NA
-absences_q2q1 <- absences_q2q1 %>%
-    filter(abs_diff != "NA")
+absences_q4q2 <- inner_join(missing_q4q1, q2_absences, by="girlCode")
+
+head(absences_q4q2)
+
+names(absences_q4q1)
+names(absences_q4q2)
 
 
 ```
 
 
+```{r}
+absences_q4q1 <-absences_q4q1 %>%
+    select(1,2, 6, 11)
+
+names(absences_q4q1)
+
+colnames(absences_q4q1) [1] <- "council"
+colnames(absences_q4q1) [4]<- "baseline"
+colnames(absences_q4q1) [3]<- "final"
+
+
+absences_q4q1 <- absences_q4q1 %>%
+    mutate("Time" = "Q1Q4")
+
+
+
+
+```
+
+
+```{r}
+absences_q4q2 <- absences_q4q2 %>%
+    select(1,2,6,11)
+
+
+names(absences_q4q2)
+
+colnames(absences_q4q2) [1] <- "council"
+colnames(absences_q4q2) [4]<- "baseline"
+colnames(absences_q4q2) [3]<- "final"
+
+absences_q4q2 <- absences_q4q2 %>%
+    mutate("Time" ="Q1Q2")
+
+
+
+
+```
+
+
+
+```{r}
+attendance_2016 <- rbind(absences_q4q1, absences_q4q2)
+
+dim(attendance_2016)
+
+head(attendance_2016)
+
+
+```
+
+```{r}
+
+###make caluculated field   
+attendance_2016 <- attendance_2016 %>%
+    mutate(abs_diff = final - baseline)
+
+
+###Ensure there are no cases with NA
+attendance_2016 <- attendance_2016 %>%
+    filter(abs_diff != "NA")
+
+head(attendance_2016)
+```
+
+
+
+
+
+
+
+
+
 ```{r echo=FALSE}
 
 absences_success <- function() {
-    no_absences <- filter(absences_q2q1, abs_diff == 0, sum_abs.y ==0) #find cases with no absences
-    decrease_abs <- filter(absences_q2q1, abs_diff<0 ) #find students who decreased absences
+    no_absences <- filter(attendance_2016, final == 0, baseline ==0) #find cases with no absences
+    decrease_abs <- filter(attendance_2016, abs_diff<0 ) #find students who decreased absences
     abs_total <- nrow(no_absences) + nrow(decrease_abs) #add positive outcomes no absences, decreased absences
-    abs_total <- abs_total / nrow(absences_q2q1) #divide positive outcomes by total
+    abs_total <- abs_total / nrow(attendance_2016) #divide positive outcomes by total
     abs_total <- round(abs_total*100,2) #make percent 
     pander(paste0(abs_total, "%", sep= ""))# make percent pretty with percent sign
     
@@ -88,20 +164,20 @@ absences_success <- function() {
 ### Absences Success: % of Students who decreased their absences or had no absences. 
 ```{r echo=FALSE}
 
-abs_diff<- pander(mean(absences_q2q1$abs_diff, na.rm=TRUE))  #find mean differences
+abs_diff<- pander(mean(attendance_2016$abs_diff, na.rm=TRUE))  #find mean differences
 
 
 ```
 
 
 
-The number of valid entries is **`r nrow(absences_q2q1)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
+The number of valid entries is **`r nrow(attendance_2016)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
 
 
 ### Absences Change Table:
 ```{r echo=FALSE, eval=TRUE}
 
-absences_change <- with(absences_q2q1, table(abs_diff))  #make table with absences differnces
+absences_change <- with(attendance_2016, table(abs_diff))  #make table with absences differnces
 
 pander(absences_change) #make table pretty
 
@@ -129,21 +205,23 @@ pander(absences_change) #make table pretty
 
 ```{r echo=FALSE}
 
-colnames (absences_q2q1) [2] <- "Council"  #chanage name to make pretty for graph
-colnames (absences_q2q1) [3] <- "Q1_Abs"  #change name to make pretty for graph
-colnames (absences_q2q1) [4] <- "Q2_Abs" # change name to make pretty for graph
-colnames (absences_q2q1) [5] <- "Abs_Change" #change name to make pretty for graph
+names(attendance_2016)
+
+colnames (attendance_2016) [1] <- "Council"  #chanage name to make pretty for graph
+colnames (attendance_2016) [3] <- "basline"  #change name to make pretty for graph
+colnames (attendance_2016) [4] <- "final" # change name to make pretty for graph
+colnames (attendance_2016) [6] <- "Abs_Change" #change name to make pretty for graph
 
 ```
 
 ### Plot of Change in Absences:
 
-The plot below has the council on the vertical axis and the difference in absences between Quarter 1 and Quarter 2. For this plot it is good to see the circles on the left to reflect decreases. 
+The plot below has the council on the vertical axis and the difference in absences between baseline and final. For this plot it is good to see the circles on the left to reflect decreases. 
 
 
 ```{r echo=FALSE, warning=FALSE}
 
-abs_change_plot_c <- ggplot(absences_q2q1,(aes(x = Abs_Change, y = Council)))
+abs_change_plot_c <- ggplot(attendance_2016,(aes(x = Abs_Change, y = Council)))
 
 abs_change_plot_c + geom_count()  #plot changes in absences by council
 
@@ -156,7 +234,7 @@ abs_change_plot_c + geom_count()  #plot changes in absences by council
 ```
 
 ### Trend Data
-````{r echo=FALSE, warning=FALSE, message=FALSE}
+````{r echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 
 ### Change working directory to where database is 
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
@@ -171,7 +249,7 @@ abs_2015 <- dbReadTable(getRealdb, "absences_final")
 ```
 
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 # match data
 
 #Merge and find matches
@@ -195,7 +273,7 @@ colnames(abs_match)[11] <-"abs_match_trend"
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 abs_match_success <- function() {
     abs_data_m_none <- filter(abs_match, sum_abs == 0, total_abs_final ==0) #find studens with no absence
     abs_data_m <-filter(abs_match, abs_match_trend <0) #find students who decreased abssences
@@ -210,7 +288,7 @@ abs_match_success <- function() {
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 abs_match_m<- mean(abs_match$abs_match_trend)
 
 abs_match_m <- round(abs_match_m,2)
@@ -219,12 +297,11 @@ abs_match_m <- round(abs_match_m,2)
 
 
 
-The number of students that could be matched is **`r nrow(abs_match)`**, and the mean attendance change from Quarter 4 to Quarter 2 is **`r (abs_match_m)`**.  The vast majority of students are improving their attendance rates. The mean difference is reflecting three students with a high number of absences. The percent of students who have improved their attendance from Quarter 4 last year is **`r abs_match_success()`**
 
 
 ### Plot of Absences Change by Council:
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 colnames(abs_match)[1] <- "Council" #change name to make pretty for graph
 colnames(abs_match)[11]<- "Absences_Change" #change name to make pretty for graph
@@ -241,7 +318,7 @@ absence_change_plot_m + geom_count()  #display changes in absences by council
 
 
 ### Plot change in absence by Student: 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 
 plot(abs_match$Absences_Change, ylab="Difference in Absences", xlab="Matched Students")
