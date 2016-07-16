@@ -708,8 +708,8 @@ q2_total_abs$sum_abs <-q2_total_abs$unexcusedAbs + q2_total_abs$excusedAbs
 head(q2_total_abs)
 
 colnames(q2_total_abs) [3] <- "q2_Unexcused"
-colnames (q2_total_abs)[5] <- "q3_Excused"
-colnames(q2_total_abs) [6] <- "q3_Total"
+colnames (q2_total_abs)[5] <- "q2_Excused"
+colnames(q2_total_abs) [6] <- "q2_Total"
 
 
 
@@ -767,9 +767,13 @@ q2_susp_total$susp_sum <- q2_in_school$inSchoolSusp + q2_out_school$outofSchoolS
 
 head(q2_susp_total)
 
-q2_susp_total_tbl <- with(q2_susp_total,table(susp_sum))
+colnames(q2_susp_total) [3] <- "q2_InSchool"
+colnames(q2_susp_total) [5] <- "q2_OutSchool"
+colnames(q2_susp_total) [6] <- "q2_Total"
 
-q2_susp_total_tbl
+#q2_susp_total_tbl <- with(q2_susp_total,table(susp_sum))
+
+#q2_susp_total_tbl
 
 
 

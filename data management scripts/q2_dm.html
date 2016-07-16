@@ -878,8 +878,8 @@ head(q2_total_abs)</code></pre>
 ## 5          2      NA
 ## 6          0       0</code></pre>
 <pre class="r"><code>colnames(q2_total_abs) [3] &lt;- &quot;q2_Unexcused&quot;
-colnames (q2_total_abs)[5] &lt;- &quot;q3_Excused&quot;
-colnames(q2_total_abs) [6] &lt;- &quot;q3_Total&quot;
+colnames (q2_total_abs)[5] &lt;- &quot;q2_Excused&quot;
+colnames(q2_total_abs) [6] &lt;- &quot;q2_Total&quot;
 
 
 
@@ -952,12 +952,13 @@ head(q2_susp_total)</code></pre>
 ## 4               0        1
 ## 5               0        0
 ## 6               0        0</code></pre>
-<pre class="r"><code>q2_susp_total_tbl &lt;- with(q2_susp_total,table(susp_sum))
+<pre class="r"><code>colnames(q2_susp_total) [3] &lt;- &quot;q2_InSchool&quot;
+colnames(q2_susp_total) [5] &lt;- &quot;q2_OutSchool&quot;
+colnames(q2_susp_total) [6] &lt;- &quot;q2_Total&quot;
 
-q2_susp_total_tbl</code></pre>
-<pre><code>## susp_sum
-##   0   1   2   3   4   5   6  12  18  20  24 
-## 576  30  12  14   9   3   4   1   1   1   1</code></pre>
+#q2_susp_total_tbl &lt;- with(q2_susp_total,table(susp_sum))
+
+#q2_susp_total_tbl</code></pre>
 </div>
 <div id="expelled" class="section level1">
 <h1>Expelled</h1>
