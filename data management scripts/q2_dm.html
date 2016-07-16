@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-06-26" />
+<meta name="date" content="2016-07-16" />
 
 <title>Q2_grades_dm</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Q2_grades_dm</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-06-26</em></h4>
+<h4 class="date"><em>2016-07-16</em></h4>
 
 </div>
 
@@ -862,14 +862,33 @@ q2_total_abs &lt;- inner_join(q2_unexcused, q2_excused, by = &quot;girlCode&quot
 ### Sum up the two columns to get a total 
 q2_total_abs$sum_abs &lt;-q2_total_abs$unexcusedAbs + q2_total_abs$excusedAbs
 
+head(q2_total_abs)</code></pre>
+<pre><code>##           council.x      girlCode unexcusedAbs         council.y
+## 1 Southeast Council   321IM121403            1 Southeast Council
+## 2 Southeast Council   321KT083104           NA Southeast Council
+## 3 Southeast Council   321AW022601           NA Southeast Council
+## 4 Southeast Council   321AW010102            0 Southeast Council
+## 5 Southeast Council 321JJ07112002           NA Southeast Council
+## 6 Southeast Council   321GC050202            0 Southeast Council
+##   excusedAbs sum_abs
+## 1          2       3
+## 2          1      NA
+## 3          1      NA
+## 4          5       5
+## 5          2      NA
+## 6          0       0</code></pre>
+<pre class="r"><code>colnames(q2_total_abs) [3] &lt;- &quot;q2_Unexcused&quot;
+colnames (q2_total_abs)[5] &lt;- &quot;q3_Excused&quot;
+colnames(q2_total_abs) [6] &lt;- &quot;q3_Total&quot;
+
+
+
 ### Create table to view the data
-q2_total_abs_tbl &lt;- with(q2_total_abs, table(sum_abs))
+#
+#q2_total_abs_tbl &lt;- with(q2_total_abs, table(sum_abs))
 
 ### See the table output
-q2_total_abs_tbl</code></pre>
-<pre><code>## sum_abs
-##   0   1   2   3   4   5   6   7   8   9  13 
-## 337  55  79  70  43  37  11  10   6   3   2</code></pre>
+#q2_total_abs_tbl</code></pre>
 </div>
 <div id="in-school-suspensions" class="section level1">
 <h1>In School Suspensions</h1>
@@ -968,13 +987,15 @@ q2_expelled_tbl</code></pre>
 <h1>Prepare data for database</h1>
 <div id="merge-behavior-data" class="section level2">
 <h2>Merge Behavior Data</h2>
-<pre class="r"><code>abs_susp &lt;- full_join(q2_total_abs, q2_susp_total)</code></pre>
-<pre><code>## Joining by: c(&quot;council.x&quot;, &quot;girlCode&quot;, &quot;council.y&quot;)</code></pre>
-<pre class="r"><code>dim(abs_susp)</code></pre>
-<pre><code>## [1] 657   9</code></pre>
-<pre class="r"><code>behavior_data &lt;- full_join(abs_susp, q2_expelled)</code></pre>
-<pre><code>## Joining by: &quot;girlCode&quot;</code></pre>
-<pre class="r"><code>behavior_data &lt;- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
+<pre class="r"><code>abs_susp &lt;- full_join(q2_total_abs, q2_susp_total)
+
+dim(abs_susp)
+
+
+behavior_data &lt;- full_join(abs_susp, q2_expelled)
+
+
+behavior_data &lt;- select(behavior_data,council, girlCode, sum_abs, susp_sum, expelled)
 
 colnames (behavior_data) [1] &lt;- &quot;council&quot;
 colnames (behavior_data) [3] &lt;- &quot;total_absences&quot;
@@ -982,117 +1003,34 @@ colnames (behavior_data) [4] &lt;- &quot;total_suspensions&quot;
 
 
 head(behavior_data)</code></pre>
-<pre><code>##             council      girlCode total_absences total_suspensions
-## 1 Southeast Council   321IM121403              3                 0
-## 2 Southeast Council   321KT083104             NA                 0
-## 3 Southeast Council   321AW022601             NA                 0
-## 4 Southeast Council   321AW010102              5                 1
-## 5 Southeast Council 321JJ07112002             NA                 0
-## 6 Southeast Council   321GC050202              0                 0
-##   expelled
-## 1       No
-## 2       No
-## 3       No
-## 4       No
-## 5       No
-## 6       No</code></pre>
 <div id="merge-grade-data" class="section level3">
 <h3>Merge Grade Data</h3>
-<pre class="r"><code>q2_lang_read &lt;- full_join(mq2_lang_all, mq2_read_all)</code></pre>
-<pre><code>## Joining by: c(&quot;girlCode&quot;, &quot;council&quot;)</code></pre>
-<pre class="r"><code>dim(q2_lang_read)</code></pre>
-<pre><code>## [1] 657   8</code></pre>
-<pre class="r"><code>head(q2_lang_read)</code></pre>
-<pre><code>##      girlCode              council             langCourses langGrade
-## 1 320BR031803 West Central Council mjLangArts2ESOL_quarter         C
-## 2 312BL053004       Citrus Council mjLangArts2ESOL_quarter         B
-## 3 312MJ092702       Citrus Council mjLangArts2ESOL_quarter         C
-## 4 312BA070703       Citrus Council mjLangArts2ESOL_quarter         A
-## 5 312BJ021603       Citrus Council mjLangArts3ESOL_quarter         A
-## 6 321KT083104    Southeast Council     mjLangArts1_quarter         C
-##   lang_pts2       readingCourses readingGrade reading_pts2
-## 1         2 mjIntensRead_quarter            C            2
-## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 5         4      mjRead2_quarter            D            1
-## 6         2      mjRead1_quarter            C            2</code></pre>
-<pre class="r"><code>q2_lang_read &lt;- select(q2_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
+<pre class="r"><code>q2_lang_read &lt;- full_join(mq2_lang_all, mq2_read_all)
+dim(q2_lang_read)
+
+head(q2_lang_read)
+
+q2_lang_read &lt;- select(q2_lang_read, council, girlCode, langCourses, langGrade, lang_pts2, readingCourses, readingGrade,reading_pts2)
 
 
 colnames (q2_lang_read) [1] &lt;- &quot;council&quot;
 
 head(q2_lang_read)</code></pre>
-<pre><code>##                council    girlCode             langCourses langGrade
-## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
-## 2       Citrus Council 312BL053004 mjLangArts2ESOL_quarter         B
-## 3       Citrus Council 312MJ092702 mjLangArts2ESOL_quarter         C
-## 4       Citrus Council 312BA070703 mjLangArts2ESOL_quarter         A
-## 5       Citrus Council 312BJ021603 mjLangArts3ESOL_quarter         A
-## 6    Southeast Council 321KT083104     mjLangArts1_quarter         C
-##   lang_pts2       readingCourses readingGrade reading_pts2
-## 1         2 mjIntensRead_quarter            C            2
-## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 5         4      mjRead2_quarter            D            1
-## 6         2      mjRead1_quarter            C            2</code></pre>
 </div>
 <div id="merge-all" class="section level3">
 <h3>Merge all</h3>
 <pre class="r"><code>q2_academic_data &lt;- full_join(q2_lang_read, behavior_data, by=&quot;girlCode&quot;)
 
-dim(q2_academic_data)</code></pre>
-<pre><code>## [1] 658  12</code></pre>
-<pre class="r"><code>head(q2_academic_data)</code></pre>
-<pre><code>##              council.x    girlCode             langCourses langGrade
-## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
-## 2       Citrus Council 312BL053004 mjLangArts2ESOL_quarter         B
-## 3       Citrus Council 312MJ092702 mjLangArts2ESOL_quarter         C
-## 4       Citrus Council 312BA070703 mjLangArts2ESOL_quarter         A
-## 5       Citrus Council 312BJ021603 mjLangArts3ESOL_quarter         A
-## 6    Southeast Council 321KT083104     mjLangArts1_quarter         C
-##   lang_pts2       readingCourses readingGrade reading_pts2
-## 1         2 mjIntensRead_quarter            C            2
-## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA
-## 5         4      mjRead2_quarter            D            1
-## 6         2      mjRead1_quarter            C            2
-##              council.y total_absences total_suspensions expelled
-## 1 West Central Council              0                 0       No
-## 2       Citrus Council              0                 0       No
-## 3       Citrus Council              3                 0       No
-## 4       Citrus Council              0                 0       No
-## 5       Citrus Council              0                 0       No
-## 6    Southeast Council             NA                 0       No</code></pre>
-<pre class="r"><code>q2_academic_data &lt;- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
+dim(q2_academic_data)
+
+head(q2_academic_data)
+
+q2_academic_data &lt;- select(q2_academic_data, council.x, girlCode, langCourses, langGrade, lang_pts2, readingCourses,readingGrade, reading_pts2,total_absences, total_suspensions, expelled)
 
 colnames (q2_academic_data) [1] &lt;- &quot;council&quot;
 
 
 head(q2_academic_data)</code></pre>
-<pre><code>##                council    girlCode             langCourses langGrade
-## 1 West Central Council 320BR031803 mjLangArts2ESOL_quarter         C
-## 2       Citrus Council 312BL053004 mjLangArts2ESOL_quarter         B
-## 3       Citrus Council 312MJ092702 mjLangArts2ESOL_quarter         C
-## 4       Citrus Council 312BA070703 mjLangArts2ESOL_quarter         A
-## 5       Citrus Council 312BJ021603 mjLangArts3ESOL_quarter         A
-## 6    Southeast Council 321KT083104     mjLangArts1_quarter         C
-##   lang_pts2       readingCourses readingGrade reading_pts2 total_absences
-## 1         2 mjIntensRead_quarter            C            2              0
-## 2         3                 &lt;NA&gt;         &lt;NA&gt;           NA              0
-## 3         2                 &lt;NA&gt;         &lt;NA&gt;           NA              3
-## 4         4                 &lt;NA&gt;         &lt;NA&gt;           NA              0
-## 5         4      mjRead2_quarter            D            1              0
-## 6         2      mjRead1_quarter            C            2             NA
-##   total_suspensions expelled
-## 1                 0       No
-## 2                 0       No
-## 3                 0       No
-## 4                 0       No
-## 5                 0       No
-## 6                 0       No</code></pre>
 </div>
 </div>
 </div>
@@ -1104,9 +1042,11 @@ setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/sqlite&quot;)
 
 getReal_2016db&lt;- dbConnect(SQLite(), dbname=&quot;outcome_history.sqlite&quot;)
 
-dbWriteTable(conn =getReal_2016db, name = &quot;Q2_academic_data&quot;, value = q2_academic_data, row.names = FALSE, overwrite = TRUE)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>dbWriteTable(conn = getReal_2016db, name = &quot;Q2_duplicates&quot;, value = q2Dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
+#dbWriteTable(conn =getReal_2016db, name = &quot;Q2_academic_data&quot;, value = q2_academic_data, row.names = FALSE, overwrite = TRUE)
+
+
+
+dbWriteTable(conn = getReal_2016db, name = &quot;Q2_duplicates&quot;, value = q2Dupes, row.names=FALSE, overwrite=TRUE)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <pre class="r"><code>### Write Q1 Expelled data to sqlite database
 dbWriteTable(conn = getReal_2016db, name = &quot;Q2_expelled&quot;, value = q2_expelled, row.names=FALSE, overwrite=TRUE)</code></pre>

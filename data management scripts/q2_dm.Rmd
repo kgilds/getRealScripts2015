@@ -705,11 +705,20 @@ q2_total_abs <- inner_join(q2_unexcused, q2_excused, by = "girlCode", Copy=FALSE
 ### Sum up the two columns to get a total 
 q2_total_abs$sum_abs <-q2_total_abs$unexcusedAbs + q2_total_abs$excusedAbs
 
+head(q2_total_abs)
+
+colnames(q2_total_abs) [3] <- "q2_Unexcused"
+colnames (q2_total_abs)[5] <- "q3_Excused"
+colnames(q2_total_abs) [6] <- "q3_Total"
+
+
+
 ### Create table to view the data
-q2_total_abs_tbl <- with(q2_total_abs, table(sum_abs))
+#
+#q2_total_abs_tbl <- with(q2_total_abs, table(sum_abs))
 
 ### See the table output
-q2_total_abs_tbl
+#q2_total_abs_tbl
 
 ```
 
@@ -791,7 +800,7 @@ q2_expelled_tbl
 
 ## Merge Behavior Data
 
-```{r}
+```{r eval=FALSE}
 
 abs_susp <- full_join(q2_total_abs, q2_susp_total)
 
@@ -821,7 +830,7 @@ head(behavior_data)
 
 ### Merge Grade Data
 
-```{r}
+```{r eval=FALSE}
 
 q2_lang_read <- full_join(mq2_lang_all, mq2_read_all)
 dim(q2_lang_read)
@@ -840,7 +849,7 @@ head(q2_lang_read)
 ```
 
 ### Merge all
-```{r}
+```{r eval=FALSE}
 
 q2_academic_data <- full_join(q2_lang_read, behavior_data, by="girlCode")
 
@@ -868,7 +877,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
 
 getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 
-dbWriteTable(conn =getReal_2016db, name = "Q2_academic_data", value = q2_academic_data, row.names = FALSE, overwrite = TRUE)
+#dbWriteTable(conn =getReal_2016db, name = "Q2_academic_data", value = q2_academic_data, row.names = FALSE, overwrite = TRUE)
 
 
 
