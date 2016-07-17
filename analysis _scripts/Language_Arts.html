@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds, MPA" />
 
-<meta name="date" content="2016-07-16" />
+<meta name="date" content="2016-07-17" />
 
 <title>Language Arts</title>
 
@@ -118,34 +118,34 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Language Arts</h1>
 <h4 class="author"><em>Kevin Gilds, MPA</em></h4>
-<h4 class="date"><em>2016-07-16</em></h4>
+<h4 class="date"><em>2016-07-17</em></h4>
 
 </div>
 
 
-<pre><code>## [1] 367   5</code></pre>
+<pre><code>## [1] 584   5</code></pre>
 <div id="reading-improvement" class="section level1">
 <h1>Reading Improvement:</h1>
 <div id="objective" class="section level2">
 <h2>Objective:</h2>
 <p><em>50% of participating students will improve their reading skills as demonstrated by their Language Arts grade increasing or maintaining a “C” grade from the baseline grading period to the final grading period as evidenced by report cards/school reports.</em></p>
-<pre><code>## [1] 340   9</code></pre>
-<pre><code>##      girlCode       council.x            langCourses.x langGrade.x
-## 1 312AA071702  Citrus Council     mjLangArts3_semester           C
-## 2 312AM062102  Citrus Council     mjLangArts2_semester           B
-## 3 312BA070703  Citrus Council mjLangArts2ESOL_semester           A
-## 4 313AB060404 Gateway Council     mjLangArts1_semester           C
-## 5 313AB112002 Gateway Council     mjLangArts2_semester           B
-## 6 313DM081401 Gateway Council     mjLangArts3_semester           C
-##   lang_pts4       council.y           langCourses.y langGrade.y lang_pts2
-## 1         2  Citrus Council     mjLangArts3_quarter           C         2
-## 2         3  Citrus Council     mjLangArts2_quarter           A         4
-## 3         4  Citrus Council mjLangArts2ESOL_quarter           A         4
-## 4         2 Gateway Council     mjLangArts1_quarter           C         2
-## 5         3 Gateway Council     mjLangArts2_quarter           B         3
-## 6         2 Gateway Council     mjLangArts3_quarter           C         2</code></pre>
-<pre><code>## [1] 19  9</code></pre>
-<pre><code>## [1] 28  5</code></pre>
+<pre><code>## [1] 495   9</code></pre>
+<pre><code>##      girlCode      council.x            langCourses.x langGrade.x
+## 1 312AA071702 Citrus Council     mjLangArts3_semester           C
+## 2 312AG052703 Citrus Council     mjLangArts2_semester           B
+## 3 312AM062102 Citrus Council     mjLangArts2_semester           B
+## 4 312AW060903 Citrus Council     mjLangArts2_semester           C
+## 5 312BA070703 Citrus Council mjLangArts2ESOL_semester           A
+## 6 312DR012403 Citrus Council     mjLangArts2_semester           C
+##   lang_pts4      council.y           langCourses.y langGrade.y lang_pts2
+## 1         2 Citrus Council     mjLangArts3_quarter           C         2
+## 2         3 Citrus Council     mjLangArts2_quarter           B         3
+## 3         3 Citrus Council     mjLangArts2_quarter           A         4
+## 4         2 Citrus Council     mjLangArts2_quarter           C         2
+## 5         4 Citrus Council mjLangArts2ESOL_quarter           A         4
+## 6         2 Citrus Council     mjLangArts2_quarter           C         2</code></pre>
+<pre><code>## [1] 55  9</code></pre>
+<pre><code>## [1] 92  5</code></pre>
 <pre><code>## [1] &quot;girlCode&quot;      &quot;council.x&quot;     &quot;langCourses.x&quot; &quot;langGrade.x&quot;  
 ## [5] &quot;lang_pts4&quot;     &quot;council.y&quot;     &quot;langCourses.y&quot; &quot;langGrade.y&quot;  
 ## [9] &quot;lang_pts&quot;</code></pre>
@@ -178,11 +178,11 @@ colnames(langarts_q4_q2) [4] &lt;-&quot;final&quot;</code></pre>
 <pre class="r"><code>langarts2016 &lt;- rbind(langarts_q4_q1, langarts_q4_q2)
 
 dim(langarts2016)</code></pre>
-<pre><code>## [1] 359   5</code></pre>
+<pre><code>## [1] 550   5</code></pre>
 <pre class="r"><code>langarts2016_test &lt;-distinct(langarts2016, girlCode)
 
 dim(langarts2016_test)</code></pre>
-<pre><code>## [1] 358   5</code></pre>
+<pre><code>## [1] 543   5</code></pre>
 <pre class="r"><code>head(langarts2016_test)</code></pre>
 <pre><code>##      girlCode              council baseline final Time
 ## 1 320GD120203 West Central Council        3     2 Q1Q4
@@ -200,7 +200,7 @@ langarts2016_1</code></pre>
 <pre><code>##      girlCode              council baseline final Time
 ## 1 320BR031803 West Central Council        2     4 Q1Q4</code></pre>
 <pre class="r"><code>dim(langarts2016)</code></pre>
-<pre><code>## [1] 358   5</code></pre>
+<pre><code>## [1] 543   5</code></pre>
 <pre class="r"><code>head(langarts2016)</code></pre>
 <pre><code>##      girlCode              council baseline final Time
 ## 1 320GD120203 West Central Council        3     2 Q1Q4
@@ -248,42 +248,42 @@ pander(lang_change)</code></pre>
 <tr class="even">
 <td align="center"><strong>-2</strong></td>
 <td align="center">0</td>
-<td align="center">0</td>
-<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">11</td>
 <td align="center">0</td>
 <td align="center">0</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>-1</strong></td>
-<td align="center">1</td>
-<td align="center">3</td>
-<td align="center">18</td>
-<td align="center">20</td>
+<td align="center">2</td>
+<td align="center">6</td>
+<td align="center">25</td>
+<td align="center">40</td>
 <td align="center">0</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>0</strong></td>
 <td align="center">2</td>
-<td align="center">1</td>
-<td align="center">47</td>
-<td align="center">73</td>
-<td align="center">27</td>
+<td align="center">2</td>
+<td align="center">63</td>
+<td align="center">120</td>
+<td align="center">68</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>1</strong></td>
 <td align="center">0</td>
-<td align="center">1</td>
-<td align="center">38</td>
-<td align="center">70</td>
-<td align="center">7</td>
+<td align="center">4</td>
+<td align="center">40</td>
+<td align="center">89</td>
+<td align="center">20</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>2</strong></td>
 <td align="center">0</td>
 <td align="center">0</td>
 <td align="center">15</td>
-<td align="center">24</td>
-<td align="center">3</td>
+<td align="center">25</td>
+<td align="center">4</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>3</strong></td>
@@ -314,18 +314,18 @@ pander(lang_change_1)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="center"><strong>FALSE</strong></td>
-<td align="center">5</td>
-<td align="center">4</td>
+<td align="center">12</td>
+<td align="center">8</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>TRUE</strong></td>
-<td align="center">42</td>
-<td align="center">307</td>
+<td align="center">76</td>
+<td align="center">447</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code>plot(lang_change)</code></pre>
-<p><img src="data:image/png;base64,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" width="672" /></p>
+<p><img src="data:image/png;base64,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" width="672" /></p>
 <div id="language-arts-grade-of-students-that-increased-grade-or-maintained-a-c" class="section level3">
 <h3>Language Arts Grade: % of Students that increased Grade or maintained a C</h3>
 <pre class="r"><code>lang_test &lt;- filter(langarts2016, final &gt;=2, pt_diff &gt;=0)
@@ -351,294 +351,434 @@ lang_test</code></pre>
 ## 17  320RK110200 West Central Council        2     3 Q1Q4       1
 ## 18  320JB110501 West Central Council        2     3 Q1Q4       1
 ## 19  320AG091201 West Central Council        4     4 Q1Q4       0
-## 20  312BJ021603       Citrus Council        4     4 Q1Q4       0
-## 21  313AW060203      Gateway Council        2     3 Q1Q4       1
-## 22  313AP042602      Gateway Council        1     2 Q1Q4       1
-## 23  313AE041502      Gateway Council        2     3 Q1Q4       1
-## 24  313AJ111203      Gateway Council        3     3 Q1Q4       0
-## 25  313AM022202      Gateway Council        0     2 Q1Q4       2
-## 26  313AE050404      Gateway Council        3     3 Q1Q4       0
-## 27  313AM030805      Gateway Council        2     2 Q1Q4       0
-## 28  313BB032805      Gateway Council        2     2 Q1Q4       0
-## 29  313CC032104      Gateway Council        2     3 Q1Q4       1
-## 30  313CM120103      Gateway Council        2     3 Q1Q4       1
-## 31  313IH091404      Gateway Council        2     2 Q1Q4       0
-## 32  313IA091203      Gateway Council        3     3 Q1Q4       0
-## 33  313MM071604      Gateway Council        1     2 Q1Q4       1
-## 34  313MS031104      Gateway Council        3     3 Q1Q4       0
-## 35  313SJ102903      Gateway Council        0     2 Q1Q4       2
-## 36  313SW021304      Gateway Council        1     3 Q1Q4       2
-## 37  313TG041203      Gateway Council        3     3 Q1Q4       0
-## 38  313TA120503      Gateway Council        3     3 Q1Q4       0
-## 39  313TD073104      Gateway Council        2     3 Q1Q4       1
-## 40  313YJ031404      Gateway Council        1     2 Q1Q4       1
-## 41  313PW072304      Gateway Council        3     3 Q1Q4       0
-## 42  313MA082702      Gateway Council        1     2 Q1Q4       1
-## 43  313AA041803      Gateway Council        1     2 Q1Q4       1
-## 44  313AB050904      Gateway Council        3     3 Q1Q4       0
-## 45  313CD032504      Gateway Council        1     3 Q1Q4       2
-## 46  313DF063004      Gateway Council        3     3 Q1Q4       0
-## 47  313DM031404      Gateway Council        3     3 Q1Q4       0
-## 48  313GW050404      Gateway Council        1     2 Q1Q4       1
-## 49  313JH050703      Gateway Council        3     3 Q1Q4       0
-## 50  313KH032104      Gateway Council        2     3 Q1Q4       1
-## 51  313KE040805      Gateway Council        1     2 Q1Q4       1
-## 52  313LS021104      Gateway Council        2     3 Q1Q4       1
-## 53  313NH071604      Gateway Council        1     3 Q1Q4       2
-## 54  313RH032805      Gateway Council        2     3 Q1Q4       1
-## 55  313TA060203      Gateway Council        2     3 Q1Q4       1
-## 56  313AN121503      Gateway Council        2     3 Q1Q4       1
-## 57  313AB062704      Gateway Council        1     2 Q1Q4       1
-## 58  313BM050404      Gateway Council        2     3 Q1Q4       1
-## 59  313BC040204      Gateway Council        3     3 Q1Q4       0
-## 60  313DP021104      Gateway Council        3     3 Q1Q4       0
-## 61  313EO080204      Gateway Council        1     3 Q1Q4       2
-## 62  313JC121003      Gateway Council        2     3 Q1Q4       1
-## 63  313JT110402      Gateway Council        2     2 Q1Q4       0
-## 64  313KM011503      Gateway Council        2     3 Q1Q4       1
-## 65  313KG061204      Gateway Council        2     3 Q1Q4       1
-## 66  313KT082103      Gateway Council        3     3 Q1Q4       0
-## 67  313KA090203      Gateway Council        3     3 Q1Q4       0
-## 68  313LF022804      Gateway Council        2     3 Q1Q4       1
-## 69  313MA090303      Gateway Council        1     3 Q1Q4       2
-## 70  313SS111303      Gateway Council        1     3 Q1Q4       2
-## 71  313SF120603      Gateway Council        2     3 Q1Q4       1
-## 72  313SW091702      Gateway Council        1     2 Q1Q4       1
-## 73  313SW083004      Gateway Council        1     3 Q1Q4       2
-## 74  313TC071503      Gateway Council        2     2 Q1Q4       0
-## 75  313TG091001      Gateway Council        2     2 Q1Q4       0
-## 76  313TS010303      Gateway Council        0     3 Q1Q4       3
-## 77  313AJ100704      Gateway Council        2     3 Q1Q4       1
-## 78  313KS081404      Gateway Council        1     3 Q1Q4       2
-## 79  313DP102903      Gateway Council        1     2 Q1Q4       1
-## 80  313IJ090703      Gateway Council        3     3 Q1Q4       0
-## 81  313JD052803      Gateway Council        0     2 Q1Q4       2
-## 82  313NW110203      Gateway Council        3     4 Q1Q4       1
-## 83  313AH052504      Gateway Council        2     3 Q1Q4       1
-## 84  313LC041404      Gateway Council        1     3 Q1Q4       2
-## 85  313ST020303      Gateway Council        0     3 Q1Q4       3
-## 86  313JS100203      Gateway Council        1     2 Q1Q4       1
-## 87  313MN060203      Gateway Council        2     2 Q1Q4       0
-## 88  313JB060403      Gateway Council        1     2 Q1Q4       1
-## 89  313JW081804      Gateway Council        1     3 Q1Q4       2
-## 90  313MD050604      Gateway Council        2     2 Q1Q4       0
-## 91  313LS090504      Gateway Council        2     2 Q1Q4       0
-## 92  313LL121002      Gateway Council        1     2 Q1Q4       1
-## 93  313RN100203      Gateway Council        3     3 Q1Q4       0
-## 94  313RE011302      Gateway Council        3     3 Q1Q4       0
-## 95  313SR051403      Gateway Council        2     4 Q1Q4       2
-## 96  313SW080304      Gateway Council        3     3 Q1Q4       0
-## 97  313TW060904      Gateway Council        3     3 Q1Q4       0
-## 98  313TH082203      Gateway Council        1     3 Q1Q4       2
-## 99  313ES060503      Gateway Council        2     3 Q1Q4       1
-## 100 313JL032903      Gateway Council        3     3 Q1Q4       0
-## 101 313MP031502      Gateway Council        2     3 Q1Q4       1
-## 102 313NW122502      Gateway Council        1     2 Q1Q4       1
-## 103 313NM110602      Gateway Council        1     2 Q1Q4       1
-## 104 313ND012403      Gateway Council        2     2 Q1Q4       0
-## 105 313PK110102      Gateway Council        2     2 Q1Q4       0
-## 106 320RM080702 West Central Council        2     2 Q1Q4       0
-## 107 313SW013103      Gateway Council        3     3 Q1Q4       0
-## 108 313TB112002      Gateway Council        2     3 Q1Q4       1
-## 109 313MG102902      Gateway Council        2     3 Q1Q4       1
-## 110 313GR040203      Gateway Council        2     3 Q1Q4       1
-## 111 313JP090103      Gateway Council        0     2 Q1Q4       2
-## 112 313BB040203      Gateway Council        3     3 Q1Q4       0
-## 113 313SJ060203      Gateway Council        2     2 Q1Q4       0
-## 114 313MB090202      Gateway Council        1     2 Q1Q4       1
-## 115 313SD010203      Gateway Council        2     3 Q1Q4       1
-## 116 313SS101702      Gateway Council        2     2 Q1Q4       0
-## 117 313ST122101      Gateway Council        0     2 Q1Q4       2
-## 118 313LJ090102      Gateway Council        3     3 Q1Q4       0
-## 119 313BB052401      Gateway Council        3     3 Q1Q4       0
-## 120 313SL102501      Gateway Council        2     3 Q1Q4       1
-## 121 313SJ092102      Gateway Council        2     3 Q1Q4       1
-## 122 313LM110402      Gateway Council        1     2 Q1Q4       1
-## 123 313SP101602      Gateway Council        3     3 Q1Q4       0
-## 124 313AN122002      Gateway Council        3     3 Q1Q4       0
-## 125 313AH072703      Gateway Council        2     3 Q1Q4       1
-## 126 313DM020603      Gateway Council        4     4 Q1Q4       0
-## 127 313KD091402      Gateway Council        3     3 Q1Q4       0
-## 128 313KB121202      Gateway Council        3     3 Q1Q4       0
-## 129 313LH031502      Gateway Council        2     3 Q1Q4       1
-## 130 313MD120302      Gateway Council        1     2 Q1Q4       1
-## 131 313HW011803      Gateway Council        1     3 Q1Q4       2
-## 132 313NF070900      Gateway Council        2     3 Q1Q4       1
-## 133 313NB041502      Gateway Council        2     2 Q1Q4       0
-## 134 313SS081403      Gateway Council        2     3 Q1Q4       1
-## 135 313SS080202      Gateway Council        1     3 Q1Q4       2
-## 136 313VJ112402      Gateway Council        2     3 Q1Q4       1
-## 137 313AC082303      Gateway Council        2     3 Q1Q4       1
-## 138 313AF040403      Gateway Council        3     4 Q1Q4       1
-## 139 313CD122702      Gateway Council        2     2 Q1Q4       0
-## 140 313DJ031804      Gateway Council        1     3 Q1Q4       2
-## 141 313EG050502      Gateway Council        2     2 Q1Q4       0
-## 142 313ER122203      Gateway Council        2     2 Q1Q4       0
-## 143 313JL110304      Gateway Council        2     2 Q1Q4       0
-## 144 313JM040603      Gateway Council        2     3 Q1Q4       1
-## 145 313JB122201      Gateway Council        1     3 Q1Q4       2
-## 146 313JD090803      Gateway Council        0     2 Q1Q4       2
-## 147 313JP011003      Gateway Council        1     2 Q1Q4       1
-## 148 313SH092302      Gateway Council        2     2 Q1Q4       0
-## 149 313DG072603      Gateway Council        3     3 Q1Q4       0
-## 150 313EC081602      Gateway Council        4     4 Q1Q4       0
-## 151 313KH120302      Gateway Council        3     3 Q1Q4       0
-## 152 313LE082703      Gateway Council        2     3 Q1Q4       1
-## 153 313MH120302      Gateway Council        1     3 Q1Q4       2
-## 154 313NB120901      Gateway Council        1     2 Q1Q4       1
-## 155 313TG012003      Gateway Council        2     3 Q1Q4       1
-## 156 313SY042303      Gateway Council        3     3 Q1Q4       0
-## 157 313AJ041002      Gateway Council        2     3 Q1Q4       1
-## 158 313TA020602      Gateway Council        3     3 Q1Q4       0
-## 159 313CB101103      Gateway Council        2     3 Q1Q4       1
-## 160 313DL091702      Gateway Council        3     3 Q1Q4       0
-## 161 312PM110402       Citrus Council        2     3 Q1Q4       1
-## 162 312GB022203       Citrus Council        3     3 Q1Q4       0
-## 163 313BB082902      Gateway Council        1     2 Q1Q4       1
-## 164 313BB032502      Gateway Council        3     3 Q1Q4       0
-## 165 313CH080602      Gateway Council        0     2 Q1Q4       2
-## 166 313ET110102      Gateway Council        2     2 Q1Q4       0
-## 167 313HB022103      Gateway Council        1     3 Q1Q4       2
-## 168 313JH041802      Gateway Council        1     2 Q1Q4       1
-## 169 313JC012502      Gateway Council        0     2 Q1Q4       2
-## 170 313JH110902      Gateway Council        3     3 Q1Q4       0
-## 171 313BS041502      Gateway Council        2     2 Q1Q4       0
-## 172 313JW111002      Gateway Council        1     2 Q1Q4       1
-## 173 313SA080202      Gateway Council        2     2 Q1Q4       0
-## 174 313KD041503      Gateway Council        1     3 Q1Q4       2
-## 175 313JK122602      Gateway Council        0     2 Q1Q4       2
-## 176 313LM010502      Gateway Council        0     2 Q1Q4       2
-## 177 313ZJ050403      Gateway Council        0     2 Q1Q4       2
-## 178 313JT110202      Gateway Council        1     2 Q1Q4       1
-## 179 313JD120102      Gateway Council        2     3 Q1Q4       1
-## 180 313KD042102      Gateway Council        3     3 Q1Q4       0
-## 181 313KM080502      Gateway Council        2     2 Q1Q4       0
-## 182 313AH082502      Gateway Council        4     4 Q1Q4       0
-## 183 313AV040903      Gateway Council        3     3 Q1Q4       0
-## 184 313AP090203      Gateway Council        2     3 Q1Q4       1
-## 185 313DC061403      Gateway Council        3     3 Q1Q4       0
-## 186 313HW090202      Gateway Council        2     3 Q1Q4       1
-## 187 313KJ012003      Gateway Council        2     2 Q1Q4       0
-## 188 313LP081302      Gateway Council        2     3 Q1Q4       1
-## 189 313TR122902      Gateway Council        2     3 Q1Q4       1
-## 190 313VJ061503      Gateway Council        3     3 Q1Q4       0
-## 191 320AB061103 West Central Council        4     4 Q1Q4       0
-## 192 320BR072103 West Central Council        3     4 Q1Q4       1
-## 193 320IW012403 West Central Council        4     4 Q1Q4       0
-## 194 320IR061103 West Central Council        4     4 Q1Q4       0
-## 195 320KW122401 West Central Council        4     4 Q1Q4       0
-## 196 320KG080703 West Central Council        1     2 Q1Q4       1
-## 197 320MB030803 West Central Council        1     2 Q1Q4       1
-## 198 313AJ100301      Gateway Council        3     3 Q1Q4       0
-## 199 312FS020503       Citrus Council        4     4 Q1Q4       0
-## 200 313MY060702      Gateway Council        4     4 Q1Q4       0
-## 201 313KC111302      Gateway Council        3     3 Q1Q4       0
-## 202 313DW060502      Gateway Council        3     3 Q1Q4       0
-## 203 313HB060202      Gateway Council        1     3 Q1Q4       2
-## 204 313JR060502      Gateway Council        1     3 Q1Q4       2
-## 205 313AK052902      Gateway Council        2     3 Q1Q4       1
-## 206 313CF080102      Gateway Council        2     3 Q1Q4       1
-## 207 313TG072302      Gateway Council        2     2 Q1Q4       0
-## 208 313MM110400      Gateway Council        2     2 Q1Q4       0
-## 209 313YJ062501      Gateway Council        1     2 Q1Q4       1
-## 210 313RL060201      Gateway Council        2     2 Q1Q4       0
-## 211 313AJ061101      Gateway Council        3     3 Q1Q4       0
-## 212 313RB031401      Gateway Council        2     2 Q1Q4       0
-## 213 313AB071302      Gateway Council        1     2 Q1Q4       1
-## 214 313BC082900      Gateway Council        3     3 Q1Q4       0
-## 215 313SS080601      Gateway Council        2     3 Q1Q4       1
-## 216 313TR060701      Gateway Council        2     3 Q1Q4       1
-## 217 313NM092901      Gateway Council        4     4 Q1Q4       0
-## 218 313AA091300      Gateway Council        3     3 Q1Q4       0
-## 219 313AE070802      Gateway Council        2     2 Q1Q4       0
-## 220 313BH042702      Gateway Council        1     2 Q1Q4       1
-## 221 313DJ013001      Gateway Council        1     2 Q1Q4       1
-## 222 313DB013101      Gateway Council        1     2 Q1Q4       1
-## 223 313DL122400      Gateway Council        2     2 Q1Q4       0
-## 224 313DW020202      Gateway Council        1     3 Q1Q4       2
-## 225 313GT051001      Gateway Council        3     3 Q1Q4       0
-## 226 313HH091900      Gateway Council        3     3 Q1Q4       0
-## 227 313JW081700      Gateway Council        2     2 Q1Q4       0
-## 228 313LG040801      Gateway Council        2     3 Q1Q4       1
-## 229 313MB050801      Gateway Council        2     4 Q1Q4       2
-## 230 313NS050901      Gateway Council        0     2 Q1Q4       2
-## 231 313QB062902      Gateway Council        3     3 Q1Q4       0
-## 232 313SS102000      Gateway Council        2     3 Q1Q4       1
-## 233 313TA042602      Gateway Council        1     3 Q1Q4       2
-## 234 320AB041702 West Central Council        3     3 Q1Q4       0
-## 235 320HP121201 West Central Council        2     3 Q1Q4       1
-## 236 320IL010602 West Central Council        3     3 Q1Q4       0
-## 237 320AF092500 West Central Council        2     2 Q1Q4       0
-## 238 320SC121301 West Central Council        3     4 Q1Q4       1
-## 239 320SN020402 West Central Council        2     3 Q1Q4       1
-## 240 313DY100502      Gateway Council        3     3 Q1Q4       0
-## 241 313ER111602      Gateway Council        2     3 Q1Q4       1
-## 242 313JD042302      Gateway Council        2     3 Q1Q4       1
-## 243 313JS103001      Gateway Council        1     2 Q1Q4       1
-## 244 313JR021003      Gateway Council        2     3 Q1Q4       1
-## 245 313JR081602      Gateway Council        2     2 Q1Q4       0
-## 246 313PM082503      Gateway Council        1     2 Q1Q4       1
-## 247 313AL042602      Gateway Council        2     3 Q1Q4       1
-## 248 313BS033102      Gateway Council        1     2 Q1Q4       1
-## 249 313BS013101      Gateway Council        2     2 Q1Q4       0
-## 250 313CP050801      Gateway Council        2     2 Q1Q4       0
-## 251 313EH121700      Gateway Council        4     4 Q1Q4       0
-## 252 313MS033102      Gateway Council        2     3 Q1Q4       1
-## 253 313TW111601      Gateway Council        1     3 Q1Q4       2
-## 254 313AJ111601      Gateway Council        3     3 Q1Q4       0
-## 255 313HB081401      Gateway Council        3     3 Q1Q4       0
-## 256 313JJ051600      Gateway Council        2     3 Q1Q4       1
-## 257 313BN052400      Gateway Council        2     2 Q1Q4       0
-## 258 313DM081501      Gateway Council        1     2 Q1Q4       1
-## 259 312KN121401       Citrus Council        3     3 Q1Q4       0
-## 260 312DJ101301       Citrus Council        3     3 Q1Q4       0
-## 261 312JF031602       Citrus Council        4     4 Q1Q4       0
-## 262 313BM102701      Gateway Council        2     3 Q1Q4       1
-## 263 313JR112301      Gateway Council        1     2 Q1Q4       1
-## 264 313LD102701      Gateway Council        2     3 Q1Q4       1
-## 265 313AJ120702      Gateway Council        1     2 Q1Q4       1
-## 266 313AC020102      Gateway Council        3     3 Q1Q4       0
-## 267 313MK050201      Gateway Council        1     2 Q1Q4       1
-## 268 313OM070501      Gateway Council        2     2 Q1Q4       0
-## 269 313PS090801      Gateway Council        3     3 Q1Q4       0
-## 270 313EM050301      Gateway Council        0     2 Q1Q4       2
-## 271 313AJ032101      Gateway Council        0     2 Q1Q4       2
-## 272 313JB090301      Gateway Council        2     2 Q1Q4       0
-## 273 313AF070302      Gateway Council        3     3 Q1Q4       0
-## 274 313AH090402      Gateway Council        3     3 Q1Q4       0
-## 275 313AR080201      Gateway Council        3     3 Q1Q4       0
-## 276 313KC010603      Gateway Council        2     3 Q1Q4       1
-## 277 313MG090502      Gateway Council        3     3 Q1Q4       0
-## 278 313AD050602      Gateway Council        3     3 Q1Q4       0
-## 279 313MD100300      Gateway Council        3     3 Q1Q4       0
-## 280 320AF050702 West Central Council        4     4 Q1Q4       0
-## 281 320AW063002 West Central Council        3     4 Q1Q4       1
-## 282 320GE021302 West Central Council        4     4 Q1Q4       0
-## 283 320JR062102 West Central Council        2     3 Q1Q4       1
-## 284 320KC050902 West Central Council        4     4 Q1Q4       0
-## 285 320KA081802 West Central Council        4     4 Q1Q4       0
-## 286 320MH081602 West Central Council        3     3 Q1Q4       0
-## 287 320MB011702 West Central Council        4     4 Q1Q4       0
-## 288 320SS110101 West Central Council        4     4 Q1Q4       0
-## 289 320SB093001 West Central Council        4     4 Q1Q4       0
-## 290 320YC042602 West Central Council        3     3 Q1Q4       0
-## 291 320ZP050602 West Central Council        2     3 Q1Q4       1
-## 292 312JS013102       Citrus Council        3     3 Q1Q4       0
-## 293 312JV032902       Citrus Council        2     2 Q1Q4       0
-## 294 313OF022803      Gateway Council        0     2 Q1Q4       2
-## 295 312AA071702       Citrus Council        2     2 Q2Q4       0
-## 296 312BA070703       Citrus Council        4     4 Q2Q4       0
-## 297 313AB060404      Gateway Council        2     2 Q2Q4       0
-## 298 313AB112002      Gateway Council        3     3 Q2Q4       0
-## 299 313DM081401      Gateway Council        2     2 Q2Q4       0
-## 300 313JG111203      Gateway Council        2     2 Q2Q4       0
-## 301 313JP070503      Gateway Council        2     3 Q2Q4       1
-## 302 320DW031301 West Central Council        2     3 Q2Q4       1
-## 303 320JO122602 West Central Council        2     2 Q2Q4       0
-## 304 320KP110300 West Central Council        4     4 Q2Q4       0
-## 305 320SL061102 West Central Council        3     3 Q2Q4       0
-## 306 320TB053002 West Central Council        3     3 Q2Q4       0
-## 307 320TM121202 West Central Council        2     2 Q2Q4       0</code></pre>
+## 20  319AR110403     Tropical Council        4     4 Q1Q4       0
+## 21  312BJ021603       Citrus Council        4     4 Q1Q4       0
+## 22  312BL053004       Citrus Council        3     3 Q1Q4       0
+## 23  313AW060203      Gateway Council        2     3 Q1Q4       1
+## 24  313AP042602      Gateway Council        1     2 Q1Q4       1
+## 25  313AE041502      Gateway Council        2     3 Q1Q4       1
+## 26  313AJ111203      Gateway Council        3     3 Q1Q4       0
+## 27  313AM022202      Gateway Council        0     2 Q1Q4       2
+## 28  313AE050404      Gateway Council        3     3 Q1Q4       0
+## 29  313AM030805      Gateway Council        2     2 Q1Q4       0
+## 30  313BB032805      Gateway Council        2     2 Q1Q4       0
+## 31  313CC032104      Gateway Council        2     3 Q1Q4       1
+## 32  313CM120103      Gateway Council        2     3 Q1Q4       1
+## 33  313IH091404      Gateway Council        2     2 Q1Q4       0
+## 34  313IA091203      Gateway Council        3     3 Q1Q4       0
+## 35  313MM071604      Gateway Council        1     2 Q1Q4       1
+## 36  313MS031104      Gateway Council        3     3 Q1Q4       0
+## 37  313SJ102903      Gateway Council        0     2 Q1Q4       2
+## 38  313SW021304      Gateway Council        1     3 Q1Q4       2
+## 39  313TG041203      Gateway Council        3     3 Q1Q4       0
+## 40  313TA120503      Gateway Council        3     3 Q1Q4       0
+## 41  313TD073104      Gateway Council        2     3 Q1Q4       1
+## 42  313YJ031404      Gateway Council        1     2 Q1Q4       1
+## 43  313PW072304      Gateway Council        3     3 Q1Q4       0
+## 44  313MA082702      Gateway Council        1     2 Q1Q4       1
+## 45  313AA041803      Gateway Council        1     2 Q1Q4       1
+## 46  313AB050904      Gateway Council        3     3 Q1Q4       0
+## 47  313CD032504      Gateway Council        1     3 Q1Q4       2
+## 48  313DF063004      Gateway Council        3     3 Q1Q4       0
+## 49  313DM031404      Gateway Council        3     3 Q1Q4       0
+## 50  313GW050404      Gateway Council        1     2 Q1Q4       1
+## 51  313JH050703      Gateway Council        3     3 Q1Q4       0
+## 52  313KH032104      Gateway Council        2     3 Q1Q4       1
+## 53  313KE040805      Gateway Council        1     2 Q1Q4       1
+## 54  313LS021104      Gateway Council        2     3 Q1Q4       1
+## 55  313NH071604      Gateway Council        1     3 Q1Q4       2
+## 56  313RH032805      Gateway Council        2     3 Q1Q4       1
+## 57  313TA060203      Gateway Council        2     3 Q1Q4       1
+## 58  313AN121503      Gateway Council        2     3 Q1Q4       1
+## 59  313AB062704      Gateway Council        1     2 Q1Q4       1
+## 60  313BM050404      Gateway Council        2     3 Q1Q4       1
+## 61  313BC040204      Gateway Council        3     3 Q1Q4       0
+## 62  313DP021104      Gateway Council        3     3 Q1Q4       0
+## 63  313EO080204      Gateway Council        1     3 Q1Q4       2
+## 64  313JC121003      Gateway Council        2     3 Q1Q4       1
+## 65  313JT110402      Gateway Council        2     2 Q1Q4       0
+## 66  313KM011503      Gateway Council        2     3 Q1Q4       1
+## 67  313KG061204      Gateway Council        2     3 Q1Q4       1
+## 68  313KT082103      Gateway Council        3     3 Q1Q4       0
+## 69  313KA090203      Gateway Council        3     3 Q1Q4       0
+## 70  313LF022804      Gateway Council        2     3 Q1Q4       1
+## 71  313MA090303      Gateway Council        1     3 Q1Q4       2
+## 72  313SS111303      Gateway Council        1     3 Q1Q4       2
+## 73  313SF120603      Gateway Council        2     3 Q1Q4       1
+## 74  313SW091702      Gateway Council        1     2 Q1Q4       1
+## 75  313SW083004      Gateway Council        1     3 Q1Q4       2
+## 76  313TC071503      Gateway Council        2     2 Q1Q4       0
+## 77  313TG091001      Gateway Council        2     2 Q1Q4       0
+## 78  313TS010303      Gateway Council        0     3 Q1Q4       3
+## 79  313AJ100704      Gateway Council        2     3 Q1Q4       1
+## 80  313KS081404      Gateway Council        1     3 Q1Q4       2
+## 81  313DP102903      Gateway Council        1     2 Q1Q4       1
+## 82  313IJ090703      Gateway Council        3     3 Q1Q4       0
+## 83  313JD052803      Gateway Council        0     2 Q1Q4       2
+## 84  313NW110203      Gateway Council        3     4 Q1Q4       1
+## 85  313AH052504      Gateway Council        2     3 Q1Q4       1
+## 86  313LC041404      Gateway Council        1     3 Q1Q4       2
+## 87  313ST020303      Gateway Council        0     3 Q1Q4       3
+## 88  313JS100203      Gateway Council        1     2 Q1Q4       1
+## 89  313MN060203      Gateway Council        2     2 Q1Q4       0
+## 90  313JB060403      Gateway Council        1     2 Q1Q4       1
+## 91  313JW081804      Gateway Council        1     3 Q1Q4       2
+## 92  313MD050604      Gateway Council        2     2 Q1Q4       0
+## 93  313LS090504      Gateway Council        2     2 Q1Q4       0
+## 94  313LL121002      Gateway Council        1     2 Q1Q4       1
+## 95  313RN100203      Gateway Council        3     3 Q1Q4       0
+## 96  313RE011302      Gateway Council        3     3 Q1Q4       0
+## 97  313SR051403      Gateway Council        2     4 Q1Q4       2
+## 98  313SW080304      Gateway Council        3     3 Q1Q4       0
+## 99  313TW060904      Gateway Council        3     3 Q1Q4       0
+## 100 313TH082203      Gateway Council        1     3 Q1Q4       2
+## 101 320JJ070902 West Central Council        2     2 Q1Q4       0
+## 102 321ZJ092702    Southeast Council        4     4 Q1Q4       0
+## 103 321KT083104    Southeast Council        2     2 Q1Q4       0
+## 104 321BS111403    Southeast Council        3     3 Q1Q4       0
+## 105 321IM121403    Southeast Council        2     2 Q1Q4       0
+## 106 321RL060204    Southeast Council        3     3 Q1Q4       0
+## 107 319AS112003     Tropical Council        3     3 Q1Q4       0
+## 108 320TD091903 West Central Council        2     4 Q1Q4       2
+## 109 320CO111303 West Central Council        4     4 Q1Q4       0
+## 110 320CD010605 West Central Council        4     4 Q1Q4       0
+## 111 320AD123003 West Central Council        4     4 Q1Q4       0
+## 112 320SS091403 West Central Council        4     4 Q1Q4       0
+## 113 320ER101503 West Central Council        4     4 Q1Q4       0
+## 114 320LR071604 West Central Council        3     3 Q1Q4       0
+## 115 320SW080104 West Central Council        3     3 Q1Q4       0
+## 116 320SM102203 West Central Council        2     3 Q1Q4       1
+## 117 320KJ090903 West Central Council        4     4 Q1Q4       0
+## 118 320JM011404 West Central Council        4     4 Q1Q4       0
+## 119 321NW102103    Southeast Council        4     4 Q1Q4       0
+## 120 321RM121303    Southeast Council        3     3 Q1Q4       0
+## 121 313ES060503      Gateway Council        2     3 Q1Q4       1
+## 122 313JL032903      Gateway Council        3     3 Q1Q4       0
+## 123 313MP031502      Gateway Council        2     3 Q1Q4       1
+## 124 313NW122502      Gateway Council        1     2 Q1Q4       1
+## 125 313NM110602      Gateway Council        1     2 Q1Q4       1
+## 126 313ND012403      Gateway Council        2     2 Q1Q4       0
+## 127 313PK110102      Gateway Council        2     2 Q1Q4       0
+## 128 320RM080702 West Central Council        2     2 Q1Q4       0
+## 129 313SW013103      Gateway Council        3     3 Q1Q4       0
+## 130 313TB112002      Gateway Council        2     3 Q1Q4       1
+## 131 313MG102902      Gateway Council        2     3 Q1Q4       1
+## 132 313GR040203      Gateway Council        2     3 Q1Q4       1
+## 133 313JP090103      Gateway Council        0     2 Q1Q4       2
+## 134 313BB040203      Gateway Council        3     3 Q1Q4       0
+## 135 313SJ060203      Gateway Council        2     2 Q1Q4       0
+## 136 313MB090202      Gateway Council        1     2 Q1Q4       1
+## 137 313SD010203      Gateway Council        2     3 Q1Q4       1
+## 138 313SS101702      Gateway Council        2     2 Q1Q4       0
+## 139 313ST122101      Gateway Council        0     2 Q1Q4       2
+## 140 313LJ090102      Gateway Council        3     3 Q1Q4       0
+## 141 313BB052401      Gateway Council        3     3 Q1Q4       0
+## 142 313SL102501      Gateway Council        2     3 Q1Q4       1
+## 143 313SJ092102      Gateway Council        2     3 Q1Q4       1
+## 144 313LM110402      Gateway Council        1     2 Q1Q4       1
+## 145 313SP101602      Gateway Council        3     3 Q1Q4       0
+## 146 313AN122002      Gateway Council        3     3 Q1Q4       0
+## 147 313AH072703      Gateway Council        2     3 Q1Q4       1
+## 148 313DM020603      Gateway Council        4     4 Q1Q4       0
+## 149 313KD091402      Gateway Council        3     3 Q1Q4       0
+## 150 313KB121202      Gateway Council        3     3 Q1Q4       0
+## 151 313LH031502      Gateway Council        2     3 Q1Q4       1
+## 152 313MD120302      Gateway Council        1     2 Q1Q4       1
+## 153 313HW011803      Gateway Council        1     3 Q1Q4       2
+## 154 313NF070900      Gateway Council        2     3 Q1Q4       1
+## 155 313NB041502      Gateway Council        2     2 Q1Q4       0
+## 156 313SS081403      Gateway Council        2     3 Q1Q4       1
+## 157 313SS080202      Gateway Council        1     3 Q1Q4       2
+## 158 313VJ112402      Gateway Council        2     3 Q1Q4       1
+## 159 313AC082303      Gateway Council        2     3 Q1Q4       1
+## 160 313AF040403      Gateway Council        3     4 Q1Q4       1
+## 161 313CD122702      Gateway Council        2     2 Q1Q4       0
+## 162 313DJ031804      Gateway Council        1     3 Q1Q4       2
+## 163 313EG050502      Gateway Council        2     2 Q1Q4       0
+## 164 313ER122203      Gateway Council        2     2 Q1Q4       0
+## 165 313JL110304      Gateway Council        2     2 Q1Q4       0
+## 166 313JM040603      Gateway Council        2     3 Q1Q4       1
+## 167 313JB122201      Gateway Council        1     3 Q1Q4       2
+## 168 313JD090803      Gateway Council        0     2 Q1Q4       2
+## 169 313JP011003      Gateway Council        1     2 Q1Q4       1
+## 170 313SH092302      Gateway Council        2     2 Q1Q4       0
+## 171 313DG072603      Gateway Council        3     3 Q1Q4       0
+## 172 313EC081602      Gateway Council        4     4 Q1Q4       0
+## 173 313KH120302      Gateway Council        3     3 Q1Q4       0
+## 174 313LE082703      Gateway Council        2     3 Q1Q4       1
+## 175 313MH120302      Gateway Council        1     3 Q1Q4       2
+## 176 313NB120901      Gateway Council        1     2 Q1Q4       1
+## 177 313TG012003      Gateway Council        2     3 Q1Q4       1
+## 178 313SY042303      Gateway Council        3     3 Q1Q4       0
+## 179 313AJ041002      Gateway Council        2     3 Q1Q4       1
+## 180 313TA020602      Gateway Council        3     3 Q1Q4       0
+## 181 313CB101103      Gateway Council        2     3 Q1Q4       1
+## 182 313DL091702      Gateway Council        3     3 Q1Q4       0
+## 183 312PM110402       Citrus Council        2     3 Q1Q4       1
+## 184 312GB022203       Citrus Council        3     3 Q1Q4       0
+## 185 313BB082902      Gateway Council        1     2 Q1Q4       1
+## 186 313BB032502      Gateway Council        3     3 Q1Q4       0
+## 187 313CH080602      Gateway Council        0     2 Q1Q4       2
+## 188 313ET110102      Gateway Council        2     2 Q1Q4       0
+## 189 313HB022103      Gateway Council        1     3 Q1Q4       2
+## 190 313JH041802      Gateway Council        1     2 Q1Q4       1
+## 191 313JC012502      Gateway Council        0     2 Q1Q4       2
+## 192 313JH110902      Gateway Council        3     3 Q1Q4       0
+## 193 313BS041502      Gateway Council        2     2 Q1Q4       0
+## 194 313JW111002      Gateway Council        1     2 Q1Q4       1
+## 195 313SA080202      Gateway Council        2     2 Q1Q4       0
+## 196 313KD041503      Gateway Council        1     3 Q1Q4       2
+## 197 313JK122602      Gateway Council        0     2 Q1Q4       2
+## 198 313LM010502      Gateway Council        0     2 Q1Q4       2
+## 199 313ZJ050403      Gateway Council        0     2 Q1Q4       2
+## 200 313JT110202      Gateway Council        1     2 Q1Q4       1
+## 201 313JD120102      Gateway Council        2     3 Q1Q4       1
+## 202 313KD042102      Gateway Council        3     3 Q1Q4       0
+## 203 313KM080502      Gateway Council        2     2 Q1Q4       0
+## 204 313AH082502      Gateway Council        4     4 Q1Q4       0
+## 205 313AV040903      Gateway Council        3     3 Q1Q4       0
+## 206 313AP090203      Gateway Council        2     3 Q1Q4       1
+## 207 313DC061403      Gateway Council        3     3 Q1Q4       0
+## 208 313HW090202      Gateway Council        2     3 Q1Q4       1
+## 209 313KJ012003      Gateway Council        2     2 Q1Q4       0
+## 210 313LP081302      Gateway Council        2     3 Q1Q4       1
+## 211 313TR122902      Gateway Council        2     3 Q1Q4       1
+## 212 313VJ061503      Gateway Council        3     3 Q1Q4       0
+## 213 321PA012503    Southeast Council        2     3 Q1Q4       1
+## 214 321CB090701    Southeast Council        3     3 Q1Q4       0
+## 215 321CB042803    Southeast Council        3     4 Q1Q4       1
+## 216 321TC051403    Southeast Council        3     4 Q1Q4       1
+## 217 321MC030803    Southeast Council        4     4 Q1Q4       0
+## 218 321AD020803    Southeast Council        3     3 Q1Q4       0
+## 219 321SD111202    Southeast Council        3     3 Q1Q4       0
+## 220 321DG010202    Southeast Council        2     3 Q1Q4       1
+## 221 321LL050202    Southeast Council        3     3 Q1Q4       0
+## 222 321SM012903    Southeast Council        3     4 Q1Q4       1
+## 223 321BM081003    Southeast Council        3     3 Q1Q4       0
+## 224 321KG030902    Southeast Council        3     3 Q1Q4       0
+## 225 321JM100202    Southeast Council        3     3 Q1Q4       0
+## 226 321JP061803    Southeast Council        2     3 Q1Q4       1
+## 227 321PP043003    Southeast Council        2     3 Q1Q4       1
+## 228 321AV122302    Southeast Council        4     4 Q1Q4       0
+## 229 321ZW050102    Southeast Council        3     4 Q1Q4       1
+## 230 321SW013102    Southeast Council        2     3 Q1Q4       1
+## 231 312KM012003       Citrus Council        4     4 Q1Q4       0
+## 232 320AB061103 West Central Council        4     4 Q1Q4       0
+## 233 320BR072103 West Central Council        3     4 Q1Q4       1
+## 234 320IW012403 West Central Council        4     4 Q1Q4       0
+## 235 320IR061103 West Central Council        4     4 Q1Q4       0
+## 236 320KW122401 West Central Council        4     4 Q1Q4       0
+## 237 320KG080703 West Central Council        1     2 Q1Q4       1
+## 238 320MB030803 West Central Council        1     2 Q1Q4       1
+## 239 313AJ100301      Gateway Council        3     3 Q1Q4       0
+## 240 312FS020503       Citrus Council        4     4 Q1Q4       0
+## 241 313MY060702      Gateway Council        4     4 Q1Q4       0
+## 242 313KC111302      Gateway Council        3     3 Q1Q4       0
+## 243 320RG071003 West Central Council        4     4 Q1Q4       0
+## 244 320BA100102 West Central Council        4     4 Q1Q4       0
+## 245 320TY071903 West Central Council        4     4 Q1Q4       0
+## 246 320RM112402 West Central Council        4     4 Q1Q4       0
+## 247 320TH032403 West Central Council        4     4 Q1Q4       0
+## 248 320HG052803 West Central Council        4     4 Q1Q4       0
+## 249 320AG061103 West Central Council        4     4 Q1Q4       0
+## 250 321TS010703    Southeast Council        3     4 Q1Q4       1
+## 251 321JV021803    Southeast Council        3     3 Q1Q4       0
+## 252 312LP021703       Citrus Council        4     4 Q1Q4       0
+## 253 313DW060502      Gateway Council        3     3 Q1Q4       0
+## 254 313HB060202      Gateway Council        1     3 Q1Q4       2
+## 255 313JR060502      Gateway Council        1     3 Q1Q4       2
+## 256 313AK052902      Gateway Council        2     3 Q1Q4       1
+## 257 313CF080102      Gateway Council        2     3 Q1Q4       1
+## 258 313TG072302      Gateway Council        2     2 Q1Q4       0
+## 259 313MM110400      Gateway Council        2     2 Q1Q4       0
+## 260 313YJ062501      Gateway Council        1     2 Q1Q4       1
+## 261 313RL060201      Gateway Council        2     2 Q1Q4       0
+## 262 313AJ061101      Gateway Council        3     3 Q1Q4       0
+## 263 313RB031401      Gateway Council        2     2 Q1Q4       0
+## 264 313AB071302      Gateway Council        1     2 Q1Q4       1
+## 265 313BC082900      Gateway Council        3     3 Q1Q4       0
+## 266 313SS080601      Gateway Council        2     3 Q1Q4       1
+## 267 313TR060701      Gateway Council        2     3 Q1Q4       1
+## 268 313NM092901      Gateway Council        4     4 Q1Q4       0
+## 269 313AA091300      Gateway Council        3     3 Q1Q4       0
+## 270 313AE070802      Gateway Council        2     2 Q1Q4       0
+## 271 313BH042702      Gateway Council        1     2 Q1Q4       1
+## 272 313DJ013001      Gateway Council        1     2 Q1Q4       1
+## 273 313DB013101      Gateway Council        1     2 Q1Q4       1
+## 274 313DL122400      Gateway Council        2     2 Q1Q4       0
+## 275 313DW020202      Gateway Council        1     3 Q1Q4       2
+## 276 313GT051001      Gateway Council        3     3 Q1Q4       0
+## 277 313HH091900      Gateway Council        3     3 Q1Q4       0
+## 278 313JW081700      Gateway Council        2     2 Q1Q4       0
+## 279 313LG040801      Gateway Council        2     3 Q1Q4       1
+## 280 313MB050801      Gateway Council        2     4 Q1Q4       2
+## 281 313NS050901      Gateway Council        0     2 Q1Q4       2
+## 282 313QB062902      Gateway Council        3     3 Q1Q4       0
+## 283 313SS102000      Gateway Council        2     3 Q1Q4       1
+## 284 313TA042602      Gateway Council        1     3 Q1Q4       2
+## 285 320AB041702 West Central Council        3     3 Q1Q4       0
+## 286 320HP121201 West Central Council        2     3 Q1Q4       1
+## 287 320IL010602 West Central Council        3     3 Q1Q4       0
+## 288 320AF092500 West Central Council        2     2 Q1Q4       0
+## 289 320SC121301 West Central Council        3     4 Q1Q4       1
+## 290 320SN020402 West Central Council        2     3 Q1Q4       1
+## 291 313DY100502      Gateway Council        3     3 Q1Q4       0
+## 292 313ER111602      Gateway Council        2     3 Q1Q4       1
+## 293 313JD042302      Gateway Council        2     3 Q1Q4       1
+## 294 313JS103001      Gateway Council        1     2 Q1Q4       1
+## 295 313JR021003      Gateway Council        2     3 Q1Q4       1
+## 296 313JR081602      Gateway Council        2     2 Q1Q4       0
+## 297 313PM082503      Gateway Council        1     2 Q1Q4       1
+## 298 313AL042602      Gateway Council        2     3 Q1Q4       1
+## 299 313BS033102      Gateway Council        1     2 Q1Q4       1
+## 300 313BS013101      Gateway Council        2     2 Q1Q4       0
+## 301 313CP050801      Gateway Council        2     2 Q1Q4       0
+## 302 313EH121700      Gateway Council        4     4 Q1Q4       0
+## 303 313MS033102      Gateway Council        2     3 Q1Q4       1
+## 304 313TW111601      Gateway Council        1     3 Q1Q4       2
+## 305 313AJ111601      Gateway Council        3     3 Q1Q4       0
+## 306 313HB081401      Gateway Council        3     3 Q1Q4       0
+## 307 313JJ051600      Gateway Council        2     3 Q1Q4       1
+## 308 313BN052400      Gateway Council        2     2 Q1Q4       0
+## 309 313DM081501      Gateway Council        1     2 Q1Q4       1
+## 310 312KN121401       Citrus Council        3     3 Q1Q4       0
+## 311 312DJ101301       Citrus Council        3     3 Q1Q4       0
+## 312 312JF031602       Citrus Council        4     4 Q1Q4       0
+## 313 313BM102701      Gateway Council        2     3 Q1Q4       1
+## 314 313JR112301      Gateway Council        1     2 Q1Q4       1
+## 315 313LD102701      Gateway Council        2     3 Q1Q4       1
+## 316 313AJ120702      Gateway Council        1     2 Q1Q4       1
+## 317 313AC020102      Gateway Council        3     3 Q1Q4       0
+## 318 313MK050201      Gateway Council        1     2 Q1Q4       1
+## 319 313OM070501      Gateway Council        2     2 Q1Q4       0
+## 320 313PS090801      Gateway Council        3     3 Q1Q4       0
+## 321 313EM050301      Gateway Council        0     2 Q1Q4       2
+## 322 313AJ032101      Gateway Council        0     2 Q1Q4       2
+## 323 313JB090301      Gateway Council        2     2 Q1Q4       0
+## 324 313AF070302      Gateway Council        3     3 Q1Q4       0
+## 325 313AH090402      Gateway Council        3     3 Q1Q4       0
+## 326 313AR080201      Gateway Council        3     3 Q1Q4       0
+## 327 313KC010603      Gateway Council        2     3 Q1Q4       1
+## 328 313MG090502      Gateway Council        3     3 Q1Q4       0
+## 329 320AH013102 West Central Council        3     4 Q1Q4       1
+## 330 321TA121501    Southeast Council        2     2 Q1Q4       0
+## 331 321FB061802    Southeast Council        4     4 Q1Q4       0
+## 332 321FC060101    Southeast Council        2     2 Q1Q4       0
+## 333 321RF031302    Southeast Council        4     4 Q1Q4       0
+## 334 321MG081303    Southeast Council        3     3 Q1Q4       0
+## 335 321JJ051601    Southeast Council        3     4 Q1Q4       1
+## 336 321NJ032201    Southeast Council        3     3 Q1Q4       0
+## 337 321NE031201    Southeast Council        3     3 Q1Q4       0
+## 338 321BL051301    Southeast Council        4     4 Q1Q4       0
+## 339 321JR042402    Southeast Council        3     3 Q1Q4       0
+## 340 321RM011802    Southeast Council        3     4 Q1Q4       1
+## 341 321KM121501    Southeast Council        4     4 Q1Q4       0
+## 342 321GC050202    Southeast Council        2     2 Q1Q4       0
+## 343 321DD121800    Southeast Council        2     2 Q1Q4       0
+## 344 321CG082901    Southeast Council        1     2 Q1Q4       1
+## 345 321IP051602    Southeast Council        3     3 Q1Q4       0
+## 346 321CG111501    Southeast Council        3     3 Q1Q4       0
+## 347 321KG120501    Southeast Council        3     3 Q1Q4       0
+## 348 321JJ071102    Southeast Council        3     3 Q1Q4       0
+## 349 321CJ042201    Southeast Council        3     3 Q1Q4       0
+## 350 321JR051302    Southeast Council        2     3 Q1Q4       1
+## 351 321IJ071800    Southeast Council        3     3 Q1Q4       0
+## 352 321AT022802    Southeast Council        3     3 Q1Q4       0
+## 353 321NT052302    Southeast Council        3     4 Q1Q4       1
+## 354 321DM092301    Southeast Council        2     2 Q1Q4       0
+## 355 321AW022601    Southeast Council        2     2 Q1Q4       0
+## 356 321TM022201    Southeast Council        4     4 Q1Q4       0
+## 357 313AD050602      Gateway Council        3     3 Q1Q4       0
+## 358 313MD100300      Gateway Council        3     3 Q1Q4       0
+## 359 320AF050702 West Central Council        4     4 Q1Q4       0
+## 360 320AW063002 West Central Council        3     4 Q1Q4       1
+## 361 320GE021302 West Central Council        4     4 Q1Q4       0
+## 362 320JR062102 West Central Council        2     3 Q1Q4       1
+## 363 320KC050902 West Central Council        4     4 Q1Q4       0
+## 364 320KA081802 West Central Council        4     4 Q1Q4       0
+## 365 320MH081602 West Central Council        3     3 Q1Q4       0
+## 366 320MB011702 West Central Council        4     4 Q1Q4       0
+## 367 320SS110101 West Central Council        4     4 Q1Q4       0
+## 368 320SB093001 West Central Council        4     4 Q1Q4       0
+## 369 320YC042602 West Central Council        3     3 Q1Q4       0
+## 370 320ZP050602 West Central Council        2     3 Q1Q4       1
+## 371 312JS013102       Citrus Council        3     3 Q1Q4       0
+## 372 312JV032902       Citrus Council        2     2 Q1Q4       0
+## 373 320JN030502 West Central Council        4     4 Q1Q4       0
+## 374 320DP041202 West Central Council        4     4 Q1Q4       0
+## 375 320JW033002 West Central Council        4     4 Q1Q4       0
+## 376 320JL052202 West Central Council        3     3 Q1Q4       0
+## 377 320VT121102 West Central Council        4     4 Q1Q4       0
+## 378 320LS082302 West Central Council        4     4 Q1Q4       0
+## 379 320YS111401 West Central Council        4     4 Q1Q4       0
+## 380 320MG041902     Tropical Council        3     3 Q1Q4       0
+## 381 321JA091201    Southeast Council        1     2 Q1Q4       1
+## 382 321LD090102    Southeast Council        3     3 Q1Q4       0
+## 383 321SH032201    Southeast Council        2     2 Q1Q4       0
+## 384 321SJ032501    Southeast Council        3     3 Q1Q4       0
+## 385 321KN101601    Southeast Council        3     3 Q1Q4       0
+## 386 321EN012402    Southeast Council        3     3 Q1Q4       0
+## 387 321SP071002    Southeast Council        4     4 Q1Q4       0
+## 388 321LS110601    Southeast Council        3     3 Q1Q4       0
+## 389 321DK121300    Southeast Council        2     2 Q1Q4       0
+## 390 321TT051801    Southeast Council        2     3 Q1Q4       1
+## 391 321AW010102    Southeast Council        2     3 Q1Q4       1
+## 392 321AW110701    Southeast Council        4     4 Q1Q4       0
+## 393 321SW081001    Southeast Council        3     3 Q1Q4       0
+## 394 312AL061102       Citrus Council        3     3 Q1Q4       0
+## 395 312AS030202       Citrus Council        2     3 Q1Q4       1
+## 396 312RN011302       Citrus Council        2     3 Q1Q4       1
+## 397 312AR090501       Citrus Council        3     3 Q1Q4       0
+## 398 313OF022803      Gateway Council        0     2 Q1Q4       2
+## 399 321MA081902    Southeast Council        3     4 Q1Q4       1
+## 400 321SA022402    Southeast Council        2     3 Q1Q4       1
+## 401 321TC011203    Southeast Council        4     4 Q1Q4       0
+## 402 321CF051501    Southeast Council        2     3 Q1Q4       1
+## 403 321AG111402    Southeast Council        3     3 Q1Q4       0
+## 404 321VG060702    Southeast Council        3     3 Q1Q4       0
+## 405 321RJ081099    Southeast Council        4     4 Q1Q4       0
+## 406 321MW112701    Southeast Council        2     2 Q1Q4       0
+## 407 319AS092801     Tropical Council        2     2 Q1Q4       0
+## 408 312AA071702       Citrus Council        2     2 Q2Q4       0
+## 409 312AG052703       Citrus Council        3     3 Q2Q4       0
+## 410 312AW060903       Citrus Council        2     2 Q2Q4       0
+## 411 312BA070703       Citrus Council        4     4 Q2Q4       0
+## 412 312DR012403       Citrus Council        2     2 Q2Q4       0
+## 413 312GW020701       Citrus Council        3     3 Q2Q4       0
+## 414 312IR050703       Citrus Council        1     3 Q2Q4       2
+## 415 312ME122299       Citrus Council        3     3 Q2Q4       0
+## 416 312SA050503       Citrus Council        2     3 Q2Q4       1
+## 417 312SC061204       Citrus Council        3     3 Q2Q4       0
+## 418 312ZS011902       Citrus Council        3     3 Q2Q4       0
+## 419 313AB060404      Gateway Council        2     2 Q2Q4       0
+## 420 313AB112002      Gateway Council        3     3 Q2Q4       0
+## 421 313DM081401      Gateway Council        2     2 Q2Q4       0
+## 422 313JG111203      Gateway Council        2     2 Q2Q4       0
+## 423 313JP070503      Gateway Council        2     3 Q2Q4       1
+## 424 320AR060504 West Central Council        3     4 Q2Q4       1
+## 425 320DR110103 West Central Council        3     4 Q2Q4       1
+## 426 320DW031301 West Central Council        2     3 Q2Q4       1
+## 427 320JO122602 West Central Council        2     2 Q2Q4       0
+## 428 320JS031504 West Central Council        4     4 Q2Q4       0
+## 429 320KP110300 West Central Council        4     4 Q2Q4       0
+## 430 320LM121403 West Central Council        3     3 Q2Q4       0
+## 431 320MD082804 West Central Council        4     4 Q2Q4       0
+## 432 320SA080203 West Central Council        2     3 Q2Q4       1
+## 433 320SC072304 West Central Council        3     3 Q2Q4       0
+## 434 320SL061102 West Central Council        3     3 Q2Q4       0
+## 435 320TA122003 West Central Council        2     3 Q2Q4       1
+## 436 320TB053002 West Central Council        3     3 Q2Q4       0
+## 437 320TJ071403 West Central Council        2     2 Q2Q4       0
+## 438 320TM121202 West Central Council        2     2 Q2Q4       0
+## 439 321AD022202    Southeast Council        4     4 Q2Q4       0
+## 440 321AM091203    Southeast Council        2     3 Q2Q4       1
+## 441 321BB091003    Southeast Council        4     4 Q2Q4       0
+## 442 321BR081401    Southeast Council        3     3 Q2Q4       0
+## 443 321DA090103    Southeast Council        3     4 Q2Q4       1
+## 444 321DJ032902    Southeast Council        2     3 Q2Q4       1
+## 445 321ES020904    Southeast Council        3     3 Q2Q4       0
+## 446 321MD062803    Southeast Council        4     4 Q2Q4       0
+## 447 321SB031102    Southeast Council        2     3 Q2Q4       1</code></pre>
 <pre class="r"><code>lang_maintain &lt;-function() {
     lang_grade &lt;- with(langarts2016, table(final, pt_diff ==0))
     pander(lang_grade)
@@ -661,28 +801,28 @@ lang_maintain()</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left"><strong>0</strong></td>
-<td align="center">2</td>
+<td align="center">3</td>
 <td align="center">2</td>
 </tr>
 <tr class="even">
 <td align="left"><strong>1</strong></td>
-<td align="center">4</td>
-<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">2</td>
 </tr>
 <tr class="odd">
 <td align="left"><strong>2</strong></td>
-<td align="center">75</td>
-<td align="center">47</td>
+<td align="center">91</td>
+<td align="center">63</td>
 </tr>
 <tr class="even">
 <td align="left"><strong>3</strong></td>
-<td align="center">116</td>
-<td align="center">73</td>
+<td align="center">156</td>
+<td align="center">120</td>
 </tr>
 <tr class="odd">
 <td align="left"><strong>4</strong></td>
-<td align="center">11</td>
-<td align="center">27</td>
+<td align="center">25</td>
+<td align="center">68</td>
 </tr>
 </tbody>
 </table>
@@ -694,7 +834,7 @@ lang_maintain()</code></pre>
     
     }
 lang_increase()</code></pre>
-<p>22.35%</p>
+<p>15.29%</p>
 <pre class="r"><code>lang_gradeincrease &lt;- filter(langarts2016, final &gt;=2 &amp; pt_diff &gt;=1)
 
 head(lang_gradeincrease)</code></pre>
@@ -707,16 +847,16 @@ head(lang_gradeincrease)</code></pre>
 ## 6 320LS111202 West Central Council        3     4 Q1Q4       1</code></pre>
 <pre class="r"><code>tail(lang_gradeincrease)</code></pre>
 <pre><code>##        girlCode              council baseline final Time pt_diff
-## 155 320AW063002 West Central Council        3     4 Q1Q4       1
-## 156 320JR062102 West Central Council        2     3 Q1Q4       1
-## 157 320ZP050602 West Central Council        2     3 Q1Q4       1
-## 158 313OF022803      Gateway Council        0     2 Q1Q4       2
-## 159 313JP070503      Gateway Council        2     3 Q2Q4       1
-## 160 320DW031301 West Central Council        2     3 Q2Q4       1</code></pre>
+## 191 320SA080203 West Central Council        2     3 Q2Q4       1
+## 192 320TA122003 West Central Council        2     3 Q2Q4       1
+## 193 321AM091203    Southeast Council        2     3 Q2Q4       1
+## 194 321DA090103    Southeast Council        3     4 Q2Q4       1
+## 195 321DJ032902    Southeast Council        2     3 Q2Q4       1
+## 196 321SB031102    Southeast Council        2     3 Q2Q4       1</code></pre>
 <pre class="r"><code>lang_grademaintain &lt;- filter(langarts2016, final &gt;= 2 &amp; pt_diff ==0)
 
 dim(lang_grademaintain)</code></pre>
-<pre><code>## [1] 147   6</code></pre>
+<pre><code>## [1] 251   6</code></pre>
 <pre class="r"><code>head(lang_grademaintain)</code></pre>
 <pre><code>##      girlCode              council baseline final Time pt_diff
 ## 1 320KF052703 West Central Council        2     2 Q1Q4       0
@@ -727,12 +867,12 @@ dim(lang_grademaintain)</code></pre>
 ## 6 320AB101201 West Central Council        3     3 Q1Q4       0</code></pre>
 <pre class="r"><code>tail(lang_grademaintain)</code></pre>
 <pre><code>##        girlCode              council baseline final Time pt_diff
-## 142 313JG111203      Gateway Council        2     2 Q2Q4       0
-## 143 320JO122602 West Central Council        2     2 Q2Q4       0
-## 144 320KP110300 West Central Council        4     4 Q2Q4       0
-## 145 320SL061102 West Central Council        3     3 Q2Q4       0
-## 146 320TB053002 West Central Council        3     3 Q2Q4       0
-## 147 320TM121202 West Central Council        2     2 Q2Q4       0</code></pre>
+## 246 320TM121202 West Central Council        2     2 Q2Q4       0
+## 247 321AD022202    Southeast Council        4     4 Q2Q4       0
+## 248 321BB091003    Southeast Council        4     4 Q2Q4       0
+## 249 321BR081401    Southeast Council        3     3 Q2Q4       0
+## 250 321ES020904    Southeast Council        3     3 Q2Q4       0
+## 251 321MD062803    Southeast Council        4     4 Q2Q4       0</code></pre>
 <pre class="r"><code>fail_topass &lt;- filter(langarts2016,baseline &lt; 2 &amp; final &gt;=2 )
 
 fail_topass</code></pre>
@@ -816,22 +956,25 @@ fail_topass</code></pre>
 ## 77 313MK050201      Gateway Council        1     2 Q1Q4       1
 ## 78 313EM050301      Gateway Council        0     2 Q1Q4       2
 ## 79 313AJ032101      Gateway Council        0     2 Q1Q4       2
-## 80 313OF022803      Gateway Council        0     2 Q1Q4       2</code></pre>
-<p>The number of students that could be matched from baseline to final is <strong>358</strong></p>
+## 80 321CG082901    Southeast Council        1     2 Q1Q4       1
+## 81 321JA091201    Southeast Council        1     2 Q1Q4       1
+## 82 313OF022803      Gateway Council        0     2 Q1Q4       2
+## 83 312IR050703       Citrus Council        1     3 Q2Q4       2</code></pre>
+<p>The number of students that could be matched from baseline to final is <strong>543</strong></p>
 <p>Success is defined by students who increased their grade and finished with a C or higher and students who maintained a grade. A student who improves from a F to D is not considered a success for the purpose of this analysis. Students who went from a A to B is not considered a success for this analysis.</p>
-<p>The percent of students with the successful outcome is <strong>85.75%</strong>.</p>
+<p>The percent of students with the successful outcome is <strong>82.32%</strong>.</p>
 <ol style="list-style-type: decimal">
-<li><p>The number of students who increased their Language Arts Grade with a final grade of at least a C is: <strong>160</strong></p></li>
-<li><p>The number of students who maintained their baseline grade with at least a C: <strong>147</strong></p></li>
-<li><p>The percent of students who had a failing grade at basline and finished with a passing final grade is <strong>22.35%</strong></p></li>
+<li><p>The number of students who increased their Language Arts Grade with a final grade of at least a C is: <strong>196</strong></p></li>
+<li><p>The number of students who maintained their baseline grade with at least a C: <strong>251</strong></p></li>
+<li><p>The percent of students who had a failing grade at basline and finished with a passing final grade is <strong>15.29%</strong></p></li>
 </ol>
-<p>The mean difference betwween baseline grades and final grade <strong><em>0.4358</em></strong>.</p>
+<p>The mean difference betwween baseline grades and final grade <strong><em>0.2689</em></strong>.</p>
 <pre><code>## [1] &quot;girlCode&quot; &quot;council&quot;  &quot;baseline&quot; &quot;final&quot;    &quot;Time&quot;     &quot;pt_diff&quot;</code></pre>
 </div>
 <div id="grade-change-plot-from-baseline-to-final" class="section level3">
 <h3>Grade Change Plot from baseline to final:</h3>
 <p>The changes in grades from baseline to final is represented below. The vertical axis represents baseline grades and the bottom axis the change from the baseline. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase.</p>
-<p><img src="data:image/png;base64,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BjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZRVaHvjSq41CRnKgY0VlFVoe+NKrjUJGcqBjRWUVWh740quNQkZyoGNFZR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" width="672" /></p>
+<p><img src="data:image/png;base64,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1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJ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WgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYBlaQeaz+WdEld0l2kWgRUknqs/VjSJXVJd5FqEVBJ6rH2Y0mX1CXdRapFQCWpx9qPJV1Sl3QXqRYB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" width="672" /></p>
 </div>
 <div id="trend-data-q4-2015-to-q2-2016" class="section level3">
 <h3>Trend Data Q4 2015 to Q2 2016:</h3>

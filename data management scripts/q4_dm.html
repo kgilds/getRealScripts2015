@@ -144,11 +144,11 @@ library(sqldf)</code></pre>
 <pre><code>## Loading required package: RSQLite</code></pre>
 <pre><code>## Loading required package: DBI</code></pre>
 <pre class="r"><code>### Locate file to read from
-setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016&quot;)
+setwd(&quot;C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/July 2016&quot;)
 
 
 ### read the data into R
-q4_grades &lt;- read.csv('grades_q4_06302016.csv', skip = 1, na.strings=&quot;&quot;)
+q4_grades &lt;- read.csv('grades_q4_07172016.csv', skip = 1, na.strings=&quot;&quot;)
 
 
 
@@ -599,7 +599,7 @@ gradesq4$girlCode &lt;- as.character(gradesq4$girlCode)</code></pre>
 q4_gradesUnique &lt;- gradesq4 [!(duplicated(gradesq4$girlCode) | duplicated(gradesq4$girlCode, fromLast = TRUE)), ]
 
 dim(q4_gradesUnique)</code></pre>
-<pre><code>## [1] 367  81</code></pre>
+<pre><code>## [1] 583  81</code></pre>
 <div id="subset-duplicate-values" class="section level3">
 <h3>Subset duplicate values</h3>
 <pre class="r"><code>##############################Subset Duplicate Values##################
@@ -635,16 +635,32 @@ q4free_readtst &lt;- q4free_read[grep(&quot;read&quot;, q4free_read$reading_cour
 #q4free_read1 &lt;-subset(q4free_read, grepl(&quot;read&quot;, q4free_read$reading_course))
 
 dim(q4free_readtst)</code></pre>
-<pre><code>## [1] 2 5</code></pre>
+<pre><code>## [1] 10  5</code></pre>
 <pre class="r"><code>q4free_readtst</code></pre>
 <pre><code>##                  council    girlCode readFree1_quarter readFree2_semester
 ## 284 West Central Council 320RK110200                 C               &lt;NA&gt;
 ## 371 West Central Council 320HS082803                 B               &lt;NA&gt;
-##          reading_course
-## 284 M/J INENS READ (MC)
-## 371 M/J INENS READ (MC)</code></pre>
+## 386 West Central Council 320TJ071403                 C                  C
+## 390 West Central Council 320SD031803                 B                  B
+## 391 West Central Council 320SP032903                 C                  C
+## 395 West Central Council 320SB122902                 B                  B
+## 399 West Central Council 320JL052202                 B                  B
+## 420 West Central Council 320AR060504                 B                  B
+## 434 West Central Council 320KM041801                 B                  B
+## 436 West Central Council 320DT031504                 B                  B
+##           reading_course
+## 284  M/J INENS READ (MC)
+## 371  M/J INENS READ (MC)
+## 386     INT-DEV 2 Read 1
+## 390 M/J INT-DEV 2 Read A
+## 391 M/J INT-DEV 2 Read A
+## 395     INT-DEV 2 Read 1
+## 399 M/J INT-DEV 3 Read A
+## 420    INT-DEV 2 Read 1A
+## 434     INT-DEV 1 Read A
+## 436     INT-DEV 1 Read A</code></pre>
 <pre class="r"><code>grep(&quot;read&quot;, ignore.case=TRUE, q4free_read$reading_course)</code></pre>
-<pre><code>## [1] 276 361</code></pre>
+<pre><code>##  [1] 276 361 376 380 381 385 389 410 424 426</code></pre>
 <pre class="r"><code>q4free_read1 &lt;-slice(q4free_read, 276)
 
 q4free_read2 &lt;-slice(q4free_read, 361)
@@ -718,6 +734,12 @@ mq4Reading &lt;-na.omit(mq4Reading)
 
 ####Adjust Grades with a plus sign and fix spacing issues
 
+mq4Reading$readingGrade &lt;-sub(&quot;c+&quot;, &quot;C&quot;, fixed=TRUE, mq4Reading$readingGrade)
+
+mq4Reading$readingGrade &lt;-sub(&quot;C+&quot;, &quot;C&quot;, fixed=TRUE, mq4Reading$readingGrade)
+
+mq4Reading$readingGrade &lt;-sub(&quot;A+&quot;, &quot;A&quot;, fixed=TRUE, mq4Reading$readingGrade)
+
 mq4Reading$readingGrade &lt;-sub(&quot;B+&quot;, &quot;B&quot;, fixed=TRUE, mq4Reading$readingGrade)
 
 mq4Reading$readingGrade &lt;-sub(&quot;C+&quot;, &quot;C&quot;, fixed=TRUE, mq4Reading$readingGrade)
@@ -733,7 +755,6 @@ mq4Reading$readingGrade &lt;-sub(&quot;0&quot;, &quot;F&quot;, fixed=TRUE, mq4Re
 mq4Reading$readingGrade &lt;-sub(&quot;3&quot;, &quot;B&quot;, fixed=TRUE, mq4Reading$readingGrade)
 
 
-
 ###Change grades to all upper case to match
 mq4Reading$readingGrade &lt;- toupper(mq4Reading$readingGrade)
 
@@ -742,53 +763,133 @@ mq4Reading$readingGrade &lt;-as.factor(mq4Reading$readingGrade)
 
 summary(mq4Reading$readingGrade)</code></pre>
 <pre><code>##   A   B   C   D   F 
-##  42 167  92   8  10</code></pre>
+## 112 252 155  33  14</code></pre>
 <pre class="r"><code>### Create table to sneak peak at the data.    
 table(mq4Reading$readingCourses,mq4Reading$readingGrade)</code></pre>
 <pre><code>##                                      
 ##                                        A  B  C  D  F
-##   mjIntensRead_quarter                 9 16 10  2  5
-##   mjIntensRead_semester                0  2  9  3  1
+##   mjIntensRead_quarter                30 38 36 10  7
+##   mjIntensRead_semester               15 33 30 13  3
 ##   mjIntenseReadCareerPlaning_quarter   0  0  1  0  0
 ##   mjIntenseReadCareerPlaning_semester  0  0  1  0  0
-##   mjRead1_quarter                     13 63 11  0  0
-##   mjRead1_semester                     3 52 32  0  0
-##   mjRead1Adv_quarter                   0  1  0  0  0
-##   mjRead1Adv_semester                  0  0  0  0  0
-##   mjRead2_quarter                      2  9  3  0  0
-##   mjRead2_semester                     1  6  7  0  0
-##   mjRead2Adv_quarter                   8  3  4  2  1
-##   mjRead2Adv_semester                  2  1  4  0  2
-##   mjRead3_quarter                      1  7  0  1  0
-##   mjRead3_semester                     0  3  6  0  0
-##   mjRead3Adv_quarter                   2  2  3  0  1
-##   mjRead3Adv_semester                  1  2  1  0  0
-##   mjDelaESOLRead_quarter               0  0  0  0  0
-##   mjDelaESOLRead_semester              0  0  0  0  0</code></pre>
+##   mjRead1_quarter                     15 68 11  1  0
+##   mjRead1_semester                     5 54 34  1  0
+##   mjRead1Adv_quarter                  12  7  0  0  0
+##   mjRead1Adv_semester                 10  7  1  0  0
+##   mjRead2_quarter                      4 10  5  0  0
+##   mjRead2_semester                     3  7  8  1  0
+##   mjRead2Adv_quarter                   8  4  4  2  1
+##   mjRead2Adv_semester                  2  2  4  0  2
+##   mjRead3_quarter                      1  7  5  4  0
+##   mjRead3_semester                     0  5 11  1  0
+##   mjRead3Adv_quarter                   4  4  3  0  1
+##   mjRead3Adv_semester                  3  4  1  0  0
+##   mjDelaESOLRead_quarter               0  1  0  0  0
+##   mjDelaESOLRead_semester              0  1  0  0  0</code></pre>
 <pre class="r"><code>with(mq4Reading, table(council,readingGrade))</code></pre>
 <pre><code>##                       readingGrade
 ## council                  A   B   C   D   F
-##   Citrus Council         0   4   7   1   0
+##   Citrus Council         7  12  11   2   0
 ##   Gateway Council       20 139  55   0   0
-##   West Central Council  22  24  30   7  10</code></pre>
+##   Southeast Council     33  47  43  13   4
+##   Tropical Council       0   4   8   8   0
+##   West Central Council  52  50  38  10  10</code></pre>
 <pre class="r"><code>### Check the levels
 levels(mq4Reading$readingGrade)</code></pre>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
+<pre class="r"><code>southeast &lt;- filter(mq4Reading, council ==&quot;Southeast Council&quot;)
+
+southeast &lt;- with(southeast,table(girlCode, readingGrade))
+
+
+southeast</code></pre>
+<pre><code>##              readingGrade
+## girlCode      A B C D F
+##   231CH040801 0 2 0 0 0
+##   321AD020803 2 0 0 0 0
+##   321AI022702 0 1 1 0 0
+##   321AM091203 0 2 0 0 0
+##   321AV122302 0 1 1 0 0
+##   321AW010102 0 2 0 0 0
+##   321AW022601 0 0 2 0 0
+##   321AW080402 0 0 2 0 0
+##   321BB091003 1 1 0 0 0
+##   321BL051301 1 1 0 0 0
+##   321BM081003 0 1 1 0 0
+##   321BR081401 0 1 1 0 0
+##   321BS111403 1 1 0 0 0
+##   321CA061801 0 0 1 0 1
+##   321CF051501 2 0 0 0 0
+##   321CG082901 0 0 1 1 0
+##   321CG111501 0 1 1 0 0
+##   321CJ042201 0 0 2 0 0
+##   321DA090103 2 0 0 0 0
+##   321DD121800 0 0 2 0 0
+##   321DG010202 0 2 0 0 0
+##   321DJ032902 2 0 0 0 0
+##   321DK121300 0 2 0 0 0
+##   321DM092301 0 1 1 0 0
+##   321DS012802 1 1 0 0 0
+##   321ES020904 0 0 2 0 0
+##   321FB061802 0 2 0 0 0
+##   321FC060101 0 2 0 0 0
+##   321FJ011803 2 0 0 0 0
+##   321GC050202 0 2 0 0 0
+##   321IM121403 0 1 1 0 0
+##   321IP051602 1 0 1 0 0
+##   321JA091201 0 0 1 1 0
+##   321JC070204 1 1 0 0 0
+##   321JD101502 2 0 0 0 0
+##   321JJ051601 0 2 0 0 0
+##   321JJ071102 0 0 2 0 0
+##   321JM100202 1 1 0 0 0
+##   321JR042402 0 0 1 1 0
+##   321JR051302 0 0 2 0 0
+##   321JV021803 1 1 0 0 0
+##   321KD040803 0 0 0 1 1
+##   321KG120501 0 0 2 0 0
+##   321KM121501 0 0 1 1 0
+##   321KN101601 1 1 0 0 0
+##   321KT083104 0 1 1 0 0
+##   321KW062503 0 1 1 0 0
+##   321LL050202 0 0 0 2 0
+##   321LU022702 0 0 2 0 0
+##   321MM092802 0 0 1 0 1
+##   321NE031201 0 2 0 0 0
+##   321NJ032201 0 1 0 1 0
+##   321NL052800 0 0 0 2 0
+##   321NO010803 0 0 1 1 0
+##   321NT052302 1 1 0 0 0
+##   321NW102103 1 1 0 0 0
+##   321PA012503 2 0 0 0 0
+##   321RJ011800 0 0 1 0 1
+##   321RJ081099 2 0 0 0 0
+##   321RL060204 0 2 0 0 0
+##   321RL121002 0 0 1 1 0
+##   321RP082102 0 1 1 0 0
+##   321SA080701 0 0 2 0 0
+##   321SC092001 0 1 0 1 0
+##   321SM012903 2 0 0 0 0
+##   321SP121202 2 0 0 0 0
+##   321TA121501 0 1 1 0 0
+##   321TC051403 2 0 0 0 0
+##   321TM022201 0 0 2 0 0
+##   321ZJ092702 0 2 0 0 0</code></pre>
 <pre class="r"><code>names(mq4Reading)</code></pre>
 <pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
 <pre class="r"><code>dim(mq4Reading)</code></pre>
-<pre><code>## [1] 319   4</code></pre>
+<pre><code>## [1] 566   4</code></pre>
 <pre class="r"><code>test_mq4Reading&lt;-distinct(mq4Reading, girlCode)
 
 dim(test_mq4Reading)</code></pre>
-<pre><code>## [1] 180   4</code></pre>
+<pre><code>## [1] 304   4</code></pre>
 <div id="check-for-duplicate-reading-gradesquarter-and-semester-grades" class="section level2">
 <h2>Check for duplicate reading grades(Quarter and Semester Grades)</h2>
 <pre class="r"><code>### Find the unique girlCodes with just one grade 
 mq4_read_ok &lt;- mq4Reading [!(duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast = TRUE)), ]
 
 dim(mq4Reading)</code></pre>
-<pre><code>## [1] 319   4</code></pre>
+<pre><code>## [1] 566   4</code></pre>
 <pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q4reading_dupes &lt;-duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast=TRUE)
@@ -798,7 +899,7 @@ q4reading_dupes &lt;- mq4Reading[q4reading_dupes, ]
 
 
 dim(q4reading_dupes)</code></pre>
-<pre><code>## [1] 278   4</code></pre>
+<pre><code>## [1] 524   4</code></pre>
 <pre class="r"><code>head(q4reading_dupes)</code></pre>
 <pre><code>##       girlCode              council       readingCourses readingGrade
 ## 2  320AM072903 West Central Council mjIntensRead_quarter            F
@@ -812,7 +913,7 @@ dim(q4reading_dupes)</code></pre>
 <pre class="r"><code>read_quarter &lt;- q4reading_dupes[grep(&quot;_quarter&quot;, q4reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_quarter)</code></pre>
-<pre><code>## [1] 139   4</code></pre>
+<pre><code>## [1] 262   4</code></pre>
 <pre class="r"><code>head(read_quarter)</code></pre>
 <pre><code>##       girlCode              council       readingCourses readingGrade
 ## 2  320AM072903 West Central Council mjIntensRead_quarter            F
@@ -824,15 +925,15 @@ dim(read_quarter)</code></pre>
 <pre class="r"><code>read_semester &lt;- q4reading_dupes[grep(&quot;_semester&quot;, q4reading_dupes$readingCourses, ignore.case = TRUE),]
 
 dim(read_semester)</code></pre>
-<pre><code>## [1] 139   4</code></pre>
+<pre><code>## [1] 262   4</code></pre>
 <pre class="r"><code>head(read_semester)</code></pre>
 <pre><code>##        girlCode              council        readingCourses readingGrade
-## 369 320AM072903 West Central Council mjIntensRead_semester            F
-## 373 320CM120402 West Central Council mjIntensRead_semester            D
-## 381 313AJ111203      Gateway Council mjIntensRead_semester            C
-## 394 313KF050203      Gateway Council mjIntensRead_semester            B
-## 402 313OF022803      Gateway Council mjIntensRead_semester            C
-## 404 320JM102701 West Central Council mjIntensRead_semester            D</code></pre>
+## 585 320AM072903 West Central Council mjIntensRead_semester            F
+## 589 320CM120402 West Central Council mjIntensRead_semester            D
+## 597 313AJ111203      Gateway Council mjIntensRead_semester            C
+## 610 313KF050203      Gateway Council mjIntensRead_semester            B
+## 618 313OF022803      Gateway Council mjIntensRead_semester            C
+## 620 320JM102701 West Central Council mjIntensRead_semester            D</code></pre>
 </div>
 <div id="anti-join-to-find-extra-gradescases-where-the-student-is-in-more-than-one-reading-course" class="section level3">
 <h3>Anti Join to find extra grades–Cases where the student is in more than one reading course</h3>
@@ -874,7 +975,7 @@ dim(read_semester)</code></pre>
 <pre class="r"><code>mq4_read_1 &lt;- rbind(mq4_read_ok, read_semester)
 
 dim(mq4_read_1)</code></pre>
-<pre><code>## [1] 180   4</code></pre>
+<pre><code>## [1] 304   4</code></pre>
 </div>
 <div id="reading-grade-points" class="section level3">
 <h3>Reading Grade Points</h3>
@@ -890,7 +991,7 @@ for(i in mq4_read_1$readingGrade){ #loop through grades
 }
 
 dim(mq4_read_1)</code></pre>
-<pre><code>## [1] 180   4</code></pre>
+<pre><code>## [1] 304   4</code></pre>
 <pre class="r"><code>mq4_read_all &lt;-cbind(mq4_read_1, reading_pts4) #bind data back in </code></pre>
 </div>
 <div id="merge-all-the-reading-sets" class="section level3">
@@ -950,7 +1051,7 @@ mq4_lang$langGrade &lt;-sub(&quot;I&quot;, &quot;F&quot;, fixed=TRUE, mq4_lang$l
 table(mq4_lang$langGrade)</code></pre>
 <pre><code>## 
 ##   A   B   C   D   F 
-## 109 395 167  13   9</code></pre>
+## 234 585 255  39  11</code></pre>
 <pre class="r"><code>##Test for free data entry
 grep(&quot;freeLang1_quarter&quot;, mq4_lang$langCourses, ignore.case=TRUE)</code></pre>
 <pre><code>## integer(0)</code></pre>
@@ -958,7 +1059,8 @@ grep(&quot;freeLang1_quarter&quot;, mq4_lang$langCourses, ignore.case=TRUE)</cod
 <pre><code>## integer(0)</code></pre>
 <pre class="r"><code>##Test with code that I know works!
 grep(&quot;mjIntensLangArts_quarter&quot;, mq4_lang$langCourses, ignore.case=TRUE)</code></pre>
-<pre><code>## [1] 689 690 691</code></pre>
+<pre><code>##  [1] 1089 1090 1091 1092 1093 1094 1095 1096 1097 1098 1099 1100 1101 1102
+## [15] 1103 1104 1105 1106</code></pre>
 <div id="check-for-language-arts-free-data-entry" class="section level2">
 <h2>Check for Language Arts Free Data Entry</h2>
 <pre class="r"><code>### Review Free Text Entry
@@ -985,56 +1087,100 @@ table(q4_free_lang$free_lang1_quarter)</code></pre>
 mq4_lang_ok &lt;- mq4_lang [!(duplicated(mq4_lang$girlCode) | duplicated(mq4_lang$girlCode, fromLast = TRUE)), ]
 
 mq4_lang_ok</code></pre>
-<pre><code>##          girlCode              council              langCourses langGrade
-## 3184  320GD120203 West Central Council      mjLangArts1_quarter         C
-## 3189  320CF032904 West Central Council      mjLangArts1_quarter         B
-## 3190  320KF052703 West Central Council      mjLangArts1_quarter         C
-## 3286  320TM060203 West Central Council      mjLangArts1_quarter         A
-## 3291  320NR030504 West Central Council      mjLangArts1_quarter         F
-## 3301  320AW050904 West Central Council      mjLangArts1_quarter         C
-## 4645  320SA122401 West Central Council      mjLangArts2_quarter         A
-## 4649  320SB100701 West Central Council      mjLangArts2_quarter         C
-## 4655  320RD020603 West Central Council      mjLangArts2_quarter         B
-## 4656  320SE081902 West Central Council      mjLangArts2_quarter         B
-## 4676  320AH081702 West Central Council      mjLangArts2_quarter         F
-## 4677  320DH042501 West Central Council      mjLangArts2_quarter         A
-## 4678  320II081302 West Central Council      mjLangArts2_quarter         A
-## 4760  320BR031803 West Central Council      mjLangArts2_quarter         A
-## 4761  320ER121001 West Central Council      mjLangArts2_quarter         C
-## 4762  320LS111202 West Central Council      mjLangArts2_quarter         A
-## 4765  320HS082803 West Central Council      mjLangArts2_quarter         D
-## 4766  320LS042403 West Central Council      mjLangArts2_quarter         B
-## 5381  320AB022203 West Central Council   mjLangArts2Adv_quarter         B
-## 5388  320TD060303 West Central Council   mjLangArts2Adv_quarter         A
-## 5415  320TM121202 West Central Council   mjLangArts2Adv_quarter         C
-## 5492  320AR100902 West Central Council   mjLangArts2Adv_quarter         C
-## 5497  320JS020802 West Central Council   mjLangArts2Adv_quarter         B
-## 5501  320CT030303 West Central Council   mjLangArts2Adv_quarter         B
-## 5502  320AW122102 West Central Council   mjLangArts2Adv_quarter         B
-## 6114  320AB101201 West Central Council      mjLangArts3_quarter         B
-## 6116  320TB053002 West Central Council      mjLangArts3_quarter         B
-## 6119  320KC051702 West Central Council      mjLangArts3_quarter         A
-## 6121  320CD090201 West Central Council      mjLangArts3_quarter         B
-## 6142  320RH050902 West Central Council      mjLangArts3_quarter         B
-## 6143  320KH061601 West Central Council      mjLangArts3_quarter         A
-## 6148  320RK110200 West Central Council      mjLangArts3_quarter         B
-## 6223  320CM051801 West Central Council      mjLangArts3_quarter         B
-## 6225  320KP110300 West Central Council      mjLangArts3_quarter         A
-## 6232  320AS081902 West Central Council      mjLangArts3_quarter         C
-## 6238  320SW120401 West Central Council      mjLangArts3_quarter         A
-## 6239  32-YW011402 West Central Council      mjLangArts3_quarter         A
-## 6852  320JB110501 West Central Council   mjLangArts3Adv_quarter         B
-## 6861  320AG091201 West Central Council   mjLangArts3Adv_quarter         A
-## 6881  320SJ052502 West Central Council   mjLangArts3Adv_quarter         C
-## 12096 320JO122602 West Central Council mjIntensLangArts_quarter         C</code></pre>
+<pre><code>##           girlCode              council               langCourses
+## 4912   320GD120203 West Central Council       mjLangArts1_quarter
+## 4917   320CF032904 West Central Council       mjLangArts1_quarter
+## 4918   320KF052703 West Central Council       mjLangArts1_quarter
+## 5014   320TM060203 West Central Council       mjLangArts1_quarter
+## 5019   320NR030504 West Central Council       mjLangArts1_quarter
+## 5029   320AW050904 West Central Council       mjLangArts1_quarter
+## 7237   320SA122401 West Central Council       mjLangArts2_quarter
+## 7241   320SB100701 West Central Council       mjLangArts2_quarter
+## 7247   320RD020603 West Central Council       mjLangArts2_quarter
+## 7248   320SE081902 West Central Council       mjLangArts2_quarter
+## 7268   320AH081702 West Central Council       mjLangArts2_quarter
+## 7269   320DH042501 West Central Council       mjLangArts2_quarter
+## 7270   320II081302 West Central Council       mjLangArts2_quarter
+## 7352   320BR031803 West Central Council       mjLangArts2_quarter
+## 7353   320ER121001 West Central Council       mjLangArts2_quarter
+## 7354   320LS111202 West Central Council       mjLangArts2_quarter
+## 7357   320HS082803 West Central Council       mjLangArts2_quarter
+## 7358   320LS042403 West Central Council       mjLangArts2_quarter
+## 8405   320AB022203 West Central Council    mjLangArts2Adv_quarter
+## 8412   320TD060303 West Central Council    mjLangArts2Adv_quarter
+## 8439   320TM121202 West Central Council    mjLangArts2Adv_quarter
+## 8516   320AR100902 West Central Council    mjLangArts2Adv_quarter
+## 8521   320JS020802 West Central Council    mjLangArts2Adv_quarter
+## 8525   320CT030303 West Central Council    mjLangArts2Adv_quarter
+## 8526   320AW122102 West Central Council    mjLangArts2Adv_quarter
+## 9570   320AB101201 West Central Council       mjLangArts3_quarter
+## 9572   320TB053002 West Central Council       mjLangArts3_quarter
+## 9575   320KC051702 West Central Council       mjLangArts3_quarter
+## 9577   320CD090201 West Central Council       mjLangArts3_quarter
+## 9598   320RH050902 West Central Council       mjLangArts3_quarter
+## 9599   320KH061601 West Central Council       mjLangArts3_quarter
+## 9604   320RK110200 West Central Council       mjLangArts3_quarter
+## 9679   320CM051801 West Central Council       mjLangArts3_quarter
+## 9681   320KP110300 West Central Council       mjLangArts3_quarter
+## 9688   320AS081902 West Central Council       mjLangArts3_quarter
+## 9694   320SW120401 West Central Council       mjLangArts3_quarter
+## 9695   32-YW011402 West Central Council       mjLangArts3_quarter
+## 10740  320JB110501 West Central Council    mjLangArts3Adv_quarter
+## 10749  320AG091201 West Central Council    mjLangArts3Adv_quarter
+## 10769  320SJ052502 West Central Council    mjLangArts3Adv_quarter
+## 19008  320JO122602 West Central Council  mjIntensLangArts_quarter
+## 19607 TESTTESTTEST West Central Council mjIntensLangArts_semester
+##       langGrade
+## 4912          C
+## 4917          B
+## 4918          C
+## 5014          A
+## 5019          F
+## 5029          C
+## 7237          A
+## 7241          C
+## 7247          B
+## 7248          B
+## 7268          F
+## 7269          A
+## 7270          A
+## 7352          A
+## 7353          C
+## 7354          A
+## 7357          D
+## 7358          B
+## 8405          B
+## 8412          A
+## 8439          C
+## 8516          C
+## 8521          B
+## 8525          B
+## 8526          B
+## 9570          B
+## 9572          B
+## 9575          A
+## 9577          B
+## 9598          B
+## 9599          A
+## 9604          B
+## 9679          B
+## 9681          A
+## 9688          C
+## 9694          A
+## 9695          A
+## 10740         B
+## 10749         A
+## 10769         C
+## 19008         C
+## 19607         A</code></pre>
 <pre class="r"><code>head(mq4_lang_ok)</code></pre>
 <pre><code>##         girlCode              council         langCourses langGrade
-## 3184 320GD120203 West Central Council mjLangArts1_quarter         C
-## 3189 320CF032904 West Central Council mjLangArts1_quarter         B
-## 3190 320KF052703 West Central Council mjLangArts1_quarter         C
-## 3286 320TM060203 West Central Council mjLangArts1_quarter         A
-## 3291 320NR030504 West Central Council mjLangArts1_quarter         F
-## 3301 320AW050904 West Central Council mjLangArts1_quarter         C</code></pre>
+## 4912 320GD120203 West Central Council mjLangArts1_quarter         C
+## 4917 320CF032904 West Central Council mjLangArts1_quarter         B
+## 4918 320KF052703 West Central Council mjLangArts1_quarter         C
+## 5014 320TM060203 West Central Council mjLangArts1_quarter         A
+## 5019 320NR030504 West Central Council mjLangArts1_quarter         F
+## 5029 320AW050904 West Central Council mjLangArts1_quarter         C</code></pre>
 <pre class="r"><code>### Find the girl codes with multiple grades
 
 ##############################Subset Duplicate Values##################
@@ -1046,21 +1192,21 @@ q4lang_dupes &lt;- mq4_lang[q4lang_dupes, ]
 
 
 dim(q4lang_dupes)</code></pre>
-<pre><code>## [1] 652   4</code></pre>
+<pre><code>## [1] 1082    4</code></pre>
 <div id="find-and-subset-the-semester-grades-in-duplicate-version" class="section level3">
 <h3>Find and subset the Semester Grades in duplicate version</h3>
 <pre class="r"><code>semester &lt;- q4lang_dupes[grep(&quot;_semester&quot;, q4lang_dupes$langCourses, ignore.case = TRUE),]
 
 dim(semester)</code></pre>
-<pre><code>## [1] 326   4</code></pre>
+<pre><code>## [1] 542   4</code></pre>
 <pre class="r"><code>head(semester)</code></pre>
-<pre><code>##         girlCode         council              langCourses langGrade
-## 1361 312BA070703  Citrus Council mjLangArts2ESOL_semester         A
-## 1367 312BJ021603  Citrus Council mjLangArts2ESOL_semester         A
-## 2099 312MJ092702  Citrus Council mjLangArts3ESOL_semester         C
-## 3314 313AW060203 Gateway Council     mjLangArts1_semester         B
-## 3315 313AP042602 Gateway Council     mjLangArts1_semester         C
-## 3316 313AE041502 Gateway Council     mjLangArts1_semester         B</code></pre>
+<pre><code>##         girlCode          council                 langCourses langGrade
+## 1164 319AR110403 Tropical Council    mjLangArts1ESOL_semester         A
+## 2009 312BA070703   Citrus Council    mjLangArts2ESOL_semester         A
+## 2015 312BJ021603   Citrus Council    mjLangArts2ESOL_semester         A
+## 2300 312BL053004   Citrus Council    mjLangArts2ESOL_semester         B
+## 3179 312MJ092702   Citrus Council    mjLangArts3ESOL_semester         C
+## 4662 319AR110403 Tropical Council mjDevelpmentalESOL_semester         C</code></pre>
 </div>
 <div id="bind-the-language-arts-courses-together" class="section level3">
 <h3>Bind the Language Arts Courses together</h3>
@@ -1068,7 +1214,7 @@ dim(semester)</code></pre>
 
 
 dim(mq4_lang_all)</code></pre>
-<pre><code>## [1] 367   4</code></pre>
+<pre><code>## [1] 584   4</code></pre>
 <pre class="r"><code>distinct(mq4_lang_all, girlCode)</code></pre>
 <pre><code>##         girlCode              council               langCourses langGrade
 ## 1    320GD120203 West Central Council       mjLangArts1_quarter         C
@@ -1112,334 +1258,547 @@ dim(mq4_lang_all)</code></pre>
 ## 39   320AG091201 West Central Council    mjLangArts3Adv_quarter         A
 ## 40   320SJ052502 West Central Council    mjLangArts3Adv_quarter         C
 ## 41   320JO122602 West Central Council  mjIntensLangArts_quarter         C
-## 42   312BA070703       Citrus Council  mjLangArts2ESOL_semester         A
-## 43   312BJ021603       Citrus Council  mjLangArts2ESOL_semester         A
-## 44   312MJ092702       Citrus Council  mjLangArts3ESOL_semester         C
-## 45   313AW060203      Gateway Council      mjLangArts1_semester         B
-## 46   313AP042602      Gateway Council      mjLangArts1_semester         C
-## 47   313AE041502      Gateway Council      mjLangArts1_semester         B
-## 48   313AJ111203      Gateway Council      mjLangArts1_semester         B
-## 49   313AM022202      Gateway Council      mjLangArts1_semester         C
-## 50   313AE050404      Gateway Council      mjLangArts1_semester         B
-## 51   313AM030805      Gateway Council      mjLangArts1_semester         C
-## 52   313BB032805      Gateway Council      mjLangArts1_semester         C
-## 53   313CC032104      Gateway Council      mjLangArts1_semester         B
-## 54   313CM120103      Gateway Council      mjLangArts1_semester         B
-## 55   313IH091404      Gateway Council      mjLangArts1_semester         C
-## 56   313IA091203      Gateway Council      mjLangArts1_semester         B
-## 57   313MM071604      Gateway Council      mjLangArts1_semester         C
-## 58   313MS031104      Gateway Council      mjLangArts1_semester         B
-## 59   313SJ102903      Gateway Council      mjLangArts1_semester         C
-## 60   313SW021304      Gateway Council      mjLangArts1_semester         B
-## 61   313TG053004      Gateway Council      mjLangArts1_semester         B
-## 62   313TG041203      Gateway Council      mjLangArts1_semester         B
-## 63   313TA120503      Gateway Council      mjLangArts1_semester         B
-## 64   313TD073104      Gateway Council      mjLangArts1_semester         B
-## 65   313YJ031404      Gateway Council      mjLangArts1_semester         C
-## 66   313PW072304      Gateway Council      mjLangArts1_semester         B
-## 67   313MA082702      Gateway Council      mjLangArts1_semester         C
-## 68   313AA041803      Gateway Council      mjLangArts1_semester         C
-## 69   313AB050904      Gateway Council      mjLangArts1_semester         B
-## 70   313AJ111803      Gateway Council      mjLangArts1_semester         C
-## 71   313CJ081604      Gateway Council      mjLangArts1_semester         B
-## 72   313CD032504      Gateway Council      mjLangArts1_semester         B
-## 73   313DF063004      Gateway Council      mjLangArts1_semester         B
-## 74   313DM031404      Gateway Council      mjLangArts1_semester         B
-## 75   313GW050404      Gateway Council      mjLangArts1_semester         C
-## 76   313JG111203      Gateway Council      mjLangArts1_semester         C
-## 77   313JH050703      Gateway Council      mjLangArts1_semester         B
-## 78   313KH032104      Gateway Council      mjLangArts1_semester         B
-## 79   313KE040805      Gateway Council      mjLangArts1_semester         C
-## 80   313LS021104      Gateway Council      mjLangArts1_semester         B
-## 81   313NH071604      Gateway Council      mjLangArts1_semester         B
-## 82   313RH032805      Gateway Council      mjLangArts1_semester         B
-## 83   313TA060203      Gateway Council      mjLangArts1_semester         B
-## 84   313AC103103      Gateway Council      mjLangArts1_semester         C
-## 85   313AN121503      Gateway Council      mjLangArts1_semester         B
-## 86   313AB062704      Gateway Council      mjLangArts1_semester         C
-## 87   313BM050404      Gateway Council      mjLangArts1_semester         B
-## 88   313BC040204      Gateway Council      mjLangArts1_semester         B
-## 89   313DP021104      Gateway Council      mjLangArts1_semester         B
-## 90   313EO080204      Gateway Council      mjLangArts1_semester         B
-## 91   313JC121003      Gateway Council      mjLangArts1_semester         B
-## 92   313JM072404      Gateway Council      mjLangArts1_semester         C
-## 93   313JT110402      Gateway Council      mjLangArts1_semester         C
-## 94   313KM011503      Gateway Council      mjLangArts1_semester         B
-## 95   313KG061204      Gateway Council      mjLangArts1_semester         B
-## 96   313KT082103      Gateway Council      mjLangArts1_semester         B
-## 97   313KA090203      Gateway Council      mjLangArts1_semester         B
-## 98   313LF022804      Gateway Council      mjLangArts1_semester         B
-## 99   313MA090303      Gateway Council      mjLangArts1_semester         B
-## 100  313SS111303      Gateway Council      mjLangArts1_semester         B
-## 101  313SF120603      Gateway Council      mjLangArts1_semester         B
-## 102  313SW091702      Gateway Council      mjLangArts1_semester         C
-## 103  313SW083004      Gateway Council      mjLangArts1_semester         B
-## 104  313TC071503      Gateway Council      mjLangArts1_semester         C
-## 105  313TG091001      Gateway Council      mjLangArts1_semester         C
-## 106  313TS010303      Gateway Council      mjLangArts1_semester         B
-## 107  313AJ100704      Gateway Council      mjLangArts1_semester         B
-## 108  313KS081404      Gateway Council      mjLangArts1_semester         B
-## 109  313AC080304      Gateway Council      mjLangArts1_semester         C
-## 110  313DP102903      Gateway Council      mjLangArts1_semester         C
-## 111  313IJ090703      Gateway Council      mjLangArts1_semester         B
-## 112  313JD052803      Gateway Council      mjLangArts1_semester         C
-## 113  313JY070403      Gateway Council      mjLangArts1_semester         D
-## 114  313NW110203      Gateway Council      mjLangArts1_semester         A
-## 115  313AH052504      Gateway Council      mjLangArts1_semester         B
-## 116  313LC041404      Gateway Council      mjLangArts1_semester         B
-## 117  313ST020303      Gateway Council      mjLangArts1_semester         B
-## 118  313JS100203      Gateway Council      mjLangArts1_semester         C
-## 119  313MN060203      Gateway Council      mjLangArts1_semester         C
-## 120  313JB060403      Gateway Council      mjLangArts1_semester         C
-## 121  313JW081804      Gateway Council      mjLangArts1_semester         B
-## 122  313MD050604      Gateway Council      mjLangArts1_semester         C
-## 123  313AH082204      Gateway Council      mjLangArts1_semester         B
-## 124  313AB060404      Gateway Council      mjLangArts1_semester         C
-## 125  313LS090504      Gateway Council      mjLangArts1_semester         C
-## 126  313LL121002      Gateway Council      mjLangArts1_semester         C
-## 127  313RN100203      Gateway Council      mjLangArts1_semester         B
-## 128  313RE011302      Gateway Council      mjLangArts1_semester         B
-## 129  313SR051403      Gateway Council      mjLangArts1_semester         A
-## 130  313SW080304      Gateway Council      mjLangArts1_semester         B
-## 131  313TW060904      Gateway Council      mjLangArts1_semester         B
-## 132  313TH082203      Gateway Council      mjLangArts1_semester         B
-## 133  320AT101602 West Central Council      mjLangArts2_semester         D
-## 134  320AM072903 West Central Council      mjLangArts2_semester         C
-## 135  320AP030203 West Central Council      mjLangArts2_semester         F
-## 136  320CM120402 West Central Council      mjLangArts2_semester         F
-## 137  320DL112002 West Central Council      mjLangArts2_semester         B
-## 138  313ES060503      Gateway Council      mjLangArts2_semester         B
-## 139  313JS091402      Gateway Council      mjLangArts2_semester         B
-## 140  313JL032903      Gateway Council      mjLangArts2_semester         B
-## 141  313MP031502      Gateway Council      mjLangArts2_semester         B
-## 142  313NW122502      Gateway Council      mjLangArts2_semester         C
-## 143  313NM110602      Gateway Council      mjLangArts2_semester         C
-## 144  313ND012403      Gateway Council      mjLangArts2_semester         C
-## 145  313PK110102      Gateway Council      mjLangArts2_semester         C
-## 146  320JM102701 West Central Council      mjLangArts2_semester         D
-## 147  320NM101302 West Central Council      mjLangArts2_semester         C
-## 148  320NR060503 West Central Council      mjLangArts2_semester         F
-## 149  320RM080702 West Central Council      mjLangArts2_semester         C
-## 150  320TF073003 West Central Council      mjLangArts2_semester         C
-## 151  320DJ061302 West Central Council      mjLangArts2_semester         D
-## 152  313SW013103      Gateway Council      mjLangArts2_semester         B
-## 153  313TB112002      Gateway Council      mjLangArts2_semester         B
-## 154  313MG102902      Gateway Council      mjLangArts2_semester         B
-## 155  313GR040203      Gateway Council      mjLangArts2_semester         B
-## 156  313JP090103      Gateway Council      mjLangArts2_semester         C
-## 157  313BB040203      Gateway Council      mjLangArts2_semester         B
-## 158  313SJ060203      Gateway Council      mjLangArts2_semester         C
-## 159  313MB090202      Gateway Council      mjLangArts2_semester         C
-## 160  313SD010203      Gateway Council      mjLangArts2_semester         B
-## 161  313SS101702      Gateway Council      mjLangArts2_semester         C
-## 162  313ST122101      Gateway Council      mjLangArts2_semester         C
-## 163  313LJ090102      Gateway Council      mjLangArts2_semester         B
-## 164  313BB052401      Gateway Council      mjLangArts2_semester         B
-## 165  313SL102501      Gateway Council      mjLangArts2_semester         B
-## 166  313SJ092102      Gateway Council      mjLangArts2_semester         B
-## 167  313LM110402      Gateway Council      mjLangArts2_semester         C
-## 168  313SP101602      Gateway Council      mjLangArts2_semester         B
-## 169  313AN122002      Gateway Council      mjLangArts2_semester         B
-## 170  313AB112002      Gateway Council      mjLangArts2_semester         B
-## 171  313AH072703      Gateway Council      mjLangArts2_semester         B
-## 172  313DM020603      Gateway Council      mjLangArts2_semester         A
-## 173  313KD091402      Gateway Council      mjLangArts2_semester         B
-## 174  313KB121202      Gateway Council      mjLangArts2_semester         B
-## 175  313LH031502      Gateway Council      mjLangArts2_semester         B
-## 176  313MD120302      Gateway Council      mjLangArts2_semester         C
-## 177  313HW011803      Gateway Council      mjLangArts2_semester         B
-## 178  313NF070900      Gateway Council      mjLangArts2_semester         B
-## 179  313NB041502      Gateway Council      mjLangArts2_semester         C
-## 180  313SS081403      Gateway Council      mjLangArts2_semester         B
-## 181  313SS080202      Gateway Council      mjLangArts2_semester         B
-## 182  313VJ112402      Gateway Council      mjLangArts2_semester         B
-## 183  313AC082303      Gateway Council      mjLangArts2_semester         B
-## 184  313AF040403      Gateway Council      mjLangArts2_semester         A
-## 185  313CD122702      Gateway Council      mjLangArts2_semester         C
-## 186  313DJ031804      Gateway Council      mjLangArts2_semester         B
-## 187  313EG050502      Gateway Council      mjLangArts2_semester         C
-## 188  313ER122203      Gateway Council      mjLangArts2_semester         C
-## 189  313JP070503      Gateway Council      mjLangArts2_semester         B
-## 190  313JL110304      Gateway Council      mjLangArts2_semester         C
-## 191  313JM040603      Gateway Council      mjLangArts2_semester         B
-## 192  313JB122201      Gateway Council      mjLangArts2_semester         B
-## 193  313JD090803      Gateway Council      mjLangArts2_semester         C
-## 194  313JP011003      Gateway Council      mjLangArts2_semester         C
-## 195  313SH092302      Gateway Council      mjLangArts2_semester         C
-## 196  313TP102402      Gateway Council      mjLangArts2_semester         C
-## 197  313DG072603      Gateway Council      mjLangArts2_semester         B
-## 198  313DE100602      Gateway Council      mjLangArts2_semester         C
-## 199  313EC081602      Gateway Council      mjLangArts2_semester         A
-## 200  313KH120302      Gateway Council      mjLangArts2_semester         B
-## 201  313LE082703      Gateway Council      mjLangArts2_semester         B
-## 202  313MH120302      Gateway Council      mjLangArts2_semester         B
-## 203  313NB120901      Gateway Council      mjLangArts2_semester         C
-## 204  313TG012003      Gateway Council      mjLangArts2_semester         B
-## 205  313SY042303      Gateway Council      mjLangArts2_semester         B
-## 206  313AJ041002      Gateway Council      mjLangArts2_semester         B
-## 207  313TA020602      Gateway Council      mjLangArts2_semester         B
-## 208  313CB101103      Gateway Council      mjLangArts2_semester         B
-## 209  313MH120402      Gateway Council      mjLangArts2_semester         C
-## 210  313DL091702      Gateway Council      mjLangArts2_semester         B
-## 211  312AM062102       Citrus Council      mjLangArts2_semester         B
-## 212  312PM110402       Citrus Council      mjLangArts2_semester         B
-## 213  312CM100602       Citrus Council      mjLangArts2_semester         B
-## 214  312GB022203       Citrus Council      mjLangArts2_semester         B
-## 215  313BB082902      Gateway Council      mjLangArts2_semester         C
-## 216  313BB032502      Gateway Council      mjLangArts2_semester         B
-## 217  313CH080602      Gateway Council      mjLangArts2_semester         C
-## 218  313ET110102      Gateway Council      mjLangArts2_semester         C
-## 219  313HB022103      Gateway Council      mjLangArts2_semester         B
-## 220  313JH041802      Gateway Council      mjLangArts2_semester         C
-## 221  313JC012502      Gateway Council      mjLangArts2_semester         C
-## 222  313JH110902      Gateway Council      mjLangArts2_semester         B
-## 223  313BS041502      Gateway Council      mjLangArts2_semester         C
-## 224  313JW111002      Gateway Council      mjLangArts2_semester         C
-## 225  313SA080202      Gateway Council      mjLangArts2_semester         C
-## 226  313KD041503      Gateway Council      mjLangArts2_semester         B
-## 227  313JK122602      Gateway Council      mjLangArts2_semester         C
-## 228  313LM010502      Gateway Council      mjLangArts2_semester         C
-## 229  313ZJ050403      Gateway Council      mjLangArts2_semester         C
-## 230  313JT110202      Gateway Council      mjLangArts2_semester         C
-## 231  313JD120102      Gateway Council      mjLangArts2_semester         B
-## 232  313KD042102      Gateway Council      mjLangArts2_semester         B
-## 233  313KM080502      Gateway Council      mjLangArts2_semester         C
-## 234  313LS120601      Gateway Council      mjLangArts2_semester         C
-## 235  313AH082502      Gateway Council      mjLangArts2_semester         A
-## 236  313AV040903      Gateway Council      mjLangArts2_semester         B
-## 237  313AP090203      Gateway Council      mjLangArts2_semester         B
-## 238  313DC061403      Gateway Council      mjLangArts2_semester         B
-## 239  313HW090202      Gateway Council      mjLangArts2_semester         B
-## 240  313KJ012003      Gateway Council      mjLangArts2_semester         C
-## 241  313LP081302      Gateway Council      mjLangArts2_semester         B
-## 242  313TR122902      Gateway Council      mjLangArts2_semester         B
-## 243  313VJ061503      Gateway Council      mjLangArts2_semester         B
-## 244  320AB061103 West Central Council   mjLangArts2Adv_semester         A
-## 245  320BR072103 West Central Council   mjLangArts2Adv_semester         A
-## 246  320DM041603 West Central Council   mjLangArts2Adv_semester         B
-## 247  320IW012403 West Central Council   mjLangArts2Adv_semester         A
-## 248  320IR061103 West Central Council   mjLangArts2Adv_semester         A
-## 249  313FF120202      Gateway Council   mjLangArts2Adv_semester         C
-## 250  313LF071302      Gateway Council   mjLangArts2Adv_semester         B
-## 251  320KW122401 West Central Council   mjLangArts2Adv_semester         A
-## 252  320KG080703 West Central Council   mjLangArts2Adv_semester         C
-## 253  320MB030803 West Central Council   mjLangArts2Adv_semester         C
-## 254  313RL062003      Gateway Council   mjLangArts2Adv_semester         B
-## 255  313AJ100301      Gateway Council   mjLangArts2Adv_semester         B
-## 256  312AM111202       Citrus Council   mjLangArts2Adv_semester         B
-## 257  312FS020503       Citrus Council   mjLangArts2Adv_semester         A
-## 258  313MY060702      Gateway Council   mjLangArts2Adv_semester         A
-## 259  313KC111302      Gateway Council   mjLangArts2Adv_semester         B
-## 260  313DW060502      Gateway Council      mjLangArts3_semester         B
-## 261  313HB060202      Gateway Council      mjLangArts3_semester         B
-## 262  313JB091302      Gateway Council      mjLangArts3_semester         C
-## 263  313JR060502      Gateway Council      mjLangArts3_semester         B
-## 264  313AK052902      Gateway Council      mjLangArts3_semester         B
-## 265  313CW020602      Gateway Council      mjLangArts3_semester         C
-## 266  313CF080102      Gateway Council      mjLangArts3_semester         B
-## 267  313TG072302      Gateway Council      mjLangArts3_semester         C
-## 268  313MM110400      Gateway Council      mjLangArts3_semester         C
-## 269  313YJ062501      Gateway Council      mjLangArts3_semester         C
-## 270  313RL060201      Gateway Council      mjLangArts3_semester         C
-## 271  313AJ061101      Gateway Council      mjLangArts3_semester         B
-## 272  313AN060301      Gateway Council      mjLangArts3_semester         B
-## 273  313RB031401      Gateway Council      mjLangArts3_semester         C
-## 274  313AB071302      Gateway Council      mjLangArts3_semester         C
-## 275  313BC082900      Gateway Council      mjLangArts3_semester         B
-## 276  313SS080601      Gateway Council      mjLangArts3_semester         B
-## 277  313TR060701      Gateway Council      mjLangArts3_semester         B
-## 278  313NM092901      Gateway Council      mjLangArts3_semester         A
-## 279  313AA091300      Gateway Council      mjLangArts3_semester         B
-## 280  313AE070802      Gateway Council      mjLangArts3_semester         C
-## 281  313BH042702      Gateway Council      mjLangArts3_semester         C
-## 282  313DJ013001      Gateway Council      mjLangArts3_semester         C
-## 283  313DB013101      Gateway Council      mjLangArts3_semester         C
-## 284  313DL122400      Gateway Council      mjLangArts3_semester         C
-## 285  313DW020202      Gateway Council      mjLangArts3_semester         B
-## 286  313FS043002      Gateway Council      mjLangArts3_semester         C
-## 287  313GT051001      Gateway Council      mjLangArts3_semester         B
-## 288  313HH091900      Gateway Council      mjLangArts3_semester         B
-## 289  313JW081700      Gateway Council      mjLangArts3_semester         C
-## 290  313LG040801      Gateway Council      mjLangArts3_semester         B
-## 291  313MB050801      Gateway Council      mjLangArts3_semester         A
-## 292  313NS050901      Gateway Council      mjLangArts3_semester         C
-## 293  313QB062902      Gateway Council      mjLangArts3_semester         B
-## 294  313SS102000      Gateway Council      mjLangArts3_semester         B
-## 295  313TA042602      Gateway Council      mjLangArts3_semester         B
-## 296  320AB041702 West Central Council      mjLangArts3_semester         B
-## 297  320DW031301 West Central Council      mjLangArts3_semester         B
-## 298  320HP121201 West Central Council      mjLangArts3_semester         B
-## 299  320IL010602 West Central Council      mjLangArts3_semester         B
-## 300  320AF092500 West Central Council      mjLangArts3_semester         C
-## 301  320SC121301 West Central Council      mjLangArts3_semester         A
-## 302  320SN020402 West Central Council      mjLangArts3_semester         B
-## 303  320SL061102 West Central Council      mjLangArts3_semester         B
-## 304  3207M043002 West Central Council      mjLangArts3_semester         B
-## 305  313DY100502      Gateway Council      mjLangArts3_semester         B
-## 306  313ER111602      Gateway Council      mjLangArts3_semester         B
-## 307  313JD042302      Gateway Council      mjLangArts3_semester         B
-## 308  313JS103001      Gateway Council      mjLangArts3_semester         C
-## 309  313JR021003      Gateway Council      mjLangArts3_semester         B
-## 310  313JR081602      Gateway Council      mjLangArts3_semester         C
-## 311  313PM082503      Gateway Council      mjLangArts3_semester         C
-## 312  313AL042602      Gateway Council      mjLangArts3_semester         B
-## 313  313BS033102      Gateway Council      mjLangArts3_semester         C
-## 314  313BS013101      Gateway Council      mjLangArts3_semester         C
-## 315  313CP050801      Gateway Council      mjLangArts3_semester         C
-## 316  313EH121700      Gateway Council      mjLangArts3_semester         A
-## 317  313HR070802      Gateway Council      mjLangArts3_semester         B
-## 318  313MS033102      Gateway Council      mjLangArts3_semester         B
-## 319  313TW111601      Gateway Council      mjLangArts3_semester         B
-## 320  313AJ111601      Gateway Council      mjLangArts3_semester         B
-## 321  313HB081401      Gateway Council      mjLangArts3_semester         B
-## 322  313JJ051600      Gateway Council      mjLangArts3_semester         B
-## 323  313DM081401      Gateway Council      mjLangArts3_semester         C
-## 324  313BN052400      Gateway Council      mjLangArts3_semester         C
-## 325  313DM081501      Gateway Council      mjLangArts3_semester         C
-## 326  312KN121401       Citrus Council      mjLangArts3_semester         B
-## 327  312DJ101301       Citrus Council      mjLangArts3_semester         B
-## 328  312AA071702       Citrus Council      mjLangArts3_semester         C
-## 329  312JF031602       Citrus Council      mjLangArts3_semester         A
-## 330  313BM102701      Gateway Council      mjLangArts3_semester         B
-## 331  313JR112301      Gateway Council      mjLangArts3_semester         C
-## 332  313LD102701      Gateway Council      mjLangArts3_semester         B
-## 333  313AJ120702      Gateway Council      mjLangArts3_semester         C
-## 334  313AC020102      Gateway Council      mjLangArts3_semester         B
-## 335  313MK050201      Gateway Council      mjLangArts3_semester         C
-## 336  313OM070501      Gateway Council      mjLangArts3_semester         C
-## 337  313PS090801      Gateway Council      mjLangArts3_semester         B
-## 338  313EM050301      Gateway Council      mjLangArts3_semester         C
-## 339  313AJ032101      Gateway Council      mjLangArts3_semester         C
-## 340  313JB090301      Gateway Council      mjLangArts3_semester         C
-## 341  313AF070302      Gateway Council      mjLangArts3_semester         B
-## 342  313AH090402      Gateway Council      mjLangArts3_semester         B
-## 343  313AR080201      Gateway Council      mjLangArts3_semester         B
-## 344  313KC010603      Gateway Council      mjLangArts3_semester         B
-## 345  313MG090502      Gateway Council      mjLangArts3_semester         B
-## 346  313JB090402      Gateway Council   mjLangArts3Adv_semester         B
-## 347  313JG070402      Gateway Council   mjLangArts3Adv_semester         B
-## 348  313AD050602      Gateway Council   mjLangArts3Adv_semester         B
-## 349  313MD100300      Gateway Council   mjLangArts3Adv_semester         B
-## 350  320AF050702 West Central Council   mjLangArts3Adv_semester         A
-## 351  320AW063002 West Central Council   mjLangArts3Adv_semester         A
-## 352  320GE021302 West Central Council   mjLangArts3Adv_semester         A
-## 353  320JR062102 West Central Council   mjLangArts3Adv_semester         B
-## 354  320KC050902 West Central Council   mjLangArts3Adv_semester         A
-## 355  320KA081802 West Central Council   mjLangArts3Adv_semester         A
-## 356  320MH081602 West Central Council   mjLangArts3Adv_semester         B
-## 357  320MB011702 West Central Council   mjLangArts3Adv_semester         A
-## 358 320NT0043002 West Central Council   mjLangArts3Adv_semester         A
-## 359  320SS110101 West Central Council   mjLangArts3Adv_semester         A
-## 360  320SB093001 West Central Council   mjLangArts3Adv_semester         A
-## 361  320YC042602 West Central Council   mjLangArts3Adv_semester         B
-## 362  320ZP050602 West Central Council   mjLangArts3Adv_semester         B
-## 363  312JS013102       Citrus Council   mjLangArts3Adv_semester         B
-## 364  312JV032902       Citrus Council   mjLangArts3Adv_semester         C
-## 365  313AG040602      Gateway Council   mjLangArts3Adv_semester         B
-## 366  313KF050203      Gateway Council mjIntensLangArts_semester         C
-## 367  313OF022803      Gateway Council mjIntensLangArts_semester         C</code></pre>
+## 42  TESTTESTTEST West Central Council mjIntensLangArts_semester         A
+## 43   319AR110403     Tropical Council  mjLangArts1ESOL_semester         A
+## 44   312BA070703       Citrus Council  mjLangArts2ESOL_semester         A
+## 45   312BJ021603       Citrus Council  mjLangArts2ESOL_semester         A
+## 46   312BL053004       Citrus Council  mjLangArts2ESOL_semester         B
+## 47   312MJ092702       Citrus Council  mjLangArts3ESOL_semester         C
+## 48   313AW060203      Gateway Council      mjLangArts1_semester         B
+## 49   313AP042602      Gateway Council      mjLangArts1_semester         C
+## 50   313AE041502      Gateway Council      mjLangArts1_semester         B
+## 51   313AJ111203      Gateway Council      mjLangArts1_semester         B
+## 52   313AM022202      Gateway Council      mjLangArts1_semester         C
+## 53   313AE050404      Gateway Council      mjLangArts1_semester         B
+## 54   313AM030805      Gateway Council      mjLangArts1_semester         C
+## 55   313BB032805      Gateway Council      mjLangArts1_semester         C
+## 56   313CC032104      Gateway Council      mjLangArts1_semester         B
+## 57   313CM120103      Gateway Council      mjLangArts1_semester         B
+## 58   313IH091404      Gateway Council      mjLangArts1_semester         C
+## 59   313IA091203      Gateway Council      mjLangArts1_semester         B
+## 60   313MM071604      Gateway Council      mjLangArts1_semester         C
+## 61   313MS031104      Gateway Council      mjLangArts1_semester         B
+## 62   313SJ102903      Gateway Council      mjLangArts1_semester         C
+## 63   313SW021304      Gateway Council      mjLangArts1_semester         B
+## 64   313TG053004      Gateway Council      mjLangArts1_semester         B
+## 65   313TG041203      Gateway Council      mjLangArts1_semester         B
+## 66   313TA120503      Gateway Council      mjLangArts1_semester         B
+## 67   313TD073104      Gateway Council      mjLangArts1_semester         B
+## 68   313YJ031404      Gateway Council      mjLangArts1_semester         C
+## 69   313PW072304      Gateway Council      mjLangArts1_semester         B
+## 70   313MA082702      Gateway Council      mjLangArts1_semester         C
+## 71   313AA041803      Gateway Council      mjLangArts1_semester         C
+## 72   313AB050904      Gateway Council      mjLangArts1_semester         B
+## 73   313AJ111803      Gateway Council      mjLangArts1_semester         C
+## 74   313CJ081604      Gateway Council      mjLangArts1_semester         B
+## 75   313CD032504      Gateway Council      mjLangArts1_semester         B
+## 76   313DF063004      Gateway Council      mjLangArts1_semester         B
+## 77   313DM031404      Gateway Council      mjLangArts1_semester         B
+## 78   313GW050404      Gateway Council      mjLangArts1_semester         C
+## 79   313JG111203      Gateway Council      mjLangArts1_semester         C
+## 80   313JH050703      Gateway Council      mjLangArts1_semester         B
+## 81   313KH032104      Gateway Council      mjLangArts1_semester         B
+## 82   313KE040805      Gateway Council      mjLangArts1_semester         C
+## 83   313LS021104      Gateway Council      mjLangArts1_semester         B
+## 84   313NH071604      Gateway Council      mjLangArts1_semester         B
+## 85   313RH032805      Gateway Council      mjLangArts1_semester         B
+## 86   313TA060203      Gateway Council      mjLangArts1_semester         B
+## 87   313AC103103      Gateway Council      mjLangArts1_semester         C
+## 88   313AN121503      Gateway Council      mjLangArts1_semester         B
+## 89   313AB062704      Gateway Council      mjLangArts1_semester         C
+## 90   313BM050404      Gateway Council      mjLangArts1_semester         B
+## 91   313BC040204      Gateway Council      mjLangArts1_semester         B
+## 92   313DP021104      Gateway Council      mjLangArts1_semester         B
+## 93   313EO080204      Gateway Council      mjLangArts1_semester         B
+## 94   313JC121003      Gateway Council      mjLangArts1_semester         B
+## 95   313JM072404      Gateway Council      mjLangArts1_semester         C
+## 96   313JT110402      Gateway Council      mjLangArts1_semester         C
+## 97   313KM011503      Gateway Council      mjLangArts1_semester         B
+## 98   313KG061204      Gateway Council      mjLangArts1_semester         B
+## 99   313KT082103      Gateway Council      mjLangArts1_semester         B
+## 100  313KA090203      Gateway Council      mjLangArts1_semester         B
+## 101  313LF022804      Gateway Council      mjLangArts1_semester         B
+## 102  313MA090303      Gateway Council      mjLangArts1_semester         B
+## 103  313SS111303      Gateway Council      mjLangArts1_semester         B
+## 104  313SF120603      Gateway Council      mjLangArts1_semester         B
+## 105  313SW091702      Gateway Council      mjLangArts1_semester         C
+## 106  313SW083004      Gateway Council      mjLangArts1_semester         B
+## 107  313TC071503      Gateway Council      mjLangArts1_semester         C
+## 108  313TG091001      Gateway Council      mjLangArts1_semester         C
+## 109  313TS010303      Gateway Council      mjLangArts1_semester         B
+## 110  313AJ100704      Gateway Council      mjLangArts1_semester         B
+## 111  313KS081404      Gateway Council      mjLangArts1_semester         B
+## 112  313AC080304      Gateway Council      mjLangArts1_semester         C
+## 113  313DP102903      Gateway Council      mjLangArts1_semester         C
+## 114  313IJ090703      Gateway Council      mjLangArts1_semester         B
+## 115  313JD052803      Gateway Council      mjLangArts1_semester         C
+## 116  313JY070403      Gateway Council      mjLangArts1_semester         D
+## 117  313NW110203      Gateway Council      mjLangArts1_semester         A
+## 118  313AH052504      Gateway Council      mjLangArts1_semester         B
+## 119  313LC041404      Gateway Council      mjLangArts1_semester         B
+## 120  313ST020303      Gateway Council      mjLangArts1_semester         B
+## 121  313JS100203      Gateway Council      mjLangArts1_semester         C
+## 122  313MN060203      Gateway Council      mjLangArts1_semester         C
+## 123  313JB060403      Gateway Council      mjLangArts1_semester         C
+## 124  313JW081804      Gateway Council      mjLangArts1_semester         B
+## 125  313MD050604      Gateway Council      mjLangArts1_semester         C
+## 126  313AH082204      Gateway Council      mjLangArts1_semester         B
+## 127  313AB060404      Gateway Council      mjLangArts1_semester         C
+## 128  313LS090504      Gateway Council      mjLangArts1_semester         C
+## 129  313LL121002      Gateway Council      mjLangArts1_semester         C
+## 130  313RN100203      Gateway Council      mjLangArts1_semester         B
+## 131  313RE011302      Gateway Council      mjLangArts1_semester         B
+## 132  313SR051403      Gateway Council      mjLangArts1_semester         A
+## 133  313SW080304      Gateway Council      mjLangArts1_semester         B
+## 134  313TW060904      Gateway Council      mjLangArts1_semester         B
+## 135  313TH082203      Gateway Council      mjLangArts1_semester         B
+## 136  320AC012304 West Central Council      mjLangArts1_semester         B
+## 137  320CW111203 West Central Council      mjLangArts1_semester         C
+## 138  320EF111204 West Central Council      mjLangArts1_semester         B
+## 139  320JJ070902 West Central Council      mjLangArts1_semester         C
+## 140  320LM121403 West Central Council      mjLangArts1_semester         B
+## 141  231CH040801    Southeast Council      mjLangArts1_semester         B
+## 142  321ZJ092702    Southeast Council      mjLangArts1_semester         A
+## 143  321KT083104    Southeast Council      mjLangArts1_semester         C
+## 144  321KD040803    Southeast Council      mjLangArts1_semester         D
+## 145  321AM091203    Southeast Council      mjLangArts1_semester         B
+## 146  321ES020904    Southeast Council      mjLangArts1_semester         B
+## 147  321KW062503    Southeast Council      mjLangArts1_semester         A
+## 148  321BS111403    Southeast Council      mjLangArts1_semester         B
+## 149  321IM121403    Southeast Council      mjLangArts1_semester         C
+## 150  321RL060204    Southeast Council      mjLangArts1_semester         B
+## 151  319KM091803     Tropical Council      mjLangArts1_semester         C
+## 152  312SA050503       Citrus Council      mjLangArts1_semester         B
+## 153  319YL092403     Tropical Council      mjLangArts1_semester         B
+## 154  319AS112003     Tropical Council      mjLangArts1_semester         B
+## 155  320CB100701 West Central Council  mjlangsArts1Adv_semester         B
+## 156  320TA122003 West Central Council  mjlangsArts1Adv_semester         B
+## 157  320TD091903 West Central Council  mjlangsArts1Adv_semester         A
+## 158  320AS021503 West Central Council  mjlangsArts1Adv_semester         A
+## 159  320CO111303 West Central Council  mjlangsArts1Adv_semester         A
+## 160  320CD010605 West Central Council  mjlangsArts1Adv_semester         A
+## 161  320AD123003 West Central Council  mjlangsArts1Adv_semester         A
+## 162  320SC072304 West Central Council  mjlangsArts1Adv_semester         B
+## 163  320AR060504 West Central Council  mjlangsArts1Adv_semester         A
+## 164  320SS091403 West Central Council  mjlangsArts1Adv_semester         A
+## 165  320ER101503 West Central Council  mjlangsArts1Adv_semester         A
+## 166  320MD082804 West Central Council  mjlangsArts1Adv_semester         A
+## 167  320JS031504 West Central Council  mjlangsArts1Adv_semester         A
+## 168  320LR071604 West Central Council  mjlangsArts1Adv_semester         B
+## 169  320KS040804 West Central Council  mjlangsArts1Adv_semester         B
+## 170  320SW080104 West Central Council  mjlangsArts1Adv_semester         B
+## 171  320SM102203 West Central Council  mjlangsArts1Adv_semester         B
+## 172  320KM041801 West Central Council  mjlangsArts1Adv_semester         B
+## 173  320DT100203 West Central Council  mjlangsArts1Adv_semester         B
+## 174  320DT031504 West Central Council  mjlangsArts1Adv_semester         B
+## 175  320KJ090903 West Central Council  mjlangsArts1Adv_semester         A
+## 176  320JM011404 West Central Council  mjlangsArts1Adv_semester         A
+## 177  320DR110103 West Central Council  mjlangsArts1Adv_semester         A
+## 178  321JC070204    Southeast Council  mjlangsArts1Adv_semester         B
+## 179  321CH092703    Southeast Council  mjlangsArts1Adv_semester         C
+## 180  321ML073004    Southeast Council  mjlangsArts1Adv_semester         B
+## 181  321NW102103    Southeast Council  mjlangsArts1Adv_semester         A
+## 182  321RM121303    Southeast Council  mjlangsArts1Adv_semester         B
+## 183  312KC022304       Citrus Council  mjlangsArts1Adv_semester         B
+## 184  320AT101602 West Central Council      mjLangArts2_semester         D
+## 185  320AM072903 West Central Council      mjLangArts2_semester         C
+## 186  320AP030203 West Central Council      mjLangArts2_semester         F
+## 187  320CM120402 West Central Council      mjLangArts2_semester         F
+## 188  320DL112002 West Central Council      mjLangArts2_semester         B
+## 189  313ES060503      Gateway Council      mjLangArts2_semester         B
+## 190  313JS091402      Gateway Council      mjLangArts2_semester         B
+## 191  313JL032903      Gateway Council      mjLangArts2_semester         B
+## 192  313MP031502      Gateway Council      mjLangArts2_semester         B
+## 193  313NW122502      Gateway Council      mjLangArts2_semester         C
+## 194  313NM110602      Gateway Council      mjLangArts2_semester         C
+## 195  313ND012403      Gateway Council      mjLangArts2_semester         C
+## 196  313PK110102      Gateway Council      mjLangArts2_semester         C
+## 197  320JM102701 West Central Council      mjLangArts2_semester         D
+## 198  320NM101302 West Central Council      mjLangArts2_semester         C
+## 199  320NR060503 West Central Council      mjLangArts2_semester         F
+## 200  320RM080702 West Central Council      mjLangArts2_semester         C
+## 201  320TF073003 West Central Council      mjLangArts2_semester         C
+## 202  320DJ061302 West Central Council      mjLangArts2_semester         D
+## 203  313SW013103      Gateway Council      mjLangArts2_semester         B
+## 204  313TB112002      Gateway Council      mjLangArts2_semester         B
+## 205  313MG102902      Gateway Council      mjLangArts2_semester         B
+## 206  313GR040203      Gateway Council      mjLangArts2_semester         B
+## 207  313JP090103      Gateway Council      mjLangArts2_semester         C
+## 208  313BB040203      Gateway Council      mjLangArts2_semester         B
+## 209  313SJ060203      Gateway Council      mjLangArts2_semester         C
+## 210  313MB090202      Gateway Council      mjLangArts2_semester         C
+## 211  313SD010203      Gateway Council      mjLangArts2_semester         B
+## 212  313SS101702      Gateway Council      mjLangArts2_semester         C
+## 213  313ST122101      Gateway Council      mjLangArts2_semester         C
+## 214  313LJ090102      Gateway Council      mjLangArts2_semester         B
+## 215  313BB052401      Gateway Council      mjLangArts2_semester         B
+## 216  313SL102501      Gateway Council      mjLangArts2_semester         B
+## 217  313SJ092102      Gateway Council      mjLangArts2_semester         B
+## 218  313LM110402      Gateway Council      mjLangArts2_semester         C
+## 219  313SP101602      Gateway Council      mjLangArts2_semester         B
+## 220  313AN122002      Gateway Council      mjLangArts2_semester         B
+## 221  313AB112002      Gateway Council      mjLangArts2_semester         B
+## 222  313AH072703      Gateway Council      mjLangArts2_semester         B
+## 223  313DM020603      Gateway Council      mjLangArts2_semester         A
+## 224  313KD091402      Gateway Council      mjLangArts2_semester         B
+## 225  313KB121202      Gateway Council      mjLangArts2_semester         B
+## 226  313LH031502      Gateway Council      mjLangArts2_semester         B
+## 227  313MD120302      Gateway Council      mjLangArts2_semester         C
+## 228  313HW011803      Gateway Council      mjLangArts2_semester         B
+## 229  313NF070900      Gateway Council      mjLangArts2_semester         B
+## 230  313NB041502      Gateway Council      mjLangArts2_semester         C
+## 231  313SS081403      Gateway Council      mjLangArts2_semester         B
+## 232  313SS080202      Gateway Council      mjLangArts2_semester         B
+## 233  313VJ112402      Gateway Council      mjLangArts2_semester         B
+## 234  313AC082303      Gateway Council      mjLangArts2_semester         B
+## 235  313AF040403      Gateway Council      mjLangArts2_semester         A
+## 236  313CD122702      Gateway Council      mjLangArts2_semester         C
+## 237  313DJ031804      Gateway Council      mjLangArts2_semester         B
+## 238  313EG050502      Gateway Council      mjLangArts2_semester         C
+## 239  313ER122203      Gateway Council      mjLangArts2_semester         C
+## 240  313JP070503      Gateway Council      mjLangArts2_semester         B
+## 241  313JL110304      Gateway Council      mjLangArts2_semester         C
+## 242  313JM040603      Gateway Council      mjLangArts2_semester         B
+## 243  313JB122201      Gateway Council      mjLangArts2_semester         B
+## 244  313JD090803      Gateway Council      mjLangArts2_semester         C
+## 245  313JP011003      Gateway Council      mjLangArts2_semester         C
+## 246  313SH092302      Gateway Council      mjLangArts2_semester         C
+## 247  313TP102402      Gateway Council      mjLangArts2_semester         C
+## 248  313DG072603      Gateway Council      mjLangArts2_semester         B
+## 249  313DE100602      Gateway Council      mjLangArts2_semester         C
+## 250  313EC081602      Gateway Council      mjLangArts2_semester         A
+## 251  313KH120302      Gateway Council      mjLangArts2_semester         B
+## 252  313LE082703      Gateway Council      mjLangArts2_semester         B
+## 253  313MH120302      Gateway Council      mjLangArts2_semester         B
+## 254  313NB120901      Gateway Council      mjLangArts2_semester         C
+## 255  313TG012003      Gateway Council      mjLangArts2_semester         B
+## 256  313SY042303      Gateway Council      mjLangArts2_semester         B
+## 257  313AJ041002      Gateway Council      mjLangArts2_semester         B
+## 258  313TA020602      Gateway Council      mjLangArts2_semester         B
+## 259  313CB101103      Gateway Council      mjLangArts2_semester         B
+## 260  313MH120402      Gateway Council      mjLangArts2_semester         C
+## 261  313DL091702      Gateway Council      mjLangArts2_semester         B
+## 262  312AM062102       Citrus Council      mjLangArts2_semester         B
+## 263  312PM110402       Citrus Council      mjLangArts2_semester         B
+## 264  312CM100602       Citrus Council      mjLangArts2_semester         B
+## 265  312GB022203       Citrus Council      mjLangArts2_semester         B
+## 266  313BB082902      Gateway Council      mjLangArts2_semester         C
+## 267  313BB032502      Gateway Council      mjLangArts2_semester         B
+## 268  313CH080602      Gateway Council      mjLangArts2_semester         C
+## 269  313ET110102      Gateway Council      mjLangArts2_semester         C
+## 270  313HB022103      Gateway Council      mjLangArts2_semester         B
+## 271  313JH041802      Gateway Council      mjLangArts2_semester         C
+## 272  313JC012502      Gateway Council      mjLangArts2_semester         C
+## 273  313JH110902      Gateway Council      mjLangArts2_semester         B
+## 274  313BS041502      Gateway Council      mjLangArts2_semester         C
+## 275  313JW111002      Gateway Council      mjLangArts2_semester         C
+## 276  313SA080202      Gateway Council      mjLangArts2_semester         C
+## 277  313KD041503      Gateway Council      mjLangArts2_semester         B
+## 278  313JK122602      Gateway Council      mjLangArts2_semester         C
+## 279  313LM010502      Gateway Council      mjLangArts2_semester         C
+## 280  313ZJ050403      Gateway Council      mjLangArts2_semester         C
+## 281  313JT110202      Gateway Council      mjLangArts2_semester         C
+## 282  313JD120102      Gateway Council      mjLangArts2_semester         B
+## 283  313KD042102      Gateway Council      mjLangArts2_semester         B
+## 284  313KM080502      Gateway Council      mjLangArts2_semester         C
+## 285  313LS120601      Gateway Council      mjLangArts2_semester         C
+## 286  313AH082502      Gateway Council      mjLangArts2_semester         A
+## 287  313AV040903      Gateway Council      mjLangArts2_semester         B
+## 288  313AP090203      Gateway Council      mjLangArts2_semester         B
+## 289  313DC061403      Gateway Council      mjLangArts2_semester         B
+## 290  313HW090202      Gateway Council      mjLangArts2_semester         B
+## 291  313KJ012003      Gateway Council      mjLangArts2_semester         C
+## 292  313LP081302      Gateway Council      mjLangArts2_semester         B
+## 293  313TR122902      Gateway Council      mjLangArts2_semester         B
+## 294  313VJ061503      Gateway Council      mjLangArts2_semester         B
+## 295  320TJ071403 West Central Council      mjLangArts2_semester         C
+## 296  320SP032903 West Central Council      mjLangArts2_semester         B
+## 297  321DA090103    Southeast Council      mjLangArts2_semester         A
+## 298  321PA012503    Southeast Council      mjLangArts2_semester         B
+## 299  321CB090701    Southeast Council      mjLangArts2_semester         B
+## 300  321BB091003    Southeast Council      mjLangArts2_semester         A
+## 301  321CB042803    Southeast Council      mjLangArts2_semester         A
+## 302  321TC051403    Southeast Council      mjLangArts2_semester         A
+## 303  321MC030803    Southeast Council      mjLangArts2_semester         A
+## 304  321AD020803    Southeast Council      mjLangArts2_semester         B
+## 305  321JD101502    Southeast Council      mjLangArts2_semester         C
+## 306  321MD062803    Southeast Council      mjLangArts2_semester         A
+## 307  321SD111202    Southeast Council      mjLangArts2_semester         B
+## 308  321SE122801    Southeast Council      mjLangArts2_semester         A
+## 309  321DG010202    Southeast Council      mjLangArts2_semester         B
+## 310  321FJ011803    Southeast Council      mjLangArts2_semester         A
+## 311  321DJ032902    Southeast Council      mjLangArts2_semester         B
+## 312  321LL050202    Southeast Council      mjLangArts2_semester         B
+## 313  321SM012903    Southeast Council      mjLangArts2_semester         A
+## 314  321BM081003    Southeast Council      mjLangArts2_semester         B
+## 315  321MM092802    Southeast Council      mjLangArts2_semester         C
+## 316  321KG030902    Southeast Council      mjLangArts2_semester         B
+## 317  321JM100202    Southeast Council      mjLangArts2_semester         B
+## 318  321JP061803    Southeast Council      mjLangArts2_semester         B
+## 319  321PP043003    Southeast Council      mjLangArts2_semester         B
+## 320  321SP121202    Southeast Council      mjLangArts2_semester         C
+## 321  321LU022702    Southeast Council      mjLangArts2_semester         C
+## 322  321AV122302    Southeast Council      mjLangArts2_semester         A
+## 323  321ZW050102    Southeast Council      mjLangArts2_semester         A
+## 324  321SW013102    Southeast Council      mjLangArts2_semester         B
+## 325  312KM012003       Citrus Council      mjLangArts2_semester         A
+## 326  312DR012403       Citrus Council      mjLangArts2_semester         C
+## 327  312AG052703       Citrus Council      mjLangArts2_semester         B
+## 328  312AW060903       Citrus Council      mjLangArts2_semester         C
+## 329  319AA060205     Tropical Council      mjLangArts2_semester         C
+## 330  319MS102201     Tropical Council      mjLangArts2_semester         C
+## 331  319BL101001     Tropical Council      mjLangArts2_semester         C
+## 332  312SC061204       Citrus Council      mjLangArts2_semester         B
+## 333  312IR050703       Citrus Council      mjLangArts2_semester         B
+## 334  320AB061103 West Central Council   mjLangArts2Adv_semester         A
+## 335  320BR072103 West Central Council   mjLangArts2Adv_semester         A
+## 336  320DM041603 West Central Council   mjLangArts2Adv_semester         B
+## 337  320IW012403 West Central Council   mjLangArts2Adv_semester         A
+## 338  320IR061103 West Central Council   mjLangArts2Adv_semester         A
+## 339  313FF120202      Gateway Council   mjLangArts2Adv_semester         C
+## 340  313LF071302      Gateway Council   mjLangArts2Adv_semester         B
+## 341  320KW122401 West Central Council   mjLangArts2Adv_semester         A
+## 342  320KG080703 West Central Council   mjLangArts2Adv_semester         C
+## 343  320MB030803 West Central Council   mjLangArts2Adv_semester         C
+## 344  313RL062003      Gateway Council   mjLangArts2Adv_semester         B
+## 345  313AJ100301      Gateway Council   mjLangArts2Adv_semester         B
+## 346  312AM111202       Citrus Council   mjLangArts2Adv_semester         B
+## 347  312FS020503       Citrus Council   mjLangArts2Adv_semester         A
+## 348  313MY060702      Gateway Council   mjLangArts2Adv_semester         A
+## 349  313KC111302      Gateway Council   mjLangArts2Adv_semester         B
+## 350  320RG071003 West Central Council   mjLangArts2Adv_semester         A
+## 351  302DW112402 West Central Council   mjLangArts2Adv_semester         A
+## 352  320SD031803 West Central Council   mjLangArts2Adv_semester         C
+## 353  320BA100102 West Central Council   mjLangArts2Adv_semester         A
+## 354  320SB020803 West Central Council   mjLangArts2Adv_semester         B
+## 355  320SB122902 West Central Council   mjLangArts2Adv_semester         C
+## 356  320GC121002 West Central Council   mjLangArts2Adv_semester         B
+## 357  320TY071903 West Central Council   mjLangArts2Adv_semester         A
+## 358  320RM112402 West Central Council   mjLangArts2Adv_semester         A
+## 359  320NL051303 West Central Council   mjLangArts2Adv_semester         B
+## 360  320TH032403 West Central Council   mjLangArts2Adv_semester         A
+## 361  320HG052803 West Central Council   mjLangArts2Adv_semester         A
+## 362  320AG061103 West Central Council   mjLangArts2Adv_semester         A
+## 363  320YT091702 West Central Council   mjLangArts2Adv_semester         B
+## 364  320FB012202 West Central Council   mjLangArts2Adv_semester         D
+## 365  321DM121902    Southeast Council   mjLangArts2Adv_semester         B
+## 366  321TS010703    Southeast Council   mjLangArts2Adv_semester         A
+## 367  321DS012802    Southeast Council   mjLangArts2Adv_semester         B
+## 368  321JV021803    Southeast Council   mjLangArts2Adv_semester         B
+## 369  312LP021703       Citrus Council   mjLangArts2Adv_semester         A
+## 370  313DW060502      Gateway Council      mjLangArts3_semester         B
+## 371  313HB060202      Gateway Council      mjLangArts3_semester         B
+## 372  313JB091302      Gateway Council      mjLangArts3_semester         C
+## 373  313JR060502      Gateway Council      mjLangArts3_semester         B
+## 374  313AK052902      Gateway Council      mjLangArts3_semester         B
+## 375  313CW020602      Gateway Council      mjLangArts3_semester         C
+## 376  313CF080102      Gateway Council      mjLangArts3_semester         B
+## 377  313TG072302      Gateway Council      mjLangArts3_semester         C
+## 378  313MM110400      Gateway Council      mjLangArts3_semester         C
+## 379  313YJ062501      Gateway Council      mjLangArts3_semester         C
+## 380  313RL060201      Gateway Council      mjLangArts3_semester         C
+## 381  313AJ061101      Gateway Council      mjLangArts3_semester         B
+## 382  313AN060301      Gateway Council      mjLangArts3_semester         B
+## 383  313RB031401      Gateway Council      mjLangArts3_semester         C
+## 384  313AB071302      Gateway Council      mjLangArts3_semester         C
+## 385  313BC082900      Gateway Council      mjLangArts3_semester         B
+## 386  313SS080601      Gateway Council      mjLangArts3_semester         B
+## 387  313TR060701      Gateway Council      mjLangArts3_semester         B
+## 388  313NM092901      Gateway Council      mjLangArts3_semester         A
+## 389  313AA091300      Gateway Council      mjLangArts3_semester         B
+## 390  313AE070802      Gateway Council      mjLangArts3_semester         C
+## 391  313BH042702      Gateway Council      mjLangArts3_semester         C
+## 392  313DJ013001      Gateway Council      mjLangArts3_semester         C
+## 393  313DB013101      Gateway Council      mjLangArts3_semester         C
+## 394  313DL122400      Gateway Council      mjLangArts3_semester         C
+## 395  313DW020202      Gateway Council      mjLangArts3_semester         B
+## 396  313FS043002      Gateway Council      mjLangArts3_semester         C
+## 397  313GT051001      Gateway Council      mjLangArts3_semester         B
+## 398  313HH091900      Gateway Council      mjLangArts3_semester         B
+## 399  313JW081700      Gateway Council      mjLangArts3_semester         C
+## 400  313LG040801      Gateway Council      mjLangArts3_semester         B
+## 401  313MB050801      Gateway Council      mjLangArts3_semester         A
+## 402  313NS050901      Gateway Council      mjLangArts3_semester         C
+## 403  313QB062902      Gateway Council      mjLangArts3_semester         B
+## 404  313SS102000      Gateway Council      mjLangArts3_semester         B
+## 405  313TA042602      Gateway Council      mjLangArts3_semester         B
+## 406  320AB041702 West Central Council      mjLangArts3_semester         B
+## 407  320DW031301 West Central Council      mjLangArts3_semester         B
+## 408  320HP121201 West Central Council      mjLangArts3_semester         B
+## 409  320IL010602 West Central Council      mjLangArts3_semester         B
+## 410  320AF092500 West Central Council      mjLangArts3_semester         C
+## 411  320SC121301 West Central Council      mjLangArts3_semester         A
+## 412  320SN020402 West Central Council      mjLangArts3_semester         B
+## 413  320SL061102 West Central Council      mjLangArts3_semester         B
+## 414  3207M043002 West Central Council      mjLangArts3_semester         B
+## 415  313DY100502      Gateway Council      mjLangArts3_semester         B
+## 416  313ER111602      Gateway Council      mjLangArts3_semester         B
+## 417  313JD042302      Gateway Council      mjLangArts3_semester         B
+## 418  313JS103001      Gateway Council      mjLangArts3_semester         C
+## 419  313JR021003      Gateway Council      mjLangArts3_semester         B
+## 420  313JR081602      Gateway Council      mjLangArts3_semester         C
+## 421  313PM082503      Gateway Council      mjLangArts3_semester         C
+## 422  313AL042602      Gateway Council      mjLangArts3_semester         B
+## 423  313BS033102      Gateway Council      mjLangArts3_semester         C
+## 424  313BS013101      Gateway Council      mjLangArts3_semester         C
+## 425  313CP050801      Gateway Council      mjLangArts3_semester         C
+## 426  313EH121700      Gateway Council      mjLangArts3_semester         A
+## 427  313HR070802      Gateway Council      mjLangArts3_semester         B
+## 428  313MS033102      Gateway Council      mjLangArts3_semester         B
+## 429  313TW111601      Gateway Council      mjLangArts3_semester         B
+## 430  313AJ111601      Gateway Council      mjLangArts3_semester         B
+## 431  313HB081401      Gateway Council      mjLangArts3_semester         B
+## 432  313JJ051600      Gateway Council      mjLangArts3_semester         B
+## 433  313DM081401      Gateway Council      mjLangArts3_semester         C
+## 434  313BN052400      Gateway Council      mjLangArts3_semester         C
+## 435  313DM081501      Gateway Council      mjLangArts3_semester         C
+## 436  312KN121401       Citrus Council      mjLangArts3_semester         B
+## 437  312DJ101301       Citrus Council      mjLangArts3_semester         B
+## 438  312AA071702       Citrus Council      mjLangArts3_semester         C
+## 439  312JF031602       Citrus Council      mjLangArts3_semester         A
+## 440  313BM102701      Gateway Council      mjLangArts3_semester         B
+## 441  313JR112301      Gateway Council      mjLangArts3_semester         C
+## 442  313LD102701      Gateway Council      mjLangArts3_semester         B
+## 443  313AJ120702      Gateway Council      mjLangArts3_semester         C
+## 444  313AC020102      Gateway Council      mjLangArts3_semester         B
+## 445  313MK050201      Gateway Council      mjLangArts3_semester         C
+## 446  313OM070501      Gateway Council      mjLangArts3_semester         C
+## 447  313PS090801      Gateway Council      mjLangArts3_semester         B
+## 448  313EM050301      Gateway Council      mjLangArts3_semester         C
+## 449  313AJ032101      Gateway Council      mjLangArts3_semester         C
+## 450  313JB090301      Gateway Council      mjLangArts3_semester         C
+## 451  313AF070302      Gateway Council      mjLangArts3_semester         B
+## 452  313AH090402      Gateway Council      mjLangArts3_semester         B
+## 453  313AR080201      Gateway Council      mjLangArts3_semester         B
+## 454  313KC010603      Gateway Council      mjLangArts3_semester         B
+## 455  313MG090502      Gateway Council      mjLangArts3_semester         B
+## 456  320RR110901 West Central Council      mjLangArts3_semester         C
+## 457  320CK031402 West Central Council      mjLangArts3_semester         B
+## 458  320SM030502 West Central Council      mjLangArts3_semester         C
+## 459  320AH013102 West Central Council      mjLangArts3_semester         A
+## 460  320AM110403 West Central Council      mjLangArts3_semester         C
+## 461  321SA080701    Southeast Council      mjLangArts3_semester         D
+## 462  321CA061801    Southeast Council      mjLangArts3_semester         D
+## 463  321TA121501    Southeast Council      mjLangArts3_semester         C
+## 464  321FB061802    Southeast Council      mjLangArts3_semester         A
+## 465  321JC043001    Southeast Council      mjLangArts3_semester         D
+## 466  321FC060101    Southeast Council      mjLangArts3_semester         C
+## 467  321SC092001    Southeast Council      mjLangArts3_semester         F
+## 468  321BD122700    Southeast Council      mjLangArts3_semester         B
+## 469  321RF031302    Southeast Council      mjLangArts3_semester         A
+## 470  321MG081303    Southeast Council      mjLangArts3_semester         B
+## 471  321AI022702    Southeast Council      mjLangArts3_semester         D
+## 472  321JJ051601    Southeast Council      mjLangArts3_semester         A
+## 473  321NJ032201    Southeast Council      mjLangArts3_semester         B
+## 474  321NC101201    Southeast Council      mjLangArts3_semester         B
+## 475  321NE031201    Southeast Council      mjLangArts3_semester         B
+## 476  321BL051301    Southeast Council      mjLangArts3_semester         A
+## 477  321NL052800    Southeast Council      mjLangArts3_semester         D
+## 478  321JR042402    Southeast Council      mjLangArts3_semester         B
+## 479  321RM011802    Southeast Council      mjLangArts3_semester         A
+## 480  321KM121501    Southeast Council      mjLangArts3_semester         A
+## 481  321GC050202    Southeast Council      mjLangArts3_semester         C
+## 482  321DD121800    Southeast Council      mjLangArts3_semester         C
+## 483  321CG082901    Southeast Council      mjLangArts3_semester         C
+## 484  321IP051602    Southeast Council      mjLangArts3_semester         B
+## 485  321CG111501    Southeast Council      mjLangArts3_semester         B
+## 486  321KG120501    Southeast Council      mjLangArts3_semester         B
+## 487  321RP082102    Southeast Council      mjLangArts3_semester         C
+## 488  321JJ071102    Southeast Council      mjLangArts3_semester         B
+## 489  321CJ042201    Southeast Council      mjLangArts3_semester         B
+## 490  321JR051302    Southeast Council      mjLangArts3_semester         B
+## 491  321BR081401    Southeast Council      mjLangArts3_semester         B
+## 492  321IJ071800    Southeast Council      mjLangArts3_semester         B
+## 493  321RJ011800    Southeast Council      mjLangArts3_semester         D
+## 494  321AT022802    Southeast Council      mjLangArts3_semester         B
+## 495  321RL121002    Southeast Council      mjLangArts3_semester         B
+## 496  321NT052302    Southeast Council      mjLangArts3_semester         A
+## 497  321DM092301    Southeast Council      mjLangArts3_semester         C
+## 498  321AW022601    Southeast Council      mjLangArts3_semester         C
+## 499  312ZT060802       Citrus Council      mjLangArts3_semester         B
+## 500  312DW011802       Citrus Council      mjLangArts3_semester         C
+## 501  312KC120201       Citrus Council      mjLangArts3_semester         B
+## 502  319TG022603     Tropical Council      mjLangArts3_semester         D
+## 503  319ER030102     Tropical Council      mjLangArts3_semester         C
+## 504  319ER012402     Tropical Council      mjLangArts3_semester         C
+## 505  319PM092501     Tropical Council      mjLangArts3_semester         C
+## 506  319SV011602     Tropical Council      mjLangArts3_semester         C
+## 507  319LV030601     Tropical Council      mjLangArts3_semester         C
+## 508  312GW020701       Citrus Council      mjLangArts3_semester         B
+## 509  312ME122299       Citrus Council      mjLangArts3_semester         B
+## 510  321TM022201    Southeast Council      mjLangArts3_semester         A
+## 511  321AW080402    Southeast Council      mjLangArts3_semester         D
+## 512  313JB090402      Gateway Council   mjLangArts3Adv_semester         B
+## 513  313JG070402      Gateway Council   mjLangArts3Adv_semester         B
+## 514  313AD050602      Gateway Council   mjLangArts3Adv_semester         B
+## 515  313MD100300      Gateway Council   mjLangArts3Adv_semester         B
+## 516  320AF050702 West Central Council   mjLangArts3Adv_semester         A
+## 517  320AW063002 West Central Council   mjLangArts3Adv_semester         A
+## 518  320GE021302 West Central Council   mjLangArts3Adv_semester         A
+## 519  320JR062102 West Central Council   mjLangArts3Adv_semester         B
+## 520  320KC050902 West Central Council   mjLangArts3Adv_semester         A
+## 521  320KA081802 West Central Council   mjLangArts3Adv_semester         A
+## 522  320MH081602 West Central Council   mjLangArts3Adv_semester         B
+## 523  320MB011702 West Central Council   mjLangArts3Adv_semester         A
+## 524 320NT0043002 West Central Council   mjLangArts3Adv_semester         A
+## 525  320SS110101 West Central Council   mjLangArts3Adv_semester         A
+## 526  320SB093001 West Central Council   mjLangArts3Adv_semester         A
+## 527  320YC042602 West Central Council   mjLangArts3Adv_semester         B
+## 528  320ZP050602 West Central Council   mjLangArts3Adv_semester         B
+## 529  312JS013102       Citrus Council   mjLangArts3Adv_semester         B
+## 530  312JV032902       Citrus Council   mjLangArts3Adv_semester         C
+## 531  313AG040602      Gateway Council   mjLangArts3Adv_semester         B
+## 532  320JN030502 West Central Council   mjLangArts3Adv_semester         A
+## 533  320AF062602 West Central Council   mjLangArts3Adv_semester         C
+## 534  320NC011102 West Central Council   mjLangArts3Adv_semester         B
+## 535  320DP041202 West Central Council   mjLangArts3Adv_semester         A
+## 536  320JW033002 West Central Council   mjLangArts3Adv_semester         A
+## 537  320KJ022602 West Central Council   mjLangArts3Adv_semester         B
+## 538  320KO071502 West Central Council   mjLangArts3Adv_semester         B
+## 539  320JL052202 West Central Council   mjLangArts3Adv_semester         B
+## 540  320VT121102 West Central Council   mjLangArts3Adv_semester         A
+## 541  320LS082302 West Central Council   mjLangArts3Adv_semester         A
+## 542  320YS111401 West Central Council   mjLangArts3Adv_semester         A
+## 543  320DY030802 West Central Council   mjLangArts3Adv_semester         B
+## 544  320MG041902     Tropical Council   mjLangArts3Adv_semester         B
+## 545  320PG021002 West Central Council   mjLangArts3Adv_semester         C
+## 546  321JA091201    Southeast Council   mjLangArts3Adv_semester         C
+## 547  321AD022202    Southeast Council   mjLangArts3Adv_semester         A
+## 548  321LD090102    Southeast Council   mjLangArts3Adv_semester         B
+## 549  321SH032201    Southeast Council   mjLangArts3Adv_semester         C
+## 550  321SJ032501    Southeast Council   mjLangArts3Adv_semester         B
+## 551  321KN101601    Southeast Council   mjLangArts3Adv_semester         B
+## 552  321EN012402    Southeast Council   mjLangArts3Adv_semester         B
+## 553  321SP071002    Southeast Council   mjLangArts3Adv_semester         A
+## 554  321LS110601    Southeast Council   mjLangArts3Adv_semester         B
+## 555  321DK121300    Southeast Council   mjLangArts3Adv_semester         C
+## 556  321TT051801    Southeast Council   mjLangArts3Adv_semester         B
+## 557  321AW010102    Southeast Council   mjLangArts3Adv_semester         B
+## 558  321AW110701    Southeast Council   mjLangArts3Adv_semester         A
+## 559  321SW081001    Southeast Council   mjLangArts3Adv_semester         B
+## 560  312AL061102       Citrus Council   mjLangArts3Adv_semester         B
+## 561  312AS030202       Citrus Council   mjLangArts3Adv_semester         B
+## 562  312ZS011902       Citrus Council   mjLangArts3Adv_semester         B
+## 563  312RN011302       Citrus Council   mjLangArts3Adv_semester         B
+## 564  312AR090501       Citrus Council   mjLangArts3Adv_semester         B
+## 565  313KF050203      Gateway Council mjIntensLangArts_semester         C
+## 566  313OF022803      Gateway Council mjIntensLangArts_semester         C
+## 567  320SA080203 West Central Council mjIntensLangArts_semester         B
+## 568  320JD061002 West Central Council mjIntensLangArts_semester         D
+## 569  320AM091902 West Central Council mjIntensLangArts_semester         C
+## 570  321MA081902    Southeast Council mjIntensLangArts_semester         A
+## 571  321SA022402    Southeast Council mjIntensLangArts_semester         B
+## 572  321SB031102    Southeast Council mjIntensLangArts_semester         B
+## 573  321TC011203    Southeast Council mjIntensLangArts_semester         A
+## 574  321CF051501    Southeast Council mjIntensLangArts_semester         B
+## 575  321AG111402    Southeast Council mjIntensLangArts_semester         B
+## 576  321VG060702    Southeast Council mjIntensLangArts_semester         B
+## 577  321RJ081099    Southeast Council mjIntensLangArts_semester         A
+## 578  321NO010803    Southeast Council mjIntensLangArts_semester         B
+## 579  321MW112701    Southeast Council mjIntensLangArts_semester         C
+## 580  319AS092801     Tropical Council mjIntensLangArts_semester         C</code></pre>
 <pre class="r"><code>dim(mq4_lang_all)</code></pre>
-<pre><code>## [1] 367   4</code></pre>
+<pre><code>## [1] 584   4</code></pre>
 </div>
 </div>
 <div id="calculate-grade-points-language-arts-courses" class="section level2">
@@ -1459,388 +1818,1190 @@ mq4_lang_all &lt;- cbind(mq4_lang_all, lang_pts4) #bind return value with df.
 
 head(mq4_lang_all) #review</code></pre>
 <pre><code>##         girlCode              council         langCourses langGrade
-## 3184 320GD120203 West Central Council mjLangArts1_quarter         C
-## 3189 320CF032904 West Central Council mjLangArts1_quarter         B
-## 3190 320KF052703 West Central Council mjLangArts1_quarter         C
-## 3286 320TM060203 West Central Council mjLangArts1_quarter         A
-## 3291 320NR030504 West Central Council mjLangArts1_quarter         F
-## 3301 320AW050904 West Central Council mjLangArts1_quarter         C
+## 4912 320GD120203 West Central Council mjLangArts1_quarter         C
+## 4917 320CF032904 West Central Council mjLangArts1_quarter         B
+## 4918 320KF052703 West Central Council mjLangArts1_quarter         C
+## 5014 320TM060203 West Central Council mjLangArts1_quarter         A
+## 5019 320NR030504 West Central Council mjLangArts1_quarter         F
+## 5029 320AW050904 West Central Council mjLangArts1_quarter         C
 ##      lang_pts4
-## 3184         2
-## 3189         3
-## 3190         2
-## 3286         4
-## 3291         0
-## 3301         2</code></pre>
+## 4912         2
+## 4917         3
+## 4918         2
+## 5014         4
+## 5019         0
+## 5029         2</code></pre>
 <pre class="r"><code>aggregate(lang_pts4~girlCode+council+langCourses , mq4_lang_all, mean)</code></pre>
-<pre><code>##         girlCode              council               langCourses lang_pts4
-## 1    312BA070703       Citrus Council  mjLangArts2ESOL_semester         4
-## 2    312BJ021603       Citrus Council  mjLangArts2ESOL_semester         4
-## 3    312MJ092702       Citrus Council  mjLangArts3ESOL_semester         2
-## 4    320AW050904 West Central Council       mjLangArts1_quarter         2
-## 5    320CF032904 West Central Council       mjLangArts1_quarter         3
-## 6    320GD120203 West Central Council       mjLangArts1_quarter         2
-## 7    320KF052703 West Central Council       mjLangArts1_quarter         2
-## 8    320NR030504 West Central Council       mjLangArts1_quarter         0
-## 9    320TM060203 West Central Council       mjLangArts1_quarter         4
-## 10   313AA041803      Gateway Council      mjLangArts1_semester         2
-## 11   313AB050904      Gateway Council      mjLangArts1_semester         3
-## 12   313AB060404      Gateway Council      mjLangArts1_semester         2
-## 13   313AB062704      Gateway Council      mjLangArts1_semester         2
-## 14   313AC080304      Gateway Council      mjLangArts1_semester         2
-## 15   313AC103103      Gateway Council      mjLangArts1_semester         2
-## 16   313AE041502      Gateway Council      mjLangArts1_semester         3
-## 17   313AE050404      Gateway Council      mjLangArts1_semester         3
-## 18   313AH052504      Gateway Council      mjLangArts1_semester         3
-## 19   313AH082204      Gateway Council      mjLangArts1_semester         3
-## 20   313AJ100704      Gateway Council      mjLangArts1_semester         3
-## 21   313AJ111203      Gateway Council      mjLangArts1_semester         3
-## 22   313AJ111803      Gateway Council      mjLangArts1_semester         2
-## 23   313AM022202      Gateway Council      mjLangArts1_semester         2
-## 24   313AM030805      Gateway Council      mjLangArts1_semester         2
-## 25   313AN121503      Gateway Council      mjLangArts1_semester         3
-## 26   313AP042602      Gateway Council      mjLangArts1_semester         2
-## 27   313AW060203      Gateway Council      mjLangArts1_semester         3
-## 28   313BB032805      Gateway Council      mjLangArts1_semester         2
-## 29   313BC040204      Gateway Council      mjLangArts1_semester         3
-## 30   313BM050404      Gateway Council      mjLangArts1_semester         3
-## 31   313CC032104      Gateway Council      mjLangArts1_semester         3
-## 32   313CD032504      Gateway Council      mjLangArts1_semester         3
-## 33   313CJ081604      Gateway Council      mjLangArts1_semester         3
-## 34   313CM120103      Gateway Council      mjLangArts1_semester         3
-## 35   313DF063004      Gateway Council      mjLangArts1_semester         3
-## 36   313DM031404      Gateway Council      mjLangArts1_semester         3
-## 37   313DP021104      Gateway Council      mjLangArts1_semester         3
-## 38   313DP102903      Gateway Council      mjLangArts1_semester         2
-## 39   313EO080204      Gateway Council      mjLangArts1_semester         3
-## 40   313GW050404      Gateway Council      mjLangArts1_semester         2
-## 41   313IA091203      Gateway Council      mjLangArts1_semester         3
-## 42   313IH091404      Gateway Council      mjLangArts1_semester         2
-## 43   313IJ090703      Gateway Council      mjLangArts1_semester         3
-## 44   313JB060403      Gateway Council      mjLangArts1_semester         2
-## 45   313JC121003      Gateway Council      mjLangArts1_semester         3
-## 46   313JD052803      Gateway Council      mjLangArts1_semester         2
-## 47   313JG111203      Gateway Council      mjLangArts1_semester         2
-## 48   313JH050703      Gateway Council      mjLangArts1_semester         3
-## 49   313JM072404      Gateway Council      mjLangArts1_semester         2
-## 50   313JS100203      Gateway Council      mjLangArts1_semester         2
-## 51   313JT110402      Gateway Council      mjLangArts1_semester         2
-## 52   313JW081804      Gateway Council      mjLangArts1_semester         3
-## 53   313JY070403      Gateway Council      mjLangArts1_semester         1
-## 54   313KA090203      Gateway Council      mjLangArts1_semester         3
-## 55   313KE040805      Gateway Council      mjLangArts1_semester         2
-## 56   313KG061204      Gateway Council      mjLangArts1_semester         3
-## 57   313KH032104      Gateway Council      mjLangArts1_semester         3
-## 58   313KM011503      Gateway Council      mjLangArts1_semester         3
-## 59   313KS081404      Gateway Council      mjLangArts1_semester         3
-## 60   313KT082103      Gateway Council      mjLangArts1_semester         3
-## 61   313LC041404      Gateway Council      mjLangArts1_semester         3
-## 62   313LF022804      Gateway Council      mjLangArts1_semester         3
-## 63   313LL121002      Gateway Council      mjLangArts1_semester         2
-## 64   313LS021104      Gateway Council      mjLangArts1_semester         3
-## 65   313LS090504      Gateway Council      mjLangArts1_semester         2
-## 66   313MA082702      Gateway Council      mjLangArts1_semester         2
-## 67   313MA090303      Gateway Council      mjLangArts1_semester         3
-## 68   313MD050604      Gateway Council      mjLangArts1_semester         2
-## 69   313MM071604      Gateway Council      mjLangArts1_semester         2
-## 70   313MN060203      Gateway Council      mjLangArts1_semester         2
-## 71   313MS031104      Gateway Council      mjLangArts1_semester         3
-## 72   313NH071604      Gateway Council      mjLangArts1_semester         3
-## 73   313NW110203      Gateway Council      mjLangArts1_semester         4
-## 74   313PW072304      Gateway Council      mjLangArts1_semester         3
-## 75   313RE011302      Gateway Council      mjLangArts1_semester         3
-## 76   313RH032805      Gateway Council      mjLangArts1_semester         3
-## 77   313RN100203      Gateway Council      mjLangArts1_semester         3
-## 78   313SF120603      Gateway Council      mjLangArts1_semester         3
-## 79   313SJ102903      Gateway Council      mjLangArts1_semester         2
-## 80   313SR051403      Gateway Council      mjLangArts1_semester         4
-## 81   313SS111303      Gateway Council      mjLangArts1_semester         3
-## 82   313ST020303      Gateway Council      mjLangArts1_semester         3
-## 83   313SW021304      Gateway Council      mjLangArts1_semester         3
-## 84   313SW080304      Gateway Council      mjLangArts1_semester         3
-## 85   313SW083004      Gateway Council      mjLangArts1_semester         3
-## 86   313SW091702      Gateway Council      mjLangArts1_semester         2
-## 87   313TA060203      Gateway Council      mjLangArts1_semester         3
-## 88   313TA120503      Gateway Council      mjLangArts1_semester         3
-## 89   313TC071503      Gateway Council      mjLangArts1_semester         2
-## 90   313TD073104      Gateway Council      mjLangArts1_semester         3
-## 91   313TG041203      Gateway Council      mjLangArts1_semester         3
-## 92   313TG053004      Gateway Council      mjLangArts1_semester         3
-## 93   313TG091001      Gateway Council      mjLangArts1_semester         2
-## 94   313TH082203      Gateway Council      mjLangArts1_semester         3
-## 95   313TS010303      Gateway Council      mjLangArts1_semester         3
-## 96   313TW060904      Gateway Council      mjLangArts1_semester         3
-## 97   313YJ031404      Gateway Council      mjLangArts1_semester         2
-## 98   320AH081702 West Central Council       mjLangArts2_quarter         0
-## 99   320BR031803 West Central Council       mjLangArts2_quarter         4
-## 100  320DH042501 West Central Council       mjLangArts2_quarter         4
-## 101  320ER121001 West Central Council       mjLangArts2_quarter         2
-## 102  320HS082803 West Central Council       mjLangArts2_quarter         1
-## 103  320II081302 West Central Council       mjLangArts2_quarter         4
-## 104  320LS042403 West Central Council       mjLangArts2_quarter         3
-## 105  320LS111202 West Central Council       mjLangArts2_quarter         4
-## 106  320RD020603 West Central Council       mjLangArts2_quarter         3
-## 107  320SA122401 West Central Council       mjLangArts2_quarter         4
-## 108  320SB100701 West Central Council       mjLangArts2_quarter         2
-## 109  320SE081902 West Central Council       mjLangArts2_quarter         3
-## 110  312AM062102       Citrus Council      mjLangArts2_semester         3
-## 111  312CM100602       Citrus Council      mjLangArts2_semester         3
-## 112  312GB022203       Citrus Council      mjLangArts2_semester         3
-## 113  312PM110402       Citrus Council      mjLangArts2_semester         3
-## 114  313AB112002      Gateway Council      mjLangArts2_semester         3
-## 115  313AC082303      Gateway Council      mjLangArts2_semester         3
-## 116  313AF040403      Gateway Council      mjLangArts2_semester         4
-## 117  313AH072703      Gateway Council      mjLangArts2_semester         3
-## 118  313AH082502      Gateway Council      mjLangArts2_semester         4
-## 119  313AJ041002      Gateway Council      mjLangArts2_semester         3
-## 120  313AN122002      Gateway Council      mjLangArts2_semester         3
-## 121  313AP090203      Gateway Council      mjLangArts2_semester         3
-## 122  313AV040903      Gateway Council      mjLangArts2_semester         3
-## 123  313BB032502      Gateway Council      mjLangArts2_semester         3
-## 124  313BB040203      Gateway Council      mjLangArts2_semester         3
-## 125  313BB052401      Gateway Council      mjLangArts2_semester         3
-## 126  313BB082902      Gateway Council      mjLangArts2_semester         2
-## 127  313BS041502      Gateway Council      mjLangArts2_semester         2
-## 128  313CB101103      Gateway Council      mjLangArts2_semester         3
-## 129  313CD122702      Gateway Council      mjLangArts2_semester         2
-## 130  313CH080602      Gateway Council      mjLangArts2_semester         2
-## 131  313DC061403      Gateway Council      mjLangArts2_semester         3
-## 132  313DE100602      Gateway Council      mjLangArts2_semester         2
-## 133  313DG072603      Gateway Council      mjLangArts2_semester         3
-## 134  313DJ031804      Gateway Council      mjLangArts2_semester         3
-## 135  313DL091702      Gateway Council      mjLangArts2_semester         3
-## 136  313DM020603      Gateway Council      mjLangArts2_semester         4
-## 137  313EC081602      Gateway Council      mjLangArts2_semester         4
-## 138  313EG050502      Gateway Council      mjLangArts2_semester         2
-## 139  313ER122203      Gateway Council      mjLangArts2_semester         2
-## 140  313ES060503      Gateway Council      mjLangArts2_semester         3
-## 141  313ET110102      Gateway Council      mjLangArts2_semester         2
-## 142  313GR040203      Gateway Council      mjLangArts2_semester         3
-## 143  313HB022103      Gateway Council      mjLangArts2_semester         3
-## 144  313HW011803      Gateway Council      mjLangArts2_semester         3
-## 145  313HW090202      Gateway Council      mjLangArts2_semester         3
-## 146  313JB122201      Gateway Council      mjLangArts2_semester         3
-## 147  313JC012502      Gateway Council      mjLangArts2_semester         2
-## 148  313JD090803      Gateway Council      mjLangArts2_semester         2
-## 149  313JD120102      Gateway Council      mjLangArts2_semester         3
-## 150  313JH041802      Gateway Council      mjLangArts2_semester         2
-## 151  313JH110902      Gateway Council      mjLangArts2_semester         3
-## 152  313JK122602      Gateway Council      mjLangArts2_semester         2
-## 153  313JL032903      Gateway Council      mjLangArts2_semester         3
-## 154  313JL110304      Gateway Council      mjLangArts2_semester         2
-## 155  313JM040603      Gateway Council      mjLangArts2_semester         3
-## 156  313JP011003      Gateway Council      mjLangArts2_semester         2
-## 157  313JP070503      Gateway Council      mjLangArts2_semester         3
-## 158  313JP090103      Gateway Council      mjLangArts2_semester         2
-## 159  313JS091402      Gateway Council      mjLangArts2_semester         3
-## 160  313JT110202      Gateway Council      mjLangArts2_semester         2
-## 161  313JW111002      Gateway Council      mjLangArts2_semester         2
-## 162  313KB121202      Gateway Council      mjLangArts2_semester         3
-## 163  313KD041503      Gateway Council      mjLangArts2_semester         3
-## 164  313KD042102      Gateway Council      mjLangArts2_semester         3
-## 165  313KD091402      Gateway Council      mjLangArts2_semester         3
-## 166  313KH120302      Gateway Council      mjLangArts2_semester         3
-## 167  313KJ012003      Gateway Council      mjLangArts2_semester         2
-## 168  313KM080502      Gateway Council      mjLangArts2_semester         2
-## 169  313LE082703      Gateway Council      mjLangArts2_semester         3
-## 170  313LH031502      Gateway Council      mjLangArts2_semester         3
-## 171  313LJ090102      Gateway Council      mjLangArts2_semester         3
-## 172  313LM010502      Gateway Council      mjLangArts2_semester         2
-## 173  313LM110402      Gateway Council      mjLangArts2_semester         2
-## 174  313LP081302      Gateway Council      mjLangArts2_semester         3
-## 175  313LS120601      Gateway Council      mjLangArts2_semester         2
-## 176  313MB090202      Gateway Council      mjLangArts2_semester         2
-## 177  313MD120302      Gateway Council      mjLangArts2_semester         2
-## 178  313MG102902      Gateway Council      mjLangArts2_semester         3
-## 179  313MH120302      Gateway Council      mjLangArts2_semester         3
-## 180  313MH120402      Gateway Council      mjLangArts2_semester         2
-## 181  313MP031502      Gateway Council      mjLangArts2_semester         3
-## 182  313NB041502      Gateway Council      mjLangArts2_semester         2
-## 183  313NB120901      Gateway Council      mjLangArts2_semester         2
-## 184  313ND012403      Gateway Council      mjLangArts2_semester         2
-## 185  313NF070900      Gateway Council      mjLangArts2_semester         3
-## 186  313NM110602      Gateway Council      mjLangArts2_semester         2
-## 187  313NW122502      Gateway Council      mjLangArts2_semester         2
-## 188  313PK110102      Gateway Council      mjLangArts2_semester         2
-## 189  313SA080202      Gateway Council      mjLangArts2_semester         2
-## 190  313SD010203      Gateway Council      mjLangArts2_semester         3
-## 191  313SH092302      Gateway Council      mjLangArts2_semester         2
-## 192  313SJ060203      Gateway Council      mjLangArts2_semester         2
-## 193  313SJ092102      Gateway Council      mjLangArts2_semester         3
-## 194  313SL102501      Gateway Council      mjLangArts2_semester         3
-## 195  313SP101602      Gateway Council      mjLangArts2_semester         3
-## 196  313SS080202      Gateway Council      mjLangArts2_semester         3
-## 197  313SS081403      Gateway Council      mjLangArts2_semester         3
-## 198  313SS101702      Gateway Council      mjLangArts2_semester         2
-## 199  313ST122101      Gateway Council      mjLangArts2_semester         2
-## 200  313SW013103      Gateway Council      mjLangArts2_semester         3
-## 201  313SY042303      Gateway Council      mjLangArts2_semester         3
-## 202  313TA020602      Gateway Council      mjLangArts2_semester         3
-## 203  313TB112002      Gateway Council      mjLangArts2_semester         3
-## 204  313TG012003      Gateway Council      mjLangArts2_semester         3
-## 205  313TP102402      Gateway Council      mjLangArts2_semester         2
-## 206  313TR122902      Gateway Council      mjLangArts2_semester         3
-## 207  313VJ061503      Gateway Council      mjLangArts2_semester         3
-## 208  313VJ112402      Gateway Council      mjLangArts2_semester         3
-## 209  313ZJ050403      Gateway Council      mjLangArts2_semester         2
-## 210  320AM072903 West Central Council      mjLangArts2_semester         2
-## 211  320AP030203 West Central Council      mjLangArts2_semester         0
-## 212  320AT101602 West Central Council      mjLangArts2_semester         1
-## 213  320CM120402 West Central Council      mjLangArts2_semester         0
-## 214  320DJ061302 West Central Council      mjLangArts2_semester         1
-## 215  320DL112002 West Central Council      mjLangArts2_semester         3
-## 216  320JM102701 West Central Council      mjLangArts2_semester         1
-## 217  320NM101302 West Central Council      mjLangArts2_semester         2
-## 218  320NR060503 West Central Council      mjLangArts2_semester         0
-## 219  320RM080702 West Central Council      mjLangArts2_semester         2
-## 220  320TF073003 West Central Council      mjLangArts2_semester         2
-## 221  320AB022203 West Central Council    mjLangArts2Adv_quarter         3
-## 222  320AR100902 West Central Council    mjLangArts2Adv_quarter         2
-## 223  320AW122102 West Central Council    mjLangArts2Adv_quarter         3
-## 224  320CT030303 West Central Council    mjLangArts2Adv_quarter         3
-## 225  320JS020802 West Central Council    mjLangArts2Adv_quarter         3
-## 226  320TD060303 West Central Council    mjLangArts2Adv_quarter         4
-## 227  320TM121202 West Central Council    mjLangArts2Adv_quarter         2
-## 228  312AM111202       Citrus Council   mjLangArts2Adv_semester         3
-## 229  312FS020503       Citrus Council   mjLangArts2Adv_semester         4
-## 230  313AJ100301      Gateway Council   mjLangArts2Adv_semester         3
-## 231  313FF120202      Gateway Council   mjLangArts2Adv_semester         2
-## 232  313KC111302      Gateway Council   mjLangArts2Adv_semester         3
-## 233  313LF071302      Gateway Council   mjLangArts2Adv_semester         3
-## 234  313MY060702      Gateway Council   mjLangArts2Adv_semester         4
-## 235  313RL062003      Gateway Council   mjLangArts2Adv_semester         3
-## 236  320AB061103 West Central Council   mjLangArts2Adv_semester         4
-## 237  320BR072103 West Central Council   mjLangArts2Adv_semester         4
-## 238  320DM041603 West Central Council   mjLangArts2Adv_semester         3
-## 239  320IR061103 West Central Council   mjLangArts2Adv_semester         4
-## 240  320IW012403 West Central Council   mjLangArts2Adv_semester         4
-## 241  320KG080703 West Central Council   mjLangArts2Adv_semester         2
-## 242  320KW122401 West Central Council   mjLangArts2Adv_semester         4
-## 243  320MB030803 West Central Council   mjLangArts2Adv_semester         2
-## 244  32-YW011402 West Central Council       mjLangArts3_quarter         4
-## 245  320AB101201 West Central Council       mjLangArts3_quarter         3
-## 246  320AS081902 West Central Council       mjLangArts3_quarter         2
-## 247  320CD090201 West Central Council       mjLangArts3_quarter         3
-## 248  320CM051801 West Central Council       mjLangArts3_quarter         3
-## 249  320KC051702 West Central Council       mjLangArts3_quarter         4
-## 250  320KH061601 West Central Council       mjLangArts3_quarter         4
-## 251  320KP110300 West Central Council       mjLangArts3_quarter         4
-## 252  320RH050902 West Central Council       mjLangArts3_quarter         3
-## 253  320RK110200 West Central Council       mjLangArts3_quarter         3
-## 254  320SW120401 West Central Council       mjLangArts3_quarter         4
-## 255  320TB053002 West Central Council       mjLangArts3_quarter         3
-## 256  312AA071702       Citrus Council      mjLangArts3_semester         2
-## 257  312DJ101301       Citrus Council      mjLangArts3_semester         3
-## 258  312JF031602       Citrus Council      mjLangArts3_semester         4
-## 259  312KN121401       Citrus Council      mjLangArts3_semester         3
-## 260  313AA091300      Gateway Council      mjLangArts3_semester         3
-## 261  313AB071302      Gateway Council      mjLangArts3_semester         2
-## 262  313AC020102      Gateway Council      mjLangArts3_semester         3
-## 263  313AE070802      Gateway Council      mjLangArts3_semester         2
-## 264  313AF070302      Gateway Council      mjLangArts3_semester         3
-## 265  313AH090402      Gateway Council      mjLangArts3_semester         3
-## 266  313AJ032101      Gateway Council      mjLangArts3_semester         2
-## 267  313AJ061101      Gateway Council      mjLangArts3_semester         3
-## 268  313AJ111601      Gateway Council      mjLangArts3_semester         3
-## 269  313AJ120702      Gateway Council      mjLangArts3_semester         2
-## 270  313AK052902      Gateway Council      mjLangArts3_semester         3
-## 271  313AL042602      Gateway Council      mjLangArts3_semester         3
-## 272  313AN060301      Gateway Council      mjLangArts3_semester         3
-## 273  313AR080201      Gateway Council      mjLangArts3_semester         3
-## 274  313BC082900      Gateway Council      mjLangArts3_semester         3
-## 275  313BH042702      Gateway Council      mjLangArts3_semester         2
-## 276  313BM102701      Gateway Council      mjLangArts3_semester         3
-## 277  313BN052400      Gateway Council      mjLangArts3_semester         2
-## 278  313BS013101      Gateway Council      mjLangArts3_semester         2
-## 279  313BS033102      Gateway Council      mjLangArts3_semester         2
-## 280  313CF080102      Gateway Council      mjLangArts3_semester         3
-## 281  313CP050801      Gateway Council      mjLangArts3_semester         2
-## 282  313CW020602      Gateway Council      mjLangArts3_semester         2
-## 283  313DB013101      Gateway Council      mjLangArts3_semester         2
-## 284  313DJ013001      Gateway Council      mjLangArts3_semester         2
-## 285  313DL122400      Gateway Council      mjLangArts3_semester         2
-## 286  313DM081401      Gateway Council      mjLangArts3_semester         2
-## 287  313DM081501      Gateway Council      mjLangArts3_semester         2
-## 288  313DW020202      Gateway Council      mjLangArts3_semester         3
-## 289  313DW060502      Gateway Council      mjLangArts3_semester         3
-## 290  313DY100502      Gateway Council      mjLangArts3_semester         3
-## 291  313EH121700      Gateway Council      mjLangArts3_semester         4
-## 292  313EM050301      Gateway Council      mjLangArts3_semester         2
-## 293  313ER111602      Gateway Council      mjLangArts3_semester         3
-## 294  313FS043002      Gateway Council      mjLangArts3_semester         2
-## 295  313GT051001      Gateway Council      mjLangArts3_semester         3
-## 296  313HB060202      Gateway Council      mjLangArts3_semester         3
-## 297  313HB081401      Gateway Council      mjLangArts3_semester         3
-## 298  313HH091900      Gateway Council      mjLangArts3_semester         3
-## 299  313HR070802      Gateway Council      mjLangArts3_semester         3
-## 300  313JB090301      Gateway Council      mjLangArts3_semester         2
-## 301  313JB091302      Gateway Council      mjLangArts3_semester         2
-## 302  313JD042302      Gateway Council      mjLangArts3_semester         3
-## 303  313JJ051600      Gateway Council      mjLangArts3_semester         3
-## 304  313JR021003      Gateway Council      mjLangArts3_semester         3
-## 305  313JR060502      Gateway Council      mjLangArts3_semester         3
-## 306  313JR081602      Gateway Council      mjLangArts3_semester         2
-## 307  313JR112301      Gateway Council      mjLangArts3_semester         2
-## 308  313JS103001      Gateway Council      mjLangArts3_semester         2
-## 309  313JW081700      Gateway Council      mjLangArts3_semester         2
-## 310  313KC010603      Gateway Council      mjLangArts3_semester         3
-## 311  313LD102701      Gateway Council      mjLangArts3_semester         3
-## 312  313LG040801      Gateway Council      mjLangArts3_semester         3
-## 313  313MB050801      Gateway Council      mjLangArts3_semester         4
-## 314  313MG090502      Gateway Council      mjLangArts3_semester         3
-## 315  313MK050201      Gateway Council      mjLangArts3_semester         2
-## 316  313MM110400      Gateway Council      mjLangArts3_semester         2
-## 317  313MS033102      Gateway Council      mjLangArts3_semester         3
-## 318  313NM092901      Gateway Council      mjLangArts3_semester         4
-## 319  313NS050901      Gateway Council      mjLangArts3_semester         2
-## 320  313OM070501      Gateway Council      mjLangArts3_semester         2
-## 321  313PM082503      Gateway Council      mjLangArts3_semester         2
-## 322  313PS090801      Gateway Council      mjLangArts3_semester         3
-## 323  313QB062902      Gateway Council      mjLangArts3_semester         3
-## 324  313RB031401      Gateway Council      mjLangArts3_semester         2
-## 325  313RL060201      Gateway Council      mjLangArts3_semester         2
-## 326  313SS080601      Gateway Council      mjLangArts3_semester         3
-## 327  313SS102000      Gateway Council      mjLangArts3_semester         3
-## 328  313TA042602      Gateway Council      mjLangArts3_semester         3
-## 329  313TG072302      Gateway Council      mjLangArts3_semester         2
-## 330  313TR060701      Gateway Council      mjLangArts3_semester         3
-## 331  313TW111601      Gateway Council      mjLangArts3_semester         3
-## 332  313YJ062501      Gateway Council      mjLangArts3_semester         2
-## 333  3207M043002 West Central Council      mjLangArts3_semester         3
-## 334  320AB041702 West Central Council      mjLangArts3_semester         3
-## 335  320AF092500 West Central Council      mjLangArts3_semester         2
-## 336  320DW031301 West Central Council      mjLangArts3_semester         3
-## 337  320HP121201 West Central Council      mjLangArts3_semester         3
-## 338  320IL010602 West Central Council      mjLangArts3_semester         3
-## 339  320SC121301 West Central Council      mjLangArts3_semester         4
-## 340  320SL061102 West Central Council      mjLangArts3_semester         3
-## 341  320SN020402 West Central Council      mjLangArts3_semester         3
-## 342  320AG091201 West Central Council    mjLangArts3Adv_quarter         4
-## 343  320JB110501 West Central Council    mjLangArts3Adv_quarter         3
-## 344  320SJ052502 West Central Council    mjLangArts3Adv_quarter         2
-## 345  312JS013102       Citrus Council   mjLangArts3Adv_semester         3
-## 346  312JV032902       Citrus Council   mjLangArts3Adv_semester         2
-## 347  313AD050602      Gateway Council   mjLangArts3Adv_semester         3
-## 348  313AG040602      Gateway Council   mjLangArts3Adv_semester         3
-## 349  313JB090402      Gateway Council   mjLangArts3Adv_semester         3
-## 350  313JG070402      Gateway Council   mjLangArts3Adv_semester         3
-## 351  313MD100300      Gateway Council   mjLangArts3Adv_semester         3
-## 352  320AF050702 West Central Council   mjLangArts3Adv_semester         4
-## 353  320AW063002 West Central Council   mjLangArts3Adv_semester         4
-## 354  320GE021302 West Central Council   mjLangArts3Adv_semester         4
-## 355  320JR062102 West Central Council   mjLangArts3Adv_semester         3
-## 356  320KA081802 West Central Council   mjLangArts3Adv_semester         4
-## 357  320KC050902 West Central Council   mjLangArts3Adv_semester         4
-## 358  320MB011702 West Central Council   mjLangArts3Adv_semester         4
-## 359  320MH081602 West Central Council   mjLangArts3Adv_semester         3
-## 360 320NT0043002 West Central Council   mjLangArts3Adv_semester         4
-## 361  320SB093001 West Central Council   mjLangArts3Adv_semester         4
-## 362  320SS110101 West Central Council   mjLangArts3Adv_semester         4
-## 363  320YC042602 West Central Council   mjLangArts3Adv_semester         3
-## 364  320ZP050602 West Central Council   mjLangArts3Adv_semester         3
-## 365  320JO122602 West Central Council  mjIntensLangArts_quarter         2
-## 366  313KF050203      Gateway Council mjIntensLangArts_semester         2
-## 367  313OF022803      Gateway Council mjIntensLangArts_semester         2</code></pre>
+<pre><code>##         girlCode              council                 langCourses
+## 1    319AR110403     Tropical Council    mjLangArts1ESOL_semester
+## 2    312BA070703       Citrus Council    mjLangArts2ESOL_semester
+## 3    312BJ021603       Citrus Council    mjLangArts2ESOL_semester
+## 4    312BL053004       Citrus Council    mjLangArts2ESOL_semester
+## 5    312MJ092702       Citrus Council    mjLangArts3ESOL_semester
+## 6    319AR110403     Tropical Council mjDevelpmentalESOL_semester
+## 7    320AW050904 West Central Council         mjLangArts1_quarter
+## 8    320CF032904 West Central Council         mjLangArts1_quarter
+## 9    320GD120203 West Central Council         mjLangArts1_quarter
+## 10   320KF052703 West Central Council         mjLangArts1_quarter
+## 11   320NR030504 West Central Council         mjLangArts1_quarter
+## 12   320TM060203 West Central Council         mjLangArts1_quarter
+## 13   312SA050503       Citrus Council        mjLangArts1_semester
+## 14   313AA041803      Gateway Council        mjLangArts1_semester
+## 15   313AB050904      Gateway Council        mjLangArts1_semester
+## 16   313AB060404      Gateway Council        mjLangArts1_semester
+## 17   313AB062704      Gateway Council        mjLangArts1_semester
+## 18   313AC080304      Gateway Council        mjLangArts1_semester
+## 19   313AC103103      Gateway Council        mjLangArts1_semester
+## 20   313AE041502      Gateway Council        mjLangArts1_semester
+## 21   313AE050404      Gateway Council        mjLangArts1_semester
+## 22   313AH052504      Gateway Council        mjLangArts1_semester
+## 23   313AH082204      Gateway Council        mjLangArts1_semester
+## 24   313AJ100704      Gateway Council        mjLangArts1_semester
+## 25   313AJ111203      Gateway Council        mjLangArts1_semester
+## 26   313AJ111803      Gateway Council        mjLangArts1_semester
+## 27   313AM022202      Gateway Council        mjLangArts1_semester
+## 28   313AM030805      Gateway Council        mjLangArts1_semester
+## 29   313AN121503      Gateway Council        mjLangArts1_semester
+## 30   313AP042602      Gateway Council        mjLangArts1_semester
+## 31   313AW060203      Gateway Council        mjLangArts1_semester
+## 32   313BB032805      Gateway Council        mjLangArts1_semester
+## 33   313BC040204      Gateway Council        mjLangArts1_semester
+## 34   313BM050404      Gateway Council        mjLangArts1_semester
+## 35   313CC032104      Gateway Council        mjLangArts1_semester
+## 36   313CD032504      Gateway Council        mjLangArts1_semester
+## 37   313CJ081604      Gateway Council        mjLangArts1_semester
+## 38   313CM120103      Gateway Council        mjLangArts1_semester
+## 39   313DF063004      Gateway Council        mjLangArts1_semester
+## 40   313DM031404      Gateway Council        mjLangArts1_semester
+## 41   313DP021104      Gateway Council        mjLangArts1_semester
+## 42   313DP102903      Gateway Council        mjLangArts1_semester
+## 43   313EO080204      Gateway Council        mjLangArts1_semester
+## 44   313GW050404      Gateway Council        mjLangArts1_semester
+## 45   313IA091203      Gateway Council        mjLangArts1_semester
+## 46   313IH091404      Gateway Council        mjLangArts1_semester
+## 47   313IJ090703      Gateway Council        mjLangArts1_semester
+## 48   313JB060403      Gateway Council        mjLangArts1_semester
+## 49   313JC121003      Gateway Council        mjLangArts1_semester
+## 50   313JD052803      Gateway Council        mjLangArts1_semester
+## 51   313JG111203      Gateway Council        mjLangArts1_semester
+## 52   313JH050703      Gateway Council        mjLangArts1_semester
+## 53   313JM072404      Gateway Council        mjLangArts1_semester
+## 54   313JS100203      Gateway Council        mjLangArts1_semester
+## 55   313JT110402      Gateway Council        mjLangArts1_semester
+## 56   313JW081804      Gateway Council        mjLangArts1_semester
+## 57   313JY070403      Gateway Council        mjLangArts1_semester
+## 58   313KA090203      Gateway Council        mjLangArts1_semester
+## 59   313KE040805      Gateway Council        mjLangArts1_semester
+## 60   313KG061204      Gateway Council        mjLangArts1_semester
+## 61   313KH032104      Gateway Council        mjLangArts1_semester
+## 62   313KM011503      Gateway Council        mjLangArts1_semester
+## 63   313KS081404      Gateway Council        mjLangArts1_semester
+## 64   313KT082103      Gateway Council        mjLangArts1_semester
+## 65   313LC041404      Gateway Council        mjLangArts1_semester
+## 66   313LF022804      Gateway Council        mjLangArts1_semester
+## 67   313LL121002      Gateway Council        mjLangArts1_semester
+## 68   313LS021104      Gateway Council        mjLangArts1_semester
+## 69   313LS090504      Gateway Council        mjLangArts1_semester
+## 70   313MA082702      Gateway Council        mjLangArts1_semester
+## 71   313MA090303      Gateway Council        mjLangArts1_semester
+## 72   313MD050604      Gateway Council        mjLangArts1_semester
+## 73   313MM071604      Gateway Council        mjLangArts1_semester
+## 74   313MN060203      Gateway Council        mjLangArts1_semester
+## 75   313MS031104      Gateway Council        mjLangArts1_semester
+## 76   313NH071604      Gateway Council        mjLangArts1_semester
+## 77   313NW110203      Gateway Council        mjLangArts1_semester
+## 78   313PW072304      Gateway Council        mjLangArts1_semester
+## 79   313RE011302      Gateway Council        mjLangArts1_semester
+## 80   313RH032805      Gateway Council        mjLangArts1_semester
+## 81   313RN100203      Gateway Council        mjLangArts1_semester
+## 82   313SF120603      Gateway Council        mjLangArts1_semester
+## 83   313SJ102903      Gateway Council        mjLangArts1_semester
+## 84   313SR051403      Gateway Council        mjLangArts1_semester
+## 85   313SS111303      Gateway Council        mjLangArts1_semester
+## 86   313ST020303      Gateway Council        mjLangArts1_semester
+## 87   313SW021304      Gateway Council        mjLangArts1_semester
+## 88   313SW080304      Gateway Council        mjLangArts1_semester
+## 89   313SW083004      Gateway Council        mjLangArts1_semester
+## 90   313SW091702      Gateway Council        mjLangArts1_semester
+## 91   313TA060203      Gateway Council        mjLangArts1_semester
+## 92   313TA120503      Gateway Council        mjLangArts1_semester
+## 93   313TC071503      Gateway Council        mjLangArts1_semester
+## 94   313TD073104      Gateway Council        mjLangArts1_semester
+## 95   313TG041203      Gateway Council        mjLangArts1_semester
+## 96   313TG053004      Gateway Council        mjLangArts1_semester
+## 97   313TG091001      Gateway Council        mjLangArts1_semester
+## 98   313TH082203      Gateway Council        mjLangArts1_semester
+## 99   313TS010303      Gateway Council        mjLangArts1_semester
+## 100  313TW060904      Gateway Council        mjLangArts1_semester
+## 101  313YJ031404      Gateway Council        mjLangArts1_semester
+## 102  231CH040801    Southeast Council        mjLangArts1_semester
+## 103  321AM091203    Southeast Council        mjLangArts1_semester
+## 104  321BS111403    Southeast Council        mjLangArts1_semester
+## 105  321ES020904    Southeast Council        mjLangArts1_semester
+## 106  321IM121403    Southeast Council        mjLangArts1_semester
+## 107  321KD040803    Southeast Council        mjLangArts1_semester
+## 108  321KT083104    Southeast Council        mjLangArts1_semester
+## 109  321KW062503    Southeast Council        mjLangArts1_semester
+## 110  321RL060204    Southeast Council        mjLangArts1_semester
+## 111  321ZJ092702    Southeast Council        mjLangArts1_semester
+## 112  319AS112003     Tropical Council        mjLangArts1_semester
+## 113  319KM091803     Tropical Council        mjLangArts1_semester
+## 114  319YL092403     Tropical Council        mjLangArts1_semester
+## 115  320AC012304 West Central Council        mjLangArts1_semester
+## 116  320CW111203 West Central Council        mjLangArts1_semester
+## 117  320EF111204 West Central Council        mjLangArts1_semester
+## 118  320JJ070902 West Central Council        mjLangArts1_semester
+## 119  320LM121403 West Central Council        mjLangArts1_semester
+## 120  312KC022304       Citrus Council    mjlangsArts1Adv_semester
+## 121  321CH092703    Southeast Council    mjlangsArts1Adv_semester
+## 122  321JC070204    Southeast Council    mjlangsArts1Adv_semester
+## 123  321ML073004    Southeast Council    mjlangsArts1Adv_semester
+## 124  321NW102103    Southeast Council    mjlangsArts1Adv_semester
+## 125  321RM121303    Southeast Council    mjlangsArts1Adv_semester
+## 126  320AD123003 West Central Council    mjlangsArts1Adv_semester
+## 127  320AR060504 West Central Council    mjlangsArts1Adv_semester
+## 128  320AS021503 West Central Council    mjlangsArts1Adv_semester
+## 129  320CB100701 West Central Council    mjlangsArts1Adv_semester
+## 130  320CD010605 West Central Council    mjlangsArts1Adv_semester
+## 131  320CO111303 West Central Council    mjlangsArts1Adv_semester
+## 132  320DR110103 West Central Council    mjlangsArts1Adv_semester
+## 133  320DT031504 West Central Council    mjlangsArts1Adv_semester
+## 134  320DT100203 West Central Council    mjlangsArts1Adv_semester
+## 135  320ER101503 West Central Council    mjlangsArts1Adv_semester
+## 136  320JM011404 West Central Council    mjlangsArts1Adv_semester
+## 137  320JS031504 West Central Council    mjlangsArts1Adv_semester
+## 138  320KJ090903 West Central Council    mjlangsArts1Adv_semester
+## 139  320KM041801 West Central Council    mjlangsArts1Adv_semester
+## 140  320KS040804 West Central Council    mjlangsArts1Adv_semester
+## 141  320LR071604 West Central Council    mjlangsArts1Adv_semester
+## 142  320MD082804 West Central Council    mjlangsArts1Adv_semester
+## 143  320SC072304 West Central Council    mjlangsArts1Adv_semester
+## 144  320SM102203 West Central Council    mjlangsArts1Adv_semester
+## 145  320SS091403 West Central Council    mjlangsArts1Adv_semester
+## 146  320SW080104 West Central Council    mjlangsArts1Adv_semester
+## 147  320TA122003 West Central Council    mjlangsArts1Adv_semester
+## 148  320TD091903 West Central Council    mjlangsArts1Adv_semester
+## 149  320AH081702 West Central Council         mjLangArts2_quarter
+## 150  320BR031803 West Central Council         mjLangArts2_quarter
+## 151  320DH042501 West Central Council         mjLangArts2_quarter
+## 152  320ER121001 West Central Council         mjLangArts2_quarter
+## 153  320HS082803 West Central Council         mjLangArts2_quarter
+## 154  320II081302 West Central Council         mjLangArts2_quarter
+## 155  320LS042403 West Central Council         mjLangArts2_quarter
+## 156  320LS111202 West Central Council         mjLangArts2_quarter
+## 157  320RD020603 West Central Council         mjLangArts2_quarter
+## 158  320SA122401 West Central Council         mjLangArts2_quarter
+## 159  320SB100701 West Central Council         mjLangArts2_quarter
+## 160  320SE081902 West Central Council         mjLangArts2_quarter
+## 161  312AG052703       Citrus Council        mjLangArts2_semester
+## 162  312AM062102       Citrus Council        mjLangArts2_semester
+## 163  312AW060903       Citrus Council        mjLangArts2_semester
+## 164  312CM100602       Citrus Council        mjLangArts2_semester
+## 165  312DR012403       Citrus Council        mjLangArts2_semester
+## 166  312GB022203       Citrus Council        mjLangArts2_semester
+## 167  312IR050703       Citrus Council        mjLangArts2_semester
+## 168  312KM012003       Citrus Council        mjLangArts2_semester
+## 169  312PM110402       Citrus Council        mjLangArts2_semester
+## 170  312SC061204       Citrus Council        mjLangArts2_semester
+## 171  313AB112002      Gateway Council        mjLangArts2_semester
+## 172  313AC082303      Gateway Council        mjLangArts2_semester
+## 173  313AF040403      Gateway Council        mjLangArts2_semester
+## 174  313AH072703      Gateway Council        mjLangArts2_semester
+## 175  313AH082502      Gateway Council        mjLangArts2_semester
+## 176  313AJ041002      Gateway Council        mjLangArts2_semester
+## 177  313AN122002      Gateway Council        mjLangArts2_semester
+## 178  313AP090203      Gateway Council        mjLangArts2_semester
+## 179  313AV040903      Gateway Council        mjLangArts2_semester
+## 180  313BB032502      Gateway Council        mjLangArts2_semester
+## 181  313BB040203      Gateway Council        mjLangArts2_semester
+## 182  313BB052401      Gateway Council        mjLangArts2_semester
+## 183  313BB082902      Gateway Council        mjLangArts2_semester
+## 184  313BS041502      Gateway Council        mjLangArts2_semester
+## 185  313CB101103      Gateway Council        mjLangArts2_semester
+## 186  313CD122702      Gateway Council        mjLangArts2_semester
+## 187  313CH080602      Gateway Council        mjLangArts2_semester
+## 188  313DC061403      Gateway Council        mjLangArts2_semester
+## 189  313DE100602      Gateway Council        mjLangArts2_semester
+## 190  313DG072603      Gateway Council        mjLangArts2_semester
+## 191  313DJ031804      Gateway Council        mjLangArts2_semester
+## 192  313DL091702      Gateway Council        mjLangArts2_semester
+## 193  313DM020603      Gateway Council        mjLangArts2_semester
+## 194  313EC081602      Gateway Council        mjLangArts2_semester
+## 195  313EG050502      Gateway Council        mjLangArts2_semester
+## 196  313ER122203      Gateway Council        mjLangArts2_semester
+## 197  313ES060503      Gateway Council        mjLangArts2_semester
+## 198  313ET110102      Gateway Council        mjLangArts2_semester
+## 199  313GR040203      Gateway Council        mjLangArts2_semester
+## 200  313HB022103      Gateway Council        mjLangArts2_semester
+## 201  313HW011803      Gateway Council        mjLangArts2_semester
+## 202  313HW090202      Gateway Council        mjLangArts2_semester
+## 203  313JB122201      Gateway Council        mjLangArts2_semester
+## 204  313JC012502      Gateway Council        mjLangArts2_semester
+## 205  313JD090803      Gateway Council        mjLangArts2_semester
+## 206  313JD120102      Gateway Council        mjLangArts2_semester
+## 207  313JH041802      Gateway Council        mjLangArts2_semester
+## 208  313JH110902      Gateway Council        mjLangArts2_semester
+## 209  313JK122602      Gateway Council        mjLangArts2_semester
+## 210  313JL032903      Gateway Council        mjLangArts2_semester
+## 211  313JL110304      Gateway Council        mjLangArts2_semester
+## 212  313JM040603      Gateway Council        mjLangArts2_semester
+## 213  313JP011003      Gateway Council        mjLangArts2_semester
+## 214  313JP070503      Gateway Council        mjLangArts2_semester
+## 215  313JP090103      Gateway Council        mjLangArts2_semester
+## 216  313JS091402      Gateway Council        mjLangArts2_semester
+## 217  313JT110202      Gateway Council        mjLangArts2_semester
+## 218  313JW111002      Gateway Council        mjLangArts2_semester
+## 219  313KB121202      Gateway Council        mjLangArts2_semester
+## 220  313KD041503      Gateway Council        mjLangArts2_semester
+## 221  313KD042102      Gateway Council        mjLangArts2_semester
+## 222  313KD091402      Gateway Council        mjLangArts2_semester
+## 223  313KH120302      Gateway Council        mjLangArts2_semester
+## 224  313KJ012003      Gateway Council        mjLangArts2_semester
+## 225  313KM080502      Gateway Council        mjLangArts2_semester
+## 226  313LE082703      Gateway Council        mjLangArts2_semester
+## 227  313LH031502      Gateway Council        mjLangArts2_semester
+## 228  313LJ090102      Gateway Council        mjLangArts2_semester
+## 229  313LM010502      Gateway Council        mjLangArts2_semester
+## 230  313LM110402      Gateway Council        mjLangArts2_semester
+## 231  313LP081302      Gateway Council        mjLangArts2_semester
+## 232  313LS120601      Gateway Council        mjLangArts2_semester
+## 233  313MB090202      Gateway Council        mjLangArts2_semester
+## 234  313MD120302      Gateway Council        mjLangArts2_semester
+## 235  313MG102902      Gateway Council        mjLangArts2_semester
+## 236  313MH120302      Gateway Council        mjLangArts2_semester
+## 237  313MH120402      Gateway Council        mjLangArts2_semester
+## 238  313MP031502      Gateway Council        mjLangArts2_semester
+## 239  313NB041502      Gateway Council        mjLangArts2_semester
+## 240  313NB120901      Gateway Council        mjLangArts2_semester
+## 241  313ND012403      Gateway Council        mjLangArts2_semester
+## 242  313NF070900      Gateway Council        mjLangArts2_semester
+## 243  313NM110602      Gateway Council        mjLangArts2_semester
+## 244  313NW122502      Gateway Council        mjLangArts2_semester
+## 245  313PK110102      Gateway Council        mjLangArts2_semester
+## 246  313SA080202      Gateway Council        mjLangArts2_semester
+## 247  313SD010203      Gateway Council        mjLangArts2_semester
+## 248  313SH092302      Gateway Council        mjLangArts2_semester
+## 249  313SJ060203      Gateway Council        mjLangArts2_semester
+## 250  313SJ092102      Gateway Council        mjLangArts2_semester
+## 251  313SL102501      Gateway Council        mjLangArts2_semester
+## 252  313SP101602      Gateway Council        mjLangArts2_semester
+## 253  313SS080202      Gateway Council        mjLangArts2_semester
+## 254  313SS081403      Gateway Council        mjLangArts2_semester
+## 255  313SS101702      Gateway Council        mjLangArts2_semester
+## 256  313ST122101      Gateway Council        mjLangArts2_semester
+## 257  313SW013103      Gateway Council        mjLangArts2_semester
+## 258  313SY042303      Gateway Council        mjLangArts2_semester
+## 259  313TA020602      Gateway Council        mjLangArts2_semester
+## 260  313TB112002      Gateway Council        mjLangArts2_semester
+## 261  313TG012003      Gateway Council        mjLangArts2_semester
+## 262  313TP102402      Gateway Council        mjLangArts2_semester
+## 263  313TR122902      Gateway Council        mjLangArts2_semester
+## 264  313VJ061503      Gateway Council        mjLangArts2_semester
+## 265  313VJ112402      Gateway Council        mjLangArts2_semester
+## 266  313ZJ050403      Gateway Council        mjLangArts2_semester
+## 267  321AD020803    Southeast Council        mjLangArts2_semester
+## 268  321AV122302    Southeast Council        mjLangArts2_semester
+## 269  321BB091003    Southeast Council        mjLangArts2_semester
+## 270  321BM081003    Southeast Council        mjLangArts2_semester
+## 271  321CB042803    Southeast Council        mjLangArts2_semester
+## 272  321CB090701    Southeast Council        mjLangArts2_semester
+## 273  321DA090103    Southeast Council        mjLangArts2_semester
+## 274  321DG010202    Southeast Council        mjLangArts2_semester
+## 275  321DJ032902    Southeast Council        mjLangArts2_semester
+## 276  321FJ011803    Southeast Council        mjLangArts2_semester
+## 277  321JD101502    Southeast Council        mjLangArts2_semester
+## 278  321JM100202    Southeast Council        mjLangArts2_semester
+## 279  321JP061803    Southeast Council        mjLangArts2_semester
+## 280  321KG030902    Southeast Council        mjLangArts2_semester
+## 281  321LL050202    Southeast Council        mjLangArts2_semester
+## 282  321LU022702    Southeast Council        mjLangArts2_semester
+## 283  321MC030803    Southeast Council        mjLangArts2_semester
+## 284  321MD062803    Southeast Council        mjLangArts2_semester
+## 285  321MM092802    Southeast Council        mjLangArts2_semester
+## 286  321PA012503    Southeast Council        mjLangArts2_semester
+## 287  321PP043003    Southeast Council        mjLangArts2_semester
+## 288  321SD111202    Southeast Council        mjLangArts2_semester
+## 289  321SE122801    Southeast Council        mjLangArts2_semester
+## 290  321SM012903    Southeast Council        mjLangArts2_semester
+## 291  321SP121202    Southeast Council        mjLangArts2_semester
+## 292  321SW013102    Southeast Council        mjLangArts2_semester
+## 293  321TC051403    Southeast Council        mjLangArts2_semester
+## 294  321ZW050102    Southeast Council        mjLangArts2_semester
+## 295  319AA060205     Tropical Council        mjLangArts2_semester
+## 296  319BL101001     Tropical Council        mjLangArts2_semester
+## 297  319MS102201     Tropical Council        mjLangArts2_semester
+## 298  320AM072903 West Central Council        mjLangArts2_semester
+## 299  320AP030203 West Central Council        mjLangArts2_semester
+## 300  320AT101602 West Central Council        mjLangArts2_semester
+## 301  320CM120402 West Central Council        mjLangArts2_semester
+## 302  320DJ061302 West Central Council        mjLangArts2_semester
+## 303  320DL112002 West Central Council        mjLangArts2_semester
+## 304  320JM102701 West Central Council        mjLangArts2_semester
+## 305  320NM101302 West Central Council        mjLangArts2_semester
+## 306  320NR060503 West Central Council        mjLangArts2_semester
+## 307  320RM080702 West Central Council        mjLangArts2_semester
+## 308  320SP032903 West Central Council        mjLangArts2_semester
+## 309  320TF073003 West Central Council        mjLangArts2_semester
+## 310  320TJ071403 West Central Council        mjLangArts2_semester
+## 311  320AB022203 West Central Council      mjLangArts2Adv_quarter
+## 312  320AR100902 West Central Council      mjLangArts2Adv_quarter
+## 313  320AW122102 West Central Council      mjLangArts2Adv_quarter
+## 314  320CT030303 West Central Council      mjLangArts2Adv_quarter
+## 315  320JS020802 West Central Council      mjLangArts2Adv_quarter
+## 316  320TD060303 West Central Council      mjLangArts2Adv_quarter
+## 317  320TM121202 West Central Council      mjLangArts2Adv_quarter
+## 318  312AM111202       Citrus Council     mjLangArts2Adv_semester
+## 319  312FS020503       Citrus Council     mjLangArts2Adv_semester
+## 320  312LP021703       Citrus Council     mjLangArts2Adv_semester
+## 321  313AJ100301      Gateway Council     mjLangArts2Adv_semester
+## 322  313FF120202      Gateway Council     mjLangArts2Adv_semester
+## 323  313KC111302      Gateway Council     mjLangArts2Adv_semester
+## 324  313LF071302      Gateway Council     mjLangArts2Adv_semester
+## 325  313MY060702      Gateway Council     mjLangArts2Adv_semester
+## 326  313RL062003      Gateway Council     mjLangArts2Adv_semester
+## 327  321DA090103    Southeast Council     mjLangArts2Adv_semester
+## 328  321DM121902    Southeast Council     mjLangArts2Adv_semester
+## 329  321DS012802    Southeast Council     mjLangArts2Adv_semester
+## 330  321JV021803    Southeast Council     mjLangArts2Adv_semester
+## 331  321TS010703    Southeast Council     mjLangArts2Adv_semester
+## 332  302DW112402 West Central Council     mjLangArts2Adv_semester
+## 333  320AB061103 West Central Council     mjLangArts2Adv_semester
+## 334  320AG061103 West Central Council     mjLangArts2Adv_semester
+## 335  320BA100102 West Central Council     mjLangArts2Adv_semester
+## 336  320BR072103 West Central Council     mjLangArts2Adv_semester
+## 337  320DM041603 West Central Council     mjLangArts2Adv_semester
+## 338  320FB012202 West Central Council     mjLangArts2Adv_semester
+## 339  320GC121002 West Central Council     mjLangArts2Adv_semester
+## 340  320HG052803 West Central Council     mjLangArts2Adv_semester
+## 341  320IR061103 West Central Council     mjLangArts2Adv_semester
+## 342  320IW012403 West Central Council     mjLangArts2Adv_semester
+## 343  320KG080703 West Central Council     mjLangArts2Adv_semester
+## 344  320KW122401 West Central Council     mjLangArts2Adv_semester
+## 345  320MB030803 West Central Council     mjLangArts2Adv_semester
+## 346  320NL051303 West Central Council     mjLangArts2Adv_semester
+## 347  320RG071003 West Central Council     mjLangArts2Adv_semester
+## 348  320RM112402 West Central Council     mjLangArts2Adv_semester
+## 349  320SB020803 West Central Council     mjLangArts2Adv_semester
+## 350  320SB122902 West Central Council     mjLangArts2Adv_semester
+## 351  320SD031803 West Central Council     mjLangArts2Adv_semester
+## 352  320TH032403 West Central Council     mjLangArts2Adv_semester
+## 353  320TY071903 West Central Council     mjLangArts2Adv_semester
+## 354  320YT091702 West Central Council     mjLangArts2Adv_semester
+## 355  32-YW011402 West Central Council         mjLangArts3_quarter
+## 356  320AB101201 West Central Council         mjLangArts3_quarter
+## 357  320AS081902 West Central Council         mjLangArts3_quarter
+## 358  320CD090201 West Central Council         mjLangArts3_quarter
+## 359  320CM051801 West Central Council         mjLangArts3_quarter
+## 360  320KC051702 West Central Council         mjLangArts3_quarter
+## 361  320KH061601 West Central Council         mjLangArts3_quarter
+## 362  320KP110300 West Central Council         mjLangArts3_quarter
+## 363  320RH050902 West Central Council         mjLangArts3_quarter
+## 364  320RK110200 West Central Council         mjLangArts3_quarter
+## 365  320SW120401 West Central Council         mjLangArts3_quarter
+## 366  320TB053002 West Central Council         mjLangArts3_quarter
+## 367  312AA071702       Citrus Council        mjLangArts3_semester
+## 368  312DJ101301       Citrus Council        mjLangArts3_semester
+## 369  312DW011802       Citrus Council        mjLangArts3_semester
+## 370  312GW020701       Citrus Council        mjLangArts3_semester
+## 371  312JF031602       Citrus Council        mjLangArts3_semester
+## 372  312KC120201       Citrus Council        mjLangArts3_semester
+## 373  312KN121401       Citrus Council        mjLangArts3_semester
+## 374  312ME122299       Citrus Council        mjLangArts3_semester
+## 375  312ZT060802       Citrus Council        mjLangArts3_semester
+## 376  313AA091300      Gateway Council        mjLangArts3_semester
+## 377  313AB071302      Gateway Council        mjLangArts3_semester
+## 378  313AC020102      Gateway Council        mjLangArts3_semester
+## 379  313AE070802      Gateway Council        mjLangArts3_semester
+## 380  313AF070302      Gateway Council        mjLangArts3_semester
+## 381  313AH090402      Gateway Council        mjLangArts3_semester
+## 382  313AJ032101      Gateway Council        mjLangArts3_semester
+## 383  313AJ061101      Gateway Council        mjLangArts3_semester
+## 384  313AJ111601      Gateway Council        mjLangArts3_semester
+## 385  313AJ120702      Gateway Council        mjLangArts3_semester
+## 386  313AK052902      Gateway Council        mjLangArts3_semester
+## 387  313AL042602      Gateway Council        mjLangArts3_semester
+## 388  313AN060301      Gateway Council        mjLangArts3_semester
+## 389  313AR080201      Gateway Council        mjLangArts3_semester
+## 390  313BC082900      Gateway Council        mjLangArts3_semester
+## 391  313BH042702      Gateway Council        mjLangArts3_semester
+## 392  313BM102701      Gateway Council        mjLangArts3_semester
+## 393  313BN052400      Gateway Council        mjLangArts3_semester
+## 394  313BS013101      Gateway Council        mjLangArts3_semester
+## 395  313BS033102      Gateway Council        mjLangArts3_semester
+## 396  313CF080102      Gateway Council        mjLangArts3_semester
+## 397  313CP050801      Gateway Council        mjLangArts3_semester
+## 398  313CW020602      Gateway Council        mjLangArts3_semester
+## 399  313DB013101      Gateway Council        mjLangArts3_semester
+## 400  313DJ013001      Gateway Council        mjLangArts3_semester
+## 401  313DL122400      Gateway Council        mjLangArts3_semester
+## 402  313DM081401      Gateway Council        mjLangArts3_semester
+## 403  313DM081501      Gateway Council        mjLangArts3_semester
+## 404  313DW020202      Gateway Council        mjLangArts3_semester
+## 405  313DW060502      Gateway Council        mjLangArts3_semester
+## 406  313DY100502      Gateway Council        mjLangArts3_semester
+## 407  313EH121700      Gateway Council        mjLangArts3_semester
+## 408  313EM050301      Gateway Council        mjLangArts3_semester
+## 409  313ER111602      Gateway Council        mjLangArts3_semester
+## 410  313FS043002      Gateway Council        mjLangArts3_semester
+## 411  313GT051001      Gateway Council        mjLangArts3_semester
+## 412  313HB060202      Gateway Council        mjLangArts3_semester
+## 413  313HB081401      Gateway Council        mjLangArts3_semester
+## 414  313HH091900      Gateway Council        mjLangArts3_semester
+## 415  313HR070802      Gateway Council        mjLangArts3_semester
+## 416  313JB090301      Gateway Council        mjLangArts3_semester
+## 417  313JB091302      Gateway Council        mjLangArts3_semester
+## 418  313JD042302      Gateway Council        mjLangArts3_semester
+## 419  313JJ051600      Gateway Council        mjLangArts3_semester
+## 420  313JR021003      Gateway Council        mjLangArts3_semester
+## 421  313JR060502      Gateway Council        mjLangArts3_semester
+## 422  313JR081602      Gateway Council        mjLangArts3_semester
+## 423  313JR112301      Gateway Council        mjLangArts3_semester
+## 424  313JS103001      Gateway Council        mjLangArts3_semester
+## 425  313JW081700      Gateway Council        mjLangArts3_semester
+## 426  313KC010603      Gateway Council        mjLangArts3_semester
+## 427  313LD102701      Gateway Council        mjLangArts3_semester
+## 428  313LG040801      Gateway Council        mjLangArts3_semester
+## 429  313MB050801      Gateway Council        mjLangArts3_semester
+## 430  313MG090502      Gateway Council        mjLangArts3_semester
+## 431  313MK050201      Gateway Council        mjLangArts3_semester
+## 432  313MM110400      Gateway Council        mjLangArts3_semester
+## 433  313MS033102      Gateway Council        mjLangArts3_semester
+## 434  313NM092901      Gateway Council        mjLangArts3_semester
+## 435  313NS050901      Gateway Council        mjLangArts3_semester
+## 436  313OM070501      Gateway Council        mjLangArts3_semester
+## 437  313PM082503      Gateway Council        mjLangArts3_semester
+## 438  313PS090801      Gateway Council        mjLangArts3_semester
+## 439  313QB062902      Gateway Council        mjLangArts3_semester
+## 440  313RB031401      Gateway Council        mjLangArts3_semester
+## 441  313RL060201      Gateway Council        mjLangArts3_semester
+## 442  313SS080601      Gateway Council        mjLangArts3_semester
+## 443  313SS102000      Gateway Council        mjLangArts3_semester
+## 444  313TA042602      Gateway Council        mjLangArts3_semester
+## 445  313TG072302      Gateway Council        mjLangArts3_semester
+## 446  313TR060701      Gateway Council        mjLangArts3_semester
+## 447  313TW111601      Gateway Council        mjLangArts3_semester
+## 448  313YJ062501      Gateway Council        mjLangArts3_semester
+## 449  321AI022702    Southeast Council        mjLangArts3_semester
+## 450  321AT022802    Southeast Council        mjLangArts3_semester
+## 451  321AW022601    Southeast Council        mjLangArts3_semester
+## 452  321AW080402    Southeast Council        mjLangArts3_semester
+## 453  321BD122700    Southeast Council        mjLangArts3_semester
+## 454  321BL051301    Southeast Council        mjLangArts3_semester
+## 455  321BR081401    Southeast Council        mjLangArts3_semester
+## 456  321CA061801    Southeast Council        mjLangArts3_semester
+## 457  321CG082901    Southeast Council        mjLangArts3_semester
+## 458  321CG111501    Southeast Council        mjLangArts3_semester
+## 459  321CJ042201    Southeast Council        mjLangArts3_semester
+## 460  321DD121800    Southeast Council        mjLangArts3_semester
+## 461  321DM092301    Southeast Council        mjLangArts3_semester
+## 462  321FB061802    Southeast Council        mjLangArts3_semester
+## 463  321FC060101    Southeast Council        mjLangArts3_semester
+## 464  321GC050202    Southeast Council        mjLangArts3_semester
+## 465  321IJ071800    Southeast Council        mjLangArts3_semester
+## 466  321IP051602    Southeast Council        mjLangArts3_semester
+## 467  321JC043001    Southeast Council        mjLangArts3_semester
+## 468  321JJ051601    Southeast Council        mjLangArts3_semester
+## 469  321JJ071102    Southeast Council        mjLangArts3_semester
+## 470  321JR042402    Southeast Council        mjLangArts3_semester
+## 471  321JR051302    Southeast Council        mjLangArts3_semester
+## 472  321KG120501    Southeast Council        mjLangArts3_semester
+## 473  321KM121501    Southeast Council        mjLangArts3_semester
+## 474  321MG081303    Southeast Council        mjLangArts3_semester
+## 475  321NC101201    Southeast Council        mjLangArts3_semester
+## 476  321NE031201    Southeast Council        mjLangArts3_semester
+## 477  321NJ032201    Southeast Council        mjLangArts3_semester
+## 478  321NL052800    Southeast Council        mjLangArts3_semester
+## 479  321NT052302    Southeast Council        mjLangArts3_semester
+## 480  321RF031302    Southeast Council        mjLangArts3_semester
+## 481  321RJ011800    Southeast Council        mjLangArts3_semester
+## 482  321RL121002    Southeast Council        mjLangArts3_semester
+## 483  321RM011802    Southeast Council        mjLangArts3_semester
+## 484  321RP082102    Southeast Council        mjLangArts3_semester
+## 485  321SA080701    Southeast Council        mjLangArts3_semester
+## 486  321SC092001    Southeast Council        mjLangArts3_semester
+## 487  321TA121501    Southeast Council        mjLangArts3_semester
+## 488  321TM022201    Southeast Council        mjLangArts3_semester
+## 489  319ER012402     Tropical Council        mjLangArts3_semester
+## 490  319ER030102     Tropical Council        mjLangArts3_semester
+## 491  319LV030601     Tropical Council        mjLangArts3_semester
+## 492  319PM092501     Tropical Council        mjLangArts3_semester
+## 493  319SV011602     Tropical Council        mjLangArts3_semester
+## 494  319TG022603     Tropical Council        mjLangArts3_semester
+## 495  3207M043002 West Central Council        mjLangArts3_semester
+## 496  320AB041702 West Central Council        mjLangArts3_semester
+## 497  320AF092500 West Central Council        mjLangArts3_semester
+## 498  320AH013102 West Central Council        mjLangArts3_semester
+## 499  320AM110403 West Central Council        mjLangArts3_semester
+## 500  320CK031402 West Central Council        mjLangArts3_semester
+## 501  320DW031301 West Central Council        mjLangArts3_semester
+## 502  320HP121201 West Central Council        mjLangArts3_semester
+## 503  320IL010602 West Central Council        mjLangArts3_semester
+## 504  320RR110901 West Central Council        mjLangArts3_semester
+## 505  320SC121301 West Central Council        mjLangArts3_semester
+## 506  320SL061102 West Central Council        mjLangArts3_semester
+## 507  320SM030502 West Central Council        mjLangArts3_semester
+## 508  320SN020402 West Central Council        mjLangArts3_semester
+## 509  320AG091201 West Central Council      mjLangArts3Adv_quarter
+## 510  320JB110501 West Central Council      mjLangArts3Adv_quarter
+## 511  320SJ052502 West Central Council      mjLangArts3Adv_quarter
+## 512  312AL061102       Citrus Council     mjLangArts3Adv_semester
+## 513  312AR090501       Citrus Council     mjLangArts3Adv_semester
+## 514  312AS030202       Citrus Council     mjLangArts3Adv_semester
+## 515  312JS013102       Citrus Council     mjLangArts3Adv_semester
+## 516  312JV032902       Citrus Council     mjLangArts3Adv_semester
+## 517  312RN011302       Citrus Council     mjLangArts3Adv_semester
+## 518  312ZS011902       Citrus Council     mjLangArts3Adv_semester
+## 519  313AD050602      Gateway Council     mjLangArts3Adv_semester
+## 520  313AG040602      Gateway Council     mjLangArts3Adv_semester
+## 521  313JB090402      Gateway Council     mjLangArts3Adv_semester
+## 522  313JG070402      Gateway Council     mjLangArts3Adv_semester
+## 523  313MD100300      Gateway Council     mjLangArts3Adv_semester
+## 524  321AD022202    Southeast Council     mjLangArts3Adv_semester
+## 525  321AW010102    Southeast Council     mjLangArts3Adv_semester
+## 526  321AW110701    Southeast Council     mjLangArts3Adv_semester
+## 527  321CA061801    Southeast Council     mjLangArts3Adv_semester
+## 528  321DK121300    Southeast Council     mjLangArts3Adv_semester
+## 529  321EN012402    Southeast Council     mjLangArts3Adv_semester
+## 530  321JA091201    Southeast Council     mjLangArts3Adv_semester
+## 531  321KN101601    Southeast Council     mjLangArts3Adv_semester
+## 532  321LD090102    Southeast Council     mjLangArts3Adv_semester
+## 533  321LS110601    Southeast Council     mjLangArts3Adv_semester
+## 534  321SH032201    Southeast Council     mjLangArts3Adv_semester
+## 535  321SJ032501    Southeast Council     mjLangArts3Adv_semester
+## 536  321SP071002    Southeast Council     mjLangArts3Adv_semester
+## 537  321SW081001    Southeast Council     mjLangArts3Adv_semester
+## 538  321TT051801    Southeast Council     mjLangArts3Adv_semester
+## 539  320MG041902     Tropical Council     mjLangArts3Adv_semester
+## 540  320AF050702 West Central Council     mjLangArts3Adv_semester
+## 541  320AF062602 West Central Council     mjLangArts3Adv_semester
+## 542  320AW063002 West Central Council     mjLangArts3Adv_semester
+## 543  320DP041202 West Central Council     mjLangArts3Adv_semester
+## 544  320DY030802 West Central Council     mjLangArts3Adv_semester
+## 545  320GE021302 West Central Council     mjLangArts3Adv_semester
+## 546  320JL052202 West Central Council     mjLangArts3Adv_semester
+## 547  320JN030502 West Central Council     mjLangArts3Adv_semester
+## 548  320JR062102 West Central Council     mjLangArts3Adv_semester
+## 549  320JW033002 West Central Council     mjLangArts3Adv_semester
+## 550  320KA081802 West Central Council     mjLangArts3Adv_semester
+## 551  320KC050902 West Central Council     mjLangArts3Adv_semester
+## 552  320KJ022602 West Central Council     mjLangArts3Adv_semester
+## 553  320KO071502 West Central Council     mjLangArts3Adv_semester
+## 554  320LS082302 West Central Council     mjLangArts3Adv_semester
+## 555  320MB011702 West Central Council     mjLangArts3Adv_semester
+## 556  320MH081602 West Central Council     mjLangArts3Adv_semester
+## 557  320NC011102 West Central Council     mjLangArts3Adv_semester
+## 558 320NT0043002 West Central Council     mjLangArts3Adv_semester
+## 559  320PG021002 West Central Council     mjLangArts3Adv_semester
+## 560  320SB093001 West Central Council     mjLangArts3Adv_semester
+## 561  320SS110101 West Central Council     mjLangArts3Adv_semester
+## 562  320VT121102 West Central Council     mjLangArts3Adv_semester
+## 563  320YC042602 West Central Council     mjLangArts3Adv_semester
+## 564  320YS111401 West Central Council     mjLangArts3Adv_semester
+## 565  320ZP050602 West Central Council     mjLangArts3Adv_semester
+## 566  320JO122602 West Central Council    mjIntensLangArts_quarter
+## 567  313KF050203      Gateway Council   mjIntensLangArts_semester
+## 568  313OF022803      Gateway Council   mjIntensLangArts_semester
+## 569  321AD020803    Southeast Council   mjIntensLangArts_semester
+## 570  321AG111402    Southeast Council   mjIntensLangArts_semester
+## 571  321CF051501    Southeast Council   mjIntensLangArts_semester
+## 572  321MA081902    Southeast Council   mjIntensLangArts_semester
+## 573  321MW112701    Southeast Council   mjIntensLangArts_semester
+## 574  321NO010803    Southeast Council   mjIntensLangArts_semester
+## 575  321RJ081099    Southeast Council   mjIntensLangArts_semester
+## 576  321SA022402    Southeast Council   mjIntensLangArts_semester
+## 577  321SB031102    Southeast Council   mjIntensLangArts_semester
+## 578  321TC011203    Southeast Council   mjIntensLangArts_semester
+## 579  321VG060702    Southeast Council   mjIntensLangArts_semester
+## 580  319AS092801     Tropical Council   mjIntensLangArts_semester
+## 581  320AM091902 West Central Council   mjIntensLangArts_semester
+## 582  320JD061002 West Central Council   mjIntensLangArts_semester
+## 583  320SA080203 West Central Council   mjIntensLangArts_semester
+## 584 TESTTESTTEST West Central Council   mjIntensLangArts_semester
+##     lang_pts4
+## 1           4
+## 2           4
+## 3           4
+## 4           3
+## 5           2
+## 6           2
+## 7           2
+## 8           3
+## 9           2
+## 10          2
+## 11          0
+## 12          4
+## 13          3
+## 14          2
+## 15          3
+## 16          2
+## 17          2
+## 18          2
+## 19          2
+## 20          3
+## 21          3
+## 22          3
+## 23          3
+## 24          3
+## 25          3
+## 26          2
+## 27          2
+## 28          2
+## 29          3
+## 30          2
+## 31          3
+## 32          2
+## 33          3
+## 34          3
+## 35          3
+## 36          3
+## 37          3
+## 38          3
+## 39          3
+## 40          3
+## 41          3
+## 42          2
+## 43          3
+## 44          2
+## 45          3
+## 46          2
+## 47          3
+## 48          2
+## 49          3
+## 50          2
+## 51          2
+## 52          3
+## 53          2
+## 54          2
+## 55          2
+## 56          3
+## 57          1
+## 58          3
+## 59          2
+## 60          3
+## 61          3
+## 62          3
+## 63          3
+## 64          3
+## 65          3
+## 66          3
+## 67          2
+## 68          3
+## 69          2
+## 70          2
+## 71          3
+## 72          2
+## 73          2
+## 74          2
+## 75          3
+## 76          3
+## 77          4
+## 78          3
+## 79          3
+## 80          3
+## 81          3
+## 82          3
+## 83          2
+## 84          4
+## 85          3
+## 86          3
+## 87          3
+## 88          3
+## 89          3
+## 90          2
+## 91          3
+## 92          3
+## 93          2
+## 94          3
+## 95          3
+## 96          3
+## 97          2
+## 98          3
+## 99          3
+## 100         3
+## 101         2
+## 102         3
+## 103         3
+## 104         3
+## 105         3
+## 106         2
+## 107         1
+## 108         2
+## 109         4
+## 110         3
+## 111         4
+## 112         3
+## 113         2
+## 114         3
+## 115         3
+## 116         2
+## 117         3
+## 118         2
+## 119         3
+## 120         3
+## 121         2
+## 122         3
+## 123         3
+## 124         4
+## 125         3
+## 126         4
+## 127         4
+## 128         4
+## 129         3
+## 130         4
+## 131         4
+## 132         4
+## 133         3
+## 134         3
+## 135         4
+## 136         4
+## 137         4
+## 138         4
+## 139         3
+## 140         3
+## 141         3
+## 142         4
+## 143         3
+## 144         3
+## 145         4
+## 146         3
+## 147         3
+## 148         4
+## 149         0
+## 150         4
+## 151         4
+## 152         2
+## 153         1
+## 154         4
+## 155         3
+## 156         4
+## 157         3
+## 158         4
+## 159         2
+## 160         3
+## 161         3
+## 162         3
+## 163         2
+## 164         3
+## 165         2
+## 166         3
+## 167         3
+## 168         4
+## 169         3
+## 170         3
+## 171         3
+## 172         3
+## 173         4
+## 174         3
+## 175         4
+## 176         3
+## 177         3
+## 178         3
+## 179         3
+## 180         3
+## 181         3
+## 182         3
+## 183         2
+## 184         2
+## 185         3
+## 186         2
+## 187         2
+## 188         3
+## 189         2
+## 190         3
+## 191         3
+## 192         3
+## 193         4
+## 194         4
+## 195         2
+## 196         2
+## 197         3
+## 198         2
+## 199         3
+## 200         3
+## 201         3
+## 202         3
+## 203         3
+## 204         2
+## 205         2
+## 206         3
+## 207         2
+## 208         3
+## 209         2
+## 210         3
+## 211         2
+## 212         3
+## 213         2
+## 214         3
+## 215         2
+## 216         3
+## 217         2
+## 218         2
+## 219         3
+## 220         3
+## 221         3
+## 222         3
+## 223         3
+## 224         2
+## 225         2
+## 226         3
+## 227         3
+## 228         3
+## 229         2
+## 230         2
+## 231         3
+## 232         2
+## 233         2
+## 234         2
+## 235         3
+## 236         3
+## 237         2
+## 238         3
+## 239         2
+## 240         2
+## 241         2
+## 242         3
+## 243         2
+## 244         2
+## 245         2
+## 246         2
+## 247         3
+## 248         2
+## 249         2
+## 250         3
+## 251         3
+## 252         3
+## 253         3
+## 254         3
+## 255         2
+## 256         2
+## 257         3
+## 258         3
+## 259         3
+## 260         3
+## 261         3
+## 262         2
+## 263         3
+## 264         3
+## 265         3
+## 266         2
+## 267         3
+## 268         4
+## 269         4
+## 270         3
+## 271         4
+## 272         3
+## 273         4
+## 274         3
+## 275         3
+## 276         4
+## 277         2
+## 278         3
+## 279         3
+## 280         3
+## 281         3
+## 282         2
+## 283         4
+## 284         4
+## 285         2
+## 286         3
+## 287         3
+## 288         3
+## 289         4
+## 290         4
+## 291         2
+## 292         3
+## 293         4
+## 294         4
+## 295         2
+## 296         2
+## 297         2
+## 298         2
+## 299         0
+## 300         1
+## 301         0
+## 302         1
+## 303         3
+## 304         1
+## 305         2
+## 306         0
+## 307         2
+## 308         3
+## 309         2
+## 310         2
+## 311         3
+## 312         2
+## 313         3
+## 314         3
+## 315         3
+## 316         4
+## 317         2
+## 318         3
+## 319         4
+## 320         4
+## 321         3
+## 322         2
+## 323         3
+## 324         3
+## 325         4
+## 326         3
+## 327         3
+## 328         3
+## 329         3
+## 330         3
+## 331         4
+## 332         4
+## 333         4
+## 334         4
+## 335         4
+## 336         4
+## 337         3
+## 338         1
+## 339         3
+## 340         4
+## 341         4
+## 342         4
+## 343         2
+## 344         4
+## 345         2
+## 346         3
+## 347         4
+## 348         4
+## 349         3
+## 350         2
+## 351         2
+## 352         4
+## 353         4
+## 354         3
+## 355         4
+## 356         3
+## 357         2
+## 358         3
+## 359         3
+## 360         4
+## 361         4
+## 362         4
+## 363         3
+## 364         3
+## 365         4
+## 366         3
+## 367         2
+## 368         3
+## 369         2
+## 370         3
+## 371         4
+## 372         3
+## 373         3
+## 374         3
+## 375         3
+## 376         3
+## 377         2
+## 378         3
+## 379         2
+## 380         3
+## 381         3
+## 382         2
+## 383         3
+## 384         3
+## 385         2
+## 386         3
+## 387         3
+## 388         3
+## 389         3
+## 390         3
+## 391         2
+## 392         3
+## 393         2
+## 394         2
+## 395         2
+## 396         3
+## 397         2
+## 398         2
+## 399         2
+## 400         2
+## 401         2
+## 402         2
+## 403         2
+## 404         3
+## 405         3
+## 406         3
+## 407         4
+## 408         2
+## 409         3
+## 410         2
+## 411         3
+## 412         3
+## 413         3
+## 414         3
+## 415         3
+## 416         2
+## 417         2
+## 418         3
+## 419         3
+## 420         3
+## 421         3
+## 422         2
+## 423         2
+## 424         2
+## 425         2
+## 426         3
+## 427         3
+## 428         3
+## 429         4
+## 430         3
+## 431         2
+## 432         2
+## 433         3
+## 434         4
+## 435         2
+## 436         2
+## 437         2
+## 438         3
+## 439         3
+## 440         2
+## 441         2
+## 442         3
+## 443         3
+## 444         3
+## 445         2
+## 446         3
+## 447         3
+## 448         2
+## 449         1
+## 450         3
+## 451         2
+## 452         1
+## 453         3
+## 454         4
+## 455         3
+## 456         1
+## 457         2
+## 458         3
+## 459         3
+## 460         2
+## 461         2
+## 462         4
+## 463         2
+## 464         2
+## 465         3
+## 466         3
+## 467         1
+## 468         4
+## 469         3
+## 470         3
+## 471         3
+## 472         3
+## 473         4
+## 474         3
+## 475         3
+## 476         3
+## 477         3
+## 478         1
+## 479         4
+## 480         4
+## 481         1
+## 482         3
+## 483         4
+## 484         2
+## 485         1
+## 486         0
+## 487         2
+## 488         4
+## 489         2
+## 490         2
+## 491         2
+## 492         2
+## 493         2
+## 494         1
+## 495         3
+## 496         3
+## 497         2
+## 498         4
+## 499         2
+## 500         3
+## 501         3
+## 502         3
+## 503         3
+## 504         2
+## 505         4
+## 506         3
+## 507         2
+## 508         3
+## 509         4
+## 510         3
+## 511         2
+## 512         3
+## 513         3
+## 514         3
+## 515         3
+## 516         2
+## 517         3
+## 518         3
+## 519         3
+## 520         3
+## 521         3
+## 522         3
+## 523         3
+## 524         4
+## 525         3
+## 526         4
+## 527         1
+## 528         2
+## 529         3
+## 530         2
+## 531         3
+## 532         3
+## 533         3
+## 534         2
+## 535         3
+## 536         4
+## 537         3
+## 538         3
+## 539         3
+## 540         4
+## 541         2
+## 542         4
+## 543         4
+## 544         3
+## 545         4
+## 546         3
+## 547         4
+## 548         3
+## 549         4
+## 550         4
+## 551         4
+## 552         3
+## 553         3
+## 554         4
+## 555         4
+## 556         3
+## 557         3
+## 558         4
+## 559         2
+## 560         4
+## 561         4
+## 562         4
+## 563         3
+## 564         4
+## 565         3
+## 566         2
+## 567         2
+## 568         2
+## 569         4
+## 570         3
+## 571         3
+## 572         4
+## 573         2
+## 574         3
+## 575         4
+## 576         3
+## 577         3
+## 578         4
+## 579         3
+## 580         2
+## 581         2
+## 582         1
+## 583         3
+## 584         4</code></pre>
 <pre class="r"><code>test_dupes &lt;- duplicated(mq4_lang_all)
 
 test_dupes</code></pre>
@@ -1877,7 +3038,27 @@ test_dupes</code></pre>
 ## [331] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ## [342] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ## [353] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [364] FALSE FALSE FALSE FALSE</code></pre>
+## [364] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [375] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [386] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [397] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [408] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [419] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [430] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [441] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [452] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [463] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [474] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [485] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [496] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [507] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [518] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [529] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [540] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [551] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [562] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [573] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [584] FALSE</code></pre>
 </div>
 </div>
 <div id="unexcused-absences" class="section level1">
@@ -1892,8 +3073,8 @@ q4_unexcused_tbl &lt;- table(q4_unexcused$unexcusedAbs)
 ### Print the table
 q4_unexcused_tbl</code></pre>
 <pre><code>## 
-##   0   1   2   3   4   5 
-## 290  29  40   5   2   1</code></pre>
+##   0   1   2   3   4   5   7 
+## 447  46  58  19   4   5   1</code></pre>
 </div>
 <div id="excused-absences" class="section level1">
 <h1>Excused Absences</h1>
@@ -1907,8 +3088,8 @@ q4_excused_tbl &lt;- with(q4_excused,table(excusedAbs))
 ### View the output
 q4_excused_tbl</code></pre>
 <pre><code>## excusedAbs
-##   0   1   2   3   4   5 
-## 280  59  19   5   3   1</code></pre>
+##   0   1   2   3   4   5   7 
+## 410  91  44  17  13   7   1</code></pre>
 </div>
 <div id="total-absences" class="section level1">
 <h1>Total Absences</h1>
@@ -1960,7 +3141,7 @@ q4_in_school_tbl &lt;- with(q4_in_school, table(inSchoolSusp))
 q4_in_school_tbl</code></pre>
 <pre><code>## inSchoolSusp
 ##   0   1   2   3 
-## 359   3   3   1</code></pre>
+## 561  11   8   2</code></pre>
 </div>
 <div id="out-of-school-suspenions" class="section level1">
 <h1>Out of School Suspenions</h1>
@@ -1970,8 +3151,8 @@ q4_out_school_tbl &lt;- with(q4_out_school, table(outofSchoolSusp))
 
 q4_out_school_tbl</code></pre>
 <pre><code>## outofSchoolSusp
-##   0   1 
-## 365   1</code></pre>
+##   0   1   2   3   4 
+## 561  10   5   3   3</code></pre>
 </div>
 <div id="total-suspensions" class="section level1">
 <h1>Total suspensions</h1>
@@ -2023,7 +3204,7 @@ colnames(q4_susp_total) [6] &lt;- &quot;q4_Total&quot;
 q4_expelled &lt;- select(q4_gradesUnique, 7,8,16)
 
 dim(q4_expelled)</code></pre>
-<pre><code>## [1] 367   3</code></pre>
+<pre><code>## [1] 583   3</code></pre>
 <pre class="r"><code>head(q4_expelled)</code></pre>
 <pre><code>##                council    girlCode expelled
 ## 3 West Central Council 320AT101602       No
@@ -2039,13 +3220,13 @@ q4_expelled_tbl &lt;-with(q4_expelled,table(expelled))
 q4_expelled_tbl</code></pre>
 <pre><code>## expelled
 ##  No Yes 
-## 367   0</code></pre>
+## 578   5</code></pre>
 <p>Promoted</p>
 <pre class="r"><code>### Select the variable of interest
 q4_promoted &lt;- select(q4_gradesUnique, 7,8,17)
 
 dim(q4_promoted)</code></pre>
-<pre><code>## [1] 367   3</code></pre>
+<pre><code>## [1] 583   3</code></pre>
 <pre class="r"><code>head(q4_promoted)</code></pre>
 <pre><code>##                council    girlCode promoted
 ## 3 West Central Council 320AT101602      Yes
@@ -2061,7 +3242,7 @@ q4_promoted_tbl &lt;-with(q4_promoted,table(promoted))
 q4_promoted_tbl</code></pre>
 <pre><code>## promoted
 ##  No Yes 
-##   1 366</code></pre>
+##   1 582</code></pre>
 </div>
 <div id="prepare-data-for-database" class="section level1">
 <h1>Prepare data for database</h1>

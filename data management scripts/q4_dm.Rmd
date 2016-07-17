@@ -19,11 +19,11 @@ library(sqldf)
 
 
 ### Locate file to read from
-setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/June 2016")
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/July 2016")
 
 
 ### read the data into R
-q4_grades <- read.csv('grades_q4_06302016.csv', skip = 1, na.strings="")
+q4_grades <- read.csv('grades_q4_07172016.csv', skip = 1, na.strings="")
 
 
 
@@ -361,6 +361,12 @@ mq4Reading <-na.omit(mq4Reading)
 
 ####Adjust Grades with a plus sign and fix spacing issues
 
+mq4Reading$readingGrade <-sub("c+", "C", fixed=TRUE, mq4Reading$readingGrade)
+
+mq4Reading$readingGrade <-sub("C+", "C", fixed=TRUE, mq4Reading$readingGrade)
+
+mq4Reading$readingGrade <-sub("A+", "A", fixed=TRUE, mq4Reading$readingGrade)
+
 mq4Reading$readingGrade <-sub("B+", "B", fixed=TRUE, mq4Reading$readingGrade)
 
 mq4Reading$readingGrade <-sub("C+", "C", fixed=TRUE, mq4Reading$readingGrade)
@@ -374,7 +380,6 @@ mq4Reading$readingGrade <-sub("c ", "C", fixed=TRUE, mq4Reading$readingGrade)
 mq4Reading$readingGrade <-sub("0", "F", fixed=TRUE, mq4Reading$readingGrade)
 
 mq4Reading$readingGrade <-sub("3", "B", fixed=TRUE, mq4Reading$readingGrade)
-
 
 
 ###Change grades to all upper case to match
@@ -392,6 +397,14 @@ with(mq4Reading, table(council,readingGrade))
 
 ### Check the levels
 levels(mq4Reading$readingGrade)
+
+
+southeast <- filter(mq4Reading, council =="Southeast Council")
+
+southeast <- with(southeast,table(girlCode, readingGrade))
+
+
+southeast
 
 names(mq4Reading)
 
