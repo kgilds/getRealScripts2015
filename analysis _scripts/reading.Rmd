@@ -17,7 +17,6 @@ library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
-library (ezknitr)
 library(knitr)
 
 ```
@@ -35,6 +34,11 @@ q1_reading <-dbReadTable(getReal_2016db,"Q1_reading")
 
 q2_reading <-dbReadTable(getReal_2016db, "Q2_reading")
 
+q3_reading <-dbReadTable(getReal_2016db, "Q3_reading")
+
+q4_reading <-dbReadTable(getReal_2016db, "Q4_reading")
+
+
 
 ```
 
@@ -44,29 +48,98 @@ q2_reading <-dbReadTable(getReal_2016db, "Q2_reading")
 
 ##join langarts grades q1q2
 
-reading <- inner_join(q1_reading, q2_reading, by="girlCode")
+reading_q1q4 <- inner_join(q4_reading, q1_reading, by="girlCode")
+
+head(reading_q1q4)
+
+missing_q1q4 <- anti_join(q4_reading, q1_reading, by="girlCode")
+
+head(missing_q1q4)
+
+reading_q2q4 <- inner_join(missing_q1q4, q2_reading, by="girlCode")
+
+dim(reading_q2q4)
+head(reading_q2q4)
 
 
-
-reading_1 <- reading %>%
-    select(girlCode, council.x, reading_pts, reading_pts2)
-
-reading_q2q1 <- reading_1 %>%
-    mutate(pt_diff = reading_pts2 - reading_pts)
-
-
+names(reading_q2q4)
+names(reading_q1q4)
 
 ```
 
 
 
+```{r}
+reading_q1q4 <- reading_q1q4 %>%
+    select(1,2,5,9)
+
+names(reading_q1q4)
+
+colnames(reading_q1q4) [2] <- "council"
+colnames(reading_q1q4) [3] <- "final"
+colnames(reading_q1q4) [4] <-"baseline"
+
+
+reading_q1q4 <- reading_q1q4 %>%
+    mutate("Time" = "Q1Q4")
+
+```
+
+
+```{r}
+
+reading_q2q4 <- reading_q2q4 %>%
+    select(1,2,5, 9)
+
+names(reading_q2q4)
+
+colnames(reading_q2q4) [2] <- "council"
+colnames(reading_q2q4) [3] <- "final"
+colnames(reading_q2q4) [4] <-"baseline"
+
+reading_q2q4 <- reading_q2q4 %>%
+    mutate("Time" = "Q2Q4")
+
+
+
+names(reading_q1q4)
+
+names(reading_q2q4)
+
+```
+
+
+```{r}
+
+reading_2016 <- rbind(reading_q1q4, reading_q2q4)
+
+dim(reading_2016)
+
+reading_2016_test <- distinct(reading_2016, girlCode)
+
+dim(reading_2016_test)
+
+
+reading_2016 <- reading_2016 %>%
+    mutate("pt_diff" = final- baseline)
+
+
+names(reading_2016)
+
+```
+
+
+
+
+
+
 ```{r echo=FALSE, eval=FALSE}
 
-reading_change <- with(reading_q2q1, table(pt_diff, reading_pts2))
+reading_change <- with(reading_2016, table(pt_diff, reading_pts2))
 
 pander(reading_change)
 
-reading_change_1 <- with(reading_q2q1, table(reading_pts2 >=2, pt_diff >=0))
+reading_change_1 <- with(reading_2016 table(reading_pts2 >=2, pt_diff >=0))
 
 pander(reading_change_1)
 
@@ -79,8 +152,8 @@ pander(reading_change_1)
 ### Reading Success: % of Students that increased Grade or maintained a C 
 ```{r echo=FALSE}
 reading_outcome <- function(){
-    reading_dat <-filter(reading_q2q1,reading_pts2 >=2, pt_diff >=0)
-    reading_dat <-  nrow(reading_dat) /nrow(reading_q2q1) 
+    reading_dat <-filter(reading_2016,final >=2, pt_diff >=0) #final great 
+    reading_dat <-  nrow(reading_dat) /nrow(reading_2016) 
     reading_dat <- round(reading_dat*100,2)
     paste(reading_dat, "%", sep= " ")
     
@@ -90,7 +163,7 @@ reading_outcome <- function(){
 ```
 
 
-The number of matching students from Quarter 1 and Quarter 2 is **`r nrow(reading_q2q1)`**, and the percent of students who increased their reading grade is **`r reading_outcome()`**.
+The number of matching students from Quarter 1 and Quarter 2 is **`r nrow(reading_2016)`**, and the percent of students who increased their reading grade is **`r reading_outcome()`**.
 
 
 
@@ -105,9 +178,9 @@ The number of matching students from Quarter 1 and Quarter 2 is **`r nrow(readin
 #with(reading_q2q1,table(reading_pts2))
 
 
-gpa_reading_1 <- mean(reading_q2q1$reading_pts)
+gpa_reading_1 <- mean(reading_2016$baseline)
 #hist(reading_q2q1$reading_pts)
-gpa_reading_2 <- mean(reading_q2q1$reading_pts2)
+gpa_reading_2 <- mean(reading_2016$final)
 #hist(reading_q2q1$reading_pts2)
 
 
@@ -117,7 +190,7 @@ gpa_reading_2 <-round(gpa_reading_2,2)
 
 #reading_gpa_change
 
-gpa_diff <- mean(reading_q2q1$pt_diff)
+gpa_diff <- mean(reading_2016$pt_diff)
 
 
 ```
@@ -129,10 +202,10 @@ The reading gpa for students is **`r (gpa_reading_2)`**,and the average reading 
 
 
 
-colnames (reading_q2q1) [2] <- "council"
-colnames (reading_q2q1) [3] <- "Q1_Grade"
-colnames (reading_q2q1) [4] <- "Q2_Grade"
-colnames (reading_q2q1) [5] <- "Grade_Change"
+colnames (reading_2016) [2] <- "council"
+colnames (reading_2016) [4] <- "basline"
+colnames (reading_2016) [3] <- "final"
+colnames (reading_2016) [6] <- "Grade_Change"
 
 
 ```
@@ -166,7 +239,7 @@ The changes in grades from Q1 to Q2 is represented below. The vertical axis repr
 #reading_change_plot + geom_count()
 
 
-reading_change_plot2 <- ggplot(reading_q2q1,(aes(x = Grade_Change, y = Q1_Grade)))
+reading_change_plot2 <- ggplot(reading_2016,(aes(x = Grade_Change, y = basline)))
 
 reading_change_plot2 + geom_count()
 
@@ -182,7 +255,7 @@ reading_change_plot2 + geom_count()
 ## Reading Trend Data:
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
@@ -197,7 +270,7 @@ getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 q4_reading_2014 <- dbReadTable(getRealdb, "reading_final_matched")
 
@@ -232,7 +305,7 @@ with(reading_q4q2,table(reading_pts2 >=2, pt_diff >=0))
 
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 read_success_m <- function() {
     read_dat <- filter(reading_q4q2, reading_pts2 >=2, pt_diff >=0)
@@ -248,7 +321,7 @@ read_success_m <- function() {
 
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 reading_mean_m<- mean(reading_q4q2$pt_diff)
 
 reading_mean_m <- round(reading_mean_m,2)
@@ -268,9 +341,8 @@ reading_gpa_m <-round(reading_gpa_m,2)
 
 ```
 
-The number of students that could be matched from last year is **`r nrow(reading_q4q2)`**, and the current reading gpa for students who particpated last year is **`r (reading_gpa_m)`**. The percent of studuents of who increased their grade or maintained their grade is **`r read_success_m()`**,and the average difference between Q4 2015 and Q2 is **`r (reading_mean_m)`**. 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 
 
@@ -284,7 +356,7 @@ colnames (reading_q4q2) [4] <- "Grade_Change"
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 ### Reading Grades Plots
 
@@ -302,7 +374,7 @@ colnames (reading_q4q2) [4] <- "Grade_Change"
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 reading_change_plot_m <- ggplot(reading_q4q2,(aes(x = Grade_Change, y = Q4_Grade)))
 

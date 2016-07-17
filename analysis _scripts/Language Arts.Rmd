@@ -63,6 +63,7 @@ missing_q4_q1 <- anti_join(q4_langarts, q1_langarts, by= "girlCode") #subset tho
 
 langarts_q4_q2 <- inner_join(missing_q4_q1, q2_langarts, by="girlCode") #try to join unmatched with q2 to q4. 
 
+head(langarts_q4_q2)
 dim(langarts_q4_q2)
 
 

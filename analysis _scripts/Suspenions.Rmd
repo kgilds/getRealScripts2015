@@ -51,7 +51,7 @@ missing_q1q4 <- anti_join(q4_suspensions, q1_suspensions, by="girlCode")
 
 head(missing_q1q4)
 
-susp_q2q4 <- inner_join(missing_q1q4, q4_suspensions, by="girlCode")
+susp_q2q4 <- inner_join(missing_q1q4, q2_suspensions, by="girlCode")
 
 head(susp_q1q4)
 
