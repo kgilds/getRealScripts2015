@@ -631,62 +631,40 @@ q4_gradesUnique$council &lt;-sub(&quot;Girl Scout Council of the Panhandle&quot;
 <pre class="r"><code>q4free_read &lt;- select(q4_gradesUnique, 7,8, 38:40)
 
 
-q4free_readtst &lt;- q4free_read[grep(&quot;read&quot;, q4free_read$reading_course, ignore.case = TRUE),]
+q4free_read &lt;- q4free_read[grep(&quot;read&quot;, q4free_read$reading_course, ignore.case = TRUE),]
 #q4free_read1 &lt;-subset(q4free_read, grepl(&quot;read&quot;, q4free_read$reading_course))
 
-dim(q4free_readtst)</code></pre>
-<pre><code>## [1] 10  5</code></pre>
-<pre class="r"><code>q4free_readtst</code></pre>
-<pre><code>##                  council    girlCode readFree1_quarter readFree2_semester
-## 284 West Central Council 320RK110200                 C               &lt;NA&gt;
-## 371 West Central Council 320HS082803                 B               &lt;NA&gt;
-## 386 West Central Council 320TJ071403                 C                  C
-## 390 West Central Council 320SD031803                 B                  B
-## 391 West Central Council 320SP032903                 C                  C
-## 395 West Central Council 320SB122902                 B                  B
-## 399 West Central Council 320JL052202                 B                  B
-## 420 West Central Council 320AR060504                 B                  B
-## 434 West Central Council 320KM041801                 B                  B
-## 436 West Central Council 320DT031504                 B                  B
-##           reading_course
-## 284  M/J INENS READ (MC)
-## 371  M/J INENS READ (MC)
-## 386     INT-DEV 2 Read 1
-## 390 M/J INT-DEV 2 Read A
-## 391 M/J INT-DEV 2 Read A
-## 395     INT-DEV 2 Read 1
-## 399 M/J INT-DEV 3 Read A
-## 420    INT-DEV 2 Read 1A
-## 434     INT-DEV 1 Read A
-## 436     INT-DEV 1 Read A</code></pre>
-<pre class="r"><code>grep(&quot;read&quot;, ignore.case=TRUE, q4free_read$reading_course)</code></pre>
-<pre><code>##  [1] 276 361 376 380 381 385 389 410 424 426</code></pre>
-<pre class="r"><code>q4free_read1 &lt;-slice(q4free_read, 276)
-
-q4free_read2 &lt;-slice(q4free_read, 361)
+q4free_read &lt;- q4free_read %&gt;%
+    select(1,2,4,5)
 
 
-head(q4free_read1)</code></pre>
-<pre><code>##                council    girlCode readFree1_quarter readFree2_semester
-## 1 West Central Council 320RK110200                 C               &lt;NA&gt;
-##        reading_course
-## 1 M/J INENS READ (MC)</code></pre>
-<pre class="r"><code>head(q4free_read2)</code></pre>
-<pre><code>##                council    girlCode readFree1_quarter readFree2_semester
-## 1 West Central Council 320HS082803                 B               &lt;NA&gt;
-##        reading_course
-## 1 M/J INENS READ (MC)</code></pre>
-<pre class="r"><code>dim(q4free_read1)</code></pre>
-<pre><code>## [1] 1 5</code></pre>
-<pre class="r"><code>q4free_read &lt;- rbind(q4free_read1, q4free_read2)
 
-head(q4free_read)</code></pre>
-<pre><code>##                council    girlCode readFree1_quarter readFree2_semester
-## 1 West Central Council 320RK110200                 C               &lt;NA&gt;
-## 2 West Central Council 320HS082803                 B               &lt;NA&gt;
-##        reading_course
-## 1 M/J INENS READ (MC)
-## 2 M/J INENS READ (MC)</code></pre>
+
+names(q4free_read)</code></pre>
+<pre><code>## [1] &quot;council&quot;            &quot;girlCode&quot;           &quot;readFree2_semester&quot;
+## [4] &quot;reading_course&quot;</code></pre>
+<pre class="r"><code>q4free_read &lt;- q4free_read %&gt;%
+    select(1:3)
+
+
+
+
+q4free_read &lt;- melt(q4free_read, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))
+
+q4free_read &lt;- slice(q4free_read, 3:10)
+
+q4free_read</code></pre>
+<pre><code>##      girlCode              council           variable value
+## 1 320TJ071403 West Central Council readFree2_semester     C
+## 2 320SD031803 West Central Council readFree2_semester     B
+## 3 320SP032903 West Central Council readFree2_semester     C
+## 4 320SB122902 West Central Council readFree2_semester     B
+## 5 320JL052202 West Central Council readFree2_semester     B
+## 6 320AR060504 West Central Council readFree2_semester     B
+## 7 320KM041801 West Central Council readFree2_semester     B
+## 8 320DT031504 West Central Council readFree2_semester     B</code></pre>
+<pre class="r"><code>colnames(q4free_read) [3] &lt;- &quot;readingCourses&quot;
+colnames(q4free_read) [4] &lt;- &quot;readingGrade&quot;</code></pre>
 </div>
 <div id="reading-grades-sectionsplit-and-clean-up" class="section level1">
 <h1>Reading Grades Section–Split and Clean up</h1>
@@ -717,6 +695,10 @@ names(q4Reading)</code></pre>
 ## [18] &quot;mjRead3Adv_semester&quot;                
 ## [19] &quot;mjDelaESOLRead_quarter&quot;             
 ## [20] &quot;mjDelaESOLRead_semester&quot;</code></pre>
+<pre class="r"><code>#q4Reading &lt;-rbind(q4Reading, q4free_read)
+
+dim(q4Reading)</code></pre>
+<pre><code>## [1] 583  20</code></pre>
 <pre class="r"><code>### Put the data in the shape you want it. 
 mq4Reading &lt;- melt(q4Reading, id.vars=c(&quot;girlCode&quot;, &quot;council&quot;))</code></pre>
 <pre><code>## Warning: attributes are not identical across measure variables; they will
@@ -726,13 +708,14 @@ colnames (mq4Reading) [4] &lt;-&quot;readingGrade&quot;
 colnames (mq4Reading) [3] &lt;- &quot;readingCourses&quot;
 
 
+mq4Reading &lt;- rbind(mq4Reading, q4free_read)
+
 ### Omit the blanks 
 mq4Reading &lt;-na.omit(mq4Reading)
 
-
-
-
-####Adjust Grades with a plus sign and fix spacing issues
+names(mq4Reading)</code></pre>
+<pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
+<pre class="r"><code>####Adjust Grades with a plus sign and fix spacing issues
 
 mq4Reading$readingGrade &lt;-sub(&quot;c+&quot;, &quot;C&quot;, fixed=TRUE, mq4Reading$readingGrade)
 
@@ -763,7 +746,7 @@ mq4Reading$readingGrade &lt;-as.factor(mq4Reading$readingGrade)
 
 summary(mq4Reading$readingGrade)</code></pre>
 <pre><code>##   A   B   C   D   F 
-## 112 252 155  33  14</code></pre>
+## 112 258 157  33  14</code></pre>
 <pre class="r"><code>### Create table to sneak peak at the data.    
 table(mq4Reading$readingCourses,mq4Reading$readingGrade)</code></pre>
 <pre><code>##                                      
@@ -785,7 +768,8 @@ table(mq4Reading$readingCourses,mq4Reading$readingGrade)</code></pre>
 ##   mjRead3Adv_quarter                   4  4  3  0  1
 ##   mjRead3Adv_semester                  3  4  1  0  0
 ##   mjDelaESOLRead_quarter               0  1  0  0  0
-##   mjDelaESOLRead_semester              0  1  0  0  0</code></pre>
+##   mjDelaESOLRead_semester              0  1  0  0  0
+##   readFree2_semester                   0  6  2  0  0</code></pre>
 <pre class="r"><code>with(mq4Reading, table(council,readingGrade))</code></pre>
 <pre><code>##                       readingGrade
 ## council                  A   B   C   D   F
@@ -793,103 +777,25 @@ table(mq4Reading$readingCourses,mq4Reading$readingGrade)</code></pre>
 ##   Gateway Council       20 139  55   0   0
 ##   Southeast Council     33  47  43  13   4
 ##   Tropical Council       0   4   8   8   0
-##   West Central Council  52  50  38  10  10</code></pre>
+##   West Central Council  52  56  40  10  10</code></pre>
 <pre class="r"><code>### Check the levels
 levels(mq4Reading$readingGrade)</code></pre>
 <pre><code>## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;F&quot;</code></pre>
-<pre class="r"><code>southeast &lt;- filter(mq4Reading, council ==&quot;Southeast Council&quot;)
-
-southeast &lt;- with(southeast,table(girlCode, readingGrade))
-
-
-southeast</code></pre>
-<pre><code>##              readingGrade
-## girlCode      A B C D F
-##   231CH040801 0 2 0 0 0
-##   321AD020803 2 0 0 0 0
-##   321AI022702 0 1 1 0 0
-##   321AM091203 0 2 0 0 0
-##   321AV122302 0 1 1 0 0
-##   321AW010102 0 2 0 0 0
-##   321AW022601 0 0 2 0 0
-##   321AW080402 0 0 2 0 0
-##   321BB091003 1 1 0 0 0
-##   321BL051301 1 1 0 0 0
-##   321BM081003 0 1 1 0 0
-##   321BR081401 0 1 1 0 0
-##   321BS111403 1 1 0 0 0
-##   321CA061801 0 0 1 0 1
-##   321CF051501 2 0 0 0 0
-##   321CG082901 0 0 1 1 0
-##   321CG111501 0 1 1 0 0
-##   321CJ042201 0 0 2 0 0
-##   321DA090103 2 0 0 0 0
-##   321DD121800 0 0 2 0 0
-##   321DG010202 0 2 0 0 0
-##   321DJ032902 2 0 0 0 0
-##   321DK121300 0 2 0 0 0
-##   321DM092301 0 1 1 0 0
-##   321DS012802 1 1 0 0 0
-##   321ES020904 0 0 2 0 0
-##   321FB061802 0 2 0 0 0
-##   321FC060101 0 2 0 0 0
-##   321FJ011803 2 0 0 0 0
-##   321GC050202 0 2 0 0 0
-##   321IM121403 0 1 1 0 0
-##   321IP051602 1 0 1 0 0
-##   321JA091201 0 0 1 1 0
-##   321JC070204 1 1 0 0 0
-##   321JD101502 2 0 0 0 0
-##   321JJ051601 0 2 0 0 0
-##   321JJ071102 0 0 2 0 0
-##   321JM100202 1 1 0 0 0
-##   321JR042402 0 0 1 1 0
-##   321JR051302 0 0 2 0 0
-##   321JV021803 1 1 0 0 0
-##   321KD040803 0 0 0 1 1
-##   321KG120501 0 0 2 0 0
-##   321KM121501 0 0 1 1 0
-##   321KN101601 1 1 0 0 0
-##   321KT083104 0 1 1 0 0
-##   321KW062503 0 1 1 0 0
-##   321LL050202 0 0 0 2 0
-##   321LU022702 0 0 2 0 0
-##   321MM092802 0 0 1 0 1
-##   321NE031201 0 2 0 0 0
-##   321NJ032201 0 1 0 1 0
-##   321NL052800 0 0 0 2 0
-##   321NO010803 0 0 1 1 0
-##   321NT052302 1 1 0 0 0
-##   321NW102103 1 1 0 0 0
-##   321PA012503 2 0 0 0 0
-##   321RJ011800 0 0 1 0 1
-##   321RJ081099 2 0 0 0 0
-##   321RL060204 0 2 0 0 0
-##   321RL121002 0 0 1 1 0
-##   321RP082102 0 1 1 0 0
-##   321SA080701 0 0 2 0 0
-##   321SC092001 0 1 0 1 0
-##   321SM012903 2 0 0 0 0
-##   321SP121202 2 0 0 0 0
-##   321TA121501 0 1 1 0 0
-##   321TC051403 2 0 0 0 0
-##   321TM022201 0 0 2 0 0
-##   321ZJ092702 0 2 0 0 0</code></pre>
 <pre class="r"><code>names(mq4Reading)</code></pre>
 <pre><code>## [1] &quot;girlCode&quot;       &quot;council&quot;        &quot;readingCourses&quot; &quot;readingGrade&quot;</code></pre>
 <pre class="r"><code>dim(mq4Reading)</code></pre>
-<pre><code>## [1] 566   4</code></pre>
+<pre><code>## [1] 574   4</code></pre>
 <pre class="r"><code>test_mq4Reading&lt;-distinct(mq4Reading, girlCode)
 
 dim(test_mq4Reading)</code></pre>
-<pre><code>## [1] 304   4</code></pre>
+<pre><code>## [1] 312   4</code></pre>
 <div id="check-for-duplicate-reading-gradesquarter-and-semester-grades" class="section level2">
 <h2>Check for duplicate reading grades(Quarter and Semester Grades)</h2>
 <pre class="r"><code>### Find the unique girlCodes with just one grade 
 mq4_read_ok &lt;- mq4Reading [!(duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast = TRUE)), ]
 
 dim(mq4Reading)</code></pre>
-<pre><code>## [1] 566   4</code></pre>
+<pre><code>## [1] 574   4</code></pre>
 <pre class="r"><code>##############################Subset Duplicate Values##################
 ### find the duplicates
 q4reading_dupes &lt;-duplicated(mq4Reading$girlCode) | duplicated(mq4Reading$girlCode, fromLast=TRUE)
@@ -975,7 +881,7 @@ dim(read_semester)</code></pre>
 <pre class="r"><code>mq4_read_1 &lt;- rbind(mq4_read_ok, read_semester)
 
 dim(mq4_read_1)</code></pre>
-<pre><code>## [1] 304   4</code></pre>
+<pre><code>## [1] 312   4</code></pre>
 </div>
 <div id="reading-grade-points" class="section level3">
 <h3>Reading Grade Points</h3>
@@ -991,7 +897,7 @@ for(i in mq4_read_1$readingGrade){ #loop through grades
 }
 
 dim(mq4_read_1)</code></pre>
-<pre><code>## [1] 304   4</code></pre>
+<pre><code>## [1] 312   4</code></pre>
 <pre class="r"><code>mq4_read_all &lt;-cbind(mq4_read_1, reading_pts4) #bind data back in </code></pre>
 </div>
 <div id="merge-all-the-reading-sets" class="section level3">
