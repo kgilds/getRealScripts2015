@@ -122,7 +122,7 @@ hr_prepost2013 <- hr_prepost2013 %>%
 
 
 
-```{r prep2015 data,echo=FALSE}
+```{r "prep2015 data",echo=FALSE}
 
 healthy_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
@@ -182,10 +182,19 @@ hr_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 
 ```
 
-```{r test_tables, echo=FALSE, eval=TRUE}
+
+```{r test, echo=FALSE}
 
 hr_high_df <- hr_all %>%
     filter(Year_Id == "M3" & Post >=4.45)
+
+```
+
+
+
+## Test Tables
+```{r test_tables, echo=FALSE, eval=TRUE}
+
 
 hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
 
@@ -198,13 +207,16 @@ pander(hr_high_p)
 
 hr_not_achieved <- filter(hr_all, Year_Id == "M3" & Post < 4.45)
 
-#pander(hr_increase_df)
+
 
 hr_increase_df <- filter(hr_not_achieved, Year_Id == "M3" & hr.diff >0)
 
+
+
+
 hr_increase_tbl <-with(hr_increase_df, table(Year_Id, hr.diff > 0 ))
 
-#hr_increase
+hr_increase_tbl
 
 hr_increase <- prop.table(hr_increase_tbl,1)
 
@@ -217,7 +229,6 @@ nrow(hr_lowhigh)
 
 table(hr_lowhigh$Year_Id)
 
-#head(hr_lowhigh)
 
 hr_imrove <- with(hr_lowhigh, table(Year_Id, Post >=4.45))
 
@@ -377,7 +388,7 @@ The percent of students with a successful outcome is  **`r hr_sucess("M3")`**
 The improvement in outcome scores is graphically represented below. 
 
 
-```{r}
+```{r"hr_2016", echo=FALSE}
 
 hr_2016 <- hr_all %>%
     filter(Year_Id =="M3")
@@ -386,11 +397,11 @@ hr_2016 <- hr_all %>%
 
 
 
-```{r}
-pre_hr_histq <- qplot(hr_2016$Pre, geom="histogram", main= "Pre Survey", bins=40, xlab="Outcome Scores") + geom_vline(xintercept = 4.45, col="red") 
+```{r "hr_histo", echo=FALSE}
+pre_hr_histq <- qplot(hr_2016$Pre, geom="histogram", main= "Pre Survey",ylim=c(0,60), bins=40, xlab="Outcome Scores") + geom_vline(xintercept = 4.45, col="red") 
 
 
-post_hr_histq <-qplot(hr_2016$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,40)) + geom_vline(xintercept = 4.45, col="red")
+post_hr_histq <-qplot(hr_2016$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,60)) + geom_vline(xintercept = 4.45, col="red")
 
 grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
@@ -399,7 +410,7 @@ grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
 The percent of students who achieved the healthy releationship at a high level is **`r hr_achieved("M3")`**. The imrovement is represented graphically below. 
 
-```{r}
+```{r "hr_bar_2016", echo=FALSE}
 hr_bar_pre <-qplot(hr_2016$Pre >=4.45, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
 
 hr_bar_post <-qplot(hr_2016$Post >=4.45, geom ="bar",ylim=c(0,300), main="Post Survey Results", xlab="Achievment at High Level")
@@ -409,7 +420,7 @@ grid.arrange(hr_bar_pre, hr_bar_post, ncol=2)
 
 ```
 
-```{r}
+```{r "hr_change", echo=FALSE}
 healthy_change <- filter(healthy_prepost, Pre !=6.0 & Post !=6.0)
 
 
@@ -458,7 +469,7 @@ pander(not_pre)
 
 
 
-```{r}
+```{r "plot_hr_change", echo=FALSE}
 
 
 
@@ -472,13 +483,13 @@ healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xin
 
 A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
 
-```{r}
+```{r "wilcox_test", echo=FALSE}
 pander(wilcox.test(hr_2016$Pre, hr_2016$Post))
 
 ```
 
 
-```{r}
+```{r "cohen_test", echo=FALSE}
 cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
 
 ```
@@ -492,7 +503,7 @@ Survey results from teachers and parents also provide evidence that the Get REAL
 Parent Survey
 Question 1: She develops positive relationships with her classmates.
 
-```{r}
+```{r"read_parent", echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
 post_parent <- dbReadTable(getReal_2016db, "post_parent")
@@ -502,23 +513,22 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 Pre Parent Survey
 
-Quetion:She develops positive relationships with her classmates.
+Quetion 1:She develops positive relationships with her classmates.
 
 
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r "q1_parent",  fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
-names(pre_parent)
+
 
 pre_parent_hr1 <- pre_parent %>%
     select(14)
 
 colnames(pre_parent_hr1) [1] <- "Q5"
 
-names(pre_parent_hr1)
+
 
 pre_parent_hr1$Q5 <- factor(pre_parent_hr1$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
-head(pre_parent_hr1)
 
 
 
@@ -545,9 +555,9 @@ Question 5: She develops positive relationships with her classmates
 
 Question 9: The Get REAL! program helped my daughter establish positive relationships with her classmates
 
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r "q5_q9_parent_survey", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
-names(post_parent)
+
 
 colnames(post_parent) [14] <-"Q5"
 colnames(post_parent) [18] <-"Q9"
@@ -578,7 +588,7 @@ nrow(post_parent_hr1) #number of rows to help with testing %s
 
 
 
-head(post_parent_hr1)
+
 
 post_parent_hr1 <- likert(post_parent_hr1)
 
@@ -597,10 +607,10 @@ Question 1: She has developed positive relationships with her classmates
 
 Question 2: The Get REAL! program helped her develop positive relationships with classmates.
 
-```{r fig.width=12}
+```{r fig.width=12, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
-names(post_teacher)
+
 
 colnames(post_teacher) [16] <- "Q7"
 colnames(post_teacher) [19] <- "Q10"
@@ -608,7 +618,6 @@ colnames(post_teacher) [19] <- "Q10"
 post_teacher_tbl <- post_teacher %>%
     select(16, 19)
 
-names(post_teacher_tbl)
 
 
 
@@ -643,7 +652,7 @@ plot(post_teacher_tbl, type="heat") + ggtitle("Post Teacher Survey Question 5 & 
 
 # Trend Data
 
-```{r lastyeardata, echo=FALSE}
+```{r lastyeardata, echo=FALSE, eval=FALSE}
 
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
