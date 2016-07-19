@@ -126,7 +126,7 @@ ae_prepost2013 <- ae_prepost2013 %>%
 ```
 
 
-```{r test_2013, echo=FALSE}
+```{r test_2013, echo=FALSE, eval=FALSE}
 
 council <- group_by(ae_prepost2013, council)
 
@@ -213,7 +213,7 @@ ae_prepost <- ae_prepost %>%
 
 
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 
 #names(ae_prepost)
 
@@ -249,11 +249,11 @@ ae_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 ae_high_df <- ae_all %>%
     filter(Year_Id == "M3" & Post >=4.5)
 
-#nrow(ae_high_df)
+nrow(ae_high_df)
 
 ae_high <- with(ae_all,table(Year_Id,Post >=4.5))
 
-#ae_high
+ae_high
 
 ae_high_p <- prop.table(ae_high,1)
 
@@ -263,37 +263,37 @@ ae_high_p <- prop.table(ae_high,1)
 ae_increase_df <- filter(ae_all, Year_Id == "M3" & Post < 4.5)
 
 
-ae_incease_df_i <- ae_increase_df %>%
+ae_increase_df_i <- ae_increase_df %>%
     filter(ae.diff >0)
 
-#nrow(ae_incease_df_i)
+nrow(ae_increase_df_i)
 
 
 
 
 ae_increase <-with(ae_increase_df, table(Year_Id, ae.diff > 0 ))
 
-#ae_increase
+ae_increase
 
 ae_increase <- prop.table(ae_increase,1)
 
-#pander(ae_increase)
+pander(ae_increase)
 
 
-#ae_lowhigh <- filter(ae_all, Pre < 4.5 & Post >=4.5)
+ae_lowhigh <- filter(ae_all, Pre < 4.5 & Post >=4.5)
 
-#nrow(ae_lowhigh)
+nrow(ae_lowhigh)
 
-#table(ae_lowhigh$Year_Id)
+table(ae_lowhigh$Year_Id)
 
-#head(ae_lowhigh)
+head(ae_lowhigh)
 
-#ae_imrove <- with(ae_lowhigh, table(Year_Id, Post >=4.5))
+ae_imrove <- with(ae_lowhigh, table(Year_Id, Post >=4.5))
 
 
-#ae_imrove <- prop.table(ae_imrove,1)
+ae_imrove <- prop.table(ae_imrove,1)
 
-#pander(ae_imrove)
+pander(ae_imrove)
 
 
 
@@ -402,7 +402,7 @@ The number of pre and post survey that could be matched is **`r nrow(ae_prepost)
 
 1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(ae_high_df)`**
 
-2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(ae_increase_df)`**
+2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(ae_increase_df_i)`**
 
 
 The percent of students with a successful outcome is **`r ae_match("M3")`**
@@ -423,7 +423,7 @@ ae_2016 <- ae_all %>%
 
 
 
-```{r}
+```{r ae_hist, echo=FALSE}
 pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores" ) + geom_vline(xintercept = 4.5, col="red") 
 
 
@@ -435,7 +435,7 @@ grid.arrange(pre_ae_histq, post_ae_histq, ncol=2)
 ```
 
 
-```{r}
+```{r ae_bar, echo=FALSE}
 ae_bar_pre <-qplot(ae_2016$Pre >=4.5, geom="bar", ylim=c(0, 200), main="Pre survey Results", xlab="Achievment at High Level")
 
 ae_bar_post <-qplot(ae_2016$Post >=4.45, geom ="bar", main="Post Survey Results", xlab="Achievment at High Level")
@@ -445,7 +445,7 @@ grid.arrange(ae_bar_pre, ae_bar_post, ncol=2)
 
 ```
 
-```{r}
+```{r ae_change, echo=FALSE}
 ae_change <- ae_2016 %>%
     filter(Pre !=6.0 & Post !=6.0)
 
@@ -460,7 +460,7 @@ The increase in the academic engagement outcome scores is represented graphicall
 
 
 
-```{r}
+```{r ae_chang_plot, echo=FALSE}
 
 ae_change <- ae_2016 %>%
     filter(Pre !=6.0 & Post !=6.0)
@@ -476,13 +476,13 @@ ae_change_p + geom_count() + geom_hline(yintercept = 4.5) + geom_vline(xintercep
 
 A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
 
-```{r}
+```{r wilcox_test, echo=FALSE}
 pander(wilcox.test(ae_2016$Pre, ae_2016$Post))
 
 ```
 
 
-```{r}
+```{r cohen, echo=FALSE}
 cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 ```
@@ -491,11 +491,11 @@ cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students learn tangible tools to help them succeed in school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
-Parent Survey:
+Parent Pre Survey:
 
-Question: She works on her homework at home without supervision
+Question 5: She works on her homework at home without supervision N=465
 
-```{r}
+```{r load_parent_survey, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
 post_parent <- dbReadTable(getReal_2016db, "post_parent")
@@ -503,12 +503,15 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 ```
 
 # Pre Survey
-```{r}
+```{r pre_parent, echo=FALSE}
 
 colnames(pre_parent)[15] <- "Q5"
 
+
 pre_parent_tbl <- pre_parent %>%
     select(15)
+
+table(pre_parent_tbl)
 
 #names(pre_parent_tbl)
 
@@ -519,7 +522,7 @@ pre_parent_tbl$Q5 <- factor(pre_parent_tbl$Q5, levels=c("Strongly Disagree", "Di
 ```
 
 
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r "q5_parent", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 pre_parent_test <- table(pre_parent_tbl) #make tbl for testing
 
@@ -536,7 +539,7 @@ plot(pre_parent_tbl, type="heat") +ggtitle("Parent Pre Survey Question 5") + the
 ```
 
 
-```{r}
+```{r "parent_q6", echo=FALSE}
 colnames(post_parent)[15] <- "Q6"
 
 post_parent_tbl <- post_parent %>%
@@ -548,7 +551,7 @@ post_parent_tbl$Q6 <- factor(post_parent_tbl$Q6, levels=c("Strongly Disagree", "
 ```
 
 
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r "liker_q6", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 post_parent_test <- table(post_parent_tbl) #make tbl to check results of likert
 
@@ -571,7 +574,7 @@ Teacher Survey
 Question 5: She positively participates in class
 Question 6: She completes the homework given to her.
 
-```{r fig.height=2, fig.width=15}
+```{r  "load_teacher", fig.height=2, fig.width=15, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 
@@ -580,7 +583,7 @@ post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 colnames(post_teacher)[15] <- "Q6"
 colnames(post_teacher)[14] <- "Q5"
 
-
+nrow(post_teacher)
 
 post_teacher_tbl <- post_teacher %>%
     select(14,15)
@@ -592,12 +595,17 @@ post_teacher_tbl$Q5 <- factor(post_teacher_tbl$Q5, levels=c("Strongly Disagree",
 post_teacher_tbl$Q6 <- factor(post_teacher_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
+table(post_teacher_tbl$Q5)
+table(post_teacher_tbl$Q6)
+
+
+
 
 ```
 
 
 
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r "teacher_plots",fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 
