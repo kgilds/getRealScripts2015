@@ -126,13 +126,13 @@ hr_prepost2013 <- hr_prepost2013 %>%
 
 healthy_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
-head(healthy_prepost)
+#head(healthy_prepost)
 
 colnames(healthy_prepost) [2] <- "council"
 colnames(healthy_prepost) [3] <- "Pre"
 colnames(healthy_prepost) [5] <- "Post"
 
-str(healthy_prepost)
+#str(healthy_prepost)
 
 healthy_prepost <-healthy_prepost %>%
     mutate(Year_Id = "M3")
@@ -362,7 +362,7 @@ hr_lowHigh <-function (Year){
 
 ## Healthy Relationship Outcome 
 
-Relationship skils are a critical component of success in all realms of life. 
+Relationship skills are a critical component of success in all realms of life. 
 The Healthy Relationship questions measures the behaviors and attitudes of the respondent regarding their relationship skills. Questions that measure healthy relationships skills include the following:
 
 
@@ -481,13 +481,16 @@ healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xin
 
 ```
 
-A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
+Two statisical tests were administered on the matched survey results the wilcox test and Cohen's D test. 
+
+The outcome distributions did not approximate a normal distribution, thus A wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
 
 ```{r "wilcox_test", echo=FALSE}
 pander(wilcox.test(hr_2016$Pre, hr_2016$Post))
 
 ```
 
+The Cohen D test indicates that the impact is small. 
 
 ```{r "cohen_test", echo=FALSE}
 cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
@@ -500,8 +503,6 @@ cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
 
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students increase their relationship skills. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
-Parent Survey
-Question 1: She develops positive relationships with her classmates.
 
 ```{r"read_parent", echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
@@ -510,8 +511,10 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 ```
 
-
+*
 Pre Parent Survey
+
+The number of pre parent surveys is **`r nrow(pre_parent)`**
 
 Quetion 1:She develops positive relationships with her classmates.
 
@@ -534,10 +537,10 @@ pre_parent_hr1$Q5 <- factor(pre_parent_hr1$Q5, levels=c("Strongly Disagree", "Di
 
 pre_parent_tbl <- table(pre_parent_hr1) #test q5 
 
-nrow(pre_parent_hr1) #test to figure how total with testing %s
+#nrow(pre_parent_hr1) #test to figure how total with testing %s
 
 
-pander(pre_parent_tbl) 
+#pander(pre_parent_tbl) 
 
 pre_parent_hr1 <- likert(pre_parent_hr1)
 
@@ -549,7 +552,9 @@ plot(pre_parent_hr1, type="heat") + ggtitle("Pre Parent Survey Question 5") + th
 
 
 
-## Post Parent  Survey
+## Post Parent Survey
+
+The number of valid post parent survey is **`r nrow(post_parent)`**
 
 Question 5: She develops positive relationships with her classmates
 
@@ -567,7 +572,7 @@ post_parent_hr1 <- post_parent %>%
     select(14, 18)
 
 
-names(post_parent_hr1)
+#names(post_parent_hr1)
 
 post_parent_hr1$Q5 <- factor(post_parent_hr1$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
@@ -576,14 +581,14 @@ post_parent_hr1$Q9 <- factor(post_parent_hr1$Q9, levels=c("Strongly Disagree", "
 
 post_parent_tbl_5 <- table(post_parent_hr1$Q5) #test Q5
 
-pander(post_parent_tbl_5)
+#pander(post_parent_tbl_5)
 
 post_parent_tbl_9 <- table(post_parent_hr1$Q9) #test Q9
 
-pander(post_parent_tbl_9) #return value of test #9
+#pander(post_parent_tbl_9) #return value of test #9
 
 
-nrow(post_parent_hr1) #number of rows to help with testing %s
+#nrow(post_parent_hr1) #number of rows to help with testing %s
 
 
 
@@ -601,14 +606,19 @@ plot(post_parent_hr1, type="heat") +ggtitle("Post Parent Survey Question 5 & Que
 
 # Teacher Post Survey
 
-Teacher Survey
+```{r}
+post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
-Question 1: She has developed positive relationships with her classmates
+```
 
-Question 2: The Get REAL! program helped her develop positive relationships with classmates.
+
+The number of valid survey entries for the  post teacher survey is **`r nrow(post_teacher)`**
+
+Question 7: She has developed positive relationships with her classmates
+
+Question 10: The Get REAL! program helped her develop positive relationships with classmates.
 
 ```{r fig.width=12, echo=FALSE}
-post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 
 
@@ -628,14 +638,14 @@ post_teacher_tbl$Q10 <- factor(post_teacher$Q10, levels=c("Strongly Disagree", "
 
 post_teacher_tbl_q7 <- table(post_teacher_tbl$Q7)
 
-pander(post_teacher_tbl_q7)  #test teacher post q7
+#pander(post_teacher_tbl_q7)  #test teacher post q7
 
 
 post_teacher_tbl_q10 <- table(post_teacher_tbl$Q10)
 
-pander(post_teacher_tbl_q7) #test teacher post q10
+#pander(post_teacher_tbl_q7) #test teacher post q10
 
-nrow(post_teacher_tbl) #check to determine number of rows; what to divide to get %
+#nrow(post_teacher_tbl) #check to determine number of rows; what to divide to get %
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 
