@@ -611,7 +611,7 @@ summary(pre_parent_tbl)
 
 ```
 
-Pre Survey
+Parent Pre Survey
 ```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
 likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
@@ -627,13 +627,6 @@ colnames(post_parent) [12] <- "Q3"
 post_parent_tbl <- post_parent %>%
     select(10,12)
 
-
-
-post_parent_tbl$Q1 <- factor(post_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-post_parent_tbl$Q3 <- factor(post_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
 post_parent_test_q1 <-table(post_parent_tbl$Q1) #make table to test
 
 pander(post_parent_test_q1) #show result of test
@@ -644,6 +637,13 @@ post_parent_test_q3 <-table(post_parent_tbl$Q3) #make table to test
 pander(post_parent_test_q3)  # show results of test
 
 nrow(post_parent_tbl) #check to determine total to make divisible. 
+
+
+post_parent_tbl$Q1 <- factor(post_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_parent_tbl$Q3 <- factor(post_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
 
 post_parent_tbl <- likert(post_parent_tbl) #make into liker table
 
