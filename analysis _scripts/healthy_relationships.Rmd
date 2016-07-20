@@ -192,7 +192,7 @@ hr_high_df <- hr_all %>%
 
 
 
-## Test Tables
+
 ```{r test_tables, echo=FALSE, eval=TRUE}
 
 
@@ -202,7 +202,7 @@ hr_high <- with(hr_all,table(Year_Id,Post >=4.45))
 
 hr_high_p <- prop.table(hr_high,1)
 
-pander(hr_high_p)
+#pander(hr_high_p)
 
 
 hr_not_achieved <- filter(hr_all, Year_Id == "M3" & Post < 4.45)
@@ -216,18 +216,18 @@ hr_increase_df <- filter(hr_not_achieved, Year_Id == "M3" & hr.diff >0)
 
 hr_increase_tbl <-with(hr_increase_df, table(Year_Id, hr.diff > 0 ))
 
-hr_increase_tbl
+#hr_increase_tbl
 
 hr_increase <- prop.table(hr_increase_tbl,1)
 
-pander(hr_increase)
+#pander(hr_increase)
 
 
 hr_lowhigh <- filter(hr_all, Pre < 4.45 & Post >=4.45)
 
-nrow(hr_lowhigh)
+#nrow(hr_lowhigh)
 
-table(hr_lowhigh$Year_Id)
+#table(hr_lowhigh$Year_Id)
 
 
 hr_imrove <- with(hr_lowhigh, table(Year_Id, Post >=4.45))
@@ -235,7 +235,7 @@ hr_imrove <- with(hr_lowhigh, table(Year_Id, Post >=4.45))
 
 hr_imrove <- prop.table(hr_imrove,1)
 
-pander(hr_imrove)
+#pander(hr_imrove)
 
 
 ```
@@ -490,7 +490,7 @@ pander(wilcox.test(hr_2016$Pre, hr_2016$Post))
 
 ```
 
-The Cohen D test indicates that the impact is small. 
+The Cohen D test indicates that the effect was small. 
 
 ```{r "cohen_test", echo=FALSE}
 cohen.d(hr_2016$Post, hr_2016$Pre, paired=TRUE)
@@ -511,12 +511,13 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 ```
 
-*
-Pre Parent Survey
 
-The number of pre parent surveys is **`r nrow(pre_parent)`**
+### Pre Parent Survey
 
-Quetion 1:She develops positive relationships with her classmates.
+
+* Quetion 1:She develops positive relationships with her classmates.
+
+Results based on 466 responses. 
 
 
 ```{r "q1_parent",  fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
@@ -552,13 +553,12 @@ plot(pre_parent_hr1, type="heat") + ggtitle("Pre Parent Survey Question 5") + th
 
 
 
-## Post Parent Survey
+### Post Parent Survey
 
-The number of valid post parent survey is **`r nrow(post_parent)`**
 
-Question 5: She develops positive relationships with her classmates
+* Question 5: She develops positive relationships with her classmates
 
-Question 9: The Get REAL! program helped my daughter establish positive relationships with her classmates
+* Question 9: The Get REAL! program helped my daughter establish positive relationships with her classmates
 
 ```{r "q5_q9_parent_survey", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
@@ -604,19 +604,19 @@ plot(post_parent_hr1, type="heat") +ggtitle("Post Parent Survey Question 5 & Que
 ```
 
 
-# Teacher Post Survey
+### Teacher Post Survey
 
-```{r}
+```{r read_teacher, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 ```
 
 
-The number of valid survey entries for the  post teacher survey is **`r nrow(post_teacher)`**
+* Question 7: She has developed positive relationships with her classmates (N=397)
 
-Question 7: She has developed positive relationships with her classmates
+* Question 10: The Get REAL! program helped her develop positive relationships with classmates. (N=394)
 
-Question 10: The Get REAL! program helped her develop positive relationships with classmates.
+Results based on 397 responses. 
 
 ```{r fig.width=12, echo=FALSE}
 
@@ -629,21 +629,21 @@ post_teacher_tbl <- post_teacher %>%
     select(16, 19)
 
 
-
-
-post_teacher_tbl$Q7 <- factor(post_teacher$Q7, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-post_teacher_tbl$Q10 <- factor(post_teacher$Q10, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-post_teacher_tbl_q7 <- table(post_teacher_tbl$Q7)
+#post_teacher_tbl_q7 <- table(post_teacher_tbl$Q7)
 
 #pander(post_teacher_tbl_q7)  #test teacher post q7
 
 
-post_teacher_tbl_q10 <- table(post_teacher_tbl$Q10)
+#post_teacher_tbl_q10 <- table(post_teacher_tbl$Q10)
 
-#pander(post_teacher_tbl_q7) #test teacher post q10
+#pander(post_teacher_tbl_q10) #test teacher post q10
+
+
+post_teacher_tbl$Q7 <- factor(post_teacher$Q7, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+post_teacher_tbl$Q10 <- factor(post_teacher$Q10, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
 
 #nrow(post_teacher_tbl) #check to determine number of rows; what to divide to get %
 
@@ -660,7 +660,6 @@ plot(post_teacher_tbl, type="heat") + ggtitle("Post Teacher Survey Question 5 & 
 
 
 
-# Trend Data
 
 ```{r lastyeardata, echo=FALSE, eval=FALSE}
 
