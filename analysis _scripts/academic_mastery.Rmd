@@ -4,7 +4,7 @@ author: "Kevin Gilds, MPA"
 date: "June 14, 2016"
 output: html_document
 ---
-```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+```{r am_importlibaries, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(pander)
 library(ggplot2)
@@ -43,7 +43,7 @@ history <- dbReadTable(getReal_2016db, "basic_view")
 ```
 
 
-```{r read_2014, echo=FALSE}
+```{r am_read_2014, echo=FALSE}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 
 getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
@@ -119,7 +119,7 @@ am_prepost2013 <- am_prepost2013 %>%
 ```
 
 
-```{r test_2013, echo=FALSE, eval=FALSE}
+```{r am_test_2013, echo=FALSE, eval=FALSE}
 
 council <- group_by(am_prepost2013, council)
 
@@ -139,7 +139,7 @@ fun_test_2 <-with(am_prepost2013,table(Post < 4.5 & am.diff >0))
 
 ```
 
-```{r 2014_test, echo=FALSE, eval=FALSE}
+```{r am_2014_test, echo=FALSE, eval=FALSE}
 
 fun_test_2014 <-with(am_prepost2014,table(Post >=4.5))
 
@@ -286,7 +286,7 @@ am_imrove <- prop.table(am_imrove,1)
 
 ```
 
-```{r test_tables, echo=FALSE}
+```{r am_test_tables, echo=FALSE}
 am_high_df <- am_all %>%
     filter(Year_Id == "M3" & Post >=4.8)
 
@@ -559,7 +559,7 @@ Survey results from teachers and parents also provide evidence that the Get REAL
 * Question 3: She has a Good Attitude About School
 
 Results based on 466 respones. 
-```{r load_parent, echo=FALSE}
+```{r am_load_parent, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
 post_parent <- dbReadTable(getReal_2016db, "post_parent")
@@ -568,7 +568,7 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 
 
-```{r pre_survey, fig.height=5, fig.width=10, echo=FALSE}
+```{r am_pre_survey, fig.height=5, fig.width=10, echo=FALSE}
 
 colnames(pre_parent) [10] <- "Q1"
 
@@ -615,7 +615,7 @@ summary(pre_parent_tbl)
 ```
 
 
-```{r pre_parent_heat, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
+```{r am_pre_parent_heat, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
 likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
 ```
@@ -628,7 +628,7 @@ likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Quest
 
 Results based on 244 responses. 
 
-```{r pre_post_parent, echo=FALSE}
+```{r am_pre_post_parent, echo=FALSE}
 
 colnames(post_parent) [10] <- "Q1"
 
@@ -665,7 +665,7 @@ summary(post_parent_tbl)  #make summary of likert items
 
 
 
-```{r 'post_parent_heat', fig.height=5, fig.width=14, fig.path="Figs/", dev.args="cario-png", echo=FALSE }
+```{r 'am_post_parent_heat', fig.height=5, fig.width=14, fig.path="Figs/", dev.args="cario-png", echo=FALSE }
 
 likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Question 3") + theme_dark()
 
@@ -682,7 +682,7 @@ likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Que
 
 The number of responses to the post teacher survey is 397. 
 
-```{r load_post_teacher, echo=FALSE}
+```{r am_load_post_teacher, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 colnames(post_teacher) [10] <- "Q1"
@@ -726,7 +726,7 @@ summary(post_teacher_tbl)
 
 ```
 
-```{r heat_post_teacher, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
+```{r am_heat_post_teacher, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 plot(post_teacher_tbl, type="heat") +ggtitle("Post Teacher Survey Question 1 & Question 3") + theme_dark()
 
