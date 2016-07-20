@@ -43,7 +43,7 @@ history <- dbReadTable(getReal_2016db, "basic_view")
 ```
 
 
-```{r echo=FALSE}
+```{r read_2014, echo=FALSE}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 
 getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
@@ -138,7 +138,7 @@ fun_test_2 <-with(am_prepost2013,table(Post < 4.5 & am.diff >0))
 
 ```
 
-```{r echo=FALSE, eval=FALSE}
+```{r 2014_test, echo=FALSE, eval=FALSE}
 
 fun_test_2014 <-with(am_prepost2014,table(Post >=4.5))
 
@@ -161,7 +161,7 @@ am_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
 ```
 
-```{r echo=FALSE}
+```{r am_prepost, echo=FALSE}
 
 #head(am_prepost)
 
@@ -287,7 +287,7 @@ am_imrove <- prop.table(am_imrove,1)
 
 #Tables
 
-```{r echo=FALSE}
+```{r test_tables, echo=FALSE}
 am_high_df <- am_all %>%
     filter(Year_Id == "M3" & Post >=4.8)
 
@@ -346,7 +346,7 @@ am_improve <- prop.table(am_imrove,1)
 
 
 
-```{r echo=FALSE}
+```{r test_am, echo=FALSE}
 #mean(am_all$am.diff)
 #plot(am_all$am.diff)
 #abline(h=0, col="red")
@@ -357,7 +357,7 @@ am_improve <- prop.table(am_imrove,1)
 
 
 
-```{r echo=FALSE}
+```{r am_achieved_fun, echo=FALSE}
 
 am_achieved <- function(Year) {
     
@@ -386,7 +386,7 @@ am_achieved <- function(Year) {
 
 
 
-```{r echo=FALSE}
+```{r am_macth_fun, echo=FALSE}
 am_match <-function(Year){
     
     if(Year =="M3"){
@@ -425,7 +425,7 @@ am_match <-function(Year){
 
 
 
-```{r echo=FALSE}
+```{r am_lowhigh, echo=FALSE}
 am_lowHigh <-function (Year){
     if(Year =="M3"){
         dat <-filter(am_all, Year_Id =="M3")
@@ -471,7 +471,7 @@ The number of pre and post survey that could be matched is **`r nrow(am_prepost)
 
 The percent of students with a successful outcome is **`r am_match("M3")`**
 
-```{r echo=FALSE}
+```{r am_2016,echo=FALSE}
 am_2016 <- am_all %>%
     filter(Year_Id == "M3")
 
@@ -480,11 +480,11 @@ am_2016 <- am_all %>%
 
 
 
-```{r echo=FALSE}
-pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores") + geom_vline(xintercept = 4.8, col="red") 
+```{r am_hist, echo=FALSE}
+pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", ylim=c(0,80)) + geom_vline(xintercept = 4.8, col="red") 
 
 
-post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,60)) + geom_vline(xintercept = 4.8, col="red")
+post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,80)) + geom_vline(xintercept = 4.8, col="red")
 
 grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 
@@ -496,7 +496,7 @@ grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 The improvement in outcome scores is graphically represented below. 
 
 
-```{r echo=FALSE}
+```{r am_bar,echo=FALSE}
 am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
 
 am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", ylim=c(0,300), main="Post Survey Results", xlab="Achievment at High Level")
@@ -507,7 +507,7 @@ grid.arrange(am_bar_pre, am_bar_post, ncol=2)
 ```
 
 
-```{r echo=FALSE}
+```{r am_change,,echo=FALSE}
 
 am_change <- am_2016 %>%
     filter(Pre !=6.0 & Post !=6.0)
@@ -521,7 +521,7 @@ The number of students who had the opportunity to improve their academic engagem
 
 
 
-```{r echo=FALSE}
+```{r am_change_plot,echo=FALSE}
 am_change_p <- ggplot(am_change,(aes(x=am.diff, y=Pre)))
 am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Academic Mastery Survey Results")
 
@@ -531,13 +531,13 @@ am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercep
 
 A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
 
-```{r echo=FALSE}
+```{r am_wilcox, echo=FALSE}
 pander(wilcox.test(am_2016$Pre, am_2016$Post))
 
 ```
 
 
-```{r echo=FALSE}
+```{r am_cohen_test, echo=FALSE}
 cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 
 ```
@@ -668,7 +668,7 @@ Question 1: She is motivated to graduate high school
 
 Question 3: She has a Good Attitude About School
 
-```{r}
+```{r load_post_teacher, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 colnames(post_teacher) [10] <- "Q1"
@@ -712,7 +712,7 @@ summary(post_teacher_tbl)
 
 ```
 
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png'}
+```{r heat_post_teacher, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 plot(post_teacher_tbl, type="heat") +ggtitle("Post Teacher Survey Question 1 & Question 3") + theme_dark()
 
