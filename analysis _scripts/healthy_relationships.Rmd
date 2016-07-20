@@ -6,7 +6,7 @@ output: html_document
 ---
 
 
-```{r import libaries, echo=FALSE, message=FALSE, warning=FALSE}
+```{r hr_import_libaries, echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(pander)
 library(ggplot2)
