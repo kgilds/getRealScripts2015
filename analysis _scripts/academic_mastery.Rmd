@@ -97,7 +97,8 @@ am_post2013 <- post_outcomes2013 %>%
 ```{r join_2013_am_data, echo=FALSE}
 
 am_prepost2013 <- inner_join(am_pre2013, am_post2013, by="girlCode")
-dim(am_prepost2013)
+
+#dim(am_prepost2013)
 
 #names(am_prepost2013)
 
@@ -205,7 +206,7 @@ am_achieved <-filter(am_prepost, Post >=4.8 )
 
 
 
-```{r am_setup, echo=TRUE}
+```{r am_setup, echo=FALSE}
 
 #names(am_prepost)
 
@@ -241,15 +242,15 @@ am_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 am_high_df <- am_all %>%
     filter(Year_Id == "M3" & Post >=4.8)
 
-nrow(am_high_df)
+#nrow(am_high_df)
 
 am_high <- with(am_all,table(Year_Id,Post >=4.8))
 
-am_high
+#am_high
 
 am_high_p <- prop.table(am_high,1)
 
-pander(am_high_p)
+#pander(am_high_p)
 
 
 am_increase_df <- filter(am_all, Post < 4.8)
@@ -257,7 +258,7 @@ am_increase_df <- filter(am_all, Post < 4.8)
 
 am_increase <-with(am_increase_df, table(Year_Id, am.diff > 0 ))
 
-am_increase
+#am_increase
 
 am_increase <- prop.table(am_increase,1)
 
@@ -266,9 +267,9 @@ am_increase <- prop.table(am_increase,1)
 
 am_lowhigh <- filter(am_all, Pre < 4.8 & Post >=4.8)
 
-nrow(am_lowhigh)
+#nrow(am_lowhigh)
 
-table(am_lowhigh$Year_Id)
+#table(am_lowhigh$Year_Id)
 
 #head(am_lowhigh)
 
@@ -285,8 +286,6 @@ am_imrove <- prop.table(am_imrove,1)
 
 ```
 
-#Tables
-
 ```{r test_tables, echo=FALSE}
 am_high_df <- am_all %>%
     filter(Year_Id == "M3" & Post >=4.8)
@@ -299,7 +298,7 @@ am_high <- with(am_all,table(Year_Id,Post >=4.8))
 
 am_high_p <- prop.table(am_high,1)
 
-pander(am_high_p)
+#pander(am_high_p)
 
 
 am_increase_df <- filter(am_all, Year_Id == "M3" & Post < 4.8)
@@ -307,12 +306,12 @@ am_increase_df <- filter(am_all, Year_Id == "M3" & Post < 4.8)
 am_increase_df <- am_increase_df %>%
     filter(am.diff >0)
 
-am_increase_df
+#am_increase_df
 
 
 am_increase <-with(am_increase_df, table(Year_Id, am.diff > 0 ))
 
-am_increase
+#am_increase
 
 am_increase <- prop.table(am_increase,1)
 
@@ -324,17 +323,17 @@ am_lowhigh <- filter(am_all, Pre < 4.8 & Post >=4.8)
 am_lowhigh <- am_lowhigh %>%
     filter(Year_Id == "M3")
 
-nrow(am_lowhigh)
+#nrow(am_lowhigh)
 
-table(am_lowhigh$Year_Id)
+#table(am_lowhigh$Year_Id)
 
 #head(am_lowhigh)
 
 am_improve <- with(am_lowhigh, table(Year_Id, Post >=4.8))
 
-nrow(am_improve)
+#nrow(am_improve)
 
-am_improve <- prop.table(am_imrove,1)
+#am_improve <- prop.table(am_imrove,1)
 
 #pander(am_imrove)
 
@@ -517,7 +516,7 @@ am_change <- am_2016 %>%
 
 
 The percent of students who went from low achievement to hig achievement is **`r am_lowHigh("M3")`** 
-The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(am_change)`**, and the mean increase in outcome score is **`r mean(am_change$am.diff)`**
+The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(am_change)`**, and their mean increase in outcome score is **`r mean(am_change$am.diff)`**
 
 
 
@@ -528,13 +527,20 @@ am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercep
 
 ```
 
+### Statistical Tests
 
-A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
+Two statisical tests were administered on the matched survey results the wilcox test and Cohen's D test. 
+
+The outcome distributions did not approximate a normal distribution, thus A wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
+
+
 
 ```{r am_wilcox, echo=FALSE}
 pander(wilcox.test(am_2016$Pre, am_2016$Post))
 
 ```
+
+The Cohen D test indicates that the effect was small. 
 
 
 ```{r am_cohen_test, echo=FALSE}
@@ -546,11 +552,13 @@ cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students formulate better attitude toward school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
-Parent Survey
+#### Pre Parent Survey
 
-Question 1: She is motivated to graduate high school
+* Question 1: She is motivated to graduate high school
 
-Question 3: She has a Good Attitude About School
+* Question 3: She has a Good Attitude About School
+
+Results based on 466 respones. 
 ```{r load_parent, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
@@ -558,7 +566,7 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 ```
 
-Pre Survey 
+
 
 ```{r pre_survey, fig.height=5, fig.width=10, echo=FALSE}
 
@@ -574,17 +582,17 @@ pre_parent_tbl <- pre_parent %>%
 
 pre_parent_q1 <-table(pre_parent_tbl$Q1) #make table to test
 
-pander(pre_parent_q1) #print results of test nicely
+#pander(pre_parent_q1) #print results of test nicely
 
 
 
-pre_parent_q3 <-table(pre_parent_tbl$Q3) #make tabl to test result
+#pre_parent_q3 <-table(pre_parent_tbl$Q3) #make tabl to test result
 
 
-pander(pre_parent_q3) #print result of test nicely
+#pander(pre_parent_q3) #print result of test nicely
 
 
-nrow(pre_parent_tbl) #determine total number of observations to verify percents in likert tables 
+#nrow(pre_parent_tbl) #determine total number of observations to verify percents in likert tables 
 
 
 
@@ -606,12 +614,19 @@ summary(pre_parent_tbl)
 
 ```
 
-Parent Pre Survey
+
 ```{r pre_parent_heat, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
 likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
 ```
 
+### Post Parent Survey
+
+* Question 1: She is motivated to graduate high school
+
+* Question 3: She has a Good Attitude About School
+
+Results based on 244 responses. 
 
 ```{r pre_post_parent, echo=FALSE}
 
@@ -624,14 +639,14 @@ post_parent_tbl <- post_parent %>%
 
 post_parent_test_q1 <-table(post_parent_tbl$Q1) #make table to test
 
-pander(post_parent_test_q1) #show result of test
+#pander(post_parent_test_q1) #show result of test
 
 
-post_parent_test_q3 <-table(post_parent_tbl$Q3) #make table to test 
+#post_parent_test_q3 <-table(post_parent_tbl$Q3) #make table to test 
 
-pander(post_parent_test_q3)  # show results of test
+#pander(post_parent_test_q3)  # show results of test
 
-nrow(post_parent_tbl) #check to determine total to make divisible. 
+#nrow(post_parent_tbl) #check to determine total to make divisible. 
 
 
 post_parent_tbl$Q1 <- factor(post_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
@@ -650,23 +665,22 @@ summary(post_parent_tbl)  #make summary of likert items
 
 
 
-
-
-
-
-Post Survey
-```{ r "post_parent_heat",  fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
+```{r 'post_parent_heat', fig.height=5, fig.width=14, fig.path="Figs/", dev.args="cario-png", echo=FALSE }
 
 likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Question 3") + theme_dark()
+
 ```
 
 
 
-Teacher Survey
 
-Question 1: She is motivated to graduate high school
+### Teacher Post Survey
 
-Question 3: She has a Good Attitude About School
+* Question 1: She is motivated to graduate high school
+
+* Question 3: She has a Good Attitude About School
+
+The number of responses to the post teacher survey is 397. 
 
 ```{r load_post_teacher, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
@@ -678,17 +692,17 @@ post_teacher_tbl <- post_teacher %>%
     select(10, 12)
 
 
-nrow(post_teacher_tbl) #total obse
+#nrow(post_teacher_tbl) #total obse
 
-post_teacher_q1 <- table(post_teacher_tbl$Q1) #make table to test results
+#post_teacher_q1 <- table(post_teacher_tbl$Q1) #make table to test results
 
-pander(post_teacher_q1) #prints results of test
+#pander(post_teacher_q1) #prints results of test
 
 
 
-post_teacher_q3 <- table(post_teacher_tbl$Q3) #make table to test 
+#post_teacher_q3 <- table(post_teacher_tbl$Q3) #make table to test 
 
-pander(post_teacher_q3) #prints tests nicely
+#pander(post_teacher_q3) #prints tests nicely
 
 
 
