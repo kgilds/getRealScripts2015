@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-07-15" />
+<meta name="date" content="2016-07-20" />
 
 <title>teacher_data_managment</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">teacher_data_managment</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-07-15</em></h4>
+<h4 class="date"><em>2016-07-20</em></h4>
 
 </div>
 
@@ -183,7 +183,11 @@ colnames (teacher)[21] &lt;- &quot;whatCouldBeDoneToImroveTheProgram&quot;</code
 </div>
 <div id="fix-varaibles-that-will-be-trouble-later" class="section level2">
 <h2><span class="header-section-number">1.3</span> Fix varaibles that will be trouble later</h2>
-<pre class="r"><code>#####Change girl code data type to character 
+<pre class="r"><code>teacher &lt;- filter(teacher, girlCode !=&quot;Test&quot;)
+teacher &lt;- filter(teacher, school !=&quot;Emerson&quot;)
+
+
+#####Change girl code data type to character 
 teacher$girlCode &lt;- as.character(teacher$girlCode)
 
 ####Make all Girl Codes upper case

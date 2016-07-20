@@ -11,7 +11,7 @@
 
 <meta name="author" content="Kevin Gilds" />
 
-<meta name="date" content="2016-07-15" />
+<meta name="date" content="2016-07-20" />
 
 <title>parent data management</title>
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">parent data management</h1>
 <h4 class="author"><em>Kevin Gilds</em></h4>
-<h4 class="date"><em>2016-07-15</em></h4>
+<h4 class="date"><em>2016-07-20</em></h4>
 
 </div>
 
@@ -177,7 +177,9 @@ colnames (parent)[17] &lt;-  &quot;helpedMyDaughterAchieveSuccessInSchool&quot;
 colnames (parent)[18] &lt;-  &quot;helpedHerEstablishPostiveRelationshipsWithHerClassmates&quot;
 colnames (parent) [19] &lt;-  &quot;helpedYourDaughterAchieveSuccessInSchool&quot;
 colnames (parent) [20] &lt;-  &quot;ImproveTheGetRealProgram&quot;</code></pre>
-<pre class="r"><code>### Change council names to be consistent wiht how they displayed with the surveys
+<pre class="r"><code>parent &lt;- filter(parent, schoolName !=&quot;Emerson&quot;)
+
+### Change council names to be consistent wiht how they displayed with the surveys
 parent$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, parent$council)
 
 parent$council &lt;-sub(&quot;Girl Scouts of Citrus Council&quot;, &quot;Citrus Council&quot;, fixed=TRUE, parent$council)
@@ -208,7 +210,7 @@ parent$girlCode &lt;- toupper(parent$girlCode)
 
 ##### Elements of the data frame
 dim(parfin)</code></pre>
-<pre><code>## [1] 847  21</code></pre>
+<pre><code>## [1] 846  21</code></pre>
 </div>
 </div>
 <div id="pre-survey" class="section level1">

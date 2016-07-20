@@ -57,6 +57,9 @@ colnames (teacher)[21] <- "whatCouldBeDoneToImroveTheProgram"
 ## Fix varaibles that will be trouble later
 
 ```{r}
+teacher <- filter(teacher, girlCode !="Test")
+teacher <- filter(teacher, school !="Emerson")
+
 
 #####Change girl code data type to character 
 teacher$girlCode <- as.character(teacher$girlCode)
@@ -74,6 +77,8 @@ teacher$girlCode <- toupper(teacher$girlCode)
 
 #####Subset Finished data entry
 teacherfin <- subset (teacher, Finished == 1)
+
+
 
 
 ```

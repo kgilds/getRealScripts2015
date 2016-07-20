@@ -24,6 +24,7 @@ setwd("C:/Users/kevin/Dropbox/GetReal/Data/2015-2016/July 2016")
 parent <- read.csv("parent_survey_07152016.csv", skip=1)
 
 
+
 ```
 
 
@@ -53,6 +54,9 @@ colnames (parent) [20] <-  "ImproveTheGetRealProgram"
 
 
 ```{r}
+
+parent <- filter(parent, schoolName !="Emerson")
+
 ### Change council names to be consistent wiht how they displayed with the surveys
 parent$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, parent$council)
 

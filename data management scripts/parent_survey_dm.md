@@ -62,6 +62,8 @@ colnames (parent) [20] <-  "ImproveTheGetRealProgram"
 
 
 ```r
+parent <- filter(parent, schoolName !="Emerson")
+
 ### Change council names to be consistent wiht how they displayed with the surveys
 parent$council <-sub("Girl Scouts of the Gateway Council", "Gateway Council", fixed=TRUE, parent$council)
 
@@ -107,7 +109,7 @@ dim(parfin)
 ```
 
 ```
-## [1] 847  21
+## [1] 846  21
 ```
 
 
