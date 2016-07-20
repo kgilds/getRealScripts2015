@@ -26,7 +26,7 @@ getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 ```
 
 
-```{r load outcome survesy, echo=FALSE}
+```{r am_load outcome survesy, echo=FALSE}
 
 ### Reade the girl_pre_survey database for analysis. 
 pre_outcomes <- dbReadTable(getReal_2016db, "girl_pre")
