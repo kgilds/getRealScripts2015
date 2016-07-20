@@ -33,7 +33,7 @@ getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
 ```
 
 
-```{r load outcome survesy, echo=FALSE}
+```{r ae_load outcome survesy, echo=FALSE}
 
 ### Reade the girl_pre_survey database for analysis. 
 pre_outcomes <- dbReadTable(getReal_2016db, "girl_pre")
@@ -126,7 +126,7 @@ ae_prepost2013 <- ae_prepost2013 %>%
 ```
 
 
-```{r test_2013, echo=FALSE, eval=FALSE}
+```{r ae_test_2013, echo=FALSE, eval=FALSE}
 
 council <- group_by(ae_prepost2013, council)
 
@@ -485,7 +485,7 @@ pander(wilcox.test(ae_2016$Pre, ae_2016$Post))
 The Cohen D test indicates that the effect was small. 
 
 
-```{r cohen, echo=FALSE}
+```{r ae_cohen, echo=FALSE}
 cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 ```
@@ -500,7 +500,7 @@ Survey results from teachers and parents also provide evidence that the Get REAL
 
 
 
-```{r load_parent_survey, echo=FALSE}
+```{r ae_load_parent_survey, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
 post_parent <- dbReadTable(getReal_2016db, "post_parent")
@@ -508,7 +508,7 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 ```
 
 
-```{r pre_parent, echo=FALSE}
+```{r ae_pre_parent, echo=FALSE}
 
 colnames(pre_parent)[15] <- "Q6"
 
@@ -527,7 +527,7 @@ pre_parent_tbl$Q6 <- factor(pre_parent_tbl$Q6, levels=c("Strongly Disagree", "Di
 ```
 
 
-```{r "q5_parent", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
+```{r "ae_q5_parent", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 pre_parent_test <- table(pre_parent_tbl) #make tbl for testing
 
@@ -548,7 +548,7 @@ plot(pre_parent_tbl, type="heat") +ggtitle("Parent Pre Survey Question 5") + the
 * Question 6: She works on her homework at home without supervision (N=244)
 
 
-```{r "parent_q6", echo=FALSE}
+```{r "ae_parent_q6", echo=FALSE}
 colnames(post_parent)[15] <- "Q6"
 
 post_parent_tbl <- post_parent %>%
@@ -560,7 +560,7 @@ post_parent_tbl$Q6 <- factor(post_parent_tbl$Q6, levels=c("Strongly Disagree", "
 ```
 
 
-```{r "liker_q6", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
+```{r "ae_liker_q6", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 post_parent_test <- table(post_parent_tbl) #make tbl to check results of likert
 
@@ -586,7 +586,7 @@ Only post teacher survey data is reported as there were less than 50 responses t
 
 Results based on 397 responses. 
 
-```{r  "load_teacher", fig.height=2, fig.width=15, echo=FALSE}
+```{r  "ae_load_teacher", fig.height=2, fig.width=15, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
 
 
@@ -619,7 +619,7 @@ post_teacher_tbl$Q6 <- factor(post_teacher_tbl$Q6, levels=c("Strongly Disagree",
 
 
 
-```{r "teacher_plots",fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
+```{r "ae_teacher_plots",fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
 
 post_teacher_tbl <- likert(post_teacher_tbl)
 
