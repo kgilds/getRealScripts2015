@@ -249,11 +249,11 @@ ae_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council"
 ae_high_df <- ae_all %>%
     filter(Year_Id == "M3" & Post >=4.5)
 
-nrow(ae_high_df)
+#nrow(ae_high_df)
 
 ae_high <- with(ae_all,table(Year_Id,Post >=4.5))
 
-ae_high
+#ae_high
 
 ae_high_p <- prop.table(ae_high,1)
 
@@ -266,34 +266,34 @@ ae_increase_df <- filter(ae_all, Year_Id == "M3" & Post < 4.5)
 ae_increase_df_i <- ae_increase_df %>%
     filter(ae.diff >0)
 
-nrow(ae_increase_df_i)
+#nrow(ae_increase_df_i)
 
 
 
 
 ae_increase <-with(ae_increase_df, table(Year_Id, ae.diff > 0 ))
 
-ae_increase
+#ae_increase
 
 ae_increase <- prop.table(ae_increase,1)
 
-pander(ae_increase)
+#pander(ae_increase)
 
 
 ae_lowhigh <- filter(ae_all, Pre < 4.5 & Post >=4.5)
 
-nrow(ae_lowhigh)
+#nrow(ae_lowhigh)
 
-table(ae_lowhigh$Year_Id)
+#table(ae_lowhigh$Year_Id)
 
-head(ae_lowhigh)
+#head(ae_lowhigh)
 
 ae_imrove <- with(ae_lowhigh, table(Year_Id, Post >=4.5))
 
 
 ae_imrove <- prop.table(ae_imrove,1)
 
-pander(ae_imrove)
+#pander(ae_imrove)
 
 
 
@@ -453,7 +453,7 @@ ae_change <- ae_2016 %>%
 ```
 
 The percent of students who went from low achievement to hig achievement is **`r ae_lowHigh("M3")`** 
-The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(ae_change)`**, and the mean increase in outcome score is **`r mean(ae_change$ae.diff)`**
+The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(ae_change)`**, and their mean increase in outcome score is **`r mean(ae_change$ae.diff)`**
 
 
 The increase in the academic engagement outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
@@ -466,7 +466,7 @@ ae_change <- ae_2016 %>%
     filter(Pre !=6.0 & Post !=6.0)
 
 
-mean(ae_change$ae.diff)
+#mean(ae_change$ae.diff)
 
 ae_change_p <- ggplot(ae_change,(aes(x=ae.diff, y=Pre)))
 ae_change_p + geom_count() + geom_hline(yintercept = 4.5) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Academic Engagement Survey Results")
@@ -494,11 +494,11 @@ cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
 
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students learn tangible tools to help them succeed in school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
-Parent Pre Survey:
+### Parent Pre Survey:
 
-Question 5: She works on her homework at home without supervision 
+* Question 6: She works on her homework at home without supervision (N=465)
 
-N=465
+
 
 ```{r load_parent_survey, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
@@ -507,20 +507,20 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 ```
 
-# Pre Survey
+
 ```{r pre_parent, echo=FALSE}
 
-colnames(pre_parent)[15] <- "Q5"
+colnames(pre_parent)[15] <- "Q6"
 
 
 pre_parent_tbl <- pre_parent %>%
     select(15)
 
-table(pre_parent_tbl)
+#table(pre_parent_tbl)
 
 #names(pre_parent_tbl)
 
-pre_parent_tbl$Q5 <- factor(pre_parent_tbl$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+pre_parent_tbl$Q6 <- factor(pre_parent_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 
@@ -531,9 +531,9 @@ pre_parent_tbl$Q5 <- factor(pre_parent_tbl$Q5, levels=c("Strongly Disagree", "Di
 
 pre_parent_test <- table(pre_parent_tbl) #make tbl for testing
 
-nrow(pre_parent_tbl)
+#nrow(pre_parent_tbl)
 
-pander(pre_parent_test)  #test pre parent
+#pander(pre_parent_test)  #test pre parent
 
 pre_parent_tbl <- likert(pre_parent_tbl)
 
@@ -542,6 +542,10 @@ summary(pre_parent_tbl)
 plot(pre_parent_tbl, type="heat") +ggtitle("Parent Pre Survey Question 5") + theme_dark ()
 
 ```
+
+### Post Parent Survey
+
+* Question 6: She works on her homework at home without supervision (N=244)
 
 
 ```{r "parent_q6", echo=FALSE}
@@ -560,9 +564,9 @@ post_parent_tbl$Q6 <- factor(post_parent_tbl$Q6, levels=c("Strongly Disagree", "
 
 post_parent_test <- table(post_parent_tbl) #make tbl to check results of likert
 
-pander(post_parent_test) #print result of table nicely
+#pander(post_parent_test) #print result of table nicely
 
-nrow(post_parent_tbl) #count number of observations
+#nrow(post_parent_tbl) #count number of observations
 
 post_parent_tbl <- likert(post_parent_tbl)
 
@@ -573,15 +577,14 @@ plot(post_parent_tbl, type="heat") + ggtitle("Post Survey Question 6") + theme_d
 ```
 
 
-#Teacher Survey
+### Teacher Post Survey
 
 Only post teacher survey data is reported as there were less than 50 responses to the pre teacher survey. 
 
-N=397
+* Question 5: She positively participates in class
+* Question 6: She completes the homework given to her.
 
-Post Teacher Survey
-Question 5: She positively participates in class
-Question 6: She completes the homework given to her.
+Results based on 397 responses. 
 
 ```{r  "load_teacher", fig.height=2, fig.width=15, echo=FALSE}
 post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
@@ -597,8 +600,8 @@ colnames(post_teacher)[14] <- "Q5"
 post_teacher_tbl <- post_teacher %>%
     select(14,15)
 
-table(post_teacher_tbl$Q5)
-table(post_teacher_tbl$Q6)
+#table(post_teacher_tbl$Q5)
+#table(post_teacher_tbl$Q6)
 
 
 
