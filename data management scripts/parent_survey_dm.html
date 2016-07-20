@@ -177,7 +177,8 @@ colnames (parent)[17] &lt;-  &quot;helpedMyDaughterAchieveSuccessInSchool&quot;
 colnames (parent)[18] &lt;-  &quot;helpedHerEstablishPostiveRelationshipsWithHerClassmates&quot;
 colnames (parent) [19] &lt;-  &quot;helpedYourDaughterAchieveSuccessInSchool&quot;
 colnames (parent) [20] &lt;-  &quot;ImproveTheGetRealProgram&quot;</code></pre>
-<pre class="r"><code>parent &lt;- filter(parent, schoolName !=&quot;Emerson&quot;)
+<pre class="r"><code>parent &lt;- filter(parent, girlCode !=&quot;Test&quot;)
+parent &lt;- filter(parent, schoolName !=&quot;Emerson&quot;)
 
 ### Change council names to be consistent wiht how they displayed with the surveys
 parent$council &lt;-sub(&quot;Girl Scouts of the Gateway Council&quot;, &quot;Gateway Council&quot;, fixed=TRUE, parent$council)

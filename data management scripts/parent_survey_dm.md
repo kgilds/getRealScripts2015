@@ -62,6 +62,7 @@ colnames (parent) [20] <-  "ImproveTheGetRealProgram"
 
 
 ```r
+parent <- filter(parent, girlCode !="Test")
 parent <- filter(parent, schoolName !="Emerson")
 
 ### Change council names to be consistent wiht how they displayed with the surveys
