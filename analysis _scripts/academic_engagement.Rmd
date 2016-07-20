@@ -477,7 +477,7 @@ Two statisical tests were administered on the matched survey results the wilcox 
 
 The outcome distributions did not approximate a normal distribution, thus A wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
 
-```{r wilcox_test, echo=FALSE}
+```{r ae_wilcox_test, echo=FALSE}
 pander(wilcox.test(ae_2016$Pre, ae_2016$Post))
 
 ```
