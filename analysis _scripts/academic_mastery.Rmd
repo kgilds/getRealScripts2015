@@ -287,7 +287,7 @@ am_imrove <- prop.table(am_imrove,1)
 
 #Tables
 
-```{r}
+```{r echo=FALSE}
 am_high_df <- am_all %>%
     filter(Year_Id == "M3" & Post >=4.8)
 
@@ -386,7 +386,7 @@ am_achieved <- function(Year) {
 
 
 
-```{r}
+```{r echo=FALSE}
 am_match <-function(Year){
     
     if(Year =="M3"){
@@ -471,7 +471,7 @@ The number of pre and post survey that could be matched is **`r nrow(am_prepost)
 
 The percent of students with a successful outcome is **`r am_match("M3")`**
 
-```{r}
+```{r echo=FALSE}
 am_2016 <- am_all %>%
     filter(Year_Id == "M3")
 
@@ -480,7 +480,7 @@ am_2016 <- am_all %>%
 
 
 
-```{r}
+```{r echo=FALSE}
 pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores") + geom_vline(xintercept = 4.8, col="red") 
 
 
@@ -496,7 +496,7 @@ grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 The improvement in outcome scores is graphically represented below. 
 
 
-```{r}
+```{r echo=FALSE}
 am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
 
 am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", ylim=c(0,300), main="Post Survey Results", xlab="Achievment at High Level")
@@ -507,7 +507,7 @@ grid.arrange(am_bar_pre, am_bar_post, ncol=2)
 ```
 
 
-```{r}
+```{r echo=FALSE}
 
 am_change <- am_2016 %>%
     filter(Pre !=6.0 & Post !=6.0)
@@ -521,7 +521,7 @@ The number of students who had the opportunity to improve their academic engagem
 
 
 
-```{r}
+```{r echo=FALSE}
 am_change_p <- ggplot(am_change,(aes(x=am.diff, y=Pre)))
 am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercept = 0, col="red") + labs(x="Pre and Post Difference", y="Pre Outcome Score", title="Academic Mastery Survey Results")
 
@@ -531,13 +531,13 @@ am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercep
 
 A wilcox.test was administered on the healthy relationship outcome data and the results show that the 
 
-```{r}
+```{r echo=FALSE}
 pander(wilcox.test(am_2016$Pre, am_2016$Post))
 
 ```
 
 
-```{r}
+```{r echo=FALSE}
 cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 
 ```
@@ -551,7 +551,7 @@ Parent Survey
 Question 1: She is motivated to graduate high school
 
 Question 3: She has a Good Attitude About School
-```{r}
+```{r load_parent, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
 post_parent <- dbReadTable(getReal_2016db, "post_parent")
@@ -560,7 +560,7 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 Pre Survey 
 
-```{r fig.height=5, fig.width=10}
+```{r pre_survey, fig.height=5, fig.width=10, echo=FALSE}
 
 colnames(pre_parent) [10] <- "Q1"
 
@@ -604,21 +604,16 @@ summary(pre_parent_tbl)
 
 
 
-
-
-
-
-
 ```
 
 Parent Pre Survey
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
+```{r pre_parent_heat, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
 likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
 ```
 
 
-```{r}
+```{r pre_post_parent, echo=FALSE}
 
 colnames(post_parent) [10] <- "Q1"
 
@@ -660,7 +655,7 @@ summary(post_parent_tbl)  #make summary of likert items
 
 
 Post Survey
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
+```{ r "post_parent_heat",  fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
 
 likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Question 3") + theme_dark()
 ```
