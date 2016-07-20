@@ -661,7 +661,9 @@ likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Que
 
 
 Teacher Survey
+
 Question 1: She is motivated to graduate high school
+
 Question 3: She has a Good Attitude About School
 
 ```{r}
@@ -674,15 +676,7 @@ post_teacher_tbl <- post_teacher %>%
     select(10, 12)
 
 
-
-
-
-
-post_teacher_tbl$Q1 <- factor(post_teacher_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-post_teacher_tbl$Q3 <- factor(post_teacher_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
+nrow(post_teacher_tbl) #total obse
 
 post_teacher_q1 <- table(post_teacher_tbl$Q1) #make table to test results
 
@@ -695,7 +689,17 @@ post_teacher_q3 <- table(post_teacher_tbl$Q3) #make table to test
 pander(post_teacher_q3) #prints tests nicely
 
 
-nrow(post_teacher_tbl) #total observations
+
+post_teacher_tbl$Q1 <- factor(post_teacher_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+post_teacher_tbl$Q3 <- factor(post_teacher_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+
+
+
+
 
 
 
