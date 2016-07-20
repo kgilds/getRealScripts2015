@@ -547,7 +547,9 @@ cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 Survey results from teachers and parents also provide evidence that the Get REAL! program helps students formulate better attitude toward school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
 
 Parent Survey
+
 Question 1: She is motivated to graduate high school
+
 Question 3: She has a Good Attitude About School
 ```{r}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
@@ -556,7 +558,7 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 
 ```
 
-
+Pre Survey 
 
 ```{r fig.height=5, fig.width=10}
 
@@ -568,13 +570,6 @@ colnames(pre_parent) [12] <- "Q3"
 pre_parent_tbl <- pre_parent %>%
     select( 10,12 )
 
-
-
-#names(pre_parent_tbl)
-
-pre_parent_tbl$Q1 <- factor(pre_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-pre_parent_tbl$Q3 <- factor(pre_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
 
 
 pre_parent_q1 <-table(pre_parent_tbl$Q1) #make table to test
@@ -593,6 +588,16 @@ nrow(pre_parent_tbl) #determine total number of observations to verify percents 
 
 
 
+#names(pre_parent_tbl)
+
+pre_parent_tbl$Q1 <- factor(pre_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+pre_parent_tbl$Q3 <- factor(pre_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
+
+
+
+
+
 pre_parent_tbl <- likert(pre_parent_tbl)
 
 summary(pre_parent_tbl)
@@ -603,6 +608,12 @@ summary(pre_parent_tbl)
 
 
 
+
+```
+
+Pre Survey
+```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
+likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
 ```
 
@@ -645,11 +656,7 @@ summary(post_parent_tbl)  #make summary of likert items
 
 
 
-Pre Survey
-```{r fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png' }
-likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
 
-```
 
 
 Post Survey
