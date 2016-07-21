@@ -155,14 +155,9 @@ langarts2016 <- langarts2016 %>%
 
 
 
-```{r}
-
-```
 
 
-
-
-```{r echo=TRUE, eval=TRUE}
+```{r echo=TRUE, eval=FALSE}
 lang_change <- with(langarts2016, table(pt_diff, final))
 
 pander(lang_change)
@@ -193,7 +188,7 @@ lang_success <- function() {
 
 lang_test <- filter(langarts2016, final >=2, pt_diff >=0)
 
-lang_test
+nrow(lang_test)
 
 ```
 
@@ -261,7 +256,7 @@ lang_gpa_diff<-mean(langarts2016$pt_diff)
 ```{r}
 fail_topass <- filter(langarts2016,baseline < 2 & final >=2 )
 
-fail_topass
+nrow(fail_topass)
 
 ```
 
@@ -291,7 +286,7 @@ The mean difference betwween baseline grades and final grade **`r pander(lang_gp
 ```{r echo=FALSE}
 
 
-names(langarts2016)
+#names(langarts2016)
 
 colnames (langarts2016) [6] <- "Grade_Change"
 
