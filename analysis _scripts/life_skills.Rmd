@@ -1,0 +1,48 @@
+---
+title: "life_skills"
+author: "Kevin Gilds, MPA"
+date: "July 20, 2016"
+output: word_document
+---
+
+# Life Skills
+
+*Objective 4: 70% of participating girls will demonstrate an increased understanding of pertinent life skills as demonstrated by a pre and post assessment* 
+
+The students in Get REAL! program met this objective by 
+
+Students, parents, and teachers are asked to complete surveys at the time of enrollment in the Get REAL! program and at the end of their session. The questions in the survey are designed to measure the following life skills.
+
+1.	Healthy Relationships
+
+2.	Academic Engagement
+
+3.	Academic Mastery
+
+The questions and the scoring methodology of the girl survey were developed and tested by the Girl Scout Research Institute. Girls answer multiple questions to obtain an outcome score for each life skill domain. Responses to survey questions are assigned numbers/points and outcome scores are calculated by averaging responses to survey questions for each category. The points for each outcome set are averaged to obtain an outcome score. Outcomes scores range from 0-6. Outcome cut points are used to determine high achievement, and they are determined by the number of questions in the outcome set and response options. Below is a breakdown of the cut points by the outcomes measured. 
+
+Life Skills Achievement	Average Score to Indicate High Achievement
+
+1. Healthy Relationships	4.45=>
+2. Academic Mastery	        4.8=>
+3. Academic Engagement	    4.5=>
+
+There were 418 post survey responses and 330 students responses could be matched from the pre-survey to the post surey. This analysis views any increase in outcome score from the pre assessment to the post assessment or maintaining high achievement as demonstrating an understanding of a life skill.
+
+The students demonstated increase knowledge across all life skill domains. Parent and teacher surveys also provide evidence that the students are benefiting from the program. Please note pre teacher surveys are not analyzed as only 50 were recieved. 
+
+
+
+```{r child = "healthy_relationships.Rmd"}
+
+```
+
+
+```{r child = "academic_engagement.Rmd"}
+
+```
+
+
+```{r child = "academic_mastery.Rmd"}
+
+```
