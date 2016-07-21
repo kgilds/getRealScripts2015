@@ -17,6 +17,7 @@ library(dplyr)
 library(dplyr)
 library(pander)
 library(ggplot2)
+library(effsize)
 library(knitr)
 
 ```
@@ -38,7 +39,7 @@ q3_langarts <- dbReadTable(getReal_2016db, "Q3_lang")
 
 q4_langarts <- dbReadTable(getReal_2016db, "Q4_lang")
 
-dim(q4_langarts)
+#dim(q4_langarts)
 
 
 ```
@@ -57,17 +58,17 @@ dim(q4_langarts)
 
 langarts_q4_q1 <- inner_join(q4_langarts, q1_langarts, by="girlCode")
 
-dim(langarts_q4_q1)
+#dim(langarts_q4_q1)
 
 missing_q4_q1 <- anti_join(q4_langarts, q1_langarts, by= "girlCode") #subset those without a match
 
 langarts_q4_q2 <- inner_join(missing_q4_q1, q2_langarts, by="girlCode") #try to join unmatched with q2 to q4. 
 
-head(langarts_q4_q2)
-dim(langarts_q4_q2)
+#head(langarts_q4_q2)
+#dim(langarts_q4_q2)
 
 
-dim(missing_q4_q1)
+#dim(missing_q4_q1)
 
 ##join langarts grades q1q2
 
@@ -77,7 +78,7 @@ langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
 
 
-names(langarts_q4_q1)
+#names(langarts_q4_q1)
 
 
 ```
@@ -119,24 +120,24 @@ colnames(langarts_q4_q2) [4] <-"final"
 
 langarts2016 <- rbind(langarts_q4_q1, langarts_q4_q2)
 
-dim(langarts2016)
+#dim(langarts2016)
 
 langarts2016_test <-distinct(langarts2016, girlCode)
 
-dim(langarts2016_test)
+#dim(langarts2016_test)
 
-head(langarts2016_test)
+#head(langarts2016_test)
 
 langarts2016 <- distinct(langarts2016, girlCode)
 
 
 langarts2016_1 <-filter(langarts2016, girlCode =="320BR031803")
 
-langarts2016_1
+#langarts2016_1
 
-dim(langarts2016)
+#dim(langarts2016)
 
-head(langarts2016)
+#head(langarts2016)
 
 ```
 
@@ -160,14 +161,14 @@ langarts2016 <- langarts2016 %>%
 ```{r echo=TRUE, eval=FALSE}
 lang_change <- with(langarts2016, table(pt_diff, final))
 
-pander(lang_change)
+#pander(lang_change)
 
 lang_change_1 <- with(langarts2016, table(final >=2, pt_diff >=0))
 
-pander(lang_change_1)
+#pander(lang_change_1)
 
 
-plot(lang_change)
+#plot(lang_change)
 
 ```
 
@@ -188,7 +189,7 @@ lang_success <- function() {
 
 lang_test <- filter(langarts2016, final >=2, pt_diff >=0)
 
-nrow(lang_test)
+#nrow(lang_test)
 
 ```
 
@@ -201,7 +202,7 @@ lang_maintain <-function() {
     pander(lang_grade)
 }
 
-lang_maintain()
+
 ```
 
 
@@ -214,16 +215,16 @@ lang_increase <- function() {
     pander(paste0(lang_increase_per, "%", sep=""))
     
     }
-lang_increase()
+
 ```
 
 
 ```{r}
 lang_gradeincrease <- filter(langarts2016, final >=2 & pt_diff >=1)
 
-head(lang_gradeincrease)
+#head(lang_gradeincrease)
 
-tail(lang_gradeincrease)
+#tail(lang_gradeincrease)
 
 
 
@@ -233,11 +234,11 @@ tail(lang_gradeincrease)
 ```{r}
 lang_grademaintain <- filter(langarts2016, final >= 2 & pt_diff ==0)
 
-dim(lang_grademaintain)
+#dim(lang_grademaintain)
 
-head(lang_grademaintain)
+#head(lang_grademaintain)
 
-tail(lang_grademaintain)
+#tail(lang_grademaintain)
 
 ```
 
@@ -256,7 +257,7 @@ lang_gpa_diff<-mean(langarts2016$pt_diff)
 ```{r}
 fail_topass <- filter(langarts2016,baseline < 2 & final >=2 )
 
-nrow(fail_topass)
+#nrow(fail_topass)
 
 ```
 
@@ -325,8 +326,25 @@ langarts_change_plot2 + geom_count()
 
 
 
+### Statistical Tests
 
-```{r echo=FALSE}
+```{r}
+hist(langarts2016$baseline)
+
+hist(langarts2016$final)
+
+t.test(langarts2016$baseline, langarts2016$final, paired=TRUE, alternative="less")
+cohen.d(langarts2016$baseline, langarts2016$final, paired=TRUE)
+
+```
+
+
+
+
+
+
+
+```{r echo=FALSE, eval=FALSE}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 
 getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
@@ -334,9 +352,9 @@ getRealdb<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
 
 ```
 
-### Trend Data Q4 2015 to Q2 2016:
 
-```{r echo=FALSE, eval=TRUE}
+
+```{r echo=FALSE, eval=FALSE}
 
 q4_lang_2014 <- dbReadTable(getRealdb, "langarts_final_matched")
 
@@ -398,8 +416,7 @@ langarts_grade_m + geom_count()
 
 
 
-### % of students who increased Language Arts Grade or maintained a C grade:
-```{r echo=FALSE, eval=TRUE}
+```{r echo=FALSE, eval=FALSE}
 m_gpa_lang <- mean(langarts_q4q2$pt_diff)
 
 m_gpa_lang <-pander(m_gpa_lang)
@@ -416,11 +433,9 @@ m_gpa_lang <-pander(m_gpa_lang)
 
 ```
 
-The number of students that could be matched from Quarter 4 to Quarter 2 is **`r nrow(langarts_q4q2)`**. 
-The number of students that increased their grade or maintained a C is **`r lang_success_m()`**. The mean difference between the two quarters is **`r (m_gpa_lang)`**.
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 
 
 colnames (langarts_q4q2) [3] <- "Q2_Grade"
@@ -454,8 +469,8 @@ pander(grade_change_tbl, caption="Q4 Grades and Grade Change")
 ```
 
 
-### Plot change in Grade from Quarter 4 to Quarter 2:
-```{r echo=FALSE}
+
+```{r echo=FALSE, eval=FALSE}
 
 langarts_change_plot_m <- ggplot(langarts_q4q2,(aes(x = Grade_Change, y = Q4_Grade)))
 
