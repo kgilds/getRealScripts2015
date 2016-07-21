@@ -374,15 +374,14 @@ The Healthy Relationship questions measures the behaviors and attitudes of the r
 4. In any relationship - romantic or not - I make it clear when I don't feel comfortable.
 
 
-The number of pre and post survey that could be matched is **`r nrow(healthy_prepost)`**.
+The number of pre and post survey that could be matched is **`r nrow(healthy_prepost)`**, and the percent of students with a successful outcome is  **`r hr_sucess("M3")`**
+
 
 1. The number of students who achieved at a high level is **`r nrow(hr_high_df)`**:
 
 2. The number of studens who did not achieve at high level but increased outcome socre **`r nrow(hr_increase_df)`**:
 
 
-
-The percent of students with a successful outcome is  **`r hr_sucess("M3")`**
 
 
 The improvement in outcome scores is graphically represented below. 
