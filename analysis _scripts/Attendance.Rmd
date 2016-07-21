@@ -180,7 +180,13 @@ abs_diff<- pander(mean(attendance_2016$abs_diff, na.rm=TRUE))  #find mean differ
 
 The number of student records that could be matched is **`r nrow(attendance_2016)`**.
 
-* The number of students who decreased their absences or did not miss any days is **`r absences_success()`**. 
+* The percent of students with a successful outcome is  **`r absences_success()`**. 
+
+1. The number of studens who decreased their absences from basline to the final grading period is **`r nrow(decrease_abs)`**
+
+2. The number of students who has no absences between the baseline grading period and the final grading period is **`r nrow(no_abs)`**
+
+
 
 * The average difference of absences  between basline and final is **`r abs_diff`**.
 
@@ -225,9 +231,9 @@ colnames (attendance_2016) [6] <- "Abs_Change" #change name to make pretty for g
 
 ```
 
-### Plot of Change in Absences:
+### Plot of Change in Absences from baseline to final grading period:
 
-The plot below has the council on the vertical axis and the difference in absences between baseline and final. For this plot it is good to see the circles on the left to reflect decreases. 
+The plot below has the council on the vertical axis and the difference in absences between baseline and final grading period. 
 
 
 ```{r echo=FALSE, warning=FALSE}
