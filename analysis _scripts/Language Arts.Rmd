@@ -85,7 +85,7 @@ langarts <- inner_join(q1_langarts, q2_langarts, by="girlCode")
 
 
 
-```{r}
+```{r echo=FALSE}
 langarts_q4_q1 <- langarts_q4_q1 %>%
     select(girlCode, council.x, lang_pts, lang_pts4) #select relevant variables
 
@@ -115,8 +115,7 @@ colnames(langarts_q4_q2) [4] <-"final"
 ```
 
 
-#bind
-```{r}
+```{r echo=FALSE}
 
 langarts2016 <- rbind(langarts_q4_q1, langarts_q4_q2)
 
@@ -144,7 +143,7 @@ langarts2016_1 <-filter(langarts2016, girlCode =="320BR031803")
 
 
 
-```{r}
+```{r echo=FALSE}
 langarts2016 <- langarts2016 %>%
     select(girlCode, council, baseline, final, Time)
 
@@ -158,7 +157,7 @@ langarts2016 <- langarts2016 %>%
 
 
 
-```{r echo=TRUE, eval=FALSE}
+```{r echo=FALSE, eval=TRUE}
 lang_change <- with(langarts2016, table(pt_diff, final))
 
 #pander(lang_change)
@@ -185,7 +184,7 @@ lang_success <- function() {
 
 ```
 
-```{r}
+```{r echo=FALSE}
 
 lang_test <- filter(langarts2016, final >=2, pt_diff >=0)
 
@@ -196,7 +195,7 @@ lang_test <- filter(langarts2016, final >=2, pt_diff >=0)
 
 
 
-```{r}
+```{r echo=FALSE}
 lang_maintain <-function() {
     lang_grade <- with(langarts2016, table(final, pt_diff ==0))
     pander(lang_grade)
@@ -207,7 +206,7 @@ lang_maintain <-function() {
 
 
 
-```{r}
+```{r echo=FALSE}
 lang_increase <- function() {
     lang_increase_dat <- filter(langarts2016, baseline <= 1 & final >=2)
     lang_increase_num <- nrow(lang_increase_dat) / nrow(langarts2016)
@@ -219,7 +218,7 @@ lang_increase <- function() {
 ```
 
 
-```{r}
+```{r echo=FALSE}
 lang_gradeincrease <- filter(langarts2016, final >=2 & pt_diff >=1)
 
 #head(lang_gradeincrease)
@@ -231,7 +230,7 @@ lang_gradeincrease <- filter(langarts2016, final >=2 & pt_diff >=1)
 ```
 
 
-```{r}
+```{r echo=FALSE}
 lang_grademaintain <- filter(langarts2016, final >= 2 & pt_diff ==0)
 
 #dim(lang_grademaintain)
@@ -254,7 +253,7 @@ lang_gpa_diff<-mean(langarts2016$pt_diff)
 
 ```
 
-```{r}
+```{r echo=FALSE}
 fail_topass <- filter(langarts2016,baseline < 2 & final >=2 )
 
 #nrow(fail_topass)
@@ -328,7 +327,7 @@ langarts_change_plot2 + geom_count()
 
 ### Statistical Tests
 
-```{r}
+```{r echo=FALSE}
 hist(langarts2016$baseline)
 
 hist(langarts2016$final)
