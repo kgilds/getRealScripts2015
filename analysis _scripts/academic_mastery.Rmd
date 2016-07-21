@@ -461,14 +461,14 @@ The Academic Mastery questions gauge a student's attitude towards school and edu
 
 
 
-The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**.
+The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**, and the percent of students with a successful outcome is **`r am_match("M3")`**
+
 
 1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(am_high_df)`**
 
 2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(am_increase_df)`** 
 
 
-The percent of students with a successful outcome is **`r am_match("M3")`**
 
 ```{r am_2016,echo=FALSE}
 am_2016 <- am_all %>%
