@@ -398,14 +398,14 @@ Number	Question
 4.	If I can't understand my schoolwork at first, I keep trying until I do understand it.
 
 
-The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**.
+The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**,and the percent of students with a successful outcome is **`r ae_match("M3")`**
+
 
 1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(ae_high_df)`**
 
 2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(ae_increase_df_i)`**
 
 
-The percent of students with a successful outcome is **`r ae_match("M3")`**
 
 
 The improvement in outcome scores is graphically represented below. 
