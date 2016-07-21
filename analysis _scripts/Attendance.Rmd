@@ -48,30 +48,30 @@ q4_absences <-dbReadTable(getReal_2016db, "Q4_Absences")
 #Merge and find matches between q1 and q4 by girlCode
 absences_q4q1 <- inner_join(q4_absences, q1_absences, by="girlCode")
 
-dim(absences_q4q1)
+#dim(absences_q4q1)
 
-head(absences_q4q1)
+#head(absences_q4q1)
 
 missing_q4q1 <- anti_join(q4_absences, q1_absences, by="girlCode")
 
-head(missing_q4q1)
+#head(missing_q4q1)
 
 absences_q4q2 <- inner_join(missing_q4q1, q2_absences, by="girlCode")
 
-head(absences_q4q2)
+#head(absences_q4q2)
 
-names(absences_q4q1)
-names(absences_q4q2)
+#names(absences_q4q1)
+#names(absences_q4q2)
 
 
 ```
 
 
-```{r}
+```{r echo=FALSE}
 absences_q4q1 <-absences_q4q1 %>%
     select(1,2, 6, 11)
 
-names(absences_q4q1)
+#names(absences_q4q1)
 
 colnames(absences_q4q1) [1] <- "council"
 colnames(absences_q4q1) [4]<- "baseline"
@@ -87,12 +87,12 @@ absences_q4q1 <- absences_q4q1 %>%
 ```
 
 
-```{r}
+```{r echo=FALSE}
 absences_q4q2 <- absences_q4q2 %>%
     select(1,2,6,11)
 
 
-names(absences_q4q2)
+#names(absences_q4q2)
 
 colnames(absences_q4q2) [1] <- "council"
 colnames(absences_q4q2) [4]<- "baseline"
@@ -108,17 +108,17 @@ absences_q4q2 <- absences_q4q2 %>%
 
 
 
-```{r}
+```{r echo=FALSE}
 attendance_2016 <- rbind(absences_q4q1, absences_q4q2)
 
-dim(attendance_2016)
+#dim(attendance_2016)
 
-head(attendance_2016)
+#head(attendance_2016)
 
 
 ```
 
-```{r}
+```{r echo=FALSE}
 
 ###make caluculated field   
 attendance_2016 <- attendance_2016 %>%
@@ -129,12 +129,22 @@ attendance_2016 <- attendance_2016 %>%
 attendance_2016 <- attendance_2016 %>%
     filter(abs_diff != "NA")
 
-head(attendance_2016)
+#head(attendance_2016)
 ```
 
 
 
 
+```{r echo=FALSE}
+
+no_abs <- filter(attendance_2016, final == 0, baseline == 0)
+#nrow(no_abs)
+
+decrease_abs <- filter(attendance_2016, abs_diff <0)
+
+#nrow(decrease_abs)
+
+```
 
 
 
@@ -144,7 +154,7 @@ head(attendance_2016)
 
 absences_success <- function() {
     no_absences <- filter(attendance_2016, final == 0, baseline ==0) #find cases with no absences
-    decrease_abs <- filter(attendance_2016, abs_diff<0 ) #find students who decreased absences
+    decrease_abs <- filter(attendance_2016, abs_diff< 0 ) #find students who decreased absences
     abs_total <- nrow(no_absences) + nrow(decrease_abs) #add positive outcomes no absences, decreased absences
     abs_total <- abs_total / nrow(attendance_2016) #divide positive outcomes by total
     abs_total <- round(abs_total*100,2) #make percent 
@@ -159,9 +169,6 @@ absences_success <- function() {
 
 
 
-
-
-### Absences Success: % of Students who decreased their absences or had no absences. 
 ```{r echo=FALSE}
 
 abs_diff<- pander(mean(attendance_2016$abs_diff, na.rm=TRUE))  #find mean differences
@@ -171,7 +178,11 @@ abs_diff<- pander(mean(attendance_2016$abs_diff, na.rm=TRUE))  #find mean differ
 
 
 
-The number of valid entries is **`r nrow(attendance_2016)`**, and the number of students who decreased their absences or did not miss any days is **`r absences_success()`**. The average difference of absences  between Quarter 1 and Quarter 2 is **`r abs_diff`**.
+The number of student records that could be matched is **`r nrow(attendance_2016)`**.
+
+* The number of students who decreased their absences or did not miss any days is **`r absences_success()`**. 
+
+* The average difference of absences  between basline and final is **`r abs_diff`**.
 
 
 ### Absences Change Table:
@@ -205,7 +216,7 @@ pander(absences_change) #make table pretty
 
 ```{r echo=FALSE}
 
-names(attendance_2016)
+#names(attendance_2016)
 
 colnames (attendance_2016) [1] <- "Council"  #chanage name to make pretty for graph
 colnames (attendance_2016) [3] <- "basline"  #change name to make pretty for graph
@@ -233,7 +244,7 @@ abs_change_plot_c + geom_count()  #plot changes in absences by council
 
 ```
 
-### Trend Data
+
 ````{r echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 
 ### Change working directory to where database is 
@@ -299,8 +310,6 @@ abs_match_m <- round(abs_match_m,2)
 
 
 
-### Plot of Absences Change by Council:
-
 ```{r echo=FALSE, eval=FALSE}
 
 colnames(abs_match)[1] <- "Council" #change name to make pretty for graph
@@ -316,8 +325,6 @@ absence_change_plot_m + geom_count()  #display changes in absences by council
 
 
 
-
-### Plot change in absence by Student: 
 ```{r echo=FALSE, eval=FALSE}
 
 
