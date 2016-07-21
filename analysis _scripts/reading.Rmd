@@ -50,20 +50,20 @@ q4_reading <-dbReadTable(getReal_2016db, "Q4_reading")
 
 reading_q1q4 <- inner_join(q4_reading, q1_reading, by="girlCode")
 
-head(reading_q1q4)
+#head(reading_q1q4)
 
 missing_q1q4 <- anti_join(q4_reading, q1_reading, by="girlCode")
 
-head(missing_q1q4)
+#head(missing_q1q4)
 
 reading_q2q4 <- inner_join(missing_q1q4, q2_reading, by="girlCode")
 
-dim(reading_q2q4)
-head(reading_q2q4)
+#dim(reading_q2q4)
+#head(reading_q2q4)
 
 
-names(reading_q2q4)
-names(reading_q1q4)
+#names(reading_q2q4)
+#names(reading_q1q4)
 
 ```
 
@@ -73,7 +73,7 @@ names(reading_q1q4)
 reading_q1q4 <- reading_q1q4 %>%
     select(1,2,5,9)
 
-names(reading_q1q4)
+#names(reading_q1q4)
 
 colnames(reading_q1q4) [2] <- "council"
 colnames(reading_q1q4) [3] <- "final"
@@ -91,7 +91,7 @@ reading_q1q4 <- reading_q1q4 %>%
 reading_q2q4 <- reading_q2q4 %>%
     select(1,2,5, 9)
 
-names(reading_q2q4)
+#names(reading_q2q4)
 
 colnames(reading_q2q4) [2] <- "council"
 colnames(reading_q2q4) [3] <- "final"
@@ -102,9 +102,9 @@ reading_q2q4 <- reading_q2q4 %>%
 
 
 
-names(reading_q1q4)
+#names(reading_q1q4)
 
-names(reading_q2q4)
+#names(reading_q2q4)
 
 ```
 
@@ -113,22 +113,20 @@ names(reading_q2q4)
 
 reading_2016 <- rbind(reading_q1q4, reading_q2q4)
 
-dim(reading_2016)
+#dim(reading_2016)
 
 reading_2016_test <- distinct(reading_2016, girlCode)
 
-dim(reading_2016_test)
+#dim(reading_2016_test)
 
 
 reading_2016 <- reading_2016 %>%
     mutate("pt_diff" = final- baseline)
 
 
-names(reading_2016)
+#names(reading_2016)
 
 ```
-
-
 
 
 
@@ -148,6 +146,24 @@ pander(reading_change_1)
 
 ```
 
+```{r}
+
+read_maintain <- filter(reading_2016, final >=2, pt_diff ==0)
+
+#head(read_maintain)
+#nrow(read_maintain)
+
+
+read_increase <- filter(reading_2016, final >=2, pt_diff >0)
+
+#head(read_increase)
+
+
+#nrow(read_increase)
+```
+
+
+
 
 ### Reading Success: % of Students that increased Grade or maintained a C 
 ```{r echo=FALSE}
@@ -163,7 +179,13 @@ reading_outcome <- function(){
 ```
 
 
-The number of matching students from Quarter 1 and Quarter 2 is **`r nrow(reading_2016)`**, and the percent of students who increased their reading grade is **`r reading_outcome()`**.
+The number of  students records that could be matched is **`r nrow(reading_2016)`**, 
+
+The percent of students with a successful outcome is  **`r reading_outcome()`**.
+
+1. The number of students who increased their reading grade is **`r nrow(read_increase)`**
+
+2. The number of stuents who maintained at least a "C" grade is **`r nrow(read_maintain)`**
 
 
 
