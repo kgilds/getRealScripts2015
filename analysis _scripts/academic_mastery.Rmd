@@ -544,7 +544,7 @@ The Cohen D test indicates that the effect was small.
 
 
 ```{r am_cohen_test, echo=FALSE}
-cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
+cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE, "less")
 
 ```
 
