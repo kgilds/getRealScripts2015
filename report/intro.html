@@ -122,9 +122,19 @@ $(document).ready(function () {
 </div>
 
 
+<pre><code>## books
+##                                                     Agree 
+##                            1                          140 
+##               Agree a little                     Disagree 
+##                           56                            6 
+##            Disagree a little Don't Know/Prefer Not to say 
+##                           15                            5 
+##               Strongly Agree            Strongly Disagree 
+##                          194                            1</code></pre>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>The Get REAL! program is a statewide mentoring program facilitated by six Girl Scout Councils in Florida. The goal of the Get REAL! program is to help at-risk middle school girls achieve academic success by connecting them to caring mentors in the community. Girl Scout facilitators and mentors deliver the Get REAL! program which includes a literacy component, character building, educational enhancement experience, and community service. The purpose of this report is to measure the program against the established set of performance measures to ensure program quality. Evidence obtained from the program both quantitative and qualitative provide strong confidence that the Get REAL! program is meeting program objectives and providing value to students.</p>
+<p>The Get REAL! program is a statewide mentoring program facilitated by six Girl Scout Councils in Florida. The goal of the Get REAL! program is to help at-risk middle school girls achieve academic success by connecting them to caring mentors in the community. Girl Scout facilitators and mentors deliver the Get REAL! program which includes a literacy component, character building, educational enhancement experience, and community service.</p>
+<p>The purpose of this report is to measure the program against the established set of performance measures to ensure program quality. Evidence obtained from the program both quantitative and qualitative provide strong confidence that the Get REAL! program is meeting program objectives and providing value to students.</p>
 <div id="program-operation" class="section level2">
 <h2>Program Operation</h2>
 <p>Each Girl Scout Council collaborates with the school officials to identify girls that would benefit from the Get REAL! program. Referrals come to the Get REAL! staff from school personnel and appropriate referrals for Get REAL! are at-risk girls based on (but not limited to) one or more of the following criteria:</p>
@@ -135,7 +145,75 @@ $(document).ready(function () {
 <li><p>Have high absenteeism, or high disciplinary referrals;</p></li>
 <li><p>Struggling socially/family problems.</p></li>
 </ul>
-<p>Student recruitment activities included meeting with school officials, word of mouth recruitment, announcement at school assemblies, visiting after-school programs. The enrollment goal of the Get REAL! program was to serve students by the end of the 4th Quarter. The Girl Scouts Councils reached or did not reach their goal by serving . Student enrollment data by Girl Scout Council are as follows:</p>
+<p>Student recruitment activities included meeting with school officials, word of mouth recruitment, announcement at school assemblies, visiting after-school programs. The enrollment goal of the Get REAL! program was to serve 900 students by the end of the 4th Quarter. The Girl Scouts Councils reached or their goal by serving 909 students. Student enrollment data by Girl Scout Council are as follows:</p>
+<pre class="r"><code>enrollment &lt;- enrollment[, c(5,1:4)]
+
+total &lt;-colSums(enrollment[,-1])
+
+
+pander(enrollment)</code></pre>
+<table>
+<colgroup>
+<col width="29%"></col>
+<col width="19%"></col>
+<col width="22%"></col>
+<col width="19%"></col>
+<col width="9%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">council_name</th>
+<th align="center">Sixth.Grade</th>
+<th align="center">Seventh.Grade</th>
+<th align="center">Eight.Grade</th>
+<th align="center">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Citrus Council</td>
+<td align="center">54</td>
+<td align="center">51</td>
+<td align="center">35</td>
+<td align="center">140</td>
+</tr>
+<tr class="even">
+<td align="center">Gateway Council</td>
+<td align="center">93</td>
+<td align="center">88</td>
+<td align="center">91</td>
+<td align="center">272</td>
+</tr>
+<tr class="odd">
+<td align="center">Panhandle Council</td>
+<td align="center">31</td>
+<td align="center">56</td>
+<td align="center">21</td>
+<td align="center">108</td>
+</tr>
+<tr class="even">
+<td align="center">Southeast Council</td>
+<td align="center">17</td>
+<td align="center">48</td>
+<td align="center">56</td>
+<td align="center">121</td>
+</tr>
+<tr class="odd">
+<td align="center">Tropical Council</td>
+<td align="center">36</td>
+<td align="center">11</td>
+<td align="center">47</td>
+<td align="center">94</td>
+</tr>
+<tr class="even">
+<td align="center">West Central Council</td>
+<td align="center">35</td>
+<td align="center">68</td>
+<td align="center">71</td>
+<td align="center">174</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="attendance-data" class="section level2">
 <h2>Attendance Data</h2>
@@ -143,8 +221,11 @@ $(document).ready(function () {
 </div>
 <div id="staff-quality" class="section level2">
 <h2>Staff Quality</h2>
-<p>All program staff and mentors are personally interviewed, complete an Affidavit of Good Moral Character, submit to a reference check, and must satisfactorily pass a criminal background check in order to begin working with students. Upon successful completion of the application process, new staff and mentors receive training on the approved program curriculum, and safety standards. Trainings that must be completed by new staff and mentors include Girl Scouts 101, CPR/First Aid, Diversity, and Team Building.<br />
-## Mentor Recruitment The Girl Scout Councils recruited and trained a total individuals to be mentors and the mentors logged at least hours to assist students in the program. The goal of the Get REAL! program was to recruit enough mentors to maintain a 15-1 student-mentor relationship. The councils were not able to meet the 15-1 ratio. There appears to be variation between councils and their success with mentors. The range of mentors by council ranged from a high of to a low of .</p>
+<p>All program staff and mentors are personally interviewed, complete an Affidavit of Good Moral Character, submit to a reference check, and must satisfactorily pass a criminal background check in order to begin working with students. Upon successful completion of the application process, new staff and mentors receive training on the approved program curriculum, and safety standards. Trainings that must be completed by new staff and mentors include Girl Scouts 101, CPR/First Aid, Diversity, and Team Building.</p>
+</div>
+<div id="mentor-recruitment" class="section level2">
+<h2>Mentor Recruitment</h2>
+<p>The Girl Scout Councils recruited and trained a total of 49 individuals to be mentors and the mentors logged at least 1242 hours to assist students in the program. The goal of the Get REAL! program was to recruit enough mentors to maintain a 15-1 student-mentor relationship. The councils were not able to meet the 15-1 ratio. There appears to be variation between councils and their success with mentors. The range of mentors by council ranged from a high of 22 to a low of 1 .</p>
 </div>
 <div id="program-components" class="section level2">
 <h2>Program Components:</h2>
@@ -154,14 +235,97 @@ $(document).ready(function () {
 <h3>Literacy Component:</h3>
 <p>Girl Quote</p>
 <p>The reading portion of the Get REAL! program uses the See Girls Read! curriculum, and girls read at least five books during the 30-session program. As part of the Girl Scout process, students are given input about what books they wish to read. Mentors facilitate discussion about the books the girls are reading, and participants read and write in their journal. The group discussions and writing activities help increase emotional and cognitive engagement in the students. Periodically the girls are encouraged to share their journals with their mentor and the mentor will respond to them. Journaling gives girls additional writing experience and helps establish connections with their mentor.</p>
+<p>The reading list for students in the Get REAL! program included:</p>
+<pre><code>
+**Bridge to Terabithia**
+
+**Hoot**
+
+**The Girls Guide to Loving Yourself**
+
+**My Feet Aren't Ugly**
+
+**Chicken Soup for Soul: Teen Talk Middle School**
+**Life is Not a Fairy Tale**
+**Crossing Jordan**
+**Girl Code**
+**The Cheat**
+**Wonder**
+**Diary of a Teenage Girl**
+**Tease*
+</code></pre>
 <p>Write in narrative</p>
 <p>’ Insert Table: Question: I learned from the books we read this year</p>
+<pre class="r"><code>book_1 &lt;- lapply(books, factor, levels=c(&quot;Don't Know/Prefer Not to say&quot;,&quot;Strongly Disagree&quot;, &quot;Disagree&quot;, &quot;Disagree a little&quot;,&quot;Agree a little&quot;, &quot;Agree&quot;, &quot;Strongly Agree&quot; ), ordered=TRUE)
+
+book_1 &lt;- table(book_1)
+
+book_1</code></pre>
+<pre><code>## book_1
+## Don't Know/Prefer Not to say            Strongly Disagree 
+##                            5                            1 
+##                     Disagree            Disagree a little 
+##                            6                           15 
+##               Agree a little                        Agree 
+##                           56                          140 
+##               Strongly Agree 
+##                          194</code></pre>
+<pre class="r"><code>book_1_p &lt;- prop.table(book_1)
+
+pander(book_1_p)</code></pre>
+<table style="width:85%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="43%"></col>
+<col width="27%"></col>
+<col width="13%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Don’t Know/Prefer Not to say</th>
+<th align="center">Strongly Disagree</th>
+<th align="center">Disagree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.01199</td>
+<td align="center">0.002398</td>
+<td align="center">0.01439</td>
+</tr>
+</tbody>
+</table>
+<table style="width:85%;">
+<colgroup>
+<col width="27%"></col>
+<col width="23%"></col>
+<col width="11%"></col>
+<col width="22%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Disagree a little</th>
+<th align="center">Agree a little</th>
+<th align="center">Agree</th>
+<th align="center">Strongly Agree</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.03597</td>
+<td align="center">0.1343</td>
+<td align="center">0.3357</td>
+<td align="center">0.4652</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="character-buildinglife-skills" class="section level3">
 <h3>Character Building/Life Skills:</h3>
 <p>Girl Quote</p>
 <p>Relationships and connections with peers and teachers plays a critical role in academic engagement for students (Fredricks et al., 2011). All Girl Scout councils utilize the modules “Being a Girl”, “Friendship” and “Body Image” from the Girls Circle curriculum. The modules focus on self-esteem, social development and interpersonal relationships to help the students solidify relationships with themselves, peers, and teachers.</p>
-<p>Educational Enhancements: Girls in the Get REAL! program participate in educational enhancements that consists of out-of-school learning experiences which include camp visits, legislative day and half-day trips to local educational facilities. Examples of the educational enhancement opportunities offered to the students in the program this year include legislative days, educational programs at theme parks, financial literacy workshops, summer camp, college tours, and a STOMP performance.</p>
+<p>Educational Enhancements:</p>
+<p>Girls in the Get REAL! program participate in educational enhancements that consists of out-of-school learning experiences which include camp visits, legislative day and half-day trips to local educational facilities. Examples of the educational enhancement opportunities offered to the students in the program this year include legislative days, educational programs at theme parks, financial literacy workshops, summer camp, college tours, and a STOMP performance.</p>
 <p>Community Care Projects An important part of Girl Scouting is community care projects to help girls identify what they can do to help their community. Each program group develops their own projects that is specific to their community.</p>
 </div>
 </div>
