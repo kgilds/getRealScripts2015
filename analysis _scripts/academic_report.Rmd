@@ -1,0 +1,28 @@
+---
+title: "academics"
+author: "Kevin Gilds, MPA"
+date: "July 21, 2016"
+output: word_document
+---
+
+Objective Assessment:
+
+```{r child = "Language Arts.Rmd"}
+
+```
+
+
+
+```{r child = "reading.Rmd"}
+
+```
+
+
+```{r child = "Attendance.Rmd"}
+
+```
+
+```{r child = "Suspenions.Rmd"}
+
+```
+
