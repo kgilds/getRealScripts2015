@@ -5,10 +5,10 @@ date: "June 14, 2016"
 output:
   html_notebook: default
   html_document: default
-  params:
-     council:
+  
+     
 ---
-```{r am_importlibaries,  message=FALSE, warning=FALSE}
+```{r am_importlibaries, echo=FALSE,  message=FALSE, warning=FALSE}
 library(dplyr)
 library(pander)
 library(ggplot2)
@@ -43,13 +43,12 @@ pre_outcomes <- select(pre_outcomes, girlCode, council, am.avg)
 
 history <- dbReadTable(getReal_2016db, "basic_view")
 
-dim(pre_outcomes)
-dim(post_outcomes)
+
 
 ```
 
 
-```{r am_read_2014, echo=FALSE}
+```{r am_read_2014, echo=FALSE, message=FALSE, warning=FALSE}
 setwd("C:/Users/kevin/Dropbox/GetReal/Reports/MY-2014-2015/Summ Evaluation Report/data")
 
 getReal_2014db<- dbConnect(SQLite(), dbname="data_Final_GetReal_2014_2015.sqlite")
@@ -104,7 +103,7 @@ am_post2013 <- post_outcomes2013 %>%
 
 am_prepost2013 <- inner_join(am_pre2013, am_post2013, by="girlCode")
 
-dim(am_prepost2013)
+#dim(am_prepost2013)
 
 #names(am_prepost2013)
 
@@ -163,7 +162,8 @@ fun_test_2014_i <-with(am_prepost2014,table(Post <4.5 & am.diff >0))
 ```{r join_am_2016, echo=FALSE}
 am_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
-dim(am_prepost)
+#dim(am_prepost)
+
 
 
 ```
@@ -294,9 +294,15 @@ am_imrove <- prop.table(am_imrove,1)
 
 ```{r am_test_tables, echo=FALSE}
 am_high_df <- am_all %>%
-    filter(Year_Id == "M3" & Post >=4.8)
+    filter(Year_Id == "M3")
 
+
+
+
+am_high_tbl <- group_by(am_high_df, council)
 #nrow(am_high_df)
+
+
 
 am_high <- with(am_all,table(Year_Id,Post >=4.8))
 
@@ -470,7 +476,7 @@ The Academic Mastery questions gauge a student's attitude towards school and edu
 The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**, and the percent of students with a successful outcome is **`r am_match("M3")`**
 
 
-1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(am_high_df)`**
+1. The number of students achieving the academic engagement outcome at a high level is **`r nrow(am_high_df)`**
 
 2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(am_increase_df)`** 
 
@@ -521,7 +527,7 @@ am_change <- am_2016 %>%
 ```
 
 
-The percent of students who went from low achievement to hig achievement is **`r am_lowHigh("M3")`** 
+The percent of students who went from low achievement to high achievement is **`r am_lowHigh("M3")`** 
 The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(am_change)`**, and their mean increase in outcome score is **`r mean(am_change$am.diff)`**
 
 
@@ -535,9 +541,9 @@ am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercep
 
 ### Statistical Tests
 
-Two statisical tests were administered on the matched survey results the wilcox test and Cohen's D test. 
+Two statistical tests were administered on the matched survey results the Wilcox test and Cohen's D test. 
 
-The outcome distributions did not approximate a normal distribution, thus a wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at .05 level.
+The outcome distributions did not approximate a normal distribution, thus a Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at .05 level.
 
 
 
@@ -564,7 +570,7 @@ Survey results from teachers and parents also provide evidence that the Get REAL
 
 * Question 3: She has a Good Attitude About School
 
-Results based on 466 respones. 
+Results based on 466 responses. 
 ```{r am_load_parent, echo=FALSE}
 pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
 
