@@ -185,7 +185,7 @@ The percent of students with a successful outcome is  **`r reading_outcome()`**.
 
 1. The number of students who increased their reading grade is **`r nrow(read_increase)`**
 
-2. The number of stuents who maintained at least a "C" grade is **`r nrow(read_maintain)`**
+2. The number of students who maintained at least a "C" grade is **`r nrow(read_maintain)`**
 
 
 
