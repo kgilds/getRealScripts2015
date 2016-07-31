@@ -2,7 +2,7 @@
 title: "Intro_report"
 author: "Kevin Gilds, MPA"
 date: "July 2, 2016"
-output: html_document
+output: word_document
 ---
 
 
@@ -113,13 +113,22 @@ The reading list for students in the Get REAL! program included:
 **My Feet Aren't Ugly**
 
 **Chicken Soup for Soul: Teen Talk Middle School**
+
 **Life is Not a Fairy Tale**
+
 **Crossing Jordan**
+
 **Girl Code**
+
 **The Cheat**
+
 **Wonder**
+
 **Diary of a Teenage Girl**
+
 **Tease*
+
+**Insurgent**
 
 ```
 
@@ -153,10 +162,24 @@ Relationships and connections with peers and teachers plays a critical role in a
 
 Educational Enhancements:
 
-Girls in the Get REAL! program participate in educational enhancements that consists of out-of-school learning experiences which  include camp visits, legislative day and half-day trips to local educational facilities.  Examples of the educational enhancement opportunities offered to the students in the program this year include legislative days, educational programs at theme parks, financial literacy workshops, summer camp, college tours, and a STOMP performance.
-
+Girls in the Get REAL! program participate in educational enhancements that consists of out-of-school learning experiences which  include camp visits, legislative day and half-day trips to local educational facilities.  Examples of the educational enhancement opportunities offered to the students in the program this year include legislative days in Tallahassee to learn about the  government process and advocacy. Students also visited Universal Studios to learn how important science and engineering is for the park. Additionaly they visited the Digital and Animation and Visual Effects School located at Universal Studios. Students from Citrus Council attended the Disney Y.E.S. program attended a workshop on Techniques for Teamwork through Imrovisation. 
 
 Community Care Projects
-An important part of Girl Scouting is community care projects to help girls identify what they can do to help their community. Each program group develops their own projects that is specific to their community. 
+An important part of Girl Scouting is community care projects to help girls identify what they can do to help their community. Community care projects give the students opportunities to identify problems and work together to make a plan to help solve that problem. Each program group develops their own projects that is specific to their community. Examples of community care projects implemented this year include: 
+
+1. Food Drive for a Stop Summer Hunger Initiative
+
+2. Created activities and worked a crafting station at a Day Camp for special needs children.
+
+3. Developed a "Recycle Thursday" program at their school.
+
+4. Created Positive Image Poster that were Displayed at School
+
+5. Created an anti-bully and friendship garden.
+
+
+
+
+
  
 
