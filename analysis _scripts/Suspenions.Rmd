@@ -191,7 +191,7 @@ The number of student records that could be matched is **`r nrow(susp_2016)`**.
 
 2. The number of students who had no suspensions during baseline and final grading period **`r nrow(no_susp)`**
 
-The average difference of suspensions between basline and final grading period is **`r susp_diff`**
+The average difference of suspensions between baseline and final grading period is **`r susp_diff`**
 
 
 
