@@ -1,0 +1,25 @@
+---
+title: "Life_skills"
+author: "Kevin Gilds, MPA"
+date: "July 20, 2016"
+output: html_document
+---
+
+
+# Life Skills
+
+
+```{r child = healthy_relationships.RMD}
+
+```
+
+
+```{r child = academic_engagement.RMD}
+
+```
+
+
+```{r child = academic_mastery.RMD}
+
+```
+
