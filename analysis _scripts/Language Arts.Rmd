@@ -2,7 +2,9 @@
 title: "Language Arts"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
-output: word_document
+output:
+  html_document: default
+  word_document: default
 ---
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
