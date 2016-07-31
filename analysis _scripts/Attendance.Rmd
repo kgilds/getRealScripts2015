@@ -182,7 +182,7 @@ The number of student records that could be matched is **`r nrow(attendance_2016
 
 * The percent of students with a successful outcome is  **`r absences_success()`**. 
 
-1. The number of studens who decreased their absences from basline to the final grading period is **`r nrow(decrease_abs)`**
+1. The number of students who decreased their absences from baseline to the final grading period is **`r nrow(decrease_abs)`**
 
 2. The number of students who has no absences between the baseline grading period and the final grading period is **`r nrow(no_abs)`**
 
