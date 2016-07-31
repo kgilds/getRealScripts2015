@@ -2,10 +2,10 @@
 title: "academic_engagement"
 author: "Kevin Gilds, MPA"
 date: "June 13, 2016"
-output: word_document
+output:
+  html_document: default
+  html_notebook: default
 ---
-
-
 
 
 
@@ -391,7 +391,9 @@ ae_lowHigh <-function (Year){
 
 # Academic Engagement
 Academic Engagement questions gauge tangible behaviors that help students succeed in school. Questions that measure Academic Engagement include the following.
-Number	Question
+
+**Acadeimc Engagement Questions**
+
 1.	I talk with my teachers before or after school, or during lunch about my assignments.
 2.	I hand in my assignments on time
 3.	I finish my homework even if it is boring
@@ -401,7 +403,7 @@ Number	Question
 The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**,and the percent of students with a successful outcome is **`r ae_match("M3")`**
 
 
-1. The number of students achieving the academic engagment outcome at a high level is **`r nrow(ae_high_df)`**
+1. The number of students achieving the academic engagement outcome at a high level is **`r nrow(ae_high_df)`**
 
 2. The number of students who did not achieve outcome at high level but increased their outcome score is **`r nrow(ae_increase_df_i)`**
 
@@ -452,11 +454,11 @@ ae_change <- ae_2016 %>%
 
 ```
 
-The percent of students who went from low achievement to hig achievement is **`r ae_lowHigh("M3")`** 
+The percent of students who went from low achievement to high achievement is **`r ae_lowHigh("M3")`** 
 The number of students who had the opportunity to improve their academic engagement  outcome score is **`r nrow(ae_change)`**, and their mean increase in outcome score is **`r mean(ae_change$ae.diff)`**
 
 
-The increase in the academic engagement outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
+The increase in the academic engagement outcome scores is represented graphically below. Marks to the right of the vertical red line represents an increase in the outcome score. Marks above the horizontal line represents scores above the high and low achievement. 
 
 
 
@@ -473,9 +475,9 @@ ae_change_p + geom_count() + geom_hline(yintercept = 4.5) + geom_vline(xintercep
 
 ```
 
-Two statisical tests were administered on the matched survey results the wilcox test and Cohen's D test. 
+Two statistical tests were administered on the matched survey results the Wilcox test and Cohen's D test. 
 
-The outcome distributions did not approximate a normal distribution, thus A wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
+The outcome distributions did not approximate a normal distribution, thus A Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
 
 ```{r ae_wilcox_test, echo=FALSE}
 pander(wilcox.test(ae_2016$Pre, ae_2016$Post, paired=TRUE, "less"))
