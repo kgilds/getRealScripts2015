@@ -379,7 +379,7 @@ The number of pre and post survey that could be matched is **`r nrow(healthy_pre
 
 1. The number of students who achieved at a high level is **`r nrow(hr_high_df)`**:
 
-2. The number of studens who did not achieve at high level but increased outcome socre **`r nrow(hr_increase_df)`**:
+2. The number of students who did not achieve at high level but increased outcome score **`r nrow(hr_increase_df)`**:
 
 
 
@@ -407,7 +407,7 @@ grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
 ```
 
-The percent of students who achieved the healthy releationship at a high level is **`r hr_achieved("M3")`**. The imrovement is represented graphically below. 
+The percent of students who achieved the healthy relationship at a high level is **`r hr_achieved("M3")`**. The improvement is represented graphically below. 
 
 ```{r "hr_bar_2016", echo=FALSE}
 hr_bar_pre <-qplot(hr_2016$Pre >=4.45, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
@@ -427,9 +427,9 @@ healthy_change <- filter(healthy_prepost, Pre !=6.0 & Post !=6.0)
 
 
 
-The percent of students who went from low achievment to high achievement **`r hr_lowHigh("M3")`**. The number of students who had the opportunity to improve their healthy relationship outcome score is **`r nrow(healthy_change)`**, and the mean increase in outcome score is **`r mean(healthy_change$hr.diff)`**
+The percent of students who went from low achievement to high achievement **`r hr_lowHigh("M3")`**. The number of students who had the opportunity to improve their healthy relationship outcome score is **`r nrow(healthy_change)`**, and the mean increase in outcome score is **`r mean(healthy_change$hr.diff)`**
 
-The increase in the healthy relationship outcome scores is represented graphically below. Marks to the right of the veticial red line represents an increase in the outcome score. Marks above the horizintal line represents scores above the high and low achievement. 
+The increase in the healthy relationship outcome scores is represented graphically below. Marks to the right of the vertical red line represents an increase in the outcome score. Marks above the horizontal line represents scores above the high and low achievement. 
 
 
 ```{r function_test, echo=FALSE, eval=FALSE}
@@ -480,9 +480,9 @@ healthy_change_p + geom_count() + geom_hline(yintercept = 4.45) + geom_vline(xin
 
 ```
 
-Two statisical tests were administered on the matched survey results the wilcox test and Cohen's D test. 
+Two statistical tests were administered on the matched survey results the Wilcox test and Cohen's D test. 
 
-The outcome distributions did not approximate a normal distribution, thus A wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
+The outcome distributions did not approximate a normal distribution, thus A Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
 
 ```{r "wilcox_test", echo=FALSE}
 pander(wilcox.test(hr_2016$Pre, hr_2016$Post, "less"))
@@ -514,7 +514,7 @@ post_parent <- dbReadTable(getReal_2016db, "post_parent")
 ### Pre Parent Survey
 
 
-* Quetion 1:She develops positive relationships with her classmates.
+* Question 1:She develops positive relationships with her classmates.
 
 Results based on 466 responses. 
 
