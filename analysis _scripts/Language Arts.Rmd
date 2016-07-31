@@ -275,13 +275,13 @@ The percent of students with the successful outcome is  **`r lang_success ()`**.
 2. The number of students who maintained  their baseline grade with at least a C: **`r nrow(lang_grademaintain)`**
 
 
-3. The percent of students who had a failing grade at baseline and finished with a passing final grade is **`r lang_increase ()`**
+3. The percent of students who had a failing grade at basline and finished with a passing final grade is **`r lang_increase ()`**
 
 
 
 
 
-The mean difference between baseline grades and final grade **`r pander(lang_gpa_diff)`**. 
+The mean difference betwween baseline grades and final grade **`r pander(lang_gpa_diff)`**. 
 
 ```{r echo=FALSE}
 
