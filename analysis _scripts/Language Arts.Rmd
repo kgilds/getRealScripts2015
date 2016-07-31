@@ -154,6 +154,12 @@ langarts2016 <- langarts2016 %>%
 ```
 
 
+```{r filter_council, echo=FALSE, eval=FALSE}
+
+langarts2016 <- langarts2016 %>%
+    filter(council == "West Central Florida")
+
+```
 
 
 
