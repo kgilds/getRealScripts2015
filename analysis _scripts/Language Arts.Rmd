@@ -298,8 +298,8 @@ colnames (langarts2016) [6] <- "Grade_Change"
 
 
 
-### Grade Change Plot from baseline to fina grading period: 
-The changes in grades from baseline to final grading period is represented below. The vertical axis represents baseline grades and the bottom axis the change from the baseline. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase. 
+### Grade Change Plot from baseline to final: 
+The changes in grades from baseline to final is represented below. The vertical axis represents baseline grades and the bottom axis the change from the baseline. Thus ideally we want to see circles moving to right. Note that,students with an A in Q1 can decrease but not increase. 
 
 
 
