@@ -2,9 +2,13 @@
 title: "academic_mastery"
 author: "Kevin Gilds, MPA"
 date: "June 14, 2016"
-output: html_document
+output:
+  html_notebook: default
+  html_document: default
+  params:
+     council:
 ---
-```{r am_importlibaries, echo=FALSE, message=FALSE, warning=FALSE}
+```{r am_importlibaries,  message=FALSE, warning=FALSE}
 library(dplyr)
 library(pander)
 library(ggplot2)
@@ -39,6 +43,8 @@ pre_outcomes <- select(pre_outcomes, girlCode, council, am.avg)
 
 history <- dbReadTable(getReal_2016db, "basic_view")
 
+dim(pre_outcomes)
+dim(post_outcomes)
 
 ```
 
@@ -98,7 +104,7 @@ am_post2013 <- post_outcomes2013 %>%
 
 am_prepost2013 <- inner_join(am_pre2013, am_post2013, by="girlCode")
 
-#dim(am_prepost2013)
+dim(am_prepost2013)
 
 #names(am_prepost2013)
 
@@ -157,7 +163,7 @@ fun_test_2014_i <-with(am_prepost2014,table(Post <4.5 & am.diff >0))
 ```{r join_am_2016, echo=FALSE}
 am_prepost <- inner_join(pre_outcomes, post_outcomes, by="girlCode")
 
-#dim(am_prepost)
+dim(am_prepost)
 
 
 ```
@@ -506,7 +512,7 @@ grid.arrange(am_bar_pre, am_bar_post, ncol=2)
 ```
 
 
-```{r am_change,,echo=FALSE}
+```{r am_change,echo=FALSE}
 
 am_change <- am_2016 %>%
     filter(Pre !=6.0 & Post !=6.0)
