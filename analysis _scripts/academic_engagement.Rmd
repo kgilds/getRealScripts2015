@@ -2,7 +2,7 @@
 title: "academic_engagement"
 author: "Kevin Gilds, MPA"
 date: "June 13, 2016"
-output: html_document
+output: word_document
 ---
 
 

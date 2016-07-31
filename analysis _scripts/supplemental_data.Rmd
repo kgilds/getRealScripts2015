@@ -1,0 +1,58 @@
+---
+title: "Supplemental Data"
+author: "Kevin Gilds, MPA"
+date: "July 23, 2016"
+output: word_document
+---
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=20, fig.height=10}
+
+library(dplyr)
+library(pander)
+library(ggplot2)
+library(effsize)
+library(knitr)
+library(sqldf)
+library(likert)
+
+setwd("C:/Users/kevin/Dropbox/GetReal/Data/sqlite")
+
+getReal_2016db<- dbConnect(SQLite(), dbname="outcome_history.sqlite")
+
+attr <- dbReadTable(getReal_2016db, "girl_post")
+
+attr <- attr %>%
+    select(46:49)
+
+colnames(attr)[1] <- "A1"
+
+colnames(attr)[2] <- "A2"
+
+colnames(attr)[3] <- "A3"
+
+colnames(attr)[4]  <- "A4"
+
+
+attr$A1 <- factor(attr$A1, levels=c("Strongly Disagree", "Disagree", "Disagree a little","Don't Know/Prefer Not to say", "Agree a little", "Agree", "Strongly Agree" ), ordered=TRUE)
+
+attr$A2 <- factor(attr$A2, levels=c("Strongly Disagree", "Disagree", "Disagree a little","Don't Know/Prefer Not to say", "Agree a little", "Agree", "Strongly Agree" ), ordered=TRUE)
+
+attr$A3 <- factor(attr$A3, levels=c("Strongly Disagree", "Disagree", "Disagree a little","Don't Know/Prefer Not to say", "Agree a little", "Agree", "Strongly Agree" ), ordered=TRUE)
+
+
+attr$A4 <- factor(attr$A4, levels=c("Strongly Disagree", "Disagree", "Disagree a little","Don't Know/Prefer Not to say", "Agree a little", "Agree", "Strongly Agree" ), ordered=TRUE)
+
+
+
+
+attr <- likert(attr)
+
+plot(attr)
+
+attr <- summary(attr)
+
+attr
+
+
+```
+
