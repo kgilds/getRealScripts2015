@@ -246,6 +246,21 @@ ae_all <- rbind(ae_all, ae_prepost2014)
 ae_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, ae_all$council)
 
 
+
+```{r council_filter, echo=FALSE}
+
+
+
+ae_all <- ae_all %>%
+    filter(council == "West Central Council" & Year_Id == "M3")
+
+
+```
+
+
+
+```{r echo=FALSE}
+
 ae_high_df <- ae_all %>%
     filter(Year_Id == "M3" & Post >=4.5)
 
@@ -300,6 +315,9 @@ ae_imrove <- prop.table(ae_imrove,1)
 
 
 ```
+
+
+
 
 
 
@@ -400,7 +418,7 @@ Academic Engagement questions gauge tangible behaviors that help students succee
 4.	If I can't understand my schoolwork at first, I keep trying until I do understand it.
 
 
-The number of pre and post survey that could be matched is **`r nrow(ae_prepost)`**,and the percent of students with a successful outcome is **`r ae_match("M3")`**
+The number of pre and post survey that could be matched is **`r nrow(ae_all)`**,and the percent of students with a successful outcome is **`r ae_match("M3")`**
 
 
 1. The number of students achieving the academic engagement outcome at a high level is **`r nrow(ae_high_df)`**
@@ -477,161 +495,17 @@ ae_change_p + geom_count() + geom_hline(yintercept = 4.5) + geom_vline(xintercep
 
 Two statistical tests were administered on the matched survey results the Wilcox test and Cohen's D test. 
 
-The outcome distributions did not approximate a normal distribution, thus A Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at 05 level.
+The outcome distributions did not approximate a normal distribution, thus A Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are not significant at 05 level.
 
 ```{r ae_wilcox_test, echo=FALSE}
 pander(wilcox.test(ae_2016$Pre, ae_2016$Post, paired=TRUE, "less"))
 
 ```
 
-The Cohen D test indicates that the effect was small. 
 
 
 ```{r ae_cohen, echo=FALSE}
 cohen.d(ae_2016$Pre, ae_2016$Post, paired=TRUE)
-
-```
-
-## Cross Validation of Academic Engagment
-
-Survey results from teachers and parents also provide evidence that the Get REAL! program helps students learn tangible tools to help them succeed in school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
-
-### Parent Pre Survey:
-
-* Question 6: She works on her homework at home without supervision (N=465)
-
-
-
-```{r ae_load_parent_survey, echo=FALSE}
-pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
-
-post_parent <- dbReadTable(getReal_2016db, "post_parent")
-
-```
-
-
-```{r ae_pre_parent, echo=FALSE}
-
-colnames(pre_parent)[15] <- "Q6"
-
-
-pre_parent_tbl <- pre_parent %>%
-    select(15)
-
-#table(pre_parent_tbl)
-
-#names(pre_parent_tbl)
-
-pre_parent_tbl$Q6 <- factor(pre_parent_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-
-```
-
-
-```{r "ae_q5_parent", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
-
-pre_parent_test <- table(pre_parent_tbl) #make tbl for testing
-
-#nrow(pre_parent_tbl)
-
-#pander(pre_parent_test)  #test pre parent
-
-pre_parent_tbl <- likert(pre_parent_tbl)
-
-summary(pre_parent_tbl)
-
-plot(pre_parent_tbl, type="heat") +ggtitle("Parent Pre Survey Question 5") + theme_dark ()
-
-```
-
-### Post Parent Survey
-
-* Question 6: She works on her homework at home without supervision (N=244)
-
-
-```{r "ae_parent_q6", echo=FALSE}
-colnames(post_parent)[15] <- "Q6"
-
-post_parent_tbl <- post_parent %>%
-    select(15)
-
-post_parent_tbl$Q6 <- factor(post_parent_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-```
-
-
-```{r "ae_liker_q6", fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
-
-post_parent_test <- table(post_parent_tbl) #make tbl to check results of likert
-
-#pander(post_parent_test) #print result of table nicely
-
-#nrow(post_parent_tbl) #count number of observations
-
-post_parent_tbl <- likert(post_parent_tbl)
-
-summary(post_parent_tbl)
-
-plot(post_parent_tbl, type="heat") + ggtitle("Post Survey Question 6") + theme_dark ()
-
-```
-
-
-### Teacher Post Survey
-
-Only post teacher survey data is reported as there were less than 50 responses to the pre teacher survey. 
-
-* Question 5: She positively participates in class
-* Question 6: She completes the homework given to her.
-
-Results based on 397 responses. 
-
-```{r  "ae_load_teacher", fig.height=2, fig.width=15, echo=FALSE}
-post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
-
-
-#names(post_teacher) checked 
-
-colnames(post_teacher)[15] <- "Q6"
-colnames(post_teacher)[14] <- "Q5"
-
-#nrow(post_teacher)
-
-post_teacher_tbl <- post_teacher %>%
-    select(14,15)
-
-#table(post_teacher_tbl$Q5)
-#table(post_teacher_tbl$Q6)
-
-
-
-
-post_teacher_tbl$Q5 <- factor(post_teacher_tbl$Q5, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-post_teacher_tbl$Q6 <- factor(post_teacher_tbl$Q6, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-
-
-
-
-```
-
-
-
-```{r "ae_teacher_plots",fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
-
-post_teacher_tbl <- likert(post_teacher_tbl)
-
-summary(post_teacher_tbl)
-
-
-plot(post_teacher_tbl, type="heat") + ggtitle("Teacher Post Survey Question 5 & 6") + theme_dark ()
-
-
-
 
 ```
 
