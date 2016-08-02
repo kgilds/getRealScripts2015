@@ -3,10 +3,8 @@ title: "academic_mastery"
 author: "Kevin Gilds, MPA"
 date: "June 14, 2016"
 output:
-  html_notebook: default
   html_document: default
-  
-     
+  html_notebook: default
 ---
 ```{r am_importlibaries, echo=FALSE,  message=FALSE, warning=FALSE}
 library(dplyr)
@@ -222,6 +220,8 @@ am_prepost <- am_prepost %>%
 
 am_prepost <- am_prepost[,c(5,2, 1,3,4,6)]
 
+
+
 #names(am_prepost)
 
 #names(am_prepost2013)
@@ -292,12 +292,21 @@ am_imrove <- prop.table(am_imrove,1)
 
 ```
 
+```{r council_filter, echo=FALSE}
+
+am_all <- am_all %>%
+    filter(council == "West Central Council" & Year_Id =="M3")
+
+```
+
+
+
+
 ```{r am_test_tables, echo=FALSE}
+
+
 am_high_df <- am_all %>%
-    filter(Year_Id == "M3")
-
-
-
+    filter(Post >=4.8)
 
 am_high_tbl <- group_by(am_high_df, council)
 #nrow(am_high_df)
@@ -473,7 +482,7 @@ The Academic Mastery questions gauge a student's attitude towards school and edu
 
 
 
-The number of pre and post survey that could be matched is **`r nrow(am_prepost)`**, and the percent of students with a successful outcome is **`r am_match("M3")`**
+The number of pre and post survey that could be matched is **`r nrow(am_all)`**, and the percent of students with a successful outcome is **`r am_match("M3")`**
 
 
 1. The number of students achieving the academic engagement outcome at a high level is **`r nrow(am_high_df)`**
@@ -559,191 +568,4 @@ The Cohen D test indicates that the effect was small.
 cohen.d(am_2016$Pre, am_2016$Post, paired=TRUE)
 
 ```
-
-## Cross Validation of Academic Mastery
-
-Survey results from teachers and parents also provide evidence that the Get REAL! program helps students formulate better attitude toward school. Below are tables that provide a breakdown of questions on the post survey from the parent and teacher surveys. The pattern again shows improvement in moderate agreement with the question being both with the parent survey and teacher survey. 
-
-#### Pre Parent Survey
-
-* Question 1: She is motivated to graduate high school
-
-* Question 3: She has a Good Attitude About School
-
-Results based on 466 responses. 
-```{r am_load_parent, echo=FALSE}
-pre_parent  <- dbReadTable(getReal_2016db, "pre_parent")
-
-post_parent <- dbReadTable(getReal_2016db, "post_parent")
-
-```
-
-
-
-```{r am_pre_survey, fig.height=5, fig.width=10, echo=FALSE}
-
-colnames(pre_parent) [10] <- "Q1"
-
-colnames(pre_parent) [12] <- "Q3"
-
-
-pre_parent_tbl <- pre_parent %>%
-    select( 10,12 )
-
-
-
-pre_parent_q1 <-table(pre_parent_tbl$Q1) #make table to test
-
-#pander(pre_parent_q1) #print results of test nicely
-
-
-
-#pre_parent_q3 <-table(pre_parent_tbl$Q3) #make tabl to test result
-
-
-#pander(pre_parent_q3) #print result of test nicely
-
-
-#nrow(pre_parent_tbl) #determine total number of observations to verify percents in likert tables 
-
-
-
-#names(pre_parent_tbl)
-
-pre_parent_tbl$Q1 <- factor(pre_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-pre_parent_tbl$Q3 <- factor(pre_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-
-
-
-pre_parent_tbl <- likert(pre_parent_tbl)
-
-summary(pre_parent_tbl)
-
-
-
-```
-
-
-```{r am_pre_parent_heat, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE }
-likert.heat.plot(pre_parent_tbl) + ggtitle("Pre Parent Survey Question 1 & Question 3") + theme_dark ()
-
-```
-
-### Post Parent Survey
-
-* Question 1: She is motivated to graduate high school
-
-* Question 3: She has a Good Attitude About School
-
-Results based on 244 responses. 
-
-```{r am_pre_post_parent, echo=FALSE}
-
-colnames(post_parent) [10] <- "Q1"
-
-colnames(post_parent) [12] <- "Q3"
-
-post_parent_tbl <- post_parent %>%
-    select(10,12)
-
-post_parent_test_q1 <-table(post_parent_tbl$Q1) #make table to test
-
-#pander(post_parent_test_q1) #show result of test
-
-
-#post_parent_test_q3 <-table(post_parent_tbl$Q3) #make table to test 
-
-#pander(post_parent_test_q3)  # show results of test
-
-#nrow(post_parent_tbl) #check to determine total to make divisible. 
-
-
-post_parent_tbl$Q1 <- factor(post_parent_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-post_parent_tbl$Q3 <- factor(post_parent_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree/Disagree", "Slightly Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-
-post_parent_tbl <- likert(post_parent_tbl) #make into liker table
-
-summary(post_parent_tbl)  #make summary of likert items
-
-
-```
-
-
-
-
-```{r 'am_post_parent_heat', fig.height=5, fig.width=14, fig.path="Figs/", dev.args="cario-png", echo=FALSE }
-
-likert.heat.plot(post_parent_tbl) + ggtitle("Post Parent Survey Question 1 & Question 3") + theme_dark()
-
-```
-
-
-
-
-### Teacher Post Survey
-
-* Question 1: She is motivated to graduate high school
-
-* Question 3: She has a Good Attitude About School
-
-The number of responses to the post teacher survey is 397. 
-
-```{r am_load_post_teacher, echo=FALSE}
-post_teacher <- dbReadTable(getReal_2016db, "post_teacher")
-
-colnames(post_teacher) [10] <- "Q1"
-colnames(post_teacher) [12] <- "Q3"
-
-post_teacher_tbl <- post_teacher %>%
-    select(10, 12)
-
-
-#nrow(post_teacher_tbl) #total obse
-
-#post_teacher_q1 <- table(post_teacher_tbl$Q1) #make table to test results
-
-#pander(post_teacher_q1) #prints results of test
-
-
-
-#post_teacher_q3 <- table(post_teacher_tbl$Q3) #make table to test 
-
-#pander(post_teacher_q3) #prints tests nicely
-
-
-
-post_teacher_tbl$Q1 <- factor(post_teacher_tbl$Q1, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-post_teacher_tbl$Q3 <- factor(post_teacher_tbl$Q3, levels=c("Strongly Disagree", "Disagree", "Slightly Disagree", "Neither Agree nor Disagree", "Slightly  Agree", "Agree", "Strongly Agree"),ordered = TRUE)
-
-
-
-
-
-
-
-
-
-post_teacher_tbl <- likert(post_teacher_tbl)
-
-summary(post_teacher_tbl)
-
-
-```
-
-```{r am_heat_post_teacher, fig.height=5, fig.width=14, fig.path='Figs/', dev.args='cario-png', echo=FALSE}
-
-plot(post_teacher_tbl, type="heat") +ggtitle("Post Teacher Survey Question 1 & Question 3") + theme_dark()
-
-
-
-```
-
 
