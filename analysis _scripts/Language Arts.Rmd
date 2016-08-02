@@ -2,7 +2,7 @@
 title: "Language Arts"
 author: "Kevin Gilds, MPA"
 date: '`r Sys.Date()`'
-output: word_document
+output: html_document
 ---
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
@@ -127,7 +127,7 @@ langarts2016_test <-distinct(langarts2016, girlCode)
 
 #head(langarts2016_test)
 
-langarts2016 <- distinct(langarts2016, girlCode)
+#langarts2016 <- distinct(langarts2016, girlCode)
 
 
 langarts2016_1 <-filter(langarts2016, girlCode =="320BR031803")
@@ -154,10 +154,10 @@ langarts2016 <- langarts2016 %>%
 ```
 
 
-```{r filter_council, echo=FALSE, eval=FALSE}
+```{r filter_council, echo=FALSE, eval=TRUE}
 
 langarts2016 <- langarts2016 %>%
-    filter(council == "West Central Florida")
+    filter(council == "West Central Council")
 
 ```
 
