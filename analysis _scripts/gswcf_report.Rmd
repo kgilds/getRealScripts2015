@@ -1,0 +1,60 @@
+---
+title: "GSWCF Report"
+author: "Kevin Gilds, MPA"
+date: "August 2, 2016"
+output: html_document
+  
+---
+
+Council data report prepared for GSWCF.
+
+# Academic Data:
+
+## Language Arts:
+
+```{r child = "Language Arts.Rmd"}
+
+```
+
+
+### Reading Grades:
+
+```{r child = "reading.Rmd"}
+
+```
+
+
+## Attendance:
+
+```{r child = "Attendance.Rmd"}
+
+```
+
+
+## Behavior
+
+```{r child = "Suspenions.Rmd"}
+
+```
+
+# Life Skills
+
+## Healthy Relationships
+
+```{r child = "healthy_relationships.Rmd"}
+
+```
+
+
+## Academic Mastery
+
+```{r child = "academic_mastery.Rmd"}
+
+```
+
+
+## Academic Engagement
+```{r child = "academic_engagement"}
+
+```
+
