@@ -402,10 +402,10 @@ hr_2016 <- hr_all %>%
 
 
 ```{r "hr_histo", echo=FALSE}
-pre_hr_histq <- qplot(hr_2016$Pre, geom="histogram", main= "Pre Survey",ylim=c(0,60), bins=40, xlab="Outcome Scores") + geom_vline(xintercept = 4.45, col="red") 
+pre_hr_histq <- qplot(hr_2016$Pre, geom="histogram", main= "Pre Survey",ylim=c(0,20), bins=40, xlab="Outcome Scores") + geom_vline(xintercept = 4.45, col="red") 
 
 
-post_hr_histq <-qplot(hr_2016$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,60)) + geom_vline(xintercept = 4.45, col="red")
+post_hr_histq <-qplot(hr_2016$Post, geom="histogram", main= "Post Survey", bins=40, xlab="Outcome Scores", ylim=c(0,20)) + geom_vline(xintercept = 4.45, col="red")
 
 grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 
@@ -415,9 +415,9 @@ grid.arrange(pre_hr_histq, post_hr_histq, ncol=2)
 The percent of students who achieved the healthy releationship at a high level is **`r hr_achieved("M3")`**. The imrovement is represented graphically below. 
 
 ```{r "hr_bar_2016", echo=FALSE}
-hr_bar_pre <-qplot(hr_2016$Pre >=4.45, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
+hr_bar_pre <-qplot(hr_2016$Pre >=4.45, geom="bar", ylim=c(0, 100), main="Pre survey Results", xlab="Achievment at High Level")
 
-hr_bar_post <-qplot(hr_2016$Post >=4.45, geom ="bar",ylim=c(0,300), main="Post Survey Results", xlab="Achievment at High Level")
+hr_bar_post <-qplot(hr_2016$Post >=4.45, geom ="bar",ylim=c(0,100), main="Post Survey Results", xlab="Achievment at High Level")
 
 grid.arrange(hr_bar_pre, hr_bar_post, ncol=2)
 

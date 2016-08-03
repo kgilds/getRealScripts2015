@@ -501,10 +501,10 @@ am_2016 <- am_all %>%
 
 
 ```{r am_hist, echo=FALSE}
-pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", ylim=c(0,80)) + geom_vline(xintercept = 4.8, col="red") 
+pre_am_histq <- qplot(am_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", ylim=c(0,20)) + geom_vline(xintercept = 4.8, col="red") 
 
 
-post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,80)) + geom_vline(xintercept = 4.8, col="red")
+post_am_histq <-qplot(am_2016$Post, geom="histogram", main= "Post Survey", bins=50, xlab="Outcome Scores", ylim=c(0,20)) + geom_vline(xintercept = 4.8, col="red")
 
 grid.arrange(pre_am_histq, post_am_histq, ncol=2)
 
@@ -517,9 +517,9 @@ The improvement in outcome scores is graphically represented below.
 
 
 ```{r am_bar,echo=FALSE}
-am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 300), main="Pre survey Results", xlab="Achievment at High Level")
+am_bar_pre <-qplot(am_2016$Pre >=4.8, geom="bar", ylim=c(0, 100), main="Pre survey Results", xlab="Achievment at High Level")
 
-am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", ylim=c(0,300), main="Post Survey Results", xlab="Achievment at High Level")
+am_bar_post <-qplot(am_2016$Post >=4.8, geom ="bar", ylim=c(0,100), main="Post Survey Results", xlab="Achievment at High Level")
 
 grid.arrange(am_bar_pre, am_bar_post, ncol=2)
 
@@ -552,7 +552,7 @@ am_change_p + geom_count() + geom_hline(yintercept = 4.8) + geom_vline(xintercep
 
 Two statistical tests were administered on the matched survey results the Wilcox test and Cohen's D test. 
 
-The outcome distributions did not approximate a normal distribution, thus a Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are significant at .05 level.
+The outcome distributions did not approximate a normal distribution, thus a Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are not significant at .05 level.
 
 
 
@@ -561,7 +561,6 @@ pander(wilcox.test(am_2016$Pre, am_2016$Post, paired=TRUE, "less"))
 
 ```
 
-The Cohen D test indicates that the effect was small. 
 
 
 ```{r am_cohen_test, echo=FALSE}

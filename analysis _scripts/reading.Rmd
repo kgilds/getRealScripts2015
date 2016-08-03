@@ -186,9 +186,7 @@ reading_outcome <- function(){
 ```
 
 
-The number of  students records that could be matched is **`r nrow(reading_2016)`**, 
-
-The percent of students with a successful outcome is  **`r reading_outcome()`**.
+The number of  students records that could be matched is **`r nrow(reading_2016)`** and the percent of students with a successful outcome is **`r reading_outcome()`**.
 
 1. The number of students who increased their reading grade is **`r nrow(read_increase)`**
 
@@ -255,7 +253,7 @@ colnames (reading_2016) [6] <- "Grade_Change"
 
 ```
 
-The changes in grades from basline to final is represented below. The vertical axis represents Q1 grades and the bottom axis the change from Q1. Thus ideally we want to see circles moving to right. Note,students with an A in Q1 can decrease but not increase. 
+The changes in grades from basline to final is represented below. The vertical axis represents the baseline grading period and the bottom axis the change from Q1. Thus ideally we want to see circles moving to right. Note,students with an A in the baseline grading period can decrease but not increase. 
 
 
 ### Reading Grade Change from baseline to final:
@@ -281,7 +279,7 @@ reading_change_plot2 + geom_count()
 ```
 
 
-## Reading Trend Data:
+
 
 
 ```{r echo=FALSE, eval=FALSE}

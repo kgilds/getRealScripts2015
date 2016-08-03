@@ -445,10 +445,10 @@ ae_2016 <- ae_all %>%
 
 
 ```{r ae_hist, echo=FALSE}
-pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", ylim=c(0,50) ) + geom_vline(xintercept = 4.5, col="red") 
+pre_ae_histq <- qplot(ae_2016$Pre, geom="histogram", main= "Pre Survey", bins=50, xlab="Outcome Scores", ylim=c(0,20) ) + geom_vline(xintercept = 4.5, col="red") 
 
 
-post_ae_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=25, xlab="Outcome Scores", ylim=c(0,50)) + geom_vline(xintercept = 4.5, col="red")
+post_ae_histq <-qplot(ae_2016$Post, geom="histogram", main= "Post Survey", bins=25, xlab="Outcome Scores", ylim=c(0,20)) + geom_vline(xintercept = 4.5, col="red")
 
 grid.arrange(pre_ae_histq, post_ae_histq, ncol=2)
 
@@ -457,9 +457,9 @@ grid.arrange(pre_ae_histq, post_ae_histq, ncol=2)
 
 
 ```{r ae_bar, echo=FALSE}
-ae_bar_pre <-qplot(ae_2016$Pre >=4.5, geom="bar", ylim=c(0, 250), main="Pre survey Results", xlab="Achievment at High Level")
+ae_bar_pre <-qplot(ae_2016$Pre >=4.5, geom="bar", ylim=c(0, 100), main="Pre survey Results", xlab="Achievment at High Level")
 
-ae_bar_post <-qplot(ae_2016$Post >=4.45, geom ="bar", ylim=c(0,250), main="Post Survey Results", xlab="Achievment at High Level")
+ae_bar_post <-qplot(ae_2016$Post >=4.45, geom ="bar", ylim=c(0,100), main="Post Survey Results", xlab="Achievment at High Level")
 
 grid.arrange(ae_bar_pre, ae_bar_post, ncol=2)
 
@@ -496,7 +496,7 @@ ae_change_p + geom_count() + geom_hline(yintercept = 4.5) + geom_vline(xintercep
 
 Two statistical tests were administered on the matched survey results the Wilcox test and Cohen's D test. 
 
-The outcome distributions did not approximate a normal distribution, thus A Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are not significant at 05 level.
+The outcome distributions did not approximate a normal distribution, thus A Wilcox.test was administered and the results show that the difference between the pre and post outcome scores are not significant at .05 level.
 
 ```{r ae_wilcox_test, echo=FALSE}
 pander(wilcox.test(ae_2016$Pre, ae_2016$Post, paired=TRUE, "less"))
