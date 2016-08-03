@@ -125,7 +125,7 @@ susp_2016 <- susp_2016 %>%
 ```
 
 
-```{r council_filter, echo=FALSE}
+```{r council_filter_suspenions, echo=FALSE}
 susp_2016 <- susp_2016 %>%
     filter(council == "West Central Council")
 

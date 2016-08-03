@@ -133,7 +133,7 @@ attendance_2016 <- attendance_2016 %>%
 ```
 
 
-```{r council_filter, echo=FALSE}
+```{r council_filter_attendance, echo=FALSE}
 
 attendance_2016 <- attendance_2016 %>%
     filter(council == "West Central Council")

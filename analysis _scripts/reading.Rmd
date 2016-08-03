@@ -127,7 +127,7 @@ reading_2016 <- reading_2016 %>%
 
 ```
 
-```{r council_filter, echo=FALSE}
+```{r council_filter_reading, echo=FALSE}
 
 reading_2016 <- reading_2016 %>%
     filter(council == "West Central Council")
