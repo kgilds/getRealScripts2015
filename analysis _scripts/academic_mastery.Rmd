@@ -292,7 +292,7 @@ am_imrove <- prop.table(am_imrove,1)
 
 ```
 
-```{r council_filter, echo=FALSE}
+```{r council_filter_am, echo=FALSE}
 
 am_all <- am_all %>%
     filter(council == "West Central Council" & Year_Id =="M3")

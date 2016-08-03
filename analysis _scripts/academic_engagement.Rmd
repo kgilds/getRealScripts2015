@@ -245,9 +245,10 @@ ae_all <- rbind(ae_all, ae_prepost2014)
 
 ae_all$council <-sub("Girl Scouts of the Gateway Council Inc", "Gateway Council", fixed=TRUE, ae_all$council)
 
+```
 
 
-```{r council_filter, echo=FALSE}
+```{r council_filter_ae, echo=FALSE}
 
 
 

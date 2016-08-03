@@ -148,7 +148,7 @@ healthy_prepost <- healthy_prepost %>%
 
 
 
-```{r council_filter, echo=FALSE}
+```{r council_filter_hr, echo=FALSE}
 healthy_prepost <- healthy_prepost %>%
     filter(council == "West Central Council")
 
