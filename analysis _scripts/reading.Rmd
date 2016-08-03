@@ -186,7 +186,7 @@ reading_outcome <- function(){
 ```
 
 
-The number of  students records that could be matched is **`r nrow(reading_2016)`** and the percent of students with a successful outcome is **`r reading_outcome()`**.
+The number of  students records that could be matched is **`r nrow(reading_2016)`** and the percent of students with a successful outcome is **`r reading_outcome()`**..
 
 1. The number of students who increased their reading grade is **`r nrow(read_increase)`**
 
